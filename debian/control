@@ -8,10 +8,9 @@ Priority: optional
 Maintainer: A. Maitland Bottoms <bottoms@debian.org>
 Uploaders: Bdale Garbee <bdale@gag.com>
 Build-Conflicts: automake1.8, automake1.9
-Build-Depends: debhelper (>= 8.0.0~), libuhd-dev, libfontconfig1-dev, libxrender-dev, libpulse-dev, swig, automake, autoconf, libtool, python-dev, libfftw3-dev, libcppunit-dev, libboost-all-dev, libusb-1.0-0-dev, libsdl1.2-dev, python-wxgtk2.8, guile-1.8-dev, libqt4-dev, python-numpy, ccache, python-opengl, libgsl0-dev, python-cheetah, python-lxml, doxygen, qt4-dev-tools, libqwt5-qt4-dev, libqwtplot3d-qt4-dev, pyqt4-dev-tools, python-qwt5-qt4, python-gtk2-dev, sdcc, libcomedi-dev, libxi-dev
+Build-Depends: debhelper (>= 8.0.0~), libuhd-dev, libaudio-dev, libxi-dev, libfontconfig1-dev, libxrender-dev, libpulse-dev, swig (>=1.3.31), python-dev, libfftw3-dev, libcppunit-dev (>=1.9.14), libboost-all-dev (>=1.35), libsdl1.2-dev, python-wxgtk2.8, guile-1.8-dev, libqt4-dev, python-numpy, python-opengl, libgsl0-dev (>=1.10), python-cheetah, python-lxml, doxygen, xmlto, qt4-dev-tools, libqwt5-qt4-dev, libqwtplot3d-qt4-dev, pyqt4-dev-tools, python-qwt5-qt4, python-gtk2-dev, pkg-config (>=0.15.0)
 Standards-Version: 3.9.1
-XS-Python-Version: >=2.5
-X-Python-Version: 2.7
+X-Python-Version: >= 2.7
 Vcs-Git: git://git.gag.com/debian/gnuradio
 Vcs-Browser: http://git.gag.com/?p=debian/gnuradio
 # Not building with the following for now...
@@ -23,7 +22,7 @@ Vcs-Browser: http://git.gag.com/?p=debian/gnuradio
 
 Package: gnuradio
 Architecture: any
-Depends: python2.6, python-wxgtk2.8, python-cheetah, adduser, ${shlibs:Depends}, ${misc:Depends}
+Depends: python (>= 2.7), python-wxgtk2.8, python-cheetah, adduser, ${shlibs:Depends}, ${misc:Depends}
 Recommends: uhd-images, python-tk
 Description: GNU Radio Software Radio Toolkit
  One big package that will need to be split.

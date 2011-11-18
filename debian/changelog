@@ -1,4 +1,4 @@
-gnuradio (3.5.0rc0-0squeeze1) unstable; urgency=low
+gnuradio (3.5.0rc0-1) unstable; urgency=low
 
   * New upstream release
   * CMake build
