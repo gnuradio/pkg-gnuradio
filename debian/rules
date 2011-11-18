@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+%:
+	dh $@ --builddirectory=build --with python2
+
+override_dh_auto_install:
+	dh_auto_install
+	for i in debian/gnuradio/usr/bin/*.py ; do mv $$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
+	mv debian/gnuradio/usr/etc debian/gnuradio/etc
