@@ -1,8 +1,24 @@
 #!/usr/bin/make -f
+CORE_APPS = gr_filter_design.py usrp_flex.py usrp_flex_band.py usrp_flex_all.py
+NOAA_APPS = hrpt_decode.py hrpt_demod.py file_rx_hrpt.py usrp_rx_hrpt.py usrp_rx_hrpt_nogui.py
+PLOT_APPS = gr_plot_char.py gr_plot_const.py gr_plot_fft_c.py gr_plot_fft_f.py gr_plot_float.py gr_plot_int.py gr_plot_iq.py gr_plot_psd_c.py gr_plot_psd_f.py gr_plot_qt.py gr_plot_short.py
+UHD_APPS  = uhd_fft.py uhd_rx_cfile.py uhd_rx_nogui.py uhd_siggen_gui.py uhd_siggen.py
 %:
-	dh $@ --builddirectory=build --with python2
+	dh $@ --parallel --builddirectory=build --with-buildsystem=cmake --with python2
+
+override_dh_python2:
+	dh_python2 --no-guessing-versions
 
 override_dh_auto_install:
 	dh_auto_install
-	for i in debian/gnuradio/usr/bin/*.py ; do mv $$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
-	mv debian/gnuradio/usr/etc debian/gnuradio/etc
+	find debian/tmp -name *.pyc -delete
+	find debian/tmp -name *.pyo -delete
+	cp debian/tmp/usr/bin/gr_plot_fft.py debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/
+	cp debian/tmp/usr/bin/gr_plot_psd.py debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/
+	for i in debian/tmp/usr/bin/*.py ; do mv $$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
+	#for i in $(CORE_APPS) ; do mv debian/tmp/usr/bin/$$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
+	#for i in $(NOAA_APPS) ; do mv debian/tmp/usr/bin/$$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
+	#for i in $(PLOT_APPS) ; do mv debian/tmp/usr/bin/$$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
+	#for i in $(UHD_APPS)  ; do mv debian/tmp/usr/bin/$$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
+	rm debian/tmp/usr/share/doc/gnuradio*/html/jquery.js
+	chmod +x debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/grc/python/flow_graph.tmpl

@@ -1,11 +1,11 @@
-gnuradio (3.5.0rc0-1) experimental; urgency=low
+gnuradio (3.5.1-1) experimental; urgency=low
 
   * new upstream version, re-packaged from scratch with modern tools
 	    closes: #642716, #645332, #394849, #616832, #590048, #642580,
 	    #647018, #557050, #559640, #631863
   * CMake build
 
- -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 17 Nov 2011 13:12:21 -0500
+ -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 8 Dec 2011 22:12:21 -0500
 
 gnuradio (3.4.1-1) unstable; urgency=low
 
@@ -31,7 +31,7 @@ gnuradio (3.2.2.dfsg-2) unstable; urgency=low
   * fix typos in short package descriptions, closes: #556572
   * resolve gnuradio-companion conflict with grc by renaming our binary,
     closes: #557050
-  * accept patches that remove moc files and make libusrp packages depend 
+  * accept patches that remove moc files and make libusrp packages depend
     on adduser, closes: #566564, #566565, #574209, #574231, #574209
   * stop delivering custom prefs.py, closes: #559640
   * lose the conflicts on python-wxgtk2.6, closes: #582486
@@ -41,11 +41,11 @@ gnuradio (3.2.2.dfsg-2) unstable; urgency=low
 gnuradio (3.2.2.dfsg-1) unstable; urgency=low
 
   * new upstream version, includes gcc4.3 support, closes: #474801, #524387
-  * upstream tarball modified to elide unnecessary Altera-licensed files 
+  * upstream tarball modified to elide unnecessary Altera-licensed files
   * merge debian/ content restructuring from upstream svn
   * change build-dep from fftw3-dev to libfftw3-dev, closes: #458231
   * fix problem with rebuilding, closes: #441739
-  * no longer need to move to contrib now that sdcc is fully back in main, 
+  * no longer need to move to contrib now that sdcc is fully back in main,
     we just need to build depend on sdcc 2.9.0 or later, closes: #457402
   * rebuild reflects python-central file location change, closes: #490513
   * change Jack build depend to libjack-dev, closes: #527413
@@ -71,15 +71,15 @@ gnuradio (3.0.3-1) unstable; urgency=low
 
   * new upstream version
   * tweak gnuradio-doc package to eliminate spurious subdirectory level
-  * add a usrp-doc binary package, recommended by the usrp package, and 
-    include xmlto in build dependencies so usrp_guide.html gets generated, 
+  * add a usrp-doc binary package, recommended by the usrp package, and
+    include xmlto in build dependencies so usrp_guide.html gets generated,
     closes: #407368
 
  -- Bdale Garbee <bdale@gag.com>  Sun, 11 Mar 2007 23:55:32 -0600
 
 gnuradio (3.0.2-2) unstable; urgency=high
 
-  * add run-time dependency on python-wxgtk2.6.  leaving urgency high since 
+  * add run-time dependency on python-wxgtk2.6.  leaving urgency high since
     this would be a silly bug to release etch with if we can avoid it.
 
  -- Bdale Garbee <bdale@gag.com>  Mon,  4 Dec 2006 15:35:53 -0700
@@ -117,8 +117,8 @@ gnuradio (3.0-1) unstable; urgency=low
   * new maintainer, new upstream version
   * Restructuring source and binary packages to follow upstream changes, more
     or less repackaging from scratch taking ideas from the previous packaging
-    by Ramakrishnan Muthukrishnan and Steinar H. Gunderson.  This single 
-    source package replaces all of: 
+    by Ramakrishnan Muthukrishnan and Steinar H. Gunderson.  This single
+    source package replaces all of:
         gnuradio-core
         gnuradio-examples
         gr-audio-alsa
@@ -127,8 +127,7 @@ gnuradio (3.0-1) unstable; urgency=low
         gr-usrp
         gr-wxgui
         usrp
-    In addition, the 'gnuradio' binary package is a new meta-package that 
+    In addition, the 'gnuradio' binary package is a new meta-package that
     conveniently depends on everything gnuradio related to ease installation.
 
  -- Bdale Garbee <bdale@gag.com>  Sun,  8 Oct 2006 13:28:21 -0600
-

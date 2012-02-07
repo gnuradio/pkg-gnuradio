@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
-/usr/libexec/gnuradio/grc_setup_freedesktop install
+if [ -x /usr/bin/xdg-desktop-menu ] ; then
+    /usr/lib/gnuradio/gnuradio/grc_setup_freedesktop install
+fi
 
 #DEBHELPER#

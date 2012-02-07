@@ -1,3 +1,10 @@
+Not in the Format: http://dep.debian.net/deps/dep5/
+Upstream-Name: gnuradio
+Upstream-Contact: http://gnuradio.org/
+Source: http://gnuradio.org/redmine/attachments/download/293/gnuradio-3.5.1.tar.gz
+X-Note: The upstream package source tarball was generated from the tag:
+ git archive --format=tar --prefix=gnuradio-3.5.1/ v3.5.1 | gzip > ../gnuradio_3.5.1.orig.tar.gz
+
 GNU Radio was re-packaged by Bdale Garbee <bdale@gag.com> to reflect
 upstream restructuring on Wed, 6 Sep 2006 16:02:03 -0600.  Much was
 learned and portions were taken from the previous Debian packages built 
