@@ -13,12 +13,9 @@ override_dh_auto_install:
 	dh_auto_install
 	find debian/tmp -name *.pyc -delete
 	find debian/tmp -name *.pyo -delete
+	# include plot modules in gnuradio python package
 	cp debian/tmp/usr/bin/gr_plot_fft.py debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/
 	cp debian/tmp/usr/bin/gr_plot_psd.py debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/
 	for i in debian/tmp/usr/bin/*.py ; do mv $$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
-	#for i in $(CORE_APPS) ; do mv debian/tmp/usr/bin/$$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
-	#for i in $(NOAA_APPS) ; do mv debian/tmp/usr/bin/$$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
-	#for i in $(PLOT_APPS) ; do mv debian/tmp/usr/bin/$$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
-	#for i in $(UHD_APPS)  ; do mv debian/tmp/usr/bin/$$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
 	rm debian/tmp/usr/share/doc/gnuradio*/html/jquery.js
 	chmod +x debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/grc/python/flow_graph.tmpl
