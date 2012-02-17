@@ -3,3 +3,4 @@ debian-build-skips-gui-test
 dox-search-includes-no
 grc-system-config
 plot-fft-psd-modules
+debian-soname

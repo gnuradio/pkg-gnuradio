@@ -1,5 +1,4 @@
 etc/*
 usr/bin/*
-usr/include/*
 usr/lib/p*
 usr/share/gnuradio/*
