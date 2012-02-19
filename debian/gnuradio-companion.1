@@ -7,10 +7,18 @@ gnuradio-companion \- GNU Radio Companion (GRC) is a graphical tool for creating
 .SH OPTIONS
 .TP
 \fB\-h\fR, \fB\-\-help\fR
-show this help message and exit
+show this help message and exit.
 .TP
 \fB\-v\fR, \fB\-\-version\fR
 show program's version number and exit
+.TP
+\fB\-c\fR, \fB\-\-compile\fR
+Only compile the GRC file without invoking the GUI. Useful
+for unit testing, running gnuradio-companion from a Makefile
+and other command-line scripting.
+.TP
+\fB\-d\fR, \fB\-\-output-dir\fR
+Output path for the Python file.
 .SH SAVED FLOW GRAPHS
 Invoke the program with an XML file saved by a previous run.
 .SH "SEE ALSO"

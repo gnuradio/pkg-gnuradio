@@ -1,6 +1,8 @@
+upstream-uhd-fix-for-uhd_fft-to-work-with-basicRx-d-board.patch
 dox-manpages
 debian-build-skips-gui-test
 dox-search-includes-no
 grc-system-config
 plot-fft-psd-modules
 debian-soname
+grcc-gnuradio-companion-compiler
