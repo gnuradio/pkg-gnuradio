@@ -1,7 +1,7 @@
-From 23f191c0a6cedece938d7daedaf7582694eab47d Mon Sep 17 00:00:00 2001
+From 9adfc42e0296d969a498249d837e29bf46bf65a9 Mon Sep 17 00:00:00 2001
 From: Marcus Leech <mleech@ripnet.com>
 Date: Wed, 1 Feb 2012 17:15:59 -0500
-Subject: [PATCH] uhd: fix for uhd_fft to work with basicRx d'board.
+Subject: [PATCH 18/47] uhd: fix for uhd_fft to work with basicRx d'board.
 
 ---
  gr-uhd/apps/uhd_fft.py |   25 ++++++++++++++++---------
@@ -46,5 +46,5 @@ index f311a90..7314c47 100755
      def _build_subpanel(self, vbox_arg):
          # build a secondary information panel (sometimes hidden)
 -- 
-1.7.2.5
+1.7.9.1
 

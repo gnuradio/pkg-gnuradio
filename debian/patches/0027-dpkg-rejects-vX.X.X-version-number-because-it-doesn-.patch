@@ -1,0 +1,27 @@
+From c2a9dedc9ff7027c55ace3bf356bc452067e1b86 Mon Sep 17 00:00:00 2001
+From: Nicholas Corgan <nick.corgan@ettus.com>
+Date: Mon, 6 Feb 2012 13:12:42 -0800
+Subject: [PATCH 27/47] dpkg rejects "vX.X.X" version number because it
+ doesn't start with a number, CMake assigns "X.X.X"
+ version number to generated executables
+
+---
+ cmake/Modules/GrPackage.cmake |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/cmake/Modules/GrPackage.cmake b/cmake/Modules/GrPackage.cmake
+index a36ad91..65fbcc3 100644
+--- a/cmake/Modules/GrPackage.cmake
++++ b/cmake/Modules/GrPackage.cmake
+@@ -103,7 +103,7 @@ endfunction(CPACK_COMPONENT)
+ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "GNU Radio - The GNU Software Radio")
+ set(CPACK_PACKAGE_VENDOR              "Free Software Foundation, Inc.")
+ set(CPACK_PACKAGE_CONTACT             "Discuss GNURadio <discuss-gnuradio@gnu.org>")
+-set(CPACK_PACKAGE_VERSION ${VERSION})
++string(SUBSTRING "${VERSION}" 1 -1 CPACK_PACKAGE_VERSION)
+ set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/README)
+ set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README)
+ set(CPACK_RESOURCE_FILE_WELCOME ${CMAKE_SOURCE_DIR}/README)
+-- 
+1.7.9.1
+

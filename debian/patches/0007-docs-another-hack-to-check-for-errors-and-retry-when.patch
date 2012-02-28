@@ -1,0 +1,26 @@
+From f58076ffbba790fd93504ea1d38e39e278e663de Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <trondeau@vt.edu>
+Date: Mon, 16 Jan 2012 09:30:12 -0500
+Subject: [PATCH 07/47] docs: another hack to check for errors and retry when
+ building the swigdocs.
+
+---
+ docs/doxygen/swig_doc.py |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/docs/doxygen/swig_doc.py b/docs/doxygen/swig_doc.py
+index 95d143a..0148ba8 100644
+--- a/docs/doxygen/swig_doc.py
++++ b/docs/doxygen/swig_doc.py
+@@ -274,7 +274,7 @@ if __name__ == "__main__":
+     while(1):
+         try:
+             make_swig_interface_file(di, swigdocfilename, custom_output=custom_output)
+-        except base.Base.NoSuchMember:
++        except:
+             if(tries < 3):
+                 # May not be built just yet; sleep and try again
+                 sys.stderr.write("XML parsing problem with file {0}, retrying.\n".format(
+-- 
+1.7.9.1
+

@@ -1,0 +1,24 @@
+From 2d80e59c2b26de65e5266b8c6fb4be118a7428a0 Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <trondeau@vt.edu>
+Date: Sat, 21 Jan 2012 10:41:23 -0500
+Subject: [PATCH 16/47] noaa: add pc file for gr-noaa to m4 file.
+
+---
+ config/grc_gr_noaa.m4 |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/config/grc_gr_noaa.m4 b/config/grc_gr_noaa.m4
+index 54df775..f750a46 100644
+--- a/config/grc_gr_noaa.m4
++++ b/config/grc_gr_noaa.m4
+@@ -33,6 +33,7 @@ AC_DEFUN([GRC_GR_NOAA],[
+ 	gr-noaa/oct/Makefile \
+ 	gr-noaa/python/Makefile \
+ 	gr-noaa/swig/Makefile \
++	gr-noaa/gnuradio-noaa.pc \
+ 	gr-noaa/swig/run_guile_tests \
+     ])
+ 
+-- 
+1.7.9.1
+

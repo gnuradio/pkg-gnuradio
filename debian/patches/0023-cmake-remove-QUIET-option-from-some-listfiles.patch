@@ -1,0 +1,68 @@
+From e6805a25568a5ce24937039f57a6eb1df1f82aa9 Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <jcorgan@corganenterprises.com>
+Date: Sun, 5 Feb 2012 10:37:02 -0800
+Subject: [PATCH 23/47] cmake: remove QUIET option from some listfiles
+
+* PKG_CHECK_MODULES only supports QUIET >=2.8.2, Ubuntu LTS has 2.8.0
+---
+ cmake/Modules/FindCppUnit.cmake |    2 +-
+ cmake/Modules/FindFFTW3f.cmake  |    2 +-
+ cmake/Modules/FindUHD.cmake     |    2 +-
+ gr-shd/CMakeLists.txt           |    2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/cmake/Modules/FindCppUnit.cmake b/cmake/Modules/FindCppUnit.cmake
+index 29c9ba4..9af308f 100644
+--- a/cmake/Modules/FindCppUnit.cmake
++++ b/cmake/Modules/FindCppUnit.cmake
+@@ -10,7 +10,7 @@
+ # CPPUNIT_FOUND, If false, do not try to use CppUnit.
+ 
+ INCLUDE(FindPkgConfig)
+-PKG_CHECK_MODULES(PC_CPPUNIT QUIET "cppunit")
++PKG_CHECK_MODULES(PC_CPPUNIT "cppunit")
+ 
+ FIND_PATH(CPPUNIT_INCLUDE_DIRS
+     NAMES cppunit/TestCase.h
+diff --git a/cmake/Modules/FindFFTW3f.cmake b/cmake/Modules/FindFFTW3f.cmake
+index beb5c18..0781089 100644
+--- a/cmake/Modules/FindFFTW3f.cmake
++++ b/cmake/Modules/FindFFTW3f.cmake
+@@ -4,7 +4,7 @@
+ # Find single-precision (float) version of FFTW3
+ 
+ INCLUDE(FindPkgConfig)
+-PKG_CHECK_MODULES(PC_FFTW3F QUIET "fftw3f >= 3.0")
++PKG_CHECK_MODULES(PC_FFTW3F "fftw3f >= 3.0")
+ 
+ FIND_PATH(
+     FFTW3F_INCLUDE_DIRS
+diff --git a/cmake/Modules/FindUHD.cmake b/cmake/Modules/FindUHD.cmake
+index 6a7956b..b4d12b6 100644
+--- a/cmake/Modules/FindUHD.cmake
++++ b/cmake/Modules/FindUHD.cmake
+@@ -3,7 +3,7 @@
+ ########################################################################
+ 
+ INCLUDE(FindPkgConfig)
+-PKG_CHECK_MODULES(PC_UHD QUIET uhd)
++PKG_CHECK_MODULES(PC_UHD uhd)
+ 
+ FIND_PATH(
+     UHD_INCLUDE_DIRS
+diff --git a/gr-shd/CMakeLists.txt b/gr-shd/CMakeLists.txt
+index de9daf5..a1b3b1a 100644
+--- a/gr-shd/CMakeLists.txt
++++ b/gr-shd/CMakeLists.txt
+@@ -22,7 +22,7 @@
+ ########################################################################
+ include(GrBoost)
+ 
+-PKG_CHECK_MODULES(PC_SHD shd QUIET)
++PKG_CHECK_MODULES(PC_SHD shd)
+ FIND_PATH(
+     SHD_INCLUDE_DIRS
+     NAMES shd/config.hpp
+-- 
+1.7.9.1
+

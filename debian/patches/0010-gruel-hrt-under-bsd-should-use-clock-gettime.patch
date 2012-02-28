@@ -1,0 +1,25 @@
+From 7850d5f25168db322d76da9bc6cf3730c5d88d3e Mon Sep 17 00:00:00 2001
+From: Josh Blum <josh@joshknows.com>
+Date: Tue, 17 Jan 2012 15:48:02 -0800
+Subject: [PATCH 10/47] gruel: hrt under bsd should use clock gettime
+
+---
+ gruel/src/include/gruel/high_res_timer.h |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/gruel/src/include/gruel/high_res_timer.h b/gruel/src/include/gruel/high_res_timer.h
+index 9be5246..63841f6 100644
+--- a/gruel/src/include/gruel/high_res_timer.h
++++ b/gruel/src/include/gruel/high_res_timer.h
+@@ -46,7 +46,7 @@ namespace gruel {
+ #elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
+     #define GRUEL_HRT_USE_MACH_ABSOLUTE_TIME
+ #elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+-    #define GRUEL_HRT_USE_MACH_ABSOLUTE_TIME
++    #define GRUEL_HRT_USE_CLOCK_GETTIME
+ #else
+     #define GRUEL_HRT_USE_MICROSEC_CLOCK
+ #endif
+-- 
+1.7.9.1
+

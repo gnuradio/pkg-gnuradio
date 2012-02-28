@@ -1,11 +1,11 @@
-gnuradio (3.5.1-1) experimental; urgency=low
+gnuradio (3.5.1-1) unstable; urgency=low
 
   * new upstream version, re-packaged from scratch with modern tools
 	    closes: #642716, #645332, #394849, #616832, #590048, #642580,
 	    #647018, #557050, #559640, #631863
   * CMake build
 
- -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 8 Dec 2011 22:12:21 -0500
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 26 Feb 2012 21:26:16 -0500
 
 gnuradio (3.4.1-1) unstable; urgency=low
 

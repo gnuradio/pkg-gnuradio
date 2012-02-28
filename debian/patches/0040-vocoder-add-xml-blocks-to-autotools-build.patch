@@ -1,0 +1,64 @@
+From 3a3ff1b581071f154efc2c01d34db67a0ebfffab Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <jcorgan@corganenterprises.com>
+Date: Fri, 17 Feb 2012 13:24:09 -0800
+Subject: [PATCH 40/47] vocoder: add xml blocks to autotools build
+
+---
+ gr-vocoder/grc/Makefile.am |   25 +++++++++++++++++++++++--
+ grc/blocks/Makefile.am     |    2 --
+ 2 files changed, 23 insertions(+), 4 deletions(-)
+
+diff --git a/gr-vocoder/grc/Makefile.am b/gr-vocoder/grc/Makefile.am
+index b1c7b44..f25cb9c 100644
+--- a/gr-vocoder/grc/Makefile.am
++++ b/gr-vocoder/grc/Makefile.am
+@@ -1,5 +1,5 @@
+ #
+-# Copyright 2011 Free Software Foundation, Inc.
++# Copyright 2011-2012 Free Software Foundation, Inc.
+ # 
+ # This file is part of GNU Radio
+ # 
+@@ -21,4 +21,25 @@
+ 
+ include $(top_srcdir)/Makefile.common
+ 
+-SUBDIRS = 
++grcblocksdir = $(grc_blocksdir)
++
++dist_grcblocks_DATA = \
++	vocoder_alaw_decode_bs.xml \
++	vocoder_alaw_encode_sb.xml \
++	vocoder_block_tree.xml \
++	vocoder_codec2_decode_ps.xml \
++	vocoder_codec2_encode_sp.xml \
++	vocoder_cvsd_decode_bs.xml \
++	vocoder_cvsd_decode.xml \
++	vocoder_cvsd_encode_sb.xml \
++	vocoder_cvsd_encode.xml \
++	vocoder_g721_decode_bs.xml \
++	vocoder_g721_encode_sb.xml \
++	vocoder_g723_24_decode_bs.xml \
++	vocoder_g723_24_encode_sb.xml \
++	vocoder_g723_40_decode_bs.xml \
++	vocoder_g723_40_encode_sb.xml \
++	vocoder_gsm_fr_decode_ps.xml \
++	vocoder_gsm_fr_encode_sp.xml \
++	vocoder_ulaw_decode_bs.xml \
++	vocoder_ulaw_encode_sb.xml
+diff --git a/grc/blocks/Makefile.am b/grc/blocks/Makefile.am
+index 020dcec..65cd8e1 100644
+--- a/grc/blocks/Makefile.am
++++ b/grc/blocks/Makefile.am
+@@ -28,8 +28,6 @@ dist_ourdata_DATA = \
+ 	band_reject_filter.xml \
+ 	blks2_am_demod_cf.xml \
+ 	blks2_analysis_filterbank.xml \
+-	blks2_cvsd_encode.xml \
+-	blks2_cvsd_decode.xml \
+ 	blks2_error_rate.xml \
+ 	blks2_fm_deemph.xml \
+ 	blks2_fm_demod_cf.xml \
+-- 
+1.7.9.1
+

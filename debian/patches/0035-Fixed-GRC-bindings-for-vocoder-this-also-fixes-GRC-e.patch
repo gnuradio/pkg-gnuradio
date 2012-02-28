@@ -1,0 +1,837 @@
+From 183d816afa83e83bb39b722239c1245975b8e13e Mon Sep 17 00:00:00 2001
+From: Martin Braun <martin.braun@kit.edu>
+Date: Tue, 14 Feb 2012 17:38:16 +0100
+Subject: [PATCH 35/47] Fixed GRC bindings for vocoder (this also fixes GRC
+ example cvsd_sweep)
+
+---
+ gnuradio-examples/grc/audio/cvsd_sweep.grc   |   14 +++---
+ gr-vocoder/CMakeLists.txt                    |    1 +
+ gr-vocoder/grc/CMakeLists.txt                |   42 ++++++++++++++++++++
+ gr-vocoder/grc/vocoder_alaw_decode_bs.xml    |   20 ++++++++++
+ gr-vocoder/grc/vocoder_alaw_encode_sb.xml    |   22 +++++++++++
+ gr-vocoder/grc/vocoder_block_tree.xml        |   53 ++++++++++++++++++++++++++
+ gr-vocoder/grc/vocoder_codec2_decode_ps.xml  |   20 ++++++++++
+ gr-vocoder/grc/vocoder_codec2_encode_sp.xml  |   22 +++++++++++
+ gr-vocoder/grc/vocoder_cvsd_decode.xml       |   32 +++++++++++++++
+ gr-vocoder/grc/vocoder_cvsd_decode_bs.xml    |   21 ++++++++++
+ gr-vocoder/grc/vocoder_cvsd_encode.xml       |   32 +++++++++++++++
+ gr-vocoder/grc/vocoder_cvsd_encode_sb.xml    |   22 +++++++++++
+ gr-vocoder/grc/vocoder_g721_decode_bs.xml    |   20 ++++++++++
+ gr-vocoder/grc/vocoder_g721_encode_sb.xml    |   22 +++++++++++
+ gr-vocoder/grc/vocoder_g723_24_decode_bs.xml |   20 ++++++++++
+ gr-vocoder/grc/vocoder_g723_24_encode_sb.xml |   22 +++++++++++
+ gr-vocoder/grc/vocoder_g723_40_decode_bs.xml |   20 ++++++++++
+ gr-vocoder/grc/vocoder_g723_40_encode_sb.xml |   22 +++++++++++
+ gr-vocoder/grc/vocoder_gsm_fr_decode_ps.xml  |   20 ++++++++++
+ gr-vocoder/grc/vocoder_gsm_fr_encode_sp.xml  |   22 +++++++++++
+ gr-vocoder/grc/vocoder_ulaw_decode_bs.xml    |   20 ++++++++++
+ gr-vocoder/grc/vocoder_ulaw_encode_sb.xml    |   22 +++++++++++
+ grc/blocks/blks2_cvsd_decode.xml             |   32 ---------------
+ grc/blocks/blks2_cvsd_encode.xml             |   32 ---------------
+ grc/blocks/block_tree.xml                    |    5 --
+ 25 files changed, 504 insertions(+), 76 deletions(-)
+ create mode 100644 gr-vocoder/grc/CMakeLists.txt
+ create mode 100644 gr-vocoder/grc/vocoder_alaw_decode_bs.xml
+ create mode 100644 gr-vocoder/grc/vocoder_alaw_encode_sb.xml
+ create mode 100644 gr-vocoder/grc/vocoder_block_tree.xml
+ create mode 100644 gr-vocoder/grc/vocoder_codec2_decode_ps.xml
+ create mode 100644 gr-vocoder/grc/vocoder_codec2_encode_sp.xml
+ create mode 100644 gr-vocoder/grc/vocoder_cvsd_decode.xml
+ create mode 100644 gr-vocoder/grc/vocoder_cvsd_decode_bs.xml
+ create mode 100644 gr-vocoder/grc/vocoder_cvsd_encode.xml
+ create mode 100644 gr-vocoder/grc/vocoder_cvsd_encode_sb.xml
+ create mode 100644 gr-vocoder/grc/vocoder_g721_decode_bs.xml
+ create mode 100644 gr-vocoder/grc/vocoder_g721_encode_sb.xml
+ create mode 100644 gr-vocoder/grc/vocoder_g723_24_decode_bs.xml
+ create mode 100644 gr-vocoder/grc/vocoder_g723_24_encode_sb.xml
+ create mode 100644 gr-vocoder/grc/vocoder_g723_40_decode_bs.xml
+ create mode 100644 gr-vocoder/grc/vocoder_g723_40_encode_sb.xml
+ create mode 100644 gr-vocoder/grc/vocoder_gsm_fr_decode_ps.xml
+ create mode 100644 gr-vocoder/grc/vocoder_gsm_fr_encode_sp.xml
+ create mode 100644 gr-vocoder/grc/vocoder_ulaw_decode_bs.xml
+ create mode 100644 gr-vocoder/grc/vocoder_ulaw_encode_sb.xml
+ delete mode 100644 grc/blocks/blks2_cvsd_decode.xml
+ delete mode 100644 grc/blocks/blks2_cvsd_encode.xml
+
+diff --git a/gnuradio-examples/grc/audio/cvsd_sweep.grc b/gnuradio-examples/grc/audio/cvsd_sweep.grc
+index 8d0b385..b645b74 100644
+--- a/gnuradio-examples/grc/audio/cvsd_sweep.grc
++++ b/gnuradio-examples/grc/audio/cvsd_sweep.grc
+@@ -25,10 +25,10 @@
+     </param>
+   </block>
+   <block>
+-    <key>blks2_cvsd_decode</key>
++    <key>vocoder_cvsd_decode_bf</key>
+     <param>
+       <key>id</key>
+-      <value>blks2_cvsd_decode_0</value>
++      <value>vocoder_cvsd_decode_bf_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+@@ -157,7 +157,7 @@
+     </param>
+   </block>
+   <block>
+-    <key>blks2_cvsd_encode</key>
++    <key>vocoder_cvsd_encode_fb</key>
+     <param>
+       <key>id</key>
+       <value>enc</value>
+@@ -863,7 +863,7 @@
+   </connection>
+   <connection>
+     <source_block_id>enc</source_block_id>
+-    <sink_block_id>blks2_cvsd_decode_0</sink_block_id>
++    <sink_block_id>vocoder_cvsd_decode_bf_0</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+@@ -874,19 +874,19 @@
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>blks2_cvsd_decode_0</source_block_id>
++    <source_block_id>vocoder_cvsd_decode_bf_0</source_block_id>
+     <sink_block_id>dec_fft</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>blks2_cvsd_decode_0</source_block_id>
++    <source_block_id>vocoder_cvsd_decode_bf_0</source_block_id>
+     <sink_block_id>dec_scope</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>blks2_cvsd_decode_0</source_block_id>
++    <source_block_id>vocoder_cvsd_decode_bf_0</source_block_id>
+     <sink_block_id>audio_sink</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+diff --git a/gr-vocoder/CMakeLists.txt b/gr-vocoder/CMakeLists.txt
+index f32ecdd..e800cff 100644
+--- a/gr-vocoder/CMakeLists.txt
++++ b/gr-vocoder/CMakeLists.txt
+@@ -90,6 +90,7 @@ add_subdirectory(doc)
+ if(ENABLE_PYTHON)
+     add_subdirectory(swig)
+     add_subdirectory(python)
++    add_subdirectory(grc)
+     add_subdirectory(examples)
+ endif(ENABLE_PYTHON)
+ 
+diff --git a/gr-vocoder/grc/CMakeLists.txt b/gr-vocoder/grc/CMakeLists.txt
+new file mode 100644
+index 0000000..f8cf823
+--- /dev/null
++++ b/gr-vocoder/grc/CMakeLists.txt
+@@ -0,0 +1,42 @@
++# Copyright 2011 Free Software Foundation, Inc.
++#
++# This file is part of GNU Radio
++#
++# GNU Radio is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 3, or (at your option)
++# any later version.
++#
++# GNU Radio is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with GNU Radio; see the file COPYING.  If not, write to
++# the Free Software Foundation, Inc., 51 Franklin Street,
++# Boston, MA 02110-1301, USA.
++
++install(FILES
++    vocoder_alaw_decode_bs.xml
++    vocoder_alaw_encode_sb.xml
++    vocoder_block_tree.xml
++    vocoder_codec2_decode_ps.xml
++    vocoder_codec2_encode_sp.xml
++    vocoder_cvsd_decode_bs.xml
++    vocoder_cvsd_decode.xml
++    vocoder_cvsd_encode_sb.xml
++    vocoder_cvsd_encode.xml
++    vocoder_g721_decode_bs.xml
++    vocoder_g721_encode_sb.xml
++    vocoder_g723_24_decode_bs.xml
++    vocoder_g723_24_encode_sb.xml
++    vocoder_g723_40_decode_bs.xml
++    vocoder_g723_40_encode_sb.xml
++    vocoder_gsm_fr_decode_ps.xml
++    vocoder_gsm_fr_encode_sp.xml
++    vocoder_ulaw_decode_bs.xml
++    vocoder_ulaw_encode_sb.xml
++    DESTINATION ${GRC_BLOCKS_DIR}
++    COMPONENT "vocoder_python"
++)
+diff --git a/gr-vocoder/grc/vocoder_alaw_decode_bs.xml b/gr-vocoder/grc/vocoder_alaw_decode_bs.xml
+new file mode 100644
+index 0000000..776187d
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_alaw_decode_bs.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## Alaw audio decoder
++###################################################
++ -->
++<block>
++	<name>Alaw Audio Decoder</name>
++	<key>vocoder_alaw_decode_bs</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.alaw_decode_bs()</make>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>short</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_alaw_encode_sb.xml b/gr-vocoder/grc/vocoder_alaw_encode_sb.xml
+new file mode 100644
+index 0000000..0ad8eca
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_alaw_encode_sb.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## Alaw audio encoder
++###################################################
++ -->
++<block>
++	<name>g711 alaw Audio Encoder</name>
++	<key>vocoder_alaw_encode_sb</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.alaw_encode_sb()</make>
++	<sink>
++		<name>in</name>
++		<type>short</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
++
++
+diff --git a/gr-vocoder/grc/vocoder_block_tree.xml b/gr-vocoder/grc/vocoder_block_tree.xml
+new file mode 100644
+index 0000000..0c0fdd4
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_block_tree.xml
+@@ -0,0 +1,53 @@
++<?xml version="1.0"?>
++
++<!--
++ Copyright 2011 Free Software Foundation, Inc.
++ 
++ This file is part of GNU Radio
++ 
++ GNU Radio is free software; you can redistribute it and/or modify
++ it under the terms of the GNU General Public License as published by
++ the Free Software Foundation; either version 3, or (at your option)
++ any later version.
++ 
++ GNU Radio is distributed in the hope that it will be useful,
++ but WITHOUT ANY WARRANTY; without even the implied warranty of
++ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ GNU General Public License for more details.
++ 
++ You should have received a copy of the GNU General Public License
++ along with GNU Radio; see the file COPYING.  If not, write to
++ the Free Software Foundation, Inc., 51 Franklin Street,
++ Boston, MA 02110-1301, USA.
++-->
++
++<!--
++###################################################
++##Block Tree for GR Digital blocks.
++###################################################
++ -->
++<cat>
++	<name></name> <!-- Blank for Root Name -->
++	<cat>
++		<name>Vocoders</name>
++		<block>vocoder_binary_slicer_fb</block>
++		<block>vocoder_alaw_decode_bs</block>
++		<block>vocoder_alaw_encode_sb</block>
++		<block>vocoder_codec2_decode_ps</block>
++		<block>vocoder_codec2_encode_sp</block>
++		<block>vocoder_cvsd_decode_bs</block>
++		<block>vocoder_cvsd_encode_sb</block>
++		<block>vocoder_cvsd_decode_bf</block>
++		<block>vocoder_cvsd_encode_fb</block>
++		<block>vocoder_g721_decode_bs</block>
++		<block>vocoder_g721_encode_sb</block>
++		<block>vocoder_g723_24_decode_bs</block>
++		<block>vocoder_g723_24_encode_sb</block>
++		<block>vocoder_g723_40_decode_bs</block>
++		<block>vocoder_g723_40_encode_sb</block>
++		<block>vocoder_gsm_fr_decode_ps</block>
++		<block>vocoder_gsm_fr_encode_sp</block>
++		<block>vocoder_ulaw_decode_bs</block>
++		<block>vocoder_ulaw_encode_sb</block>
++	</cat>
++</cat>
+diff --git a/gr-vocoder/grc/vocoder_codec2_decode_ps.xml b/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
+new file mode 100644
+index 0000000..7088821
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## CODEC2 audio decoder
++###################################################
++ -->
++<block>
++	<name>CODEC2 Audio Decoder</name>
++	<key>vocoder_codec2_decode_ps</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.codec2_decode_ps()</make>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>short</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_codec2_encode_sp.xml b/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
+new file mode 100644
+index 0000000..7a56ac6
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## CODEC2 audio encoder
++###################################################
++ -->
++<block>
++	<name>CODEC2 Audio Encoder</name>
++	<key>vocoder_codec2_encode_sp</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.codec2_encode_sp()</make>
++	<sink>
++		<name>in</name>
++		<type>short</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
++
++
+diff --git a/gr-vocoder/grc/vocoder_cvsd_decode.xml b/gr-vocoder/grc/vocoder_cvsd_decode.xml
+new file mode 100644
+index 0000000..ce117c5
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_cvsd_decode.xml
+@@ -0,0 +1,32 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## CVSD Encoder
++###################################################
++ -->
++<block>
++	<name>CVSD Decoder</name>
++	<key>vocoder_cvsd_decode_bf</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.cvsd_decode_bf($resample,$bw)</make>
++	<param>
++	  <name>Resample</name>
++	  <key>resample</key>
++	  <value>8</value>
++	  <type>int</type>
++	</param>
++	<param>
++	  <name>Frac. Bandwidth</name>
++	  <key>bw</key>
++	  <value>0.5</value>
++	  <type>real</type>
++	</param>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>float</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_cvsd_decode_bs.xml b/gr-vocoder/grc/vocoder_cvsd_decode_bs.xml
+new file mode 100644
+index 0000000..40ddc04
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_cvsd_decode_bs.xml
+@@ -0,0 +1,21 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## CVSD audio decoder
++###################################################
++ -->
++<block>
++	<name>CVSD Audio Decoder (Raw Bit-Level)</name>
++	<key>vocoder_cvsd_decode_bs</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.cvsd_decode_bs()</make>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>short</type>
++	</source>
++</block>
++
+diff --git a/gr-vocoder/grc/vocoder_cvsd_encode.xml b/gr-vocoder/grc/vocoder_cvsd_encode.xml
+new file mode 100644
+index 0000000..12e73f6
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_cvsd_encode.xml
+@@ -0,0 +1,32 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## CVSD Encoder
++###################################################
++ -->
++<block>
++	<name>CVSD Encoder</name>
++	<key>vocoder_cvsd_encode_fb</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.cvsd_encode_fb($resample,$bw)</make>
++	<param>
++	  <name>Resample</name>
++	  <key>resample</key>
++	  <value>8</value>
++	  <type>int</type>
++	</param>
++	<param>
++	  <name>Frac. Bandwidth</name>
++	  <key>bw</key>
++	  <value>0.5</value>
++	  <type>real</type>
++	</param>
++	<sink>
++		<name>in</name>
++		<type>float</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_cvsd_encode_sb.xml b/gr-vocoder/grc/vocoder_cvsd_encode_sb.xml
+new file mode 100644
+index 0000000..a92387a
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_cvsd_encode_sb.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## CVSD audio encoder
++###################################################
++ -->
++<block>
++	<name>CVSD Audio Encoder (Raw Bit-Level)</name>
++	<key>vocoder_cvsd_encode_sb</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.cvsd_encode_sb()</make>
++	<sink>
++		<name>in</name>
++		<type>short</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
++
++
+diff --git a/gr-vocoder/grc/vocoder_g721_decode_bs.xml b/gr-vocoder/grc/vocoder_g721_decode_bs.xml
+new file mode 100644
+index 0000000..e8a64f4
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_g721_decode_bs.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## g271 audio decoder
++###################################################
++ -->
++<block>
++	<name>g271 Audio Decoder</name>
++	<key>vocoder_g271_decode_bs</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.g271_decode_bs()</make>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>short</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_g721_encode_sb.xml b/gr-vocoder/grc/vocoder_g721_encode_sb.xml
+new file mode 100644
+index 0000000..f105ff8
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_g721_encode_sb.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## g721 audio encoder
++###################################################
++ -->
++<block>
++	<name>g721 Audio Encoder</name>
++	<key>vocoder_g721_encode_sb</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.g721_encode_sb()</make>
++	<sink>
++		<name>in</name>
++		<type>short</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
++
++
+diff --git a/gr-vocoder/grc/vocoder_g723_24_decode_bs.xml b/gr-vocoder/grc/vocoder_g723_24_decode_bs.xml
+new file mode 100644
+index 0000000..768f82d
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_g723_24_decode_bs.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## g273_24 audio decoder
++###################################################
++ -->
++<block>
++	<name>g273_24 Audio Decoder</name>
++	<key>vocoder_g273_24_decode_bs</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.g273_24_decode_bs()</make>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>short</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_g723_24_encode_sb.xml b/gr-vocoder/grc/vocoder_g723_24_encode_sb.xml
+new file mode 100644
+index 0000000..0e70dde
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_g723_24_encode_sb.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## g723_24 audio encoder
++###################################################
++ -->
++<block>
++	<name>g723_24 Audio Encoder</name>
++	<key>vocoder_g723_24_encode_sb</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.g723_24_encode_sb()</make>
++	<sink>
++		<name>in</name>
++		<type>short</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
++
++
+diff --git a/gr-vocoder/grc/vocoder_g723_40_decode_bs.xml b/gr-vocoder/grc/vocoder_g723_40_decode_bs.xml
+new file mode 100644
+index 0000000..09e31be
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_g723_40_decode_bs.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## g273_40 audio decoder
++###################################################
++ -->
++<block>
++	<name>g273_40 Audio Decoder</name>
++	<key>vocoder_g273_40_decode_bs</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.g273_40_decode_bs()</make>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>short</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_g723_40_encode_sb.xml b/gr-vocoder/grc/vocoder_g723_40_encode_sb.xml
+new file mode 100644
+index 0000000..fbbf600
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_g723_40_encode_sb.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## g723_40 audio encoder
++###################################################
++ -->
++<block>
++	<name>g723_40 Audio Encoder</name>
++	<key>vocoder_g723_40_encode_sb</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.g723_40_encode_sb()</make>
++	<sink>
++		<name>in</name>
++		<type>short</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
++
++
+diff --git a/gr-vocoder/grc/vocoder_gsm_fr_decode_ps.xml b/gr-vocoder/grc/vocoder_gsm_fr_decode_ps.xml
+new file mode 100644
+index 0000000..f908900
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_gsm_fr_decode_ps.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## GSM full-rate audio decoder
++###################################################
++ -->
++<block>
++	<name>GSM full-rate Audio Decoder</name>
++	<key>vocoder_gsm_fr_decode_bs</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.gsm_fr_decode_bs()</make>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>short</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_gsm_fr_encode_sp.xml b/gr-vocoder/grc/vocoder_gsm_fr_encode_sp.xml
+new file mode 100644
+index 0000000..d39994b
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_gsm_fr_encode_sp.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## GSM full-rate audio encoder
++###################################################
++ -->
++<block>
++	<name>GSM full-rate Audio Encoder</name>
++	<key>vocoder_gsm_fr_encode_sb</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.gsm_fr_encode_sb()</make>
++	<sink>
++		<name>in</name>
++		<type>short</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
++
++
+diff --git a/gr-vocoder/grc/vocoder_ulaw_decode_bs.xml b/gr-vocoder/grc/vocoder_ulaw_decode_bs.xml
+new file mode 100644
+index 0000000..5a7ccbb
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_ulaw_decode_bs.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## Ulaw audio decoder
++###################################################
++ -->
++<block>
++	<name>Ulaw Audio Decoder</name>
++	<key>vocoder_ulaw_decode_bs</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.ulaw_decode_bs()</make>
++	<sink>
++		<name>in</name>
++		<type>byte</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>short</type>
++	</source>
++</block>
+diff --git a/gr-vocoder/grc/vocoder_ulaw_encode_sb.xml b/gr-vocoder/grc/vocoder_ulaw_encode_sb.xml
+new file mode 100644
+index 0000000..8e76d8d
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_ulaw_encode_sb.xml
+@@ -0,0 +1,22 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## ulaw audio encoder
++###################################################
++ -->
++<block>
++	<name>ulaw Audio Encoder</name>
++	<key>vocoder_ulaw_encode_sb</key>
++	<import>from gnuradio import vocoder</import>
++	<make>vocoder.ulaw_encode_sb()</make>
++	<sink>
++		<name>in</name>
++		<type>short</type>
++	</sink>
++	<source>
++		<name>out</name>
++		<type>byte</type>
++	</source>
++</block>
++
++
+diff --git a/grc/blocks/blks2_cvsd_decode.xml b/grc/blocks/blks2_cvsd_decode.xml
+deleted file mode 100644
+index 6be7daa..0000000
+--- a/grc/blocks/blks2_cvsd_decode.xml
++++ /dev/null
+@@ -1,32 +0,0 @@
+-<?xml version="1.0"?>
+-<!--
+-###################################################
+-## CVSD Encoder
+-###################################################
+- -->
+-<block>
+-	<name>CVSD Decoder</name>
+-	<key>blks2_cvsd_decode</key>
+-	<import>from gnuradio import blks2</import>
+-	<make>blks2.cvsd_decode($resample,$bw)</make>
+-	<param>
+-	  <name>Resample</name>
+-	  <key>resample</key>
+-	  <value>8</value>
+-	  <type>int</type>
+-	</param>
+-	<param>
+-	  <name>Frac. Bandwidth</name>
+-	  <key>bw</key>
+-	  <value>0.5</value>
+-	  <type>real</type>
+-	</param>
+-	<sink>
+-		<name>in</name>
+-		<type>byte</type>
+-	</sink>
+-	<source>
+-		<name>out</name>
+-		<type>float</type>
+-	</source>
+-</block>
+diff --git a/grc/blocks/blks2_cvsd_encode.xml b/grc/blocks/blks2_cvsd_encode.xml
+deleted file mode 100644
+index 3123b1a..0000000
+--- a/grc/blocks/blks2_cvsd_encode.xml
++++ /dev/null
+@@ -1,32 +0,0 @@
+-<?xml version="1.0"?>
+-<!--
+-###################################################
+-## CVSD Encoder
+-###################################################
+- -->
+-<block>
+-	<name>CVSD Encoder</name>
+-	<key>blks2_cvsd_encode</key>
+-	<import>from gnuradio import blks2</import>
+-	<make>blks2.cvsd_encode($resample,$bw)</make>
+-	<param>
+-	  <name>Resample</name>
+-	  <key>resample</key>
+-	  <value>8</value>
+-	  <type>int</type>
+-	</param>
+-	<param>
+-	  <name>Frac. Bandwidth</name>
+-	  <key>bw</key>
+-	  <value>0.5</value>
+-	  <type>real</type>
+-	</param>
+-	<sink>
+-		<name>in</name>
+-		<type>float</type>
+-	</sink>
+-	<source>
+-		<name>out</name>
+-		<type>byte</type>
+-	</source>
+-</block>
+diff --git a/grc/blocks/block_tree.xml b/grc/blocks/block_tree.xml
+index 183408c..d8253bf 100644
+--- a/grc/blocks/block_tree.xml
++++ b/grc/blocks/block_tree.xml
+@@ -224,11 +224,6 @@
+ 		<block>gr_additive_scrambler_bb</block>
+ 	</cat>
+ 	<cat>
+-		<name>Vocoders</name>
+-		<block>blks2_cvsd_encode</block>
+-		<block>blks2_cvsd_decode</block>
+-	</cat>
+-	<cat>
+ 		<name>Probes</name>
+ 		<block>gr_probe_avg_mag_sqrd_x</block>
+ 		<block>gr_probe_density_b</block>
+-- 
+1.7.9.1
+

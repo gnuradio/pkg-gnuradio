@@ -1,0 +1,27 @@
+From f122d72a1090d38d1a08f98c56e0d071f79fef0b Mon Sep 17 00:00:00 2001
+From: Josh Blum <josh@joshknows.com>
+Date: Wed, 25 Jan 2012 12:05:35 -0800
+Subject: [PATCH 17/47] core: fix floor ambiguous overload in vcc fftw
+
+The msvc compiler doesnt like the ambiguous overload of floor.
+However, floor should not have an effect on the integer divide anyway.
+---
+ gnuradio-core/src/lib/general/gr_fft_vcc_fftw.cc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/gnuradio-core/src/lib/general/gr_fft_vcc_fftw.cc b/gnuradio-core/src/lib/general/gr_fft_vcc_fftw.cc
+index c66015c..948ab20 100644
+--- a/gnuradio-core/src/lib/general/gr_fft_vcc_fftw.cc
++++ b/gnuradio-core/src/lib/general/gr_fft_vcc_fftw.cc
+@@ -68,7 +68,7 @@ gr_fft_vcc_fftw::work (int noutput_items,
+     if (d_window.size()){
+       gr_complex *dst = d_fft->get_inbuf();
+       if(!d_forward && d_shift){
+-        int offset = (!d_forward && d_shift)?floor(d_fft_size/2):0;
++        int offset = (!d_forward && d_shift)?(d_fft_size/2):0;
+         int fft_m_offset = d_fft_size - offset;
+         for (unsigned int i = 0; i < offset; i++)		// apply window
+             dst[i+fft_m_offset] = in[i] * d_window[i];
+-- 
+1.7.9.1
+

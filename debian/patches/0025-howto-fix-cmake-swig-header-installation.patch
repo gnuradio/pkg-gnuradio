@@ -1,0 +1,23 @@
+From 3e030d338bb6d6213b3aac0ae66da3f02321e5dd Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <jcorgan@corganenterprises.com>
+Date: Mon, 6 Feb 2012 11:11:04 -0800
+Subject: [PATCH 25/47] howto: fix cmake swig header installation
+
+---
+ gr-howto-write-a-block-cmake/swig/CMakeLists.txt |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/gr-howto-write-a-block-cmake/swig/CMakeLists.txt b/gr-howto-write-a-block-cmake/swig/CMakeLists.txt
+index 8691942..ac5f700 100644
+--- a/gr-howto-write-a-block-cmake/swig/CMakeLists.txt
++++ b/gr-howto-write-a-block-cmake/swig/CMakeLists.txt
+@@ -53,5 +53,5 @@ install(
+     FILES
+     howto_swig.i
+     ${CMAKE_CURRENT_BINARY_DIR}/howto_swig_doc.i
+-    DESTINATION $(GR_INCLUDE_DIR)/howto/swig
++    DESTINATION ${GR_INCLUDE_DIR}/howto/swig
+ )
+-- 
+1.7.9.1
+

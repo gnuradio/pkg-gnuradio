@@ -1,0 +1,51 @@
+From 6e3ec5d3697274f45bb83e68818402e50c1e23a6 Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <trondeau@vt.edu>
+Date: Thu, 19 Jan 2012 22:14:31 -0500
+Subject: [PATCH 15/47] docs: another try/except/rerun spot.
+
+---
+ docs/doxygen/swig_doc.py |   28 ++++++++++++++++++++++------
+ 1 files changed, 22 insertions(+), 6 deletions(-)
+
+diff --git a/docs/doxygen/swig_doc.py b/docs/doxygen/swig_doc.py
+index 0148ba8..4148a54 100644
+--- a/docs/doxygen/swig_doc.py
++++ b/docs/doxygen/swig_doc.py
+@@ -214,12 +214,28 @@ def make_swig_interface_file(di, swigdocfilename, custom_output=None):
+ 
+     make_funcs = set([])
+     for block in blocks:
+-        try:
+-            make_func = di.get_member(make_name(block.name()), DoxyFunction)
+-            make_funcs.add(make_func.name())
+-            output.append(make_block_entry(di, block))
+-        except block.ParsingError:
+-            sys.stderr.write('Parsing error for block {0}'.format(block.name()))
++        tries = 0
++        while(1):
++            try:
++                make_func = di.get_member(make_name(block.name()), DoxyFunction)
++                make_funcs.add(make_func.name())
++                output.append(make_block_entry(di, block))
++            except block.ParsingError:
++                sys.stderr.write('Parsing error for block {0}'.format(block.name()))
++            except:
++                if(tries < 3):
++                    # May not be built just yet; sleep and try again
++                    sys.stderr.write("XML parsing problem with file {0}, retrying.\n".format(
++                            swigdocfilename))
++                    time.sleep(1)
++                    tries += 1
++                else:
++                    # if we've given it three tries, give up and raise an error
++                    sys.stderr.write("XML parsing error with file {0}. giving up.\n".format(
++                            swigdocfilename))
++                    raise
++            else:
++                break
+ 
+     # Create docstrings for functions
+     # Don't include the make functions since they have already been dealt with.
+-- 
+1.7.9.1
+

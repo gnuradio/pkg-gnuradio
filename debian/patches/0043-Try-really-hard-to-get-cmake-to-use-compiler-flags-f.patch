@@ -1,0 +1,31 @@
+From 40fc37e7966b66e53fd4ddf0b116c5ac82f98d35 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@opensdr.com>
+Date: Mon, 20 Feb 2012 14:44:16 -0500
+Subject: [PATCH 43/47] Try really hard to get cmake to use compiler flags
+ from the toolchain file.
+
+See: http://www.mail-archive.com/cmake@cmake.org/msg33248.html
+
+Also credit OpenEmbedded for doing something similar in the toolchain file
+they create.
+
+Signed-off-by: Philip Balister <philip@opensdr.com>
+---
+ cmake/Toolchains/arm_cortex_a8_native.cmake |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/Toolchains/arm_cortex_a8_native.cmake b/cmake/Toolchains/arm_cortex_a8_native.cmake
+index 7dbb800..8e60eaa 100644
+--- a/cmake/Toolchains/arm_cortex_a8_native.cmake
++++ b/cmake/Toolchains/arm_cortex_a8_native.cmake
+@@ -4,5 +4,5 @@
+ ########################################################################
+ set(CMAKE_CXX_COMPILER g++)
+ set(CMAKE_C_COMPILER  gcc)
+-set(CMAKE_CXX_FLAGS "-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp")
+-set(CMAKE_C_FLAGS ${CMAKE_CXX_FLAGS}) #same flags for C sources
++set(CMAKE_CXX_FLAGS "-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp" CACHE STRING "" FORCE)
++set(CMAKE_C_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "" FORCE) #same flags for C sources
+-- 
+1.7.9.1
+

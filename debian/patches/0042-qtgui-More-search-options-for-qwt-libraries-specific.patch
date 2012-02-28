@@ -1,0 +1,36 @@
+From eedd0f0b4346aea5fed16e0ff433b0d5bffe23b9 Mon Sep 17 00:00:00 2001
+From: Michael Dickens <mdickens@nd.edu>
+Date: Tue, 21 Feb 2012 22:52:09 -0500
+Subject: [PATCH 42/47] qtgui: More search options for qwt libraries,
+ specifically for OSX.
+
+---
+ cmake/Modules/FindQwt.cmake |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
+
+diff --git a/cmake/Modules/FindQwt.cmake b/cmake/Modules/FindQwt.cmake
+index 8570207..cbda16a 100644
+--- a/cmake/Modules/FindQwt.cmake
++++ b/cmake/Modules/FindQwt.cmake
+@@ -10,11 +10,17 @@ find_path (QWT_INCLUDE_DIRS
+ 	/usr/local/include/qwt
+ 	/usr/include/qwt-qt4
+ 	/usr/include/qwt
++	/opt/local/include/qwt
++	/sw/include/qwt
+ )
+ 
+ find_library (QWT_LIBRARIES
+ 	NAMES qwt-qt4 qwt
+-	PATHS /usr/local/lib /usr/lib
++	PATHS
++	/usr/local/lib
++	/usr/lib
++	/opt/local/lib
++	/sw/lib
+ )
+ 
+ # handle the QUIETLY and REQUIRED arguments and set QWT_FOUND to TRUE if 
+-- 
+1.7.9.1
+
