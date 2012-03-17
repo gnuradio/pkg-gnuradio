@@ -1,3 +1,9 @@
+gnuradio (3.5.2.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Fri, 16 Mar 2012 20:30:18 -0400
+
 gnuradio (3.5.1-1) unstable; urgency=low
 
   * new upstream version, re-packaged from scratch with modern tools

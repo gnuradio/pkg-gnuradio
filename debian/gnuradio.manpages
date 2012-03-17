@@ -28,3 +28,4 @@ debian/usrp_flex_all.1
 debian/usrp_flex_band.1
 debian/usrp_rx_hrpt.1
 debian/usrp_rx_hrpt_nogui.1
+debian/volk_profile.1
