@@ -20,8 +20,8 @@ X-Python-Version: =2.7
 
 Package: gnuradio
 Architecture: any
-Depends: ${python:Depends}, python-wxgtk2.8, python-cheetah, adduser, ${shlibs:Depends}, ${misc:Depends}
-Recommends: python-qt4, python-qwt5-qt4, python-scipy, python-matplotlib, uhd-images, python-tk
+Depends: ${python:Depends}, python-opengl, python-lxml, python-wxgtk2.8, python-cheetah, adduser, ${shlibs:Depends}, ${misc:Depends}
+Recommends: python-qt4, python-qwt5-qt4, python-scipy, python-matplotlib, uhd-host, python-tk, qthid-fcd-controller
 Description: GNU Radio Software Radio Toolkit
  GNU Radio provides signal processing blocks to implement software
  radios. It can be used with readily-available low-cost external RF
@@ -60,7 +60,7 @@ Depends: ${misc:Depends}
 Description: GNU Software Defined Radio toolkit development
  Header files for the GNU Radio software defined radio system.
 
-Package: libgnuradio-atsc3.5.2.1
+Package: libgnuradio-atsc3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -69,7 +69,7 @@ Description: gnuradio atsc functions
  signals such as those used for digital television broadcast in North
  America. Part of the main gnuradio build.
 
-Package: libgnuradio-audio3.5.2.1
+Package: libgnuradio-audio3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -80,7 +80,7 @@ Description: gnuradio audio functions
  automatically discover the correct one to use.  Part of the main
  gnuradio build.
 
-Package: libgnuradio-comedi3.5.2.1
+Package: libgnuradio-comedi3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -89,7 +89,7 @@ Description: gnuradio comedi instrument control functions
  supported by the Comedi library and drivers.
  Part of the main gnuradio build.
 
-Package: libgnuradio-core3.5.2.1
+Package: libgnuradio-core3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -97,7 +97,7 @@ Description: gnuradio core functions
  Core signal processing math and process scheduling library.
  Part of the main gnuradio build.
 
-Package: libgnuradio-digital3.5.2.1
+Package: libgnuradio-digital3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -106,7 +106,20 @@ Description: gnuradio digital communications functions
  including bpsk, qpsk, gmsk and ofdm signals.
  Part of the main gnuradio build.
 
-Package: libgnuradio-noaa3.5.2.1
+Package: libgnuradio-fcd3.5.3
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: gnuradio FunCube Dongle support
+ The Funcube Dongle is a software defined radio
+ receiver in a USB stick covering 64 MHz - 1.7 GHz. More info about the
+ Funcube Dongle is available at http://www.funcubedongle.com/
+ .
+ This library allows the device to be used as a source in GNU Radio.
+ .
+ Part of the main gnuradio build.
+
+Package: libgnuradio-noaa3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -115,7 +128,7 @@ Description: gnuradio noaa satellite signals functions
  Administration High Rate Picture Transmission) signals.
  Part of the main gnuradio build.
 
-Package: libgnuradio-pager3.5.2.1
+Package: libgnuradio-pager3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -123,7 +136,7 @@ Description: gnuradio pager radio functions
  Library for handling pager signals, including FLEX protocol data.
  Part of the main gnuradio build.
 
-Package: libgnuradio-qtgui3.5.2.1
+Package: libgnuradio-qtgui3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -131,7 +144,7 @@ Description: gnuradio Qt graphical user interface functions
  QT-based graphical sinks for gnuradio applications.
  Part of the main gnuradio build.
 
-Package: libgnuradio-trellis3.5.2.1
+Package: libgnuradio-trellis3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -139,17 +152,17 @@ Description: gnuradio trellis modulation functions
  Library for trellis coding modulation, including the Vitterbi
  Algorithm. Part of the main gnuradio build.
 
-Package: libgnuradio-uhd3.5.2.1
+Package: libgnuradio-uhd3.5.3
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libuhd003 (>= 3.4.0)
 Description: gnuradio universal hardware driver functions
  The gnuradio interface to the UHD library to connect to and send and
  receive data between to the Ettus Research, LLC product line -
  including the USRP family of software radio periphal devices.
  Part of the main gnuradio build.
 
-Package: libgnuradio-video-sdl3.5.2.1
+Package: libgnuradio-video-sdl3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -157,7 +170,7 @@ Description: gnuradio video functions
  Library for handling SDL (Simple DirectMedia Layer) video data.
  Part of the main gnuradio build.
 
-Package: libgnuradio-vocoder3.5.2.1
+Package: libgnuradio-vocoder3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -165,7 +178,7 @@ Description: gnuradio vocoder functions
  Library of vocoder blocks, including ulaw, alaw, gsm and codec2.
  Part of the main gnuradio build.
 
-Package: libgruel3.5.2.1
+Package: libgruel3.5.3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}

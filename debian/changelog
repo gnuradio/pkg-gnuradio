@@ -1,3 +1,12 @@
+gnuradio (3.5.3-1) unstable; urgency=low
+
+  * New upstream release
+  * with Support for FunCube Dongle (gr-fcd) (Closes: #660570)
+  * gnuradio now depends upon python-lxml python-wxgtk2.8
+    to make gnuradio-companion work well. (Closes: #664607, #664608)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 09 Apr 2012 01:08:06 -0400
+
 gnuradio (3.5.2.1-1) unstable; urgency=low
 
   * New upstream release.

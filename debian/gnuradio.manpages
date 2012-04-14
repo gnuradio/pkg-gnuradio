@@ -1,6 +1,7 @@
 debian/gnuradio-companion.1
 debian/gnuradio-config-info.1
 debian/create-gnuradio-out-of-tree-project.1
+debian/fcd_nfm_rx.1
 debian/file_rx_hrpt.1
 debian/gr_filter_design.1
 debian/gr_plot_char.1
