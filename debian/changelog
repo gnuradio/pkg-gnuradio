@@ -1,3 +1,10 @@
+gnuradio (3.5.3-2) unstable; urgency=low
+
+  * build depend on libusb-1.0-0-dev [linux-any], libusb2-dev [kfreebsd-any]
+  (Closes: #668471)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 12 Apr 2012 00:58:50 -0400
+
 gnuradio (3.5.3-1) unstable; urgency=low
 
   * New upstream release

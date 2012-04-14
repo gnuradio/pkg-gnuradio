@@ -7,11 +7,10 @@ Section: comm
 Priority: optional
 Maintainer: A. Maitland Bottoms <bottoms@debian.org>
 Uploaders: Bdale Garbee <bdale@gag.com>
-Build-Conflicts: automake1.8, automake1.9
-Build-Depends: debhelper (>= 8.0.0~), cmake, libuhd-dev, libaudio-dev, libxi-dev, libfontconfig1-dev, libxrender-dev, libpulse-dev, libcomedi-dev, swig (>=1.3.31), python-dev, libfftw3-dev, libcppunit-dev (>=1.9.14), libboost-all-dev (>=1.35), libsdl1.2-dev, python-wxgtk2.8, guile-1.8-dev, libqt4-dev, python-numpy, python-opengl, libgsl0-dev (>=1.10), python-cheetah, python-lxml, doxygen, xmlto, qt4-dev-tools, libqwt5-qt4-dev, libqwtplot3d-qt4-dev, pyqt4-dev-tools, python-qwt5-qt4, python-gtk2-dev, pkg-config (>=0.15.0), libgsm1-dev
+Build-Depends: debhelper (>= 8.0.0~), cmake, libuhd-dev, libasound2-dev, libjack-dev, libxi-dev, libfontconfig1-dev, libxrender-dev, libpulse-dev, libcomedi-dev, swig (>=1.3.31), python-dev, libfftw3-dev, libcppunit-dev (>=1.9.14), libboost-all-dev (>=1.35), libusb-1.0-0-dev [linux-any], libusb2-dev [kfreebsd-any], liborc-0.4-dev, liboil0.3-dev, libsdl1.2-dev, python-wxgtk2.8, guile-1.8-dev, libqt4-dev, python-numpy, python-opengl, libgsl0-dev (>=1.10), python-cheetah, python-lxml, doxygen, xmlto, qt4-dev-tools, libqwt5-qt4-dev, libqwtplot3d-qt4-dev, pyqt4-dev-tools, python-qwt5-qt4, python-gtk2-dev, pkg-config (>=0.15.0), libgsm1-dev
 Standards-Version: 3.9.3
 Vcs-Git: git://anonscm.debian.org/users/bottoms/pkg-gnuradio.git
-Vcs-Browser: http://anonscm.debian.org/git/users/bottoms/pkg-gnuradio.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/bottoms/pkg-gnuradio.git;a=summary
 X-Python-Version: =2.7
 
 ################################################################################
@@ -55,7 +54,8 @@ Description: GNU Software Defined Radio toolkit documentation
 
 Package: gnuradio-dev
 Section: libdevel
-Architecture: all
+Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${misc:Depends}
 Description: GNU Software Defined Radio toolkit development
  Header files for the GNU Radio software defined radio system.
@@ -63,7 +63,9 @@ Description: GNU Software Defined Radio toolkit development
 Package: libgnuradio-atsc3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio atsc functions
  Library for handling ATSC (Advanced Television Systems Committee)
  signals such as those used for digital television broadcast in North
@@ -72,7 +74,9 @@ Description: gnuradio atsc functions
 Package: libgnuradio-audio3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio audio functions
  This is the gr-audio library, used to connect to audio sources
  (mic-in) and sinks (speaker-out) ports on a computer. The underlying
@@ -83,7 +87,9 @@ Description: gnuradio audio functions
 Package: libgnuradio-comedi3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio comedi instrument control functions
  Allows gnuradio to use signals from data acquisition hardware
  supported by the Comedi library and drivers.
@@ -92,7 +98,9 @@ Description: gnuradio comedi instrument control functions
 Package: libgnuradio-core3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio core functions
  Core signal processing math and process scheduling library.
  Part of the main gnuradio build.
@@ -100,7 +108,9 @@ Description: gnuradio core functions
 Package: libgnuradio-digital3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio digital communications functions
  All the functions for doing digital modulation and demodulation,
  including bpsk, qpsk, gmsk and ofdm signals.
@@ -109,7 +119,9 @@ Description: gnuradio digital communications functions
 Package: libgnuradio-fcd3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio FunCube Dongle support
  The Funcube Dongle is a software defined radio
  receiver in a USB stick covering 64 MHz - 1.7 GHz. More info about the
@@ -122,7 +134,9 @@ Description: gnuradio FunCube Dongle support
 Package: libgnuradio-noaa3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio noaa satellite signals functions
  Library for handling NOAA HRPT (National Oceanic and Atmospheric
  Administration High Rate Picture Transmission) signals.
@@ -131,7 +145,9 @@ Description: gnuradio noaa satellite signals functions
 Package: libgnuradio-pager3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio pager radio functions
  Library for handling pager signals, including FLEX protocol data.
  Part of the main gnuradio build.
@@ -139,7 +155,9 @@ Description: gnuradio pager radio functions
 Package: libgnuradio-qtgui3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio Qt graphical user interface functions
  QT-based graphical sinks for gnuradio applications.
  Part of the main gnuradio build.
@@ -147,7 +165,9 @@ Description: gnuradio Qt graphical user interface functions
 Package: libgnuradio-trellis3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio trellis modulation functions
  Library for trellis coding modulation, including the Vitterbi
  Algorithm. Part of the main gnuradio build.
@@ -155,7 +175,9 @@ Description: gnuradio trellis modulation functions
 Package: libgnuradio-uhd3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}, libuhd003 (>= 3.4.0)
+Multi-Arch: same
 Description: gnuradio universal hardware driver functions
  The gnuradio interface to the UHD library to connect to and send and
  receive data between to the Ettus Research, LLC product line -
@@ -165,7 +187,9 @@ Description: gnuradio universal hardware driver functions
 Package: libgnuradio-video-sdl3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio video functions
  Library for handling SDL (Simple DirectMedia Layer) video data.
  Part of the main gnuradio build.
@@ -173,7 +197,9 @@ Description: gnuradio video functions
 Package: libgnuradio-vocoder3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio vocoder functions
  Library of vocoder blocks, including ulaw, alaw, gsm and codec2.
  Part of the main gnuradio build.
@@ -181,7 +207,9 @@ Description: gnuradio vocoder functions
 Package: libgruel3.5.3
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio utilities etcetera functions
  The GNU Radio Utility Etcetera Library, a collection of low-level
  routines to avoid dependencies on the full GNU Radio core or other
@@ -190,10 +218,11 @@ Description: gnuradio utilities etcetera functions
 Package: libvolk0.0.0
 Section: libs
 Architecture: any
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: gnuradio vector optimized functions
  Vector-Optimized Library of Kernels) and it is designed to help
  gnuradio work with the processor's SIMD instruction sets. These are
  very powerful vector operations that can give signal processing a
  huge boost in performance. Part of the main gnuradio build.
-
