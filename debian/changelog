@@ -1,3 +1,9 @@
+gnuradio (3.5.3-3) unstable; urgency=low
+
+  * kfreebsd patches
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sat, 14 Apr 2012 00:27:43 -0400
+
 gnuradio (3.5.3-2) unstable; urgency=low
 
   * build depend on libusb-1.0-0-dev [linux-any], libusb2-dev [kfreebsd-any]
