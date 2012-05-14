@@ -3,7 +3,7 @@
 @@ -18,6 +18,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  """
- 
+
 +import os
 +if os.environ.get('GR_DONT_LOAD_PREFS'):
 +       del os.environ['GR_DONT_LOAD_PREFS']
@@ -13,7 +13,7 @@
 @@ -39,9 +42,23 @@
  	d.run()
  	exit(-1)
- 
+
 -from gnuradio import gr
  from optparse import OptionParser
  

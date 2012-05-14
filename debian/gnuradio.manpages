@@ -1,3 +1,4 @@
+debian/dial_tone.1
 debian/gnuradio-companion.1
 debian/gnuradio-config-info.1
 debian/create-gnuradio-out-of-tree-project.1
@@ -19,6 +20,7 @@ debian/gr_plot_qt.1
 debian/gr_plot_short.1
 debian/hrpt_decode.1
 debian/hrpt_demod.1
+debian/tags_demo.1
 debian/uhd_fft.1
 debian/uhd_rx_cfile.1
 debian/uhd_rx_nogui.1

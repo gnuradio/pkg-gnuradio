@@ -16,13 +16,6 @@ override_dh_auto_test:
 
 override_dh_auto_install:
 	dh_auto_install
-	find debian/tmp -name *.pyc -delete
-	find debian/tmp -name *.pyo -delete
-	# include plot modules in gnuradio python package
-	cp debian/tmp/usr/bin/gr_plot_fft.py debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/
-	cp debian/tmp/usr/bin/gr_plot_psd.py debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/
-	# fixup to remove .py extension on files in /usr/bin
-	for i in debian/tmp/usr/bin/*.py ; do mv $$i debian/gnuradio/usr/bin/`basename $$i .py` ; done
 	# jquery.js is provided in another debian package, do not ship one here too
 	rm debian/tmp/usr/share/doc/gnuradio*/html/jquery.js
 	chmod +x debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/grc/python/flow_graph.tmpl

@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-if [ ! -x /usr/bin/xdg-desktop-menu ] ; then
-    exit 0 ;
-fi
-
 # Copyright 2008-2012 Free Software Foundation, Inc.
 #
 # This file is part of GNU Radio
@@ -27,6 +23,8 @@ fi
 ICON_SIZES="32 48 64 128 256"
 SRCDIR="/usr/share/gnuradio/grc/freedesktop"
 
+# Only do this when the xdg-utils package is installed...
+if [ -x /usr/bin/xdg-desktop-menu ] ; then
 echo "Begin freedesktop uninstall..."
 for size in ${ICON_SIZES}; do \
 	echo "Uninstall icon: ${size}x${size}"
@@ -39,8 +37,8 @@ xdg-icon-resource forceupdate
 echo "Uninstall mime type"
 xdg-mime uninstall ${SRCDIR}/gnuradio-grc.xml
 echo "Uninstall menu items"
-xdg-desktop-menu uninstall `ls ${SRCDIR}/*.desktop | xargs -n1 basename`
+xdg-desktop-menu uninstall `ls ${SRCDIR}/*.desktop | xargs -n1 basename` || true
 echo "Done!"
-echo ""
+fi
 
 #DEBHELPER#

@@ -1,11 +1,9 @@
 debian-soname
-debian-build-skips-gui-test
 debian-bsd-comedi
 grc-system-config
-plot-fft-psd-modules
 grcc-gnuradio-companion-compiler
 volk-profile-no-rpath
-usr-bin-fcd_nfm_rx
+usr-bin-examples
 gr-use-system-libgsm
 bsd-usb
 bsd-shm
