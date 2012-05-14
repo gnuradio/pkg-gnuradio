@@ -60,7 +60,7 @@ Depends: ${misc:Depends}
 Description: GNU Software Defined Radio toolkit development
  Header files for the GNU Radio software defined radio system.
 
-Package: libgnuradio-atsc3.5.3.1
+Package: libgnuradio-atsc3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -71,7 +71,7 @@ Description: gnuradio atsc functions
  signals such as those used for digital television broadcast in North
  America. Part of the main gnuradio build.
 
-Package: libgnuradio-audio3.5.3.1
+Package: libgnuradio-audio3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -84,7 +84,7 @@ Description: gnuradio audio functions
  automatically discover the correct one to use.  Part of the main
  gnuradio build.
 
-Package: libgnuradio-comedi3.5.3.1
+Package: libgnuradio-comedi3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -95,7 +95,7 @@ Description: gnuradio comedi instrument control functions
  supported by the Comedi library and drivers.
  Part of the main gnuradio build.
 
-Package: libgnuradio-core3.5.3.1
+Package: libgnuradio-core3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -105,7 +105,7 @@ Description: gnuradio core functions
  Core signal processing math and process scheduling library.
  Part of the main gnuradio build.
 
-Package: libgnuradio-digital3.5.3.1
+Package: libgnuradio-digital3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -116,7 +116,7 @@ Description: gnuradio digital communications functions
  including bpsk, qpsk, gmsk and ofdm signals.
  Part of the main gnuradio build.
 
-Package: libgnuradio-fcd3.5.3.1
+Package: libgnuradio-fcd3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -131,7 +131,7 @@ Description: gnuradio FunCube Dongle support
  .
  Part of the main gnuradio build.
 
-Package: libgnuradio-noaa3.5.3.1
+Package: libgnuradio-noaa3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -142,7 +142,7 @@ Description: gnuradio noaa satellite signals functions
  Administration High Rate Picture Transmission) signals.
  Part of the main gnuradio build.
 
-Package: libgnuradio-pager3.5.3.1
+Package: libgnuradio-pager3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -152,7 +152,7 @@ Description: gnuradio pager radio functions
  Library for handling pager signals, including FLEX protocol data.
  Part of the main gnuradio build.
 
-Package: libgnuradio-qtgui3.5.3.1
+Package: libgnuradio-qtgui3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -162,7 +162,7 @@ Description: gnuradio Qt graphical user interface functions
  QT-based graphical sinks for gnuradio applications.
  Part of the main gnuradio build.
 
-Package: libgnuradio-trellis3.5.3.1
+Package: libgnuradio-trellis3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -172,7 +172,7 @@ Description: gnuradio trellis modulation functions
  Library for trellis coding modulation, including the Vitterbi
  Algorithm. Part of the main gnuradio build.
 
-Package: libgnuradio-uhd3.5.3.1
+Package: libgnuradio-uhd3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -184,7 +184,7 @@ Description: gnuradio universal hardware driver functions
  including the USRP family of software radio periphal devices.
  Part of the main gnuradio build.
 
-Package: libgnuradio-video-sdl3.5.3.1
+Package: libgnuradio-video-sdl3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -194,7 +194,7 @@ Description: gnuradio video functions
  Library for handling SDL (Simple DirectMedia Layer) video data.
  Part of the main gnuradio build.
 
-Package: libgnuradio-vocoder3.5.3.1
+Package: libgnuradio-vocoder3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
@@ -204,7 +204,7 @@ Description: gnuradio vocoder functions
  Library of vocoder blocks, including ulaw, alaw, gsm and codec2.
  Part of the main gnuradio build.
 
-Package: libgruel3.5.3.1
+Package: libgruel3.5.3.2
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
