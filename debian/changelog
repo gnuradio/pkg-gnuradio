@@ -1,3 +1,75 @@
+gnuradio (3.6.2-1) experimental; urgency=low
+
+  * New upstream release
+  * Build system changes
+  
+    Added support for setting SYSCONFDIR
+    
+  * Top-level component changes
+
+    A new top-level component, gr-filter, has been created. This component
+    implements all the filter-related functionality that is in
+    gnuradio-core, and uses the new style 3.7 API. The filter blocks in
+    gnuradio-core are now deprecated; but will remain in gnuradio-core
+    until the 3.7 release. Developers are encouraged to begin using the
+    new blocks in preparation.
+    
+  * New signal processing blocks
+  
+    gr_and_const_bb: adds bb type to gr_and_const* block
+    gr_annotator_raw: allows tagging stream with pmt key, value pair from
+    outside GNU Radio
+    gr_endian_swap: change item endianness through block
+    gr_message_burst_source: turn received messages into a stream and tag them
+    gr_tag_debug: debug display of all tags going through block`
+    digital_gfsk_demod, digital_gfsk_mod: Gaussian Frequency Shift Keying
+    modulator and demodulator
+    
+  * New feature additions
+  
+    Support has now been added for ARM processors that do not implement
+    NEON. gr-uhd has added rx tagging for changes in sample rate and
+    center frequency.
+    Added support for serializing pmt tuples
+    Added BER/SNR simulation example
+    Removed gruel dependency on inet.h
+    
+  * Bug fixes
+  
+    core: fix minor bug in gri_wavefile endian swapping
+    core: only check for *.conf in preferences directory
+    digital: fixed incorrect variable name in qam_demod XML
+    digital: fix FLL block to use fir_filter
+    digital: remove unused parameter from DPSK demod GRC block
+    digital: fix use of Gray code in digital mod/demod GRC files
+    fcd: fix copy and paste error in documentation
+    uhd: fix stopping flowgraph while streaming
+    volk: don't initialize zero phase in rotator kernel
+    volk: don't use ORC for volk_16u_byteswap_u kernel
+    volk: add missing AVX support in volk_32f_x2_dot_prod_32f kernels
+    volk: fix __m128 cast in volk_32fc_x2_dot_prod_32fc_a kernel
+    volk: fix volk_32f_x2_dot_prod_32f_u_sse tail case
+    volk: use loadu for unaligned volk_32f_x2_dot_prod_32f_u_sse*
+    volk: fix for win64 MSVC not having MMX support
+    volk: special werror unused cmd line arg for clang
+    
+  * Contributors
+  
+    Ben Reynwar
+    Chí-Thanh Christopher Nguyễn
+    Hendrik van Wyk
+    Jaroslav Skarvada
+    Johnathan Corgan
+    Josh Blum
+    Martin Braun
+    Nicholas Corgan
+    Nick Foster
+    Tim O'Shea
+    Tom Rondeau
+    Wayne Roberts
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Wed, 05 Sep 2012 23:56:07 -0400
+
 gnuradio (3.6.1-1) unstable; urgency=low
 
   * New upstream release

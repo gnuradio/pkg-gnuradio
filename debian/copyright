@@ -3,7 +3,7 @@ Upstream-Name: gnuradio
 Upstream-Contact: http://gnuradio.org/
 Source:
  The upstream package source tarball was generated from the tag:
- git archive --format=tar --prefix=gnuradio-3.6.1/  v3.6.1 | gzip > ../gnuradio_3.6.1.orig.tar.gz
+ git archive --format=tar --prefix=gnuradio-3.6.2/  v3.6.2 | gzip > ../gnuradio_3.6.2.orig.tar.gz
 Comment:
  Packages of versions 3.4 and up by A. Maitland Bottoms <bottoms@debian.org>,
  GNU Radio was re-packaged by Bdale Garbee <bdale@gag.com> to reflect
