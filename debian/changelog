@@ -1,3 +1,163 @@
+gnuradio (3.6.3~rc0-1) experimental; urgency=low
+
+  * New upstream release
+  * Addition/upgrade of message passing infrastructure (Tim O'Shea, Tom
+    Rondeau, Johnathan Corgan, Josh Blum)
+  
+  This introduces the ability to add and connect formally defined
+  asychronous message ports to signal processing blocks and
+  hierarchical blocks. These message ports can be connected to pass
+  asynchronous data in the form of PMTs (polymorphic types) among
+  blocks in a flowgraph. It is also possible to implement pure
+  message passing blocks that have no requirement for streaming
+  ports or work functions.
+  
+  We've also introduced the concept of PDUs (Protocol Data Units) as
+  a convention for passing data+metadata using the new messaging
+  ports. A PDU is a PMT pair that combines a PMT dictionary of
+  metadata keys/values along with a PMT blob to hold a vector of
+  data in memory.
+  
+  A few new general purpose blocks supporting these capabilties are
+  in gnuradio-core:
+  
+  gr_message_debug
+  gr_message_strobe
+  gr_tagged_stream_to_pdu
+  gr_pdu_to_tagged_stream
+  
+  Two new blocks for interfacing with networking stacks using the
+  new PDU semantics:
+  
+  gr_socket_pdu
+  gr_tuntap_pdu
+  
+  This new message passing capability and PDU convention is aimed at
+  providing the infrastructure to better support software radio
+  implementations using packet-oriented semantics, such as MAC-layer
+  processing.
+
+  * Addition of new Python-based signal processing blocks (Josh Blum)
+  
+  This feature, originally introduced by Josh Blum as part of
+  GrExtras, allows implementing signal processing blocks directly in
+  Python, and has now become a standard feature of GNU Radio.
+
+  * Addition of gr-analog top-level component (Tom Rondeau)
+  
+  This implements the current gnuradio-core signal processing blocks
+  used for analog signal processing into their own top-level
+  component, gr-analog, and uses the new 3.7 API organization. The
+  original blocks in gnuradio-core will be removed on the 3.7 branch
+  prior to 3.7 release.
+
+  * Addition of gr-blocks top-level component (Johnathan Corgan)
+  
+  This implements a large portion of the gnuradio-core non-signal
+  processing blocks in the 3.7 API form. The original blocks in
+  gnuradio-core will be removed on the 3.7 branch prior to 3.7
+  release.
+  
+  * Metadata file source and sink blocks (Tom Rondeau)
+  
+  Two new blocks implement enhanced file source and sink blocks that
+  incorporate metadata passed using the stream tags feature in GNU
+  Radio. It is now possible to store things like frequency and
+  sample rate into capture files, or whatever key/value pairs you
+  tag onto data streams inside a flowgraph.
+  
+  http://www.trondeau.com/home/2012/12/15/metadata-file-format.html
+  
+  * GNU Radio buffer latency control (Tim O'Shea, Tom Rondeau)
+  
+  For finer-grained control over latency inside a GNU Radio
+  flowgraph, it is now possible to adjust, on a per-block basis, the
+  maximum noutput_items that will be used to call a block work
+  function. In addition, it is possible to set the maximum size an
+  output buffer can grow to before a work function is called.
+
+  * New GNU Radio Companion (GRC) capabilities
+  
+  Added optional flag to pad source and sink (Josh Blum)
+  Added wildcard type to pad source and sink (Josh Blum)
+  Added ability to reload XML for block (Tim O'Shea)
+  Added ability to automatically create hier_blocks
+        from a flowgraph (Tim Newman)
+  Added ability to open custom GRC hier block definitions (Tim O'Shea)
+  Added new grcc command line GRC-to-Python utility (Tom Rondeau)
+
+  * New Documentation Updates (Tom Rondeau)
+  
+  We are introducing documentation into the Doxygen manual
+  describing features and capabilities of GNU Radio, above and
+  beyond just documenting the API functions. Tom Rondeau has
+  written about this here:
+  
+  http://www.trondeau.com/home/2012/12/18/new-documentation-for-new-features.html
+  
+  Some examples of commits where this has been done:
+  
+  gnuradio.org/cgit/gnuradio.git/commit/?id=77ea309 (PMT type usage)
+  gnuradio.org/cgit/gnuradio.git/commit/?id=a21c5f7 (Message passing interface)
+  gnuradio.org/cgit/gnuradio.git/commit/?id=996e599 (Metatdata format)
+  gnuradio.org/cgit/gnuradio.git/commit/?id=5fcb7eb (Max output buffer control)
+
+  * Other new features:
+  
+  Allow file source to open new files while running (Brett L. Trotter)
+  Allow source blocks to return none/yield (Josh Blum)
+  Improved capabilities of uhd_fft.grc example in gr-uhd (Ben Hilburn)
+  Added parameter in qtgui sink's GRC block
+        to set the update rate (Julien Olivain)
+  Added source block hook in gr-uhd for issue stream cmd (Josh Blum)
+  Added cmake package support for Ubuntu 12.10 (Nicholas Corgan)
+  Added gr::blocks::patterned_interleaver (Tim O'Shea)
+  Allow user to set Python path during cmake configuration (Tom Rondeau)
+  Enabled serialize/deserialize for PMT vectors (Tom Rondeau)
+  Added unsigned long long int support to the PMT sugar functions (Tom Rondeau)
+  Allow using pmt_init_Xvector methods in python (Tom Rondeau)
+  Bug fixes:
+  
+  * Numerous cmake related bug-fixes (Josh Blum, Johnathan Corgan, Tom Rondeau)
+  Fixed parallel build failures in cmake (Tom Rondeau)
+  Fixed segfaults due to old, no longer nedded SWIG workaround (Tom Rondeau)
+  Fixed memory leak issue in arbitrary resampler blocks (Tom ROndeau)
+  Fixed use of default noise seed in channel model (Alick Zhao)
+  Fixed scaling bug in QAM constellations (Ben Reynwar)
+  Fixed installation of grc examples (Johnathan Corgan)
+  Fixed finding Qwt6 installed on OSX using MacPorts (Ben Reynwar)
+  Fixed implicit assumption in skiphead (Josh Blum)
+  Fixed include tag include usage throughout core (Josh Blum)
+  Fixed incorrect private usage in gr_endian_swap (Josh Blum)
+  Fixed segfault in gr-filter due to memory free bug (Josh Blum)
+  Fixed UHD pmt tuple ref namespace issue (Josh Blum)
+  Fixed gr_tag_debug to handle lacking srcid (Martin Braun)
+  Fixed gr-analog for 'sincos(f)' on MacOSX (Michael Dickens)
+  Fixed gr-analog build issues on Windows (Nicholas Corgan)
+  Fixed qtgui time sink to take the bandwidth parameter
+        to set x-axis correctly (Tom Rondeau)
+  Fixed float-in, complex-out fft block to use the right io sig (Tom Rondeau)
+  Fixed Clang imcompatibility by removing '.version' lines
+        in ASM code in core (Tom Rondeau)
+
+  * Contributors this release:
+  
+  Alick Zhao <alick9188@gmail.com>
+  Ben Hilburn <ben.hilburn@ettus.com>
+  Ben Reynwar <ben@reynwar.net>
+  Brett L. Trotter <blt@webtrotter.com>
+  Johnathan Corgan <johnathan@corganlabs.com>
+  Josh Blum <josh@joshknows.com>
+  Julien Olivain <Julien.Olivain@lacime.etsmtl.ca>
+  Martin Braun <martin.braun@kit.edu>
+  Michael Dickens <mlk@alum.mit.edu>
+  Nicholas Corgan <nick.corgan@ettus.com>
+  Tim O'Shea <tim.oshea753@gmail.com>
+  Tim Newman <tim.newman@gmail.com>
+  Tom Rondeau <tom@trondeau.com>
+  
+ -- A. Maitland Bottoms <bottoms@debian.org>  Wed, 26 Dec 2012 18:56:06 -0500
+
 gnuradio (3.6.2-1) experimental; urgency=low
 
   * New upstream release
