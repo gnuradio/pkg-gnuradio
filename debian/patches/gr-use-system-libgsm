@@ -35,7 +35,7 @@
  # Setup the include and linker paths
  ########################################################################
  include_directories(
-@@ -55,12 +83,17 @@
+@@ -56,12 +84,17 @@
  ########################################################################
  GR_INCLUDE_SUBDIRECTORY(codec2)
  GR_INCLUDE_SUBDIRECTORY(g7xx)

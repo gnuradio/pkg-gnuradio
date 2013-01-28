@@ -1,3 +1,14 @@
+gnuradio (3.6.3-1) experimental; urgency=low
+
+  * New upstream release
+  Bug fixes:
+  Overhaul of cmake include directory ordering (Michael Dickens)
+  Fixed use of default noise seed in channel model (Alick Zhao)
+  Fixed file_meta_source/sink incompatibilities with MSVC (Nicholas Corgan)
+  Fixed some unused parameter warnings (Alexandru Csete)
+ 
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 28 Jan 2013 00:10:46 -0500
+
 gnuradio (3.6.3~rc0-1) experimental; urgency=low
 
   * New upstream release

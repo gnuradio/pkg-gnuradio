@@ -1,6 +1,6 @@
 --- a/gr-fcd/examples/c++/CMakeLists.txt
 +++ b/gr-fcd/examples/c++/CMakeLists.txt
-@@ -26,6 +26,6 @@
+@@ -30,6 +30,6 @@
  
  INSTALL(TARGETS
      fcd_nfm_rx
@@ -10,7 +10,7 @@
  )
 --- a/gr-audio/examples/c++/CMakeLists.txt
 +++ b/gr-audio/examples/c++/CMakeLists.txt
-@@ -24,6 +24,6 @@
+@@ -28,6 +28,6 @@
  
  INSTALL(TARGETS
      dial_tone
