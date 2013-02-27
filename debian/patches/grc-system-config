@@ -8,4 +8,4 @@
 +set(SYSCONFDIR          "/${GR_CONF_DIR}" CACHE PATH "System configuration directory")
  set(GR_PREFSDIR         ${SYSCONFDIR}/${CMAKE_PROJECT_NAME}/conf.d)
  
- ########################################################################
+ OPTION(ENABLE_PERFORMANCE_COUNTERS "Enable block performance counters" OFF)

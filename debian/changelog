@@ -1,3 +1,27 @@
+gnuradio (3.6.4-1) unstable; urgency=low
+
+  * Include arm build fix from Peter Michael Green (Closes: #682595)
+  * Include debian/watch file by Bart Martens
+  * postinst, do not specify --theme for xdg-icon-resource (Closes: #673597)
+  * gnuradio-dev depends on same version of gnuradio (Closes: #678919)
+  * fix debian/control format (Closes: #689357)
+  * New upstream release
+  http://gnuradio.org/redmine/projects/gnuradio/wiki/ChangeLogV3_6_4
+  
+  Ability to set processor affinity for GNU Radio blocks
+  http://www.trondeau.com/home/2013/2/7/block-core-affinity.html
+  
+  Inclusion of gr_modtool by Martin Braun
+  http://gnuradio.org/redmine/projects/gnuradio/wiki/OutOfTreeModules
+  
+  Use of GNU Radio preferences in native C++ applications
+  http://gnuradio.org/cgit/gnuradio.git/commit/?id=3643a858
+  
+  Addition of GNU Radio block performance counters
+  http://gnuradio.org/redmine/projects/gnuradio/wiki/PerformanceCounters
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 26 Feb 2013 21:44:34 -0500
+
 gnuradio (3.6.3.1-1) experimental; urgency=low
 
   * New upstream bugfix release
