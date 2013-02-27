@@ -1,3 +1,47 @@
+gnuradio (3.6.3.1-1) experimental; urgency=low
+
+  * New upstream bugfix release
+  analog: fixed floating point accuracy issue in CTCSS squelch (Tom Rondeau)
+  blocks: fixed use of bare boost::mutex::scoped_lock (Johnathan Corgan)
+  blocks: fixed missing include in file_source_impl (Josh Blum)
+  cmake: fixed chrono as a necessary Boost library under MSVC (Nicholas Corgan)
+  cmake: allow user to override check for bad versions of boost (Tom Rondeau)
+  cmake: disable certain buggy Boost versions to fix Issue #513. (Tom Rondeau)
+  cmake: fixing generated includes, deps, and header installation.
+  core: fixed gr_pdu_to_tagged_stream XML for type (Johnathan Corgan)
+  core: fixed gr_message_debug for printing PDUs (Johnathan Corgan)
+  core: fixed missing include in gr_socket_pdu (Josh Blum)
+  core: fixed missing include for gruel thread (Josh Blum)
+  core: fixed redundant test settings (Josh Blum)
+  core: fixed gr_random_pdu MSVC incompatibility issue (Nicholas Corgan)
+  core: fixed missing include to gr_block_registry.h (Tim O'Shea)
+  digital: fixed bug in digital_bert_rx.py (Ben Reynwar)(thanks Charles Ru)
+  digital: fixed pfb_clock_sync grc xml file for loop bandwidth (Ben Reynwar)
+  filter: fixed synthesis filter output rate (Tom Rondeau)
+  grc: fixed failing drag-n-drop in GRC on Windows (Balint Seeber)
+  grc: fixed Bug #485 by gracefully exiting (Martin Braun)
+  howto: fixed block parameters documentation (Julien Olivain)
+  uhd: fixed gain defaults in usrp_wfm_rcv*.py examples (Mike Jameson)
+  uhd: fixed default midpoint gain for usrp_am_mw_rcv.py example (Mike Jameson)
+  uhd: fixed usrp_nbfm_ptt.py example receive path (Mike Jameson)
+  uhd: fixed audio_alsa_sink busy using default in examples (Mike Jameson)
+  volk: fixed bad find_package missing components (Josh Blum)
+  volk: fixed cmake, the profiler is no longer strictly unix (Josh Blum)
+  volk: fixed volk_profile MSVC incompatibility (Nicholas Corgan)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 26 Feb 2013 20:14:48 -0500
+
+gnuradio (3.6.3-2) experimental; urgency=low
+
+  * postinst, do not specify --theme gnome for xdg-icon-resource (673597)
+  * gnuradio-dev depends on same version of gnuradio (678919)
+  * Debian build uses generic arm, not v7 (682595)
+  * fix debian/control format (689357)
+  * build with portaudio19-dev and libjack-jackd2-dev
+    (in addition to pulseaudio and alsa)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 10 Feb 2013 10:37:05 -0500
+
 gnuradio (3.6.3-1) experimental; urgency=low
 
   * New upstream release

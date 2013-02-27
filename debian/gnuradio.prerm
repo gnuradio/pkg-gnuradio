@@ -28,9 +28,9 @@ if [ -x /usr/bin/xdg-desktop-menu ] ; then
 echo "Begin freedesktop uninstall..."
 for size in ${ICON_SIZES}; do \
 	echo "Uninstall icon: ${size}x${size}"
-	xdg-icon-resource uninstall --noupdate --context mimetypes --theme gnome --size ${size} application-gnuradio-grc; \
+	#xdg-icon-resource uninstall --noupdate --context mimetypes --theme gnome --size ${size} application-gnuradio-grc; \
 	xdg-icon-resource uninstall --noupdate --context mimetypes --size ${size} application-gnuradio-grc; \
-	xdg-icon-resource uninstall --noupdate --context apps --theme gnome --size ${size} gnuradio-grc; \
+	#xdg-icon-resource uninstall --noupdate --context apps --theme gnome --size ${size} gnuradio-grc; \
 	xdg-icon-resource uninstall --noupdate --context apps --size ${size} gnuradio-grc; \
 done
 xdg-icon-resource forceupdate

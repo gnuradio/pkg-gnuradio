@@ -1,5 +1,6 @@
 debian-soname
 debian-bsd-comedi
+debian-uses-generic-arm
 grc-system-config
 grcc-gnuradio-companion-compiler
 volk-profile-no-rpath
