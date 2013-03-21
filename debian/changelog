@@ -1,3 +1,18 @@
+gnuradio (3.6.4.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Bug fixes:
+  core: fixed filename path operator (Tim O'Shea)
+  core: fixed async message queue max length (Tom Rondeau)
+  docs: fixed missing gr-uhd to sphinx docs. (Ben Reynwar)
+  docs: fixed a section name collision (Tom Rondeau)
+  modtool: fixed Python general blocks syntax (Martin Braun)
+  modtool: fixed general python block template (Mike Jameson)
+  modtool: fixed extra comma bug in gr_modtool Python (Tom Rondeau)
+  volk: fixed MSVC include directory (Nicholas Corgan)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 19 Mar 2013 17:12:54 -0400
+
 gnuradio (3.6.4-1) unstable; urgency=low
 
   * Include arm build fix from Peter Michael Green (Closes: #682595)

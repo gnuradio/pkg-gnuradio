@@ -9,3 +9,4 @@ bsd-usb
 bsd-shm
 bsd-alsa
 bsd-fcd
+bsd-no-thread-affinity

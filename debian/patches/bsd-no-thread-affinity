@@ -1,0 +1,11 @@
+--- a/gruel/src/lib/thread.cc
++++ b/gruel/src/lib/thread.cc
+@@ -95,7 +95,7 @@
+   }
+ } /* namespace gruel */
+ 
+-#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
++#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__) || defined(__FreeBSD_kernel__)
+ 
+ namespace gruel {
+ 
