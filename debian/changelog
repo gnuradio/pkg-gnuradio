@@ -1,3 +1,40 @@
+gnuradio (3.6.4.2-1) unstable; urgency=low
+
+  * New upstream release
+  * Bug fixes:
+  docs: fixed QT docs keywords (Ben Reynwar)
+  blocks: fixed XML wrapper for gr::blocks::complex_to_real (Johnathan Corgan)
+  blocks: fixed file meta data source to handle repeat of files (Tom Rondeau)
+  blocks: fixed XML data type in gr::blocks::plateau_detector_fb
+  (Johnathan Corgan)
+  digital: fixed virtual destructor for constellation class (Tom Rondeau)
+  digital: fixed SNR estimators (Tom Rondeau)
+  filter: fixed pfb_arb_resampler XML for I/O types (Johnathan Corgan)
+  filter: fixed exception when using interpolating filter with no taps
+  (Tom Rondeau)
+  filter: fixed pfb_arb_resampler to handle default taps (None) case
+  (Tom Rondeau)
+  grc: fixed (removed) "c" key shortcut for create heir action (Tim O'Shea)
+  grc: fixed problem with order of message ports vs. data ports (Tom Rondeau)
+  runtime: fixed thread safety issue with tags and perf counters (Tim O'Shea)
+  runtime: fixed gr types for setting processor affinity (Tom Rondeau)
+  runtime: fixed swig issue with affinity mask vector (Tom Rondeau)
+  modtool: fixed gr-modtool template output signature (Johnathan Corgan)
+  modtool: fixed case when module name ends in 0 (Martin Braun)
+  modtool: fixed typo in help string (Tim Monahan-Mitchell)
+  modtool: fixed wording in modtool for 'float' sink/source type (Tom Rondeau)
+  modtool: fixed some setup for noblock gen (Tom Rondeau)
+  modtool: fixed initial templates of a block (Tom Rondeau)
+  pkg: fixed packages for Ubuntu 13.04 (Nicholas Corgan)
+  qtgui: fixed init FFT Size box for QTGUI sink (Tom Rondeau)
+  video-sdl: fixed typo in .pc file (Johnathan Corgan)
+  volk: fixed CentOS build failure with extra lib64 in path (Johnathan Corgan)
+  wxgui: fixed GL sinks issues on OS X (Balint Seeber)
+  wxgui: fixed set_callback failure in nongl sinks (Marcus Leech)
+  wxgui: fixed scaling issue of nongl FFT plot (issue #523) (Tom Rondeau)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 27 May 2013 00:28:52 -0400
+
 gnuradio (3.6.4.1-1) unstable; urgency=low
 
   * New upstream release
