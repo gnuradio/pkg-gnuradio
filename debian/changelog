@@ -1,3 +1,57 @@
+gnuradio (3.6.5-1) unstable; urgency=low
+
+  * New upstream release
+  * Important new features (3.6.5):
+  
+  New OFDM PHY layer (Martin Braun, Ben Reynwar)
+  This release includes new OFDM PHY layer blocks in gr-digital. These
+  have been rewritten from scratch to allow more configurability and to use
+  some of the newer GNU Radio features (stream tags, async messages). Some
+  work remains to tie these into a full over-the-air transceiver, so further
+  development will be happening in the GNU Radio 3.7.x release series.
+  
+  * New runtime logging capability (Tom Rondeau)
+  GNU Radio has a logging interface to enable various levels of logging
+  information to be printed to the console or a file. The logger derives
+  from log4cpp (http://log4cpp.sourceforge.net/) which is readily
+  available in most Linux distributions. This is an optional dependency
+  and GNU Radio will work without it. See:
+  http://gnuradio.org/cgit/gnuradio.git/tree/docs/doxygen/other/logger.dox
+  
+  * Minor features/changes (3.6.5):
+  build: git now ignores the build/ directory (Ben Hilburn)
+  build: create and install a config.h for external projects (Tom Rondeau)
+  build: install our cmake modules into share/gnuradio/cmake/Modules
+  (Tom Rondeau)
+  blocks: fixed udp_source to avoid permanent work blockage (Josh Blum)
+  blocks: added proper EOF for msg tags test (Josh Blum)
+  blocks: added gr::blocks::socket_pdu (Tim O'Shea)
+  blocks: added gr::blocks::taptun_pdu (Tim O'Shea)
+  blocks: added gr::blocks::pdu_to_tagged_stream (Tim O'Shea)
+  blocks: added gr::blocks::tagged_stream_to_pdu (Tim O'Shea)
+  blocks: added default arg value to mute_XX (Tim O'Shea)
+  blocks: added probe_rate block (Tim O'Shea)
+  blocks: fixed probe_signal_vx vector utilisation (Mike Jameson)
+  blocks: fixed XML data type in gr::blocks::deinterleave (Miklos Maroti)
+  docs: updated pfb introduction (Ben Reynwar)
+  digital: added option to QAM to help with frequency locking (Ben Reynwar)
+  digital: made qa_constellation_receiver more reliable (Ben Reynwar)
+  digital: added QAM32-like constellation (Ben Reynwar)
+  filter: added callback to adjust resampling rate of pfb_arb_resampler
+  block (Tom Rondeau)
+  filter: added fractional_resampler as a renamed
+  fractional_interpolator (Tom Rondeau)
+  grc: added sorting ability to GRC category tree (Gregory Warnes)
+  grc: made 'float' an acceptable alias to 'real' in parameter types
+  (Tom Rondeau)
+  modtool: added tagged_stream block as an option (Martin Braun)
+  modtool: fixed general python block template (Mike Jameson)
+  uhd: added a usrp PC sync option (Josh Blum)
+  uhd: added getters for bandwidth setting and range (Josh Blum)
+  uhd: updated usrp_spectrum_sense with frequency readout (Mike Jameson)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 27 May 2013 15:28:27 -0400
+
 gnuradio (3.6.4.2-1) unstable; urgency=low
 
   * New upstream release
