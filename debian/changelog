@@ -1,3 +1,40 @@
+gnuradio (3.6.5.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Bug fixes
+  audio: fix default alsa device from hw:0,0 to default, Bug #551 (Tim O'Shea)
+  blocks: fix big-endian issue in wavefile blocks (Jaroslav Škarvada)
+  blocks: fix erroneous linkage to gr-filter (#547) (Johnathan Corgan)
+  blocks: fix for ~file_source crash, Bug #550 (Tim O'Shea)
+  blocks: fix param test in keep_me_in_n GRC wrapper (Tim Monahan-Mitchell)
+  blocks: fix use of assertGreater in QA for older Python (Johnathan Corgan)
+  cmake: fix CRLF to LF in in some modules (fixes #549) (Johnathan Corgan)
+  cmake: make install directory of GNU Radio cmakes files configurable
+         (Jaroslav Škarvada)
+  core: ensure message passing blocks marked done are handled
+        (Johnathan Corgan)
+  core: fir_filter_with_buffer using consistent error margins in all
+        QA tests (Tom Rondeau)
+  core: fix vmcircbuf file read/compare to use strncmp instead of strcmp
+        (Tom Rondeau)
+  core: makes sure if capping to max_noutput_items with output_multiple
+        that the value is always an output_multiple. (Tom Rondeau)
+  core: making block_registry thread-safe for multiple flowgraphs to
+        access it (Tom Rondeau)
+  core: fix 2 threading issues with the shared memory system. (Tom Rondeau)
+  digital: a block should not hold a reference to itself (Josh Blum)
+  digital: bugfixes to ofdm_chanest, HPD and frame EQ (Martin Braun)
+  digital: hack to prevent the HPD from crashing flow graphs (Martin Braun)
+  digital: remove stray import from QA test (Johnathan Corgan)
+  grcc: set grc file path, which is required for hier blocks (Bastian Bloessl)
+  wavelet: fix for -lgslcblas getting stripped out of link flags (Tim O'Shea)
+  wavelet: do not use unsupported compile flags for OSX (Michael Dickens)
+  wxgui: Fixes to solve issues using GL sinks on OS X (Balint Seeber)
+  wxgui: fix exception in callback before label set (Marcus D. Leech)
+  wxgui: fix flickering on Linux created by bea6d506 (Sylvain Munaut)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 01 Jul 2013 06:51:25 -0400
+
 gnuradio (3.6.5-1) unstable; urgency=low
 
   * New upstream release
