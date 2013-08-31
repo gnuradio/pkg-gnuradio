@@ -28,14 +28,14 @@ if [ -x /usr/bin/xdg-desktop-menu ] ; then
 echo "Begin freedesktop uninstall..."
 for size in ${ICON_SIZES}; do \
 	echo "Uninstall icon: ${size}x${size}"
-	xdg-icon-resource uninstall --noupdate --context mimetypes --theme gnome --size ${size} application-gnuradio-grc; \
-	xdg-icon-resource uninstall --noupdate --context mimetypes --size ${size} application-gnuradio-grc; \
-	xdg-icon-resource uninstall --noupdate --context apps --theme gnome --size ${size} gnuradio-grc; \
-	xdg-icon-resource uninstall --noupdate --context apps --size ${size} gnuradio-grc; \
+	xdg-icon-resource uninstall --noupdate --context mimetypes --theme gnome --size ${size} application-gnuradio-grc || true; \
+	xdg-icon-resource uninstall --noupdate --context mimetypes --size ${size} application-gnuradio-grc || true; \
+	xdg-icon-resource uninstall --noupdate --context apps --theme gnome --size ${size} gnuradio-grc || true; \
+	xdg-icon-resource uninstall --noupdate --context apps --size ${size} gnuradio-grc || true; \
 done
-xdg-icon-resource forceupdate
+xdg-icon-resource forceupdate || true
 echo "Uninstall mime type"
-xdg-mime uninstall ${SRCDIR}/gnuradio-grc.xml
+xdg-mime uninstall ${SRCDIR}/gnuradio-grc.xml || true
 echo "Uninstall menu items"
 xdg-desktop-menu uninstall `ls ${SRCDIR}/*.desktop | xargs -n1 basename` || true
 echo "Done!"

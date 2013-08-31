@@ -6,6 +6,7 @@ debian/fcd_nfm_rx.1
 debian/file_rx_hrpt.1
 debian/grcc.1
 debian/gr_filter_design.1
+debian/gr_modtool.1
 debian/gr_plot_char.1
 debian/gr_plot_const.1
 debian/gr_plot_fft.1
@@ -34,3 +35,4 @@ debian/usrp_flex_band.1
 debian/usrp_rx_hrpt.1
 debian/usrp_rx_hrpt_nogui.1
 debian/volk_profile.1
+debian/volk_modtool.1
