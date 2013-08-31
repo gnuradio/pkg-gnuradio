@@ -2,7 +2,7 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: gnuradio
 Upstream-Contact: http://gnuradio.org/
 Source:
- http://gnuradio.org/releases/gnuradio/gnuradio-3.6.5.1.tar.gz
+ http://gnuradio.org/releases/gnuradio/gnuradio-3.7.0.tar.gz
 Comment:
  Packages of versions 3.4 and up by A. Maitland Bottoms <bottoms@debian.org>,
  GNU Radio was re-packaged by Bdale Garbee <bdale@gag.com> to reflect

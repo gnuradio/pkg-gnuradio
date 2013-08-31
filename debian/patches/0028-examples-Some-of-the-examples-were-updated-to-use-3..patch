@@ -1,0 +1,122 @@
+From 370d1a34dc70db7fd150d55f1a59f26d6db23fa4 Mon Sep 17 00:00:00 2001
+From: Nathan West <nathan.west@okstate.edu>
+Date: Fri, 26 Jul 2013 09:52:28 -0400
+Subject: [PATCH 28/31] examples: Some of the examples were updated to use 3.7
+ API, but the new module namespaces were never
+ imported.
+
+---
+ gnuradio-runtime/examples/mp-sched/synthetic.py        |    4 ++--
+ gnuradio-runtime/examples/network/audio_sink.py        |    2 +-
+ gnuradio-runtime/examples/network/dial_tone_sink.py    |    2 +-
+ gnuradio-runtime/examples/network/dial_tone_source.py  |    1 -
+ gnuradio-runtime/examples/network/vector_sink.py       |    2 +-
+ gnuradio-runtime/examples/volk_benchmark/volk_types.py |   12 ++++++++++++
+ gr-digital/examples/example_timing.py                  |    2 +-
+ 7 files changed, 18 insertions(+), 7 deletions(-)
+
+diff --git a/gnuradio-runtime/examples/mp-sched/synthetic.py b/gnuradio-runtime/examples/mp-sched/synthetic.py
+index 6f0bb85..d815879 100755
+--- a/gnuradio-runtime/examples/mp-sched/synthetic.py
++++ b/gnuradio-runtime/examples/mp-sched/synthetic.py
+@@ -19,8 +19,8 @@
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ #
+ 
+-from gnuradio import gr, gru, eng_notation, blks2
+-from gnuradio import blocks
++from gnuradio import gr, eng_notation
++from gnuradio import blocks, filter
+ from gnuradio.eng_option import eng_option
+ from optparse import OptionParser
+ import os
+diff --git a/gnuradio-runtime/examples/network/audio_sink.py b/gnuradio-runtime/examples/network/audio_sink.py
+index 0e412de..de20abe 100755
+--- a/gnuradio-runtime/examples/network/audio_sink.py
++++ b/gnuradio-runtime/examples/network/audio_sink.py
+@@ -33,7 +33,7 @@ except ImportError:
+     sys.exit(1)
+ 
+ class audio_sink(gr.top_block):
+-    def __init__(self, host, port, pkt_size, sample_rate, eof, wait):
++    def __init__(self, host, port, pkt_size, sample_rate, eof):
+         gr.top_block.__init__(self, "audio_sink")
+         src = blocks.udp_source(gr.sizeof_float, host, port, pkt_size, eof=eof)
+         dst = audio.sink(sample_rate)
+diff --git a/gnuradio-runtime/examples/network/dial_tone_sink.py b/gnuradio-runtime/examples/network/dial_tone_sink.py
+index fee6ded..7139a13 100755
+--- a/gnuradio-runtime/examples/network/dial_tone_sink.py
++++ b/gnuradio-runtime/examples/network/dial_tone_sink.py
+@@ -28,7 +28,7 @@ from optparse import OptionParser
+ class dial_tone_sink(gr.top_block):
+     def __init__(self, host, port, pkt_size, sample_rate, eof):
+         gr.top_block.__init__(self, "dial_tone_sink")
+-        udp = blokcs.udp_source(gr.sizeof_float, host, port, pkt_size, eof=eof)
++        udp = blocks.udp_source(gr.sizeof_float, host, port, pkt_size, eof=eof)
+         sink = audio.sink(sample_rate)
+         self.connect(udp, sink)
+ 
+diff --git a/gnuradio-runtime/examples/network/dial_tone_source.py b/gnuradio-runtime/examples/network/dial_tone_source.py
+index 44f05dc..2606496 100755
+--- a/gnuradio-runtime/examples/network/dial_tone_source.py
++++ b/gnuradio-runtime/examples/network/dial_tone_source.py
+@@ -21,7 +21,6 @@
+ #
+ 
+ from gnuradio import gr
+-from gnuradio import blocks
+ from gnuradio.eng_option import eng_option
+ from optparse import OptionParser
+ import sys
+diff --git a/gnuradio-runtime/examples/network/vector_sink.py b/gnuradio-runtime/examples/network/vector_sink.py
+index c0397d1..c756f36 100755
+--- a/gnuradio-runtime/examples/network/vector_sink.py
++++ b/gnuradio-runtime/examples/network/vector_sink.py
+@@ -26,7 +26,7 @@ from gnuradio.eng_option import eng_option
+ from optparse import OptionParser
+ 
+ class vector_sink(gr.top_block):
+-    def __init__(self, host, port, pkt_size, eof, wait):
++    def __init__(self, host, port, pkt_size, eof):
+         gr.top_block.__init__(self, "vector_sink")
+ 
+         udp = blocks.udp_source(gr.sizeof_float, host, port, pkt_size, eof=eof)
+diff --git a/gnuradio-runtime/examples/volk_benchmark/volk_types.py b/gnuradio-runtime/examples/volk_benchmark/volk_types.py
+index e8db14a..ba4a4ff 100755
+--- a/gnuradio-runtime/examples/volk_benchmark/volk_types.py
++++ b/gnuradio-runtime/examples/volk_benchmark/volk_types.py
+@@ -42,6 +42,18 @@ def short_to_char(N):
+ 
+ ######################################################################
+ 
++def char_to_short(N):
++    op = blocks.char_to_short()
++    tb = helper(N, op, gr.sizeof_char, gr.sizeof_short, 1, 1)
++
+++######################################################################
++
++def char_to_float(N):
++    op = blocks.char_to_float()
++    tb = helper(N, op, gr.sizeof_char, gr.sizeof_float, 1, 1)
++
++#####################################################################
++
+ def int_to_float(N):
+     op = blocks.int_to_float()
+     tb = helper(N, op, gr.sizeof_int, gr.sizeof_float, 1, 1)
+diff --git a/gr-digital/examples/example_timing.py b/gr-digital/examples/example_timing.py
+index 73a05b0..8bd63e7 100755
+--- a/gr-digital/examples/example_timing.py
++++ b/gr-digital/examples/example_timing.py
+@@ -60,7 +60,7 @@ class example_timing(gr.top_block):
+         self.src = blocks.vector_source_c(data.tolist(), False)
+         self.rrc = filter.interp_fir_filter_ccf(sps, rrc_taps)
+         self.chn = channels.channel_model(noise, foffset, toffset)
+-        self.off = filter.fractional_interpolator_cc(0.20, 1.0)
++        self.off = filter.fractional_resampler_cc(0.20, 1.0)
+ 
+         if mode == 0:
+             self.clk = digital.pfb_clock_sync_ccf(sps, gain, rrc_taps_rx,
+-- 
+1.7.10.4
+

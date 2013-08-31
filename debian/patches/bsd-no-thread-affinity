@@ -1,11 +1,11 @@
---- a/gruel/src/lib/thread.cc
-+++ b/gruel/src/lib/thread.cc
-@@ -95,7 +95,7 @@
-   }
- } /* namespace gruel */
+--- a/gnuradio-runtime/lib/thread/thread.cc
++++ b/gnuradio-runtime/lib/thread/thread.cc
+@@ -115,7 +115,7 @@
+ } /* namespace gr */
+ 
  
 -#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
 +#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__) || defined(__FreeBSD_kernel__)
  
- namespace gruel {
- 
+ namespace gr {
+   namespace thread {

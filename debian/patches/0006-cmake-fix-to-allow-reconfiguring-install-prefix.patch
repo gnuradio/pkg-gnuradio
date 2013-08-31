@@ -1,0 +1,25 @@
+From ab2e96d23f3da68783ee4f98452bd2e8ee7bc55f Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <johnathan@corganlabs.com>
+Date: Tue, 9 Jul 2013 16:59:20 -0700
+Subject: [PATCH 06/31] cmake: fix to allow reconfiguring install prefix
+
+---
+ CMakeLists.txt |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cf82c9a..6dc6c88 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -125,7 +125,7 @@ string(COMPARE EQUAL ${CMAKE_INSTALL_PREFIX} "/usr" isusr)
+ if(isusr)
+   set(SYSCONFDIR          "/${GR_CONF_DIR}" CACHE PATH "System configuration directory")
+ else(isusr)
+-  set(SYSCONFDIR          "${CMAKE_INSTALL_PREFIX}/${GR_CONF_DIR}" CACHE PATH "System configuration directory")
++  set(SYSCONFDIR          "${CMAKE_INSTALL_PREFIX}/${GR_CONF_DIR}" CACHE PATH "System configuration directory" FORCE)
+ endif(isusr)
+ 
+ set(GR_PREFSDIR         ${SYSCONFDIR}/${CMAKE_PROJECT_NAME}/conf.d)
+-- 
+1.7.10.4
+

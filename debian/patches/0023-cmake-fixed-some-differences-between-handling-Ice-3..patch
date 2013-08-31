@@ -1,0 +1,33 @@
+From 3e9b5ef86167f012ac80da94ccb91925fc4c2424 Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Tue, 23 Jul 2013 12:22:18 -0400
+Subject: [PATCH 23/31] cmake: fixed some differences between handling Ice 3.4
+ and 3.5.
+
+---
+ cmake/Modules/FindICE.cmake |    3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/cmake/Modules/FindICE.cmake b/cmake/Modules/FindICE.cmake
+index 4f2aa94..86a812d 100644
+--- a/cmake/Modules/FindICE.cmake
++++ b/cmake/Modules/FindICE.cmake
+@@ -100,12 +100,15 @@ FIND_LIBRARY(
+   ENV LD_LIBRARY_PATH
+ )
+ 
++set(ICE_FOUND FALSE)
++
+ if(ICE_ICE OR ICE_ZEROCICE)
+   if(ICE_ICEUTIL)
+ 
+     list(APPEND ICE_LIBRARY
+       ${ICE_ICE}
+       ${ICE_ZEROCICE}
++      ${ICE_ICEUTIL}
+       )
+ 
+     FIND_PROGRAM(ICE_SLICE2CPP slice2cpp
+-- 
+1.7.10.4
+

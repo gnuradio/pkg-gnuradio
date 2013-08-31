@@ -1,0 +1,25 @@
+From 92a203565b3ac7f006a6ca8eaa405f106e619ec5 Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Sun, 28 Jul 2013 19:06:24 -0400
+Subject: [PATCH 29/31] docs: Fixes sphinx docs generating script to use any
+ current LD_LIBRARY_PATH already set by the user.
+
+---
+ docs/sphinx/run_sphinx_build.sh.in |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/sphinx/run_sphinx_build.sh.in b/docs/sphinx/run_sphinx_build.sh.in
+index bc89f2d..c968165 100644
+--- a/docs/sphinx/run_sphinx_build.sh.in
++++ b/docs/sphinx/run_sphinx_build.sh.in
+@@ -2,6 +2,6 @@
+ 
+ echo "Creating Sphinx documentation in: @CMAKE_CURRENT_BINARY_DIR@/sphinx_out"
+ 
+-LD_LIBRARY_PATH="@CMAKE_INSTALL_PREFIX@/lib"
++LD_LIBRARY_PATH="@CMAKE_INSTALL_PREFIX@/lib:$LD_LIBRARY_PATH"
+ @SPHINX_EXECUTABLE@ -b html -c @CMAKE_CURRENT_BINARY_DIR@/ @CMAKE_CURRENT_SOURCE_DIR@/source @CMAKE_CURRENT_BINARY_DIR@/sphinx_out
+ 
+-- 
+1.7.10.4
+

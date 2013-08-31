@@ -1,0 +1,25 @@
+From bc14dc822294eb9d562174eed2db888d88f6314d Mon Sep 17 00:00:00 2001
+From: Miklos Maroti <mmaroti@gmail.com>
+Date: Sat, 20 Jul 2013 10:43:38 -0700
+Subject: [PATCH 17/31] wxgui: Prevent a crash at displaying the tooltip when
+ the graph is not yet populated
+
+---
+ gr-wxgui/python/wxgui/plotter/channel_plotter.py |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gr-wxgui/python/wxgui/plotter/channel_plotter.py b/gr-wxgui/python/wxgui/plotter/channel_plotter.py
+index 1eac9f5..db174c7 100644
+--- a/gr-wxgui/python/wxgui/plotter/channel_plotter.py
++++ b/gr-wxgui/python/wxgui/plotter/channel_plotter.py
+@@ -156,6 +156,7 @@ class channel_plotter(grid_plotter_base):
+ 			x_index_high = int(math.ceil(x_index))
+ 			scale = x_index - x_index_low + self._channels[channel][TRIG_OFF_KEY]
+ 			y_value = (samples[x_index_high] - samples[x_index_low])*scale + samples[x_index_low]
++			if math.isnan(y_value): continue
+ 			label_str += '\n%s: %s'%(channel, common.eng_format(y_value, self.y_units))
+ 		return label_str
+ 
+-- 
+1.7.10.4
+

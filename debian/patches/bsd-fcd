@@ -3,25 +3,25 @@
 @@ -255,7 +255,7 @@
  }
  #endif // INVASIVE_GET_USAGE
-
+ 
 -
 +#ifndef __FreeBSD_kernel__
  /* Get the first language the device says it reports. This comes from
     USB string #0. */
  static uint16_t get_first_language(libusb_device_handle *dev)
 @@ -300,7 +300,7 @@
-
+ 
  	return 0;
  }
 -
 +#endif
-
+ 
  /* This function returns a newly allocated wide string containing the USB
     device string numbered by the index. The returned string must be freed
 @@ -320,6 +320,25 @@
  	char *inptr;
  	char *outptr;
-
+ 
 +#ifdef __FreeBSD_kernel__
 +        /* Get the string from libusb. */
 +        len = libusb_get_string_descriptor_ascii(dev,
@@ -47,7 +47,7 @@
 @@ -345,6 +364,8 @@
  	if (ic == (iconv_t)-1)
  		return NULL;
-
+ 
 +#endif
 +
  	/* Convert to UTF-32 (wchar_t on glibc systems).

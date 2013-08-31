@@ -1,0 +1,25 @@
+From 4158bd3c2885bf8400e33ae4595e16116cd92dba Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <johnathan@corganlabs.com>
+Date: Wed, 10 Jul 2013 07:40:48 -0700
+Subject: [PATCH 08/31] fec: fix uninitialized class member in decode_ccsds_27
+
+CID 1043258
+---
+ gr-fec/lib/decode_ccsds_27_fb_impl.cc |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gr-fec/lib/decode_ccsds_27_fb_impl.cc b/gr-fec/lib/decode_ccsds_27_fb_impl.cc
+index 51033a8..7c0f302 100644
+--- a/gr-fec/lib/decode_ccsds_27_fb_impl.cc
++++ b/gr-fec/lib/decode_ccsds_27_fb_impl.cc
+@@ -47,6 +47,7 @@ namespace gr {
+       
+       gen_met(d_mettab, 100, esn0, 0.0, 256);
+       viterbi_chunks_init(d_state0);
++      viterbi_chunks_init(d_state1);
+     }
+ 
+     int
+-- 
+1.7.10.4
+

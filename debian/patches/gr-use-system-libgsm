@@ -35,7 +35,7 @@
  # Setup the include and linker paths
  ########################################################################
  include_directories(
-@@ -73,13 +101,18 @@
+@@ -79,13 +107,18 @@
  ########################################################################
  GR_INCLUDE_SUBDIRECTORY(codec2)
  GR_INCLUDE_SUBDIRECTORY(g7xx)
@@ -45,7 +45,7 @@
 +endif(NOT GR_USE_SYSTEM_LIBGSM)
  
  list(APPEND vocoder_libs
-     gnuradio-core
+     gnuradio-runtime
      ${Boost_LIBRARIES}
      ${LOG4CPP_LIBRARIES}
  )

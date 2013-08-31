@@ -1,24 +1,18 @@
 #!/usr/bin/make -f
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 export DEB_HOST_MULTIARCH
-#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
-export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 %:
 	dh $@ --parallel --builddirectory=build --with-buildsystem=cmake --with python2
 
-override_dh_python2:
-	dh_python2 --no-guessing-versions
+#override_dh_python2:
+#	dh_python2 --no-guessing-versions
 
 override_dh_auto_configure:
-	dpkg-buildflags --export=make
-	CFLAGS = \" $(CFLAGS) $(CPPFLAGS) \" ;\
-	 CXXFLAGS = \" $(CXXFLAGS) $(CPPFLAGS) \" ;\
-	 dh_auto_configure -- -DLIB_SUFFIX="/$(DEB_HOST_MULTIARCH)"
+	dh_auto_configure -- -DLIB_SUFFIX="/$(DEB_HOST_MULTIARCH)" -DPythonLibs_FIND_VERSION:STRING="2.7" -DPythonInterp_FIND_VERSION:STRING="2.7"
 
 override_dh_auto_test:
-	- dh_auto_test
+	- dh_auto_test -- -DCTEST_TEST_TIMEOUT=60
 
 override_dh_auto_install:
 	dh_auto_install

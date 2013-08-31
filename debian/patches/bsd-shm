@@ -1,11 +1,11 @@
---- a/gnuradio-core/src/lib/CMakeLists.txt
-+++ b/gnuradio-core/src/lib/CMakeLists.txt
-@@ -96,7 +96,7 @@
- endif()
+--- a/gnuradio-runtime/lib/CMakeLists.txt
++++ b/gnuradio-runtime/lib/CMakeLists.txt
+@@ -144,7 +144,7 @@
+ ENDIF(HAVE_WINDOWS_H)
  
  #need to link with librt on ubuntu 11.10 for shm_*
 -if(LINUX)
 +if((LINUX) OR (CMAKE_SYSTEM_NAME STREQUAL "kFreeBSD"))
-     list(APPEND gnuradio_core_libs rt)
+     list(APPEND gnuradio_runtime_libs rt)
  endif()
  

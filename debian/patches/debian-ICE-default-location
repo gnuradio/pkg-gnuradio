@@ -1,0 +1,52 @@
+--- a/cmake/Modules/FindICE-3.5.cmake
++++ b/cmake/Modules/FindICE-3.5.cmake
+@@ -37,7 +37,6 @@
+ FIND_PATH(
+   ICE_INCLUDE_DIR 
+   NAMES IceUtil/IceUtil.h Ice/Ice.h
+-  NO_DEFAULT_PATH
+   HINTS ${ICE_PATH}/include
+ )
+ 
+@@ -45,41 +44,27 @@
+ 
+ FIND_LIBRARY(
+   ICE_ICESTORM IceStorm 
+-  NO_DEFAULT_PATH
+-  HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ 
+ FIND_LIBRARY(
+   ICE_ICESTORM IceStorm
+-  NO_DEFAULT_PATH
+-  HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ FIND_LIBRARY(
+   ICE_ICE Ice
+-  NO_DEFAULT_PATH
+-  HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ FIND_LIBRARY(
+   ICE_ICEGRID IceGrid
+-  NO_DEFAULT_PATH
+-  HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ FIND_LIBRARY(
+   ICE_ICEUTIL IceUtil
+-  NO_DEFAULT_PATH
+-  HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ FIND_LIBRARY(
+   ICE_GLACIER2 Glacier2
+-  NO_DEFAULT_PATH
+-  HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ 
+ if(APPLE)
+   FIND_LIBRARY(
+     ICE_ZEROCICE ZeroCIce
+-    NO_DEFAULT_PATH
+-    HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+     )
+ endif(APPLE)
+ 
