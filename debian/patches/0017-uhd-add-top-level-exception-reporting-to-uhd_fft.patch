@@ -1,0 +1,32 @@
+From 0250fbd72b724eb1aa485fd25bc0f0c74f7946c3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jaroslav=20=C5=A0karvada?= <jskarvad@redhat.com>
+Date: Sat, 7 Sep 2013 21:27:59 -0300
+Subject: [PATCH 17/40] uhd: add top-level exception reporting to uhd_fft
+
+---
+ gr-uhd/apps/uhd_fft |    9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
+index c1ccc33..41da61a 100755
+--- a/gr-uhd/apps/uhd_fft
++++ b/gr-uhd/apps/uhd_fft
+@@ -336,8 +336,13 @@ class app_top_block(stdgui2.std_top_block):
+ 
+ 
+ def main ():
+-    app = stdgui2.stdapp(app_top_block, "UHD FFT", nstatus=1)
+-    app.MainLoop()
++    try:
++        app = stdgui2.stdapp(app_top_block, "UHD FFT", nstatus=1)
++        app.MainLoop()
++
++    except RuntimeError, e:
++        print e
++        sys.exit(1)
+ 
+ if __name__ == '__main__':
+     main ()
+-- 
+1.7.10.4
+

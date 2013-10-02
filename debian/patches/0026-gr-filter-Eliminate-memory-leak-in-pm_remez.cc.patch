@@ -1,0 +1,52 @@
+From 6734aba90052c26e71e198e717009f210320ed89 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Mon, 23 Sep 2013 10:30:34 -0400
+Subject: [PATCH 26/40] gr-filter : Eliminate memory leak in pm_remez.cc
+
+Addresses Coverity issue 1046179.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-filter/lib/pm_remez.cc |   12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/gr-filter/lib/pm_remez.cc b/gr-filter/lib/pm_remez.cc
+index 24891f1..5598343 100644
+--- a/gr-filter/lib/pm_remez.cc
++++ b/gr-filter/lib/pm_remez.cc
+@@ -376,8 +376,10 @@ namespace gr {
+ 	if(((E[i] >= E[i-1]) && (E[i] > E[i+1]) && (E[i] > 0.0)) ||
+ 	   ((E[i] <= E[i-1]) && (E[i] < E[i+1]) && (E[i] < 0.0))) {
+ 	  // PAK: we sometimes get too many extremal frequencies
+-	  if(k >= 2*r)
++	  if(k >= 2*r) {
++            free(foundExt);
+ 	    return -3;
++          }
+ 	  foundExt[k++] = i;
+ 	}
+       }
+@@ -388,14 +390,18 @@ namespace gr {
+       j = gridsize-1;
+       if(((E[j] > 0.0) && (E[j] > E[j-1])) ||
+ 	 ((E[j] < 0.0) && (E[j] < E[j-1]))) {
+-	if(k >= 2*r)
++	if(k >= 2*r) {
++          free(foundExt);
+ 	  return -3;
++        }
+ 	foundExt[k++] = j;
+       }
+       
+       // PAK: we sometimes get not enough extremal frequencies
+-      if(k < r+1)
++      if(k < r+1) {
++        free(foundExt);
+ 	return -2;
++      }
+       
+       /*
+        * Remove extra extremals
+-- 
+1.7.10.4
+

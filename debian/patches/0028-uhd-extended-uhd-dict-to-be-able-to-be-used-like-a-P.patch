@@ -1,0 +1,108 @@
+From b2849ead37ee2dd0f3e0a210d86e059cd48e16e3 Mon Sep 17 00:00:00 2001
+From: Nicholas Corgan <nick.corgan@ettus.com>
+Date: Mon, 23 Sep 2013 10:07:38 -0700
+Subject: [PATCH 28/40] uhd: extended uhd::dict to be able to be used like a
+ Python dictionary
+
+* Both dict["key"] and dict.get("key") syntax work
+* Updated uhd_fft, uhd_rx_cfile, and uhd_siggen_base.py to use new syntax
+---
+ gr-uhd/apps/uhd_fft            |    8 ++++----
+ gr-uhd/apps/uhd_rx_cfile       |   16 ++++++++--------
+ gr-uhd/apps/uhd_siggen_base.py |    8 ++++----
+ gr-uhd/swig/uhd_swig.i         |    5 +++++
+ 4 files changed, 21 insertions(+), 16 deletions(-)
+
+diff --git a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
+index 41da61a..9edd752 100755
+--- a/gr-uhd/apps/uhd_fft
++++ b/gr-uhd/apps/uhd_fft
+@@ -200,12 +200,12 @@ class app_top_block(stdgui2.std_top_block):
+                                                callback=self.set_gain)
+ 
+         try:
+-            mboard_id = self.u.get_usrp_info().get("mboard_id")
+-            mboard_serial = self.u.get_usrp_info().get("mboard_serial")
++            mboard_id = self.u.get_usrp_info()["mboard_id"]
++            mboard_serial = self.u.get_usrp_info()["mboard_serial"]
+             if mboard_serial == "":
+                 mboard_serial = "no serial"
+-            dboard_subdev_name = self.u.get_usrp_info().get("rx_subdev_name")
+-            dboard_serial = self.u.get_usrp_info().get("rx_serial")
++            dboard_subdev_name = self.u.get_usrp_info()["rx_subdev_name"]
++            dboard_serial = self.u.get_usrp_info()["rx_serial"]
+             if dboard_serial == "":
+                 dboard_serial = "no serial"
+             subdev = self.u.get_subdev_spec()
+diff --git a/gr-uhd/apps/uhd_rx_cfile b/gr-uhd/apps/uhd_rx_cfile
+index 9f5ef19..d727d87 100755
+--- a/gr-uhd/apps/uhd_rx_cfile
++++ b/gr-uhd/apps/uhd_rx_cfile
+@@ -95,19 +95,19 @@ class rx_cfile_block(gr.top_block):
+             try:
+                 info = self._u.get_usrp_info()
+ 
+-                mboard_id = info.get("mboard_id").split(" ")[0]
+-                if info.get("mboard_serial") == "":
++                mboard_id = info["mboard_id"].split(" ")[0]
++                if info["mboard_serial"] == "":
+                     mboard_serial = "no serial"
+                 else:
+-                    mboard_serial = info.get("mboard_serial")
++                    mboard_serial = info["mboard_serial"]
+                 
+-                rx_id = info.get("rx_id").split(" ")[0]
+-                if info.get("rx_serial") == "":
++                rx_id = info["rx_id"].split(" ")[0]
++                if info["rx_serial"] == "":
+                     rx_serial = "no serial"
+                 else:
+-                    rx_serial = info.get("rx_serial")
+-                rx_antenna = info.get("rx_antenna")
+-                rx_subdev_spec = info.get("rx_subdev_spec")
++                    rx_serial = info["rx_serial"]
++                rx_antenna = info["rx_antenna"]
++                rx_subdev_spec = info["rx_subdev_spec"]
+ 
+                 print "Motherboard: %s (%s)" % (mboard_id, mboard_serial)
+                 if "B200" in mboard_id or "B210" in mboard_id:
+diff --git a/gr-uhd/apps/uhd_siggen_base.py b/gr-uhd/apps/uhd_siggen_base.py
+index 84dff1f..0245c00 100644
+--- a/gr-uhd/apps/uhd_siggen_base.py
++++ b/gr-uhd/apps/uhd_siggen_base.py
+@@ -112,12 +112,12 @@ class top_block(gr.top_block, pubsub):
+         # Setup USRP Configuration value
+         try:
+             usrp_info = self._u.get_usrp_info()
+-            mboard_id = usrp_info.get("mboard_id")
+-            mboard_serial = usrp_info.get("mboard_serial")
++            mboard_id = usrp_info["mboard_id"]
++            mboard_serial = usrp_info["mboard_serial"]
+             if mboard_serial == "":
+                 mboard_serial = "no serial"
+-            dboard_subdev_name = usrp_info.get("tx_subdev_name")
+-            dboard_serial = usrp_info.get("tx_serial")
++            dboard_subdev_name = usrp_info["tx_subdev_name"]
++            dboard_serial = usrp_info["tx_serial"]
+             if dboard_serial == "":
+                 dboard_serial = "no serial"
+             subdev = self._u.get_subdev_spec()
+diff --git a/gr-uhd/swig/uhd_swig.i b/gr-uhd/swig/uhd_swig.i
+index de5b8c2..c98416f 100644
+--- a/gr-uhd/swig/uhd_swig.i
++++ b/gr-uhd/swig/uhd_swig.i
+@@ -64,6 +64,11 @@
+ %include <uhd/types/dict.hpp>
+ %template(string_string_dict_t) uhd::dict<std::string, std::string>; //define after dict
+ 
++%extend uhd::dict<std::string, std::string>{
++    std::string __getitem__(std::string key) {return (*self)[key];}
++    void __setitem__(std::string key, std::string val) {(*self)[key] = val;}
++};
++
+ %include <uhd/types/device_addr.hpp>
+ 
+ %include <uhd/types/io_type.hpp>
+-- 
+1.7.10.4
+

@@ -1,0 +1,26 @@
+From 08ea1feffdd64cc492c68adcd7dab89166481dba Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Fri, 6 Sep 2013 11:58:31 -0400
+Subject: [PATCH 13/40] runtime: exporing high_res_timer functions into Python
+ (can be replaced by native Python calls with Python
+ 3.3).
+
+---
+ gnuradio-runtime/swig/gnuradio.i |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/gnuradio-runtime/swig/gnuradio.i b/gnuradio-runtime/swig/gnuradio.i
+index 0789d1a..c756ce9 100644
+--- a/gnuradio-runtime/swig/gnuradio.i
++++ b/gnuradio-runtime/swig/gnuradio.i
+@@ -72,5 +72,7 @@
+ #include <gnuradio/block_gateway.h>
+ #include <gnuradio/feval.h>
+ #include <gnuradio/py_feval.h>
++#include <gnuradio/high_res_timer.h>
+ %}
+ 
++%include <gnuradio/high_res_timer.h>
+-- 
+1.7.10.4
+

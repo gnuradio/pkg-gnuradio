@@ -1,0 +1,267 @@
+From 224f28e87fdc02f9a41d63c9c87cd456ceb04449 Mon Sep 17 00:00:00 2001
+From: Tim O'Shea <tim.oshea753@gmail.com>
+Date: Thu, 5 Sep 2013 00:12:27 -0400
+Subject: [PATCH 08/40] new volk inverse square root kernel and agc3 speedups
+
+---
+ gr-analog/grc/analog_agc3_xx.xml            |    8 ++-
+ gr-analog/include/gnuradio/analog/agc3_cc.h |    4 +-
+ gr-analog/lib/agc3_cc_impl.cc               |   53 ++++++++++++------
+ gr-analog/lib/agc3_cc_impl.h                |    3 +-
+ volk/kernels/volk/volk_32f_invsqrt_32f.h    |   77 +++++++++++++++++++++++++++
+ 5 files changed, 126 insertions(+), 19 deletions(-)
+ create mode 100644 volk/kernels/volk/volk_32f_invsqrt_32f.h
+
+diff --git a/gr-analog/grc/analog_agc3_xx.xml b/gr-analog/grc/analog_agc3_xx.xml
+index 5ad4d78..1e6b9fd 100644
+--- a/gr-analog/grc/analog_agc3_xx.xml
++++ b/gr-analog/grc/analog_agc3_xx.xml
+@@ -8,7 +8,7 @@
+ 	<name>AGC3</name>
+ 	<key>analog_agc3_xx</key>
+ 	<import>from gnuradio import analog</import>
+-	<make>analog.agc3_$(type.fcn)($attack_rate, $decay_rate, $reference, $gain)
++	<make>analog.agc3_$(type.fcn)($attack_rate, $decay_rate, $reference, $gain, $iir_update_decim)
+ self.$(id).set_max_gain($max_gain)</make>
+ 	<callback>set_attack_rate($attack_rate)</callback>
+ 	<callback>set_decay_rate($decay_rate)</callback>
+@@ -60,6 +60,12 @@ self.$(id).set_max_gain($max_gain)</make>
+ 		<value>65536</value>
+ 		<type>real</type>
+ 	</param>
++	<param>
++		<name>IIR Update Decimation</name>
++		<key>iir_update_decim</key>
++		<value>1</value>
++		<type>real</type>
++	</param>
+ 	<sink>
+ 		<name>in</name>
+ 		<type>$type</type>
+diff --git a/gr-analog/include/gnuradio/analog/agc3_cc.h b/gr-analog/include/gnuradio/analog/agc3_cc.h
+index 9cd6e60..eb542ea 100644
+--- a/gr-analog/include/gnuradio/analog/agc3_cc.h
++++ b/gr-analog/include/gnuradio/analog/agc3_cc.h
+@@ -54,9 +54,11 @@ namespace gr {
+        * \param decay_rate the update rate of the loop when in decay mode.
+        * \param reference reference value to adjust signal power to.
+        * \param gain initial gain value.
++       * \param iir_update_decim stride by this number of samples before 
++       *                         computing an IIR gain update
+        */
+       static sptr make(float attack_rate = 1e-1, float decay_rate = 1e-2,
+-                       float reference = 1.0, float gain = 1.0);
++                       float reference = 1.0, float gain = 1.0, int iir_update_decim=1);
+ 
+       virtual float attack_rate() const = 0;
+       virtual float decay_rate() const = 0;
+diff --git a/gr-analog/lib/agc3_cc_impl.cc b/gr-analog/lib/agc3_cc_impl.cc
+index b8f1104..d9fb846 100644
+--- a/gr-analog/lib/agc3_cc_impl.cc
++++ b/gr-analog/lib/agc3_cc_impl.cc
+@@ -35,22 +35,23 @@ namespace gr {
+ 
+     agc3_cc::sptr
+     agc3_cc::make(float attack_rate, float decay_rate,
+-                  float reference, float gain)
++                  float reference, float gain, int iir_update_decim)
+     {
+       return gnuradio::get_initial_sptr
+         (new agc3_cc_impl(attack_rate, decay_rate,
+-                          reference, gain));
++                          reference, gain, iir_update_decim));
+     }
+ 
+     agc3_cc_impl::agc3_cc_impl(float attack_rate, float decay_rate,
+-                               float reference, float gain)
++                               float reference, float gain, int iir_update_decim)
+     : sync_block("agc3_cc",
+                  io_signature::make(1, 1, sizeof(gr_complex)),
+                  io_signature::make(1, 1, sizeof(gr_complex))),
+       d_attack(attack_rate), d_decay(decay_rate),
+       d_reference(reference), d_gain(gain), d_max_gain(65536),
+-      d_reset(true)
++      d_reset(true), d_iir_update_decim(iir_update_decim)
+     {
++      set_output_multiple(iir_update_decim*4);
+       const int alignment_multiple =
+ 	volk_get_alignment() / sizeof(gr_complex);
+       set_alignment(std::max(1, alignment_multiple));
+@@ -60,6 +61,7 @@ namespace gr {
+     {
+     }
+ 
++
+     int
+     agc3_cc_impl::work(int noutput_items,
+ 		       gr_vector_const_void_star &input_items,
+@@ -67,17 +69,17 @@ namespace gr {
+     {
+       const gr_complex *in = (const gr_complex*)input_items[0];
+       gr_complex *out = (gr_complex*)output_items[0];
+-      // Compute magnitude of each sample
++
+ #ifdef __GNUC__
++    // Compute a linear average on reset (no expected)  
++    if(__builtin_expect(d_reset, false)) {
+       float mags[noutput_items]  __attribute__ ((aligned (16)));
+       volk_32fc_magnitude_32f(mags, &in[0], noutput_items);
+-      // Compute a linear average on reset (no expected)  
+-      if(__builtin_expect(d_reset, false)) {
+ #else   
+-	std::vector<float> mags(noutput_items);
+-	volk_32fc_magnitude_32f(&mags[0], &in[0], noutput_items);
+-	// Compute a linear average on reset (no expected)  
++    // Compute a linear average on reset (no expected)  
+ 	if(!d_reset) {
++	  std::vector<float> mags(noutput_items);
++      volk_32fc_magnitude_32f(&mags[0], &in[0], noutput_items);
+ #endif
+         float mag(0.0);
+         for(int i=0; i<noutput_items; i++) {
+@@ -100,13 +102,32 @@ namespace gr {
+       }
+       else {
+         // Otherwise perform a normal iir update
+-        for(int i=0; i<noutput_items; i++) {
+-          float newlevel = mags[i]; // abs(in[i]);
+-          float rate = (newlevel > d_reference/d_gain)?d_attack:d_decay;
+-          d_gain = newlevel==0?(d_gain*(1-rate)):(d_gain*(1-rate)) + (d_reference/newlevel)*rate;
+-          out[i] = in[i] * d_gain;
++        float mag_sq[noutput_items/d_iir_update_decim] __attribute__ ((aligned (16)));
++        float inv_mag[noutput_items/d_iir_update_decim] __attribute__ ((aligned (16)));
++
++        // generate squared magnitudes at decimated rate (gather operation)
++        for(int i=0; i<noutput_items/d_iir_update_decim; i++){
++            int idx = i*d_iir_update_decim;
++            mag_sq[i] = in[idx].real()*in[idx].real() + in[idx].imag()*in[idx].imag();
+         }
+-      } 
++
++        // compute inverse square roots 
++        volk_32f_invsqrt_32f_a(inv_mag, mag_sq, noutput_items/d_iir_update_decim);
++
++        // apply updates
++        for(int i=0; i<noutput_items/d_iir_update_decim; i++){
++            float magi = inv_mag[i];
++            if(std::isfinite(magi)){
++                float rate = (magi > d_gain/d_reference)?d_decay:d_attack;
++                d_gain = d_gain*(1-rate) + d_reference*magi*rate;
++            } else {
++                d_gain = d_gain*(1-d_decay);
++            }
++            for(int j=i*d_iir_update_decim; j<(i+1)*d_iir_update_decim; j++){
++                out[j] = in[j] * d_gain;
++            }
++        }
++      }
+       return noutput_items;
+     }
+ 
+diff --git a/gr-analog/lib/agc3_cc_impl.h b/gr-analog/lib/agc3_cc_impl.h
+index 77cc197..a239370 100644
+--- a/gr-analog/lib/agc3_cc_impl.h
++++ b/gr-analog/lib/agc3_cc_impl.h
+@@ -32,7 +32,7 @@ namespace gr {
+     {
+     public:
+       agc3_cc_impl(float attack_rate = 1e-1, float decay_rate = 1e-2,
+-                   float reference = 1.0, float gain = 1.0);
++                   float reference = 1.0, float gain = 1.0, int iir_update_decim=1);
+       ~agc3_cc_impl();
+ 
+       float attack_rate() const { return d_attack; }
+@@ -58,6 +58,7 @@ namespace gr {
+       float d_gain;
+       float d_max_gain;
+       bool d_reset;
++      int d_iir_update_decim;
+     };
+ 
+   } /* namespace analog */
+diff --git a/volk/kernels/volk/volk_32f_invsqrt_32f.h b/volk/kernels/volk/volk_32f_invsqrt_32f.h
+new file mode 100644
+index 0000000..17dfe3b
+--- /dev/null
++++ b/volk/kernels/volk/volk_32f_invsqrt_32f.h
+@@ -0,0 +1,77 @@
++#ifndef INCLUDED_volk_32f_invsqrt_32f_a_H
++#define INCLUDED_volk_32f_invsqrt_32f_a_H
++
++#include <inttypes.h>
++#include <stdio.h>
++#include <math.h>
++
++static inline float Q_rsqrt( float number )
++{
++        long i;
++        float x2, y;
++        const float threehalfs = 1.5F;
++ 
++        x2 = number * 0.5F;
++        y  = number;
++        i  = * ( long * ) &y;                       // evil floating point bit level hacking
++        i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
++        y  = * ( float * ) &i;
++        y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
++//      y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
++ 
++        return y;
++}
++
++#ifdef LV_HAVE_SSE
++#include <xmmintrin.h>
++/*!
++  \brief Sqrts the two input vectors and store their results in the third vector
++  \param cVector The vector where the results will be stored
++  \param aVector One of the vectors to be invsqrted
++  \param num_points The number of values in aVector and bVector to be invsqrted together and stored into cVector
++*/
++static inline void volk_32f_invsqrt_32f_a_sse(float* cVector, const float* aVector, unsigned int num_points){
++    unsigned int number = 0;
++    const unsigned int quarterPoints = num_points / 4;
++
++    float* cPtr = cVector;
++    const float* aPtr = aVector;
++
++    __m128 aVal, cVal;
++    for(;number < quarterPoints; number++){
++
++      aVal = _mm_load_ps(aPtr);
++
++      cVal = _mm_rsqrt_ps(aVal);
++
++      _mm_store_ps(cPtr,cVal); // Store the results back into the C container
++
++      aPtr += 4;
++      cPtr += 4;
++    }
++
++    number = quarterPoints * 4;
++    for(;number < num_points; number++){
++      *cPtr++ = Q_rsqrt(*aPtr++);
++    }
++}
++#endif /* LV_HAVE_SSE */
++
++#ifdef LV_HAVE_GENERIC
++/*!
++  \brief Sqrts the two input vectors and store their results in the third vector
++  \param cVector The vector where the results will be stored
++  \param aVector One of the vectors to be invsqrted
++  \param num_points The number of values in aVector and bVector to be invsqrted together and stored into cVector
++*/
++static inline void volk_32f_invsqrt_32f_generic(float* cVector, const float* aVector, unsigned int num_points){
++    float* cPtr = cVector;
++    const float* aPtr = aVector;
++    unsigned int number = 0;
++    for(number = 0; number < num_points; number++){
++        *cPtr++ = Q_rsqrt(*aPtr++);
++    }
++}
++#endif /* LV_HAVE_GENERIC */
++
++#endif /* INCLUDED_volk_32f_invsqrt_32f_a_H */
+-- 
+1.7.10.4
+

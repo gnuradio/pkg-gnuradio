@@ -1,0 +1,58 @@
+--- a/gr-vocoder/lib/CMakeLists.txt
++++ b/gr-vocoder/lib/CMakeLists.txt
+@@ -18,6 +18,33 @@
+ # Boston, MA 02110-1301, USA.
+ 
+ ########################################################################
++# Check for system libsndfile....
++########################################################################
++if(NOT GR_USE_SYSTEM_LIBSNDFILE)
++  find_path(LIBSNDFILE_INCLUDE_DIR NAMES sndfile.h
++    PATHS
++    ${LIBSNDFILE_PKG_INCLUDE_DIRS}
++    /usr/include
++  )
++
++  find_library(LIBSNDFILE_LIBRARIES NAMES sndfile
++    PATHS
++    ${LIBSNDFILE_PKG_LIBRARY_DIRS}
++    /usr/lib
++  )
++
++if(LIBSNDFILE_INCLUDE_DIR AND LIBSNDFILE_LIBRARIES)
++  set(GR_USE_SYSTEM_LIBSNDFILE TRUE CACHE INTERNAL "system libsndfile found")
++  message(STATUS "Found libsndfile: ${LIBSNDFILE_INCLUDE_DIR}, ${LIBSNDFILE_LIBRARIES}")
++else(LIBSNDFILE_INCLUDE_DIR AND LIBSNDFILE_LIBRARIES)
++  set(GR_USE_SYSTEM_LIBSNDFILE FALSE CACHE INTERNAL "system libsndfile found")
++  message(STATUS "system libsndfile not found.")
++endif(LIBSNDFILE_INCLUDE_DIR AND LIBSNDFILE_LIBRARIES)
++
++mark_as_advanced(LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_LIBRARIES)
++endif(NOT GR_USE_SYSTEM_LIBSNDFILE)
++
++########################################################################
+ # Check for system libgsm....
+ ########################################################################
+ if(NOT GR_USE_SYSTEM_LIBGSM)
+@@ -106,7 +133,10 @@
+ # Include subdirs rather to populate to the sources lists.
+ ########################################################################
+ GR_INCLUDE_SUBDIRECTORY(codec2)
+-GR_INCLUDE_SUBDIRECTORY(g7xx)
++# TODO - let sndfile replace use of code in g7xx directory
++#if(NOT GR_USE_SYSTEM_LIBSNDFILE)
++ GR_INCLUDE_SUBDIRECTORY(g7xx)
++#endif(NOT GR_USE_SYSTEM_LIBSNDFILE)
+ if(NOT GR_USE_SYSTEM_LIBGSM)
+  GR_INCLUDE_SUBDIRECTORY(gsm)
+ endif(NOT GR_USE_SYSTEM_LIBGSM)
+@@ -116,6 +146,9 @@
+     ${Boost_LIBRARIES}
+     ${LOG4CPP_LIBRARIES}
+ )
++if(GR_USE_SYSTEM_LIBSNDFILE)
++  list(APPEND vocoder_libs ${LIBSNDFILE_LIBRARIES})
++endif(GR_USE_SYSTEM_LIBSNDFILE)
+ if(GR_USE_SYSTEM_LIBGSM)
+   list(APPEND vocoder_libs ${LIBGSM_LIBRARIES})
+ endif(GR_USE_SYSTEM_LIBGSM)

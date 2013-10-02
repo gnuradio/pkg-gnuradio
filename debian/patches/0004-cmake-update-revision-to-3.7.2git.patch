@@ -1,0 +1,27 @@
+From d19aa281291a4cb45b3c30cdaafcea9eee5d1887 Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <johnathan@corganlabs.com>
+Date: Thu, 29 Aug 2013 10:16:23 -0700
+Subject: [PATCH 04/40] cmake: update revision to 3.7.2git
+
+---
+ CMakeLists.txt |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cf96d3e..ec2bec2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -41,8 +41,8 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
+ # Set the version information here
+ set(VERSION_INFO_MAJOR_VERSION 3)
+ set(VERSION_INFO_API_COMPAT    7)
+-set(VERSION_INFO_MINOR_VERSION 1)
+-set(VERSION_INFO_MAINT_VERSION 0)
++set(VERSION_INFO_MINOR_VERSION 2)
++set(VERSION_INFO_MAINT_VERSION git)
+ include(GrVersion) #setup version info
+ 
+ # Append -O2 optimization flag for Debug builds
+-- 
+1.7.10.4
+

@@ -1,0 +1,238 @@
+From d12a1df95b32ef395780de75b39589747dd4d010 Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Wed, 25 Sep 2013 15:55:06 -0400
+Subject: [PATCH 37/40] filter: Fixing the Hilbert transform and QA.
+
+The hilbert_fc block now takes the type of window as a parameter. Defaults to Hamming to a) maximize sidelobe suppression and b) that's how it's always behaved.
+
+The QA codes were fixed to create Hilbert transform taps using Hamming window to account for the previous commits change to the rectangular window.
+---
+ gr-filter/grc/filter_hilbert_fc.xml            |   74 ++++++++++++++++++------
+ gr-filter/include/gnuradio/filter/hilbert_fc.h |    9 ++-
+ gr-filter/lib/hilbert_fc_impl.cc               |   24 +++++---
+ gr-filter/lib/hilbert_fc_impl.h                |    6 +-
+ gr-filter/python/filter/qa_filter_delay_fc.py  |    6 +-
+ gr-filter/python/filter/qa_firdes.py           |    2 +-
+ 6 files changed, 87 insertions(+), 34 deletions(-)
+
+diff --git a/gr-filter/grc/filter_hilbert_fc.xml b/gr-filter/grc/filter_hilbert_fc.xml
+index dd4c94b..ddb7c33 100644
+--- a/gr-filter/grc/filter_hilbert_fc.xml
++++ b/gr-filter/grc/filter_hilbert_fc.xml
+@@ -5,22 +5,60 @@
+ ###################################################
+  -->
+ <block>
+-	<name>Hilbert</name>
+-	<key>hilbert_fc</key>
+-	<import>from gnuradio import filter</import>
+-	<make>filter.hilbert_fc($num_taps)</make>
+-	<param>
+-		<name>Num Taps</name>
+-		<key>num_taps</key>
+-		<value>64</value>
+-		<type>int</type>
+-	</param>
+-	<sink>
+-		<name>in</name>
+-		<type>float</type>
+-	</sink>
+-	<source>
+-		<name>out</name>
+-		<type>complex</type>
+-	</source>
++  <name>Hilbert</name>
++  <key>hilbert_fc</key>
++  <import>from gnuradio import filter</import>
++  <make>filter.hilbert_fc($num_taps, $win, $beta)</make>
++  <param>
++    <name>Num Taps</name>
++    <key>num_taps</key>
++    <value>65</value>
++    <type>int</type>
++  </param>
++  <param>
++    <name>Window</name>
++    <key>win</key>
++    <value>firdes.WIN_HAMMING</value>
++    <type>int</type>
++    <hide>part</hide>
++    <option>
++      <name>Hamming</name>
++      <key>firdes.WIN_HAMMING</key>
++    </option>
++    <option>
++      <name>Hann</name>
++      <key>firdes.WIN_HANN</key>
++    </option>
++    <option>
++      <name>Blackman</name>
++      <key>firdes.WIN_BLACKMAN</key>
++    </option>
++    <option>
++      <name>Blackman-harris</name>
++      <key>firdes.WIN_BLACKMAN_hARRIS</key>
++    </option>
++    <option>
++      <name>Rectangular</name>
++      <key>firdes.WIN_RECTANGULAR</key>
++    </option>
++    <option>
++      <name>Kaiser</name>
++      <key>firdes.WIN_KAISER</key>
++    </option>
++  </param>
++  <param>
++    <name>Beta</name>
++    <key>beta</key>
++    <value>6.76</value>
++    <type>real</type>
++    <hide>part</hide>
++  </param>
++  <sink>
++    <name>in</name>
++    <type>float</type>
++  </sink>
++  <source>
++    <name>out</name>
++    <type>complex</type>
++  </source>
+ </block>
+diff --git a/gr-filter/include/gnuradio/filter/hilbert_fc.h b/gr-filter/include/gnuradio/filter/hilbert_fc.h
+index 006dd60..3999e1a 100644
+--- a/gr-filter/include/gnuradio/filter/hilbert_fc.h
++++ b/gr-filter/include/gnuradio/filter/hilbert_fc.h
+@@ -24,6 +24,7 @@
+ #define INCLUDED_FILTER_HILBERT_FC_H
+ 
+ #include <gnuradio/filter/api.h>
++#include <gnuradio/filter/firdes.h>
+ #include <gnuradio/sync_block.h>
+ #include <gnuradio/types.h>
+ 
+@@ -47,8 +48,14 @@ namespace gr {
+ 
+       /*!
+        * Build a Hilbert transformer filter block.
++       *
++       * \param ntaps The number of taps for the filter.
++       * \param window Window type (see firdes::win_type) to use.
++       * \param beta Beta value for a Kaiser window.
+        */
+-      static sptr make(unsigned int ntaps);
++      static sptr make(unsigned int ntaps,
++                       firdes::win_type window=firdes::WIN_HAMMING,
++                       double beta=6.76);
+     };
+ 
+   } /* namespace filter */
+diff --git a/gr-filter/lib/hilbert_fc_impl.cc b/gr-filter/lib/hilbert_fc_impl.cc
+index 29778a9..5a066ac 100644
+--- a/gr-filter/lib/hilbert_fc_impl.cc
++++ b/gr-filter/lib/hilbert_fc_impl.cc
+@@ -25,26 +25,32 @@
+ #endif
+ 
+ #include "hilbert_fc_impl.h"
+-#include <gnuradio/filter/firdes.h>
+ #include <gnuradio/io_signature.h>
+ #include <volk/volk.h>
+ 
+ namespace gr {
+   namespace filter {
+     
+-    hilbert_fc::sptr hilbert_fc::make(unsigned int ntaps)
++    hilbert_fc::sptr
++    hilbert_fc::make(unsigned int ntaps,
++                     firdes::win_type window,
++                     double beta)
+     {
+-      return gnuradio::get_initial_sptr(new hilbert_fc_impl(ntaps));
++      return gnuradio::get_initial_sptr
++        (new hilbert_fc_impl(ntaps, window, beta));
+     }
+ 
+-    hilbert_fc_impl::hilbert_fc_impl(unsigned int ntaps)
+-      : sync_block ("hilbert_fc",
+-		       io_signature::make (1, 1, sizeof(float)),
+-		       io_signature::make (1, 1, sizeof(gr_complex))),
++    hilbert_fc_impl::hilbert_fc_impl(unsigned int ntaps,
++                                     firdes::win_type window,
++                                     double beta)
++      : sync_block("hilbert_fc",
++                   io_signature::make(1, 1, sizeof(float)),
++                   io_signature::make(1, 1, sizeof(gr_complex))),
+ 	d_ntaps(ntaps | 0x1)	// ensure ntaps is odd
+     {
+-      d_hilb = new kernel::fir_filter_fff(1, firdes::hilbert(d_ntaps));
+-      set_history (d_ntaps);
++      d_hilb = new kernel::fir_filter_fff(1, 
++                         firdes::hilbert(d_ntaps, window, beta));
++      set_history(d_ntaps);
+ 
+       const int alignment_multiple =
+ 	volk_get_alignment() / sizeof(float);
+diff --git a/gr-filter/lib/hilbert_fc_impl.h b/gr-filter/lib/hilbert_fc_impl.h
+index c36d519..70968b1 100644
+--- a/gr-filter/lib/hilbert_fc_impl.h
++++ b/gr-filter/lib/hilbert_fc_impl.h
+@@ -37,8 +37,10 @@ namespace gr {
+       kernel::fir_filter_fff *d_hilb;
+ 
+     public:
+-      hilbert_fc_impl(unsigned int ntaps);
+-      
++      hilbert_fc_impl(unsigned int ntaps,
++                      firdes::win_type window=firdes::WIN_HAMMING,
++                      double beta=6.76);
++
+       ~hilbert_fc_impl();
+       
+       int work(int noutput_items,
+diff --git a/gr-filter/python/filter/qa_filter_delay_fc.py b/gr-filter/python/filter/qa_filter_delay_fc.py
+index ce1205d..7a47e35 100755
+--- a/gr-filter/python/filter/qa_filter_delay_fc.py
++++ b/gr-filter/python/filter/qa_filter_delay_fc.py
+@@ -118,7 +118,7 @@ class test_filter_delay_fc(gr_unittest.TestCase):
+         dst2 = blocks.vector_sink_c()
+ 
+         # calculate taps
+-        taps = filter.firdes_hilbert(ntaps)
++        taps = filter.firdes.hilbert(ntaps, filter.firdes.WIN_HAMMING)
+         hd = filter.filter_delay_fc(taps)
+ 
+         tb.connect(src1, hd)
+@@ -209,7 +209,7 @@ class test_filter_delay_fc(gr_unittest.TestCase):
+         dst2 = blocks.vector_sink_c()
+ 
+         # calculate taps
+-        taps = filter.firdes_hilbert(ntaps)
++        taps = filter.firdes.hilbert(ntaps, filter.firdes.WIN_HAMMING)
+         hd = filter.filter_delay_fc(taps)
+ 
+         tb.connect(src1, (hd,0))
+@@ -301,7 +301,7 @@ class test_filter_delay_fc(gr_unittest.TestCase):
+         src1 = blocks.vector_source_f(data1)
+         src2 = blocks.vector_source_f(data2)
+ 
+-        taps = filter.firdes_hilbert(ntaps)
++        taps = filter.firdes.hilbert(ntaps, filter.firdes.WIN_HAMMING)
+         hd = filter.filter_delay_fc(taps)
+ 
+         dst2 = blocks.vector_sink_c()
+diff --git a/gr-filter/python/filter/qa_firdes.py b/gr-filter/python/filter/qa_firdes.py
+index 82397b9..d38af31 100755
+--- a/gr-filter/python/filter/qa_firdes.py
++++ b/gr-filter/python/filter/qa_firdes.py
+@@ -172,7 +172,7 @@ class test_firdes(gr_unittest.TestCase):
+                        0.5732954144477844, 0.0,
+                        0.08335155993700027, 0.0,
+                        0.010056184604763985)
+-        new_taps = filter.firdes.hilbert(11)
++        new_taps = filter.firdes.hilbert(11, filter.firdes.WIN_HAMMING)
+         self.assertFloatTuplesAlmostEqual(known_taps, new_taps, 5)
+ 
+     def test_root_raised_cosine(self):
+-- 
+1.7.10.4
+

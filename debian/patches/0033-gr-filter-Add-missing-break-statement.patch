@@ -1,0 +1,29 @@
+From b0c7df33e9c68f3a3a724a996396b9d77694b401 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 24 Sep 2013 20:49:25 -0400
+Subject: [PATCH 33/40] gr-filter: Add missing break statement.
+
+Addresses Coverity issue 1046186. Although users are likely better off using
+the Hamming window instead of a rectangular window, this error will confuse
+knowledgable users.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-filter/lib/firdes.cc |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gr-filter/lib/firdes.cc b/gr-filter/lib/firdes.cc
+index f6e7581..f56bdc8 100644
+--- a/gr-filter/lib/firdes.cc
++++ b/gr-filter/lib/firdes.cc
+@@ -746,6 +746,7 @@ namespace gr {
+       case WIN_RECTANGULAR:
+ 	for(int n = 0; n < ntaps; n++)
+ 	  taps[n] = 1;
++        break;
+ 
+       case WIN_HAMMING:
+ 	for(int n = 0; n < ntaps; n++)
+-- 
+1.7.10.4
+

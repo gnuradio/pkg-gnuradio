@@ -1,0 +1,30 @@
+From d09f1c3de676c0a6542fd758c73623b24d9e05ad Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <johnathan@corganlabs.com>
+Date: Sat, 7 Sep 2013 22:13:43 -0300
+Subject: [PATCH 20/40] modtool: fix GRC XML file creation when no args
+
+Fixes bug where no args produces ($) in make clause
+---
+ gr-utils/python/modtool/util_functions.py |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/gr-utils/python/modtool/util_functions.py b/gr-utils/python/modtool/util_functions.py
+index 9551056..9e8cf9a 100644
+--- a/gr-utils/python/modtool/util_functions.py
++++ b/gr-utils/python/modtool/util_functions.py
+@@ -84,8 +84,10 @@ def strip_arg_types(string):
+ def strip_arg_types_grc(string):
+     """" Strip the argument types from a list of arguments for GRC make tag.
+     Example: "int arg1, double arg2" -> "$arg1, $arg2" """
+-    string = strip_default_values(string)
+-    return ", ".join(['$' + part.strip().split(' ')[-1] for part in string.split(',')])
++    if len(string) == 0:
++        return ""
++    else:
++        return ", ".join(['$' + part.strip().split(' ')[-1] for part in string.split(',')])
+ 
+ def get_modname():
+     """ Grep the current module's name from gnuradio.project or CMakeLists.txt """
+-- 
+1.7.10.4
+

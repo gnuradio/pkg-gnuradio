@@ -1,0 +1,43 @@
+From dab30e873a8849712e03c26066909a62c8831880 Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 24 Sep 2013 08:36:00 -0400
+Subject: [PATCH 34/40] gr-analog : Fix initialization bugs in cc anf ff power
+ squelch blocks.
+
+Addresses Coverity issues 1043286 and 1043285.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-analog/lib/pwr_squelch_cc_impl.cc |    2 +-
+ gr-analog/lib/pwr_squelch_ff_impl.cc |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gr-analog/lib/pwr_squelch_cc_impl.cc b/gr-analog/lib/pwr_squelch_cc_impl.cc
+index 44fd5dc..6c832bc 100644
+--- a/gr-analog/lib/pwr_squelch_cc_impl.cc
++++ b/gr-analog/lib/pwr_squelch_cc_impl.cc
+@@ -43,7 +43,7 @@ namespace gr {
+ 		 io_signature::make(1, 1, sizeof(gr_complex)),
+ 		 io_signature::make(1, 1, sizeof(gr_complex))),
+ 	squelch_base_cc_impl("pwr_squelch_cc", ramp, gate),
+-	d_iir(alpha)
++	d_pwr(0), d_iir(alpha)
+     {
+       set_threshold(threshold);
+     }
+diff --git a/gr-analog/lib/pwr_squelch_ff_impl.cc b/gr-analog/lib/pwr_squelch_ff_impl.cc
+index 812011b..955f2fc 100644
+--- a/gr-analog/lib/pwr_squelch_ff_impl.cc
++++ b/gr-analog/lib/pwr_squelch_ff_impl.cc
+@@ -43,7 +43,7 @@ namespace gr {
+ 		 io_signature::make(1, 1, sizeof(float)),
+ 		 io_signature::make(1, 1, sizeof(float))),
+ 	squelch_base_ff_impl("pwr_squelch_ff", ramp, gate),
+-	d_iir(alpha)
++	d_pwr(0), d_iir(alpha)
+     {
+       set_threshold(threshold);
+     }
+-- 
+1.7.10.4
+

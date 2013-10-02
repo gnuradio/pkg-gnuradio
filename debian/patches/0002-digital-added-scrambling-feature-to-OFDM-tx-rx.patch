@@ -1,0 +1,1281 @@
+From 7355cfb008b29197d913e215fdb41806cbaf68d6 Mon Sep 17 00:00:00 2001
+From: Martin Braun <martin.braun@kit.edu>
+Date: Tue, 27 Aug 2013 15:14:37 +0200
+Subject: [PATCH 02/40] digital: added scrambling feature to OFDM tx/rx
+
+---
+ gr-digital/examples/ofdm/ofdm_loopback.grc |  630 ++++++++++++++++------------
+ gr-digital/grc/digital_ofdm_rx.xml         |   18 +-
+ gr-digital/grc/digital_ofdm_tx.xml         |   18 +-
+ gr-digital/python/digital/ofdm_txrx.py     |   48 ++-
+ gr-digital/python/digital/qa_ofdm_txrx.py  |   30 +-
+ 5 files changed, 456 insertions(+), 288 deletions(-)
+
+diff --git a/gr-digital/examples/ofdm/ofdm_loopback.grc b/gr-digital/examples/ofdm/ofdm_loopback.grc
+index a6b3b14..ad8e4a3 100644
+--- a/gr-digital/examples/ofdm/ofdm_loopback.grc
++++ b/gr-digital/examples/ofdm/ofdm_loopback.grc
+@@ -1,6 +1,6 @@
+ <?xml version='1.0' encoding='ASCII'?>
+ <flow_graph>
+-  <timestamp>Tue Jun 11 22:44:34 2013</timestamp>
++  <timestamp>Tue Aug 27 15:09:37 2013</timestamp>
+   <block>
+     <key>options</key>
+     <param>
+@@ -64,7 +64,7 @@
+     <key>variable</key>
+     <param>
+       <key>id</key>
+-      <value>len_tag_key</value>
++      <value>tx_signal</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+@@ -72,11 +72,34 @@
+     </param>
+     <param>
+       <key>value</key>
+-      <value>"packet_len"</value>
++      <value>[numpy.sin(2 * numpy.pi * 1.0/8 * x) for x in range(packet_len)]</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(345, 0)</value>
++      <value>(176, -1)</value>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
++  </block>
++  <block>
++    <key>variable</key>
++    <param>
++      <key>id</key>
++      <value>packet_len</value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>value</key>
++      <value>8*2</value>
++    </param>
++    <param>
++      <key>_coordinate</key>
++      <value>(258, 64)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -107,6 +130,29 @@
+     </param>
+   </block>
+   <block>
++    <key>variable</key>
++    <param>
++      <key>id</key>
++      <value>len_tag_key</value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>value</key>
++      <value>"packet_len"</value>
++    </param>
++    <param>
++      <key>_coordinate</key>
++      <value>(345, 0)</value>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
++  </block>
++  <block>
+     <key>import</key>
+     <param>
+       <key>id</key>
+@@ -153,10 +199,10 @@
+     </param>
+   </block>
+   <block>
+-    <key>wxgui_fftsink2</key>
++    <key>blocks_vector_to_stream</key>
+     <param>
+       <key>id</key>
+-      <value>wxgui_fftsink2_0</value>
++      <value>blocks_vector_to_stream_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+@@ -164,59 +210,121 @@
+     </param>
+     <param>
+       <key>type</key>
+-      <value>complex</value>
++      <value>byte</value>
+     </param>
+     <param>
+-      <key>title</key>
+-      <value>Rx Spectrum</value>
++      <key>num_items</key>
++      <value>4</value>
+     </param>
+     <param>
+-      <key>samp_rate</key>
+-      <value>100e3</value>
++      <key>vlen</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>baseband_freq</key>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
+       <value>0</value>
+     </param>
+     <param>
+-      <key>y_per_div</key>
+-      <value>10</value>
++      <key>_coordinate</key>
++      <value>(261, 140)</value>
+     </param>
+     <param>
+-      <key>y_divs</key>
+-      <value>10</value>
++      <key>_rotation</key>
++      <value>0</value>
+     </param>
++  </block>
++  <block>
++    <key>blocks_tag_debug</key>
+     <param>
+-      <key>ref_level</key>
++      <key>id</key>
++      <value>blocks_tag_debug_0</value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>type</key>
++      <value>byte</value>
++    </param>
++    <param>
++      <key>name</key>
++      <value>Rx Packets</value>
++    </param>
++    <param>
++      <key>num_inputs</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>vlen</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>display</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>_coordinate</key>
++      <value>(345, 424)</value>
++    </param>
++    <param>
++      <key>_rotation</key>
+       <value>0</value>
+     </param>
++  </block>
++  <block>
++    <key>wxgui_scopesink2</key>
+     <param>
+-      <key>ref_scale</key>
+-      <value>2.0</value>
++      <key>id</key>
++      <value>wxgui_scopesink2_0</value>
+     </param>
+     <param>
+-      <key>fft_size</key>
+-      <value>1024</value>
++      <key>_enabled</key>
++      <value>True</value>
+     </param>
+     <param>
+-      <key>fft_rate</key>
+-      <value>15</value>
++      <key>type</key>
++      <value>float</value>
+     </param>
+     <param>
+-      <key>peak_hold</key>
+-      <value>False</value>
++      <key>title</key>
++      <value>Scope Plot</value>
+     </param>
+     <param>
+-      <key>average</key>
+-      <value>False</value>
++      <key>samp_rate</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>avg_alpha</key>
++      <key>v_scale</key>
+       <value>0</value>
+     </param>
+     <param>
+-      <key>win</key>
+-      <value>None</value>
++      <key>v_offset</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>t_scale</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>ac_couple</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>xy_mode</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>num_inputs</key>
++      <value>1</value>
+     </param>
+     <param>
+       <key>win_size</key>
+@@ -231,12 +339,20 @@
+       <value></value>
+     </param>
+     <param>
+-      <key>freqvar</key>
+-      <value>None</value>
++      <key>trig_mode</key>
++      <value>wxgui.TRIG_MODE_AUTO</value>
++    </param>
++    <param>
++      <key>y_axis_label</key>
++      <value>Counts</value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(59, 384)</value>
++      <value>(550, 323)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -244,54 +360,38 @@
+     </param>
+   </block>
+   <block>
+-    <key>variable_slider</key>
++    <key>blocks_stream_to_vector</key>
+     <param>
+       <key>id</key>
+-      <value>noise_voltage</value>
++      <value>blocks_stream_to_vector_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+       <value>True</value>
+     </param>
+     <param>
+-      <key>label</key>
+-      <value>Noise Amplitude</value>
+-    </param>
+-    <param>
+-      <key>value</key>
+-      <value>0.01</value>
++      <key>type</key>
++      <value>byte</value>
+     </param>
+     <param>
+-      <key>min</key>
+-      <value>0</value>
++      <key>num_items</key>
++      <value>4</value>
+     </param>
+     <param>
+-      <key>max</key>
++      <key>vlen</key>
+       <value>1</value>
+     </param>
+     <param>
+-      <key>num_steps</key>
+-      <value>100</value>
+-    </param>
+-    <param>
+-      <key>style</key>
+-      <value>wx.SL_HORIZONTAL</value>
+-    </param>
+-    <param>
+-      <key>converver</key>
+-      <value>float_converter</value>
+-    </param>
+-    <param>
+-      <key>grid_pos</key>
++      <key>affinity</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>notebook</key>
+-      <value></value>
++      <key>minoutbuf</key>
++      <value>0</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(695, 439)</value>
++      <value>(348, 347)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -302,7 +402,7 @@
+     <key>variable_slider</key>
+     <param>
+       <key>id</key>
+-      <value>freq_offset</value>
++      <value>noise_voltage</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+@@ -310,19 +410,19 @@
+     </param>
+     <param>
+       <key>label</key>
+-      <value>Frequency Offset (Multiples of Sub-carrier spacing)</value>
++      <value>Noise Amplitude</value>
+     </param>
+     <param>
+       <key>value</key>
+-      <value>0</value>
++      <value>0.01</value>
+     </param>
+     <param>
+       <key>min</key>
+-      <value>-3</value>
++      <value>0</value>
+     </param>
+     <param>
+       <key>max</key>
+-      <value>3</value>
++      <value>1</value>
+     </param>
+     <param>
+       <key>num_steps</key>
+@@ -346,7 +446,7 @@
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(696, 264)</value>
++      <value>(707, 496)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -354,10 +454,10 @@
+     </param>
+   </block>
+   <block>
+-    <key>blocks_throttle</key>
++    <key>wxgui_fftsink2</key>
+     <param>
+       <key>id</key>
+-      <value>blocks_throttle_0</value>
++      <value>wxgui_fftsink2_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+@@ -368,79 +468,80 @@
+       <value>complex</value>
+     </param>
+     <param>
+-      <key>samples_per_second</key>
++      <key>title</key>
++      <value>Rx Spectrum</value>
++    </param>
++    <param>
++      <key>samp_rate</key>
+       <value>100e3</value>
+     </param>
+     <param>
+-      <key>vlen</key>
+-      <value>1</value>
++      <key>baseband_freq</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(252, 212)</value>
++      <key>y_per_div</key>
++      <value>10</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>180</value>
++      <key>y_divs</key>
++      <value>10</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>digital_ofdm_rx</key>
+     <param>
+-      <key>id</key>
+-      <value>digital_ofdm_rx_0</value>
++      <key>ref_level</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <key>ref_scale</key>
++      <value>2.0</value>
+     </param>
+     <param>
+-      <key>fft_len</key>
+-      <value>fft_len</value>
++      <key>fft_size</key>
++      <value>1024</value>
+     </param>
+     <param>
+-      <key>cp_len</key>
+-      <value>fft_len/4</value>
++      <key>fft_rate</key>
++      <value>15</value>
+     </param>
+     <param>
+-      <key>packet_len_key</key>
+-      <value>"rx_len"</value>
++      <key>peak_hold</key>
++      <value>False</value>
+     </param>
+     <param>
+-      <key>occupied_carriers</key>
+-      <value>()</value>
++      <key>average</key>
++      <value>False</value>
+     </param>
+     <param>
+-      <key>pilot_carriers</key>
+-      <value>()</value>
++      <key>avg_alpha</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>pilot_symbols</key>
+-      <value>()</value>
++      <key>win</key>
++      <value>None</value>
+     </param>
+     <param>
+-      <key>sync_word1</key>
+-      <value>()</value>
++      <key>win_size</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>sync_word2</key>
+-      <value>()</value>
++      <key>grid_pos</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>header_mod</key>
+-      <value>"BPSK"</value>
++      <key>notebook</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>payload_mod</key>
+-      <value>"QPSK"</value>
++      <key>freqvar</key>
++      <value>None</value>
+     </param>
+     <param>
+-      <key>log</key>
+-      <value>False</value>
++      <key>affinity</key>
++      <value></value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(59, 258)</value>
++      <value>(71, 441)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -448,22 +549,54 @@
+     </param>
+   </block>
+   <block>
+-    <key>variable</key>
++    <key>variable_slider</key>
+     <param>
+       <key>id</key>
+-      <value>packet_len</value>
++      <value>freq_offset</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+       <value>True</value>
+     </param>
+     <param>
++      <key>label</key>
++      <value>Frequency Offset (Multiples of Sub-carrier spacing)</value>
++    </param>
++    <param>
+       <key>value</key>
+-      <value>8*2</value>
++      <value>0</value>
++    </param>
++    <param>
++      <key>min</key>
++      <value>-3</value>
++    </param>
++    <param>
++      <key>max</key>
++      <value>3</value>
++    </param>
++    <param>
++      <key>num_steps</key>
++      <value>100</value>
++    </param>
++    <param>
++      <key>style</key>
++      <value>wx.SL_HORIZONTAL</value>
++    </param>
++    <param>
++      <key>converver</key>
++      <value>float_converter</value>
++    </param>
++    <param>
++      <key>grid_pos</key>
++      <value></value>
++    </param>
++    <param>
++      <key>notebook</key>
++      <value></value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(258, 64)</value>
++      <value>(708, 321)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -471,33 +604,49 @@
+     </param>
+   </block>
+   <block>
+-    <key>variable</key>
++    <key>blocks_tag_gate</key>
+     <param>
+       <key>id</key>
+-      <value>tx_signal</value>
++      <value>blocks_tag_gate_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+       <value>True</value>
+     </param>
+     <param>
+-      <key>value</key>
+-      <value>[numpy.sin(2 * numpy.pi * 1.0/8 * x) for x in range(packet_len)]</value>
++      <key>type</key>
++      <value>complex</value>
++    </param>
++    <param>
++      <key>vlen</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>propagate_tags</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
++      <value>0</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(176, -1)</value>
++      <value>(523, 243)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+-      <value>0</value>
++      <value>180</value>
+     </param>
+   </block>
+   <block>
+-    <key>blocks_vector_to_stream</key>
++    <key>blocks_throttle</key>
+     <param>
+       <key>id</key>
+-      <value>blocks_vector_to_stream_0</value>
++      <value>blocks_throttle_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+@@ -505,23 +654,31 @@
+     </param>
+     <param>
+       <key>type</key>
+-      <value>byte</value>
++      <value>complex</value>
+     </param>
+     <param>
+-      <key>num_items</key>
+-      <value>4</value>
++      <key>samples_per_second</key>
++      <value>100e3</value>
+     </param>
+     <param>
+       <key>vlen</key>
+       <value>1</value>
+     </param>
+     <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
+       <key>_coordinate</key>
+-      <value>(261, 140)</value>
++      <value>(267, 243)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+-      <value>0</value>
++      <value>180</value>
+     </param>
+   </block>
+   <block>
+@@ -555,39 +712,16 @@
+       <value>1</value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(-1, 101)</value>
++      <key>affinity</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>_rotation</key>
++      <key>minoutbuf</key>
+       <value>0</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_stream_to_vector</key>
+-    <param>
+-      <key>id</key>
+-      <value>blocks_stream_to_vector_0</value>
+-    </param>
+-    <param>
+-      <key>_enabled</key>
+-      <value>True</value>
+-    </param>
+-    <param>
+-      <key>type</key>
+-      <value>byte</value>
+-    </param>
+-    <param>
+-      <key>num_items</key>
+-      <value>4</value>
+-    </param>
+-    <param>
+-      <key>vlen</key>
+-      <value>1</value>
+-    </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(336, 290)</value>
++      <value>(3, 124)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -595,74 +729,46 @@
+     </param>
+   </block>
+   <block>
+-    <key>wxgui_scopesink2</key>
++    <key>channels_channel_model</key>
+     <param>
+       <key>id</key>
+-      <value>wxgui_scopesink2_0</value>
++      <value>channels_channel_model_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+       <value>True</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>float</value>
++      <key>noise_voltage</key>
++      <value>noise_voltage</value>
+     </param>
+     <param>
+-      <key>title</key>
+-      <value>Scope Plot</value>
++      <key>freq_offset</key>
++      <value>freq_offset * 1.0/fft_len</value>
+     </param>
+     <param>
+-      <key>samp_rate</key>
++      <key>epsilon</key>
+       <value>1.0</value>
+     </param>
+     <param>
+-      <key>v_scale</key>
+-      <value>0</value>
+-    </param>
+-    <param>
+-      <key>v_offset</key>
+-      <value>0</value>
++      <key>taps</key>
++      <value>1.0 + 1.0j</value>
+     </param>
+     <param>
+-      <key>t_scale</key>
++      <key>seed</key>
+       <value>0</value>
+     </param>
+     <param>
+-      <key>ac_couple</key>
+-      <value>False</value>
+-    </param>
+-    <param>
+-      <key>xy_mode</key>
+-      <value>False</value>
+-    </param>
+-    <param>
+-      <key>num_inputs</key>
+-      <value>1</value>
+-    </param>
+-    <param>
+-      <key>win_size</key>
+-      <value></value>
+-    </param>
+-    <param>
+-      <key>grid_pos</key>
+-      <value></value>
+-    </param>
+-    <param>
+-      <key>notebook</key>
++      <key>affinity</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>trig_mode</key>
+-      <value>wxgui.TRIG_MODE_AUTO</value>
+-    </param>
+-    <param>
+-      <key>y_axis_label</key>
+-      <value>Counts</value>
++      <key>minoutbuf</key>
++      <value>0</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(538, 266)</value>
++      <value>(764, 93)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -670,10 +776,10 @@
+     </param>
+   </block>
+   <block>
+-    <key>digital_ofdm_tx</key>
++    <key>digital_ofdm_rx</key>
+     <param>
+       <key>id</key>
+-      <value>digital_ofdm_tx_0</value>
++      <value>digital_ofdm_rx_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+@@ -689,7 +795,7 @@
+     </param>
+     <param>
+       <key>packet_len_key</key>
+-      <value>len_tag_key</value>
++      <value>"rx_len"</value>
+     </param>
+     <param>
+       <key>occupied_carriers</key>
+@@ -720,16 +826,24 @@
+       <value>"QPSK"</value>
+     </param>
+     <param>
+-      <key>rolloff</key>
+-      <value>0</value>
++      <key>scramble_bits</key>
++      <value>False</value>
+     </param>
+     <param>
+       <key>log</key>
+       <value>False</value>
+     </param>
+     <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
+       <key>_coordinate</key>
+-      <value>(464, 77)</value>
++      <value>(71, 315)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -737,108 +851,78 @@
+     </param>
+   </block>
+   <block>
+-    <key>channels_channel_model</key>
++    <key>digital_ofdm_tx</key>
+     <param>
+       <key>id</key>
+-      <value>channels_channel_model_0</value>
++      <value>digital_ofdm_tx_0</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+       <value>True</value>
+     </param>
+     <param>
+-      <key>noise_voltage</key>
+-      <value>noise_voltage</value>
++      <key>fft_len</key>
++      <value>fft_len</value>
+     </param>
+     <param>
+-      <key>freq_offset</key>
+-      <value>freq_offset * 1.0/fft_len</value>
++      <key>cp_len</key>
++      <value>fft_len/4</value>
+     </param>
+     <param>
+-      <key>epsilon</key>
+-      <value>1.0</value>
++      <key>packet_len_key</key>
++      <value>len_tag_key</value>
+     </param>
+     <param>
+-      <key>taps</key>
+-      <value>1.0 + 1.0j</value>
++      <key>occupied_carriers</key>
++      <value>()</value>
+     </param>
+     <param>
+-      <key>seed</key>
+-      <value>0</value>
++      <key>pilot_carriers</key>
++      <value>()</value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(747, 85)</value>
++      <key>pilot_symbols</key>
++      <value>()</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>sync_word1</key>
++      <value>()</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_tag_gate</key>
+     <param>
+-      <key>id</key>
+-      <value>blocks_tag_gate_0</value>
++      <key>sync_word2</key>
++      <value>()</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <key>header_mod</key>
++      <value>"BPSK"</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>complex</value>
++      <key>payload_mod</key>
++      <value>"QPSK"</value>
+     </param>
+     <param>
+-      <key>vlen</key>
+-      <value>1</value>
++      <key>rolloff</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>propagate_tags</key>
++      <key>scramble_bits</key>
+       <value>False</value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(508, 212)</value>
+-    </param>
+-    <param>
+-      <key>_rotation</key>
+-      <value>180</value>
+-    </param>
+-  </block>
+-  <block>
+-    <key>blocks_tag_debug</key>
+-    <param>
+-      <key>id</key>
+-      <value>blocks_tag_debug_0</value>
+-    </param>
+-    <param>
+-      <key>_enabled</key>
+-      <value>True</value>
+-    </param>
+-    <param>
+-      <key>type</key>
+-      <value>byte</value>
+-    </param>
+-    <param>
+-      <key>name</key>
+-      <value>Rx Packets</value>
+-    </param>
+-    <param>
+-      <key>num_inputs</key>
+-      <value>1</value>
++      <key>log</key>
++      <value>False</value>
+     </param>
+     <param>
+-      <key>vlen</key>
+-      <value>1</value>
++      <key>affinity</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>display</key>
+-      <value>True</value>
++      <key>minoutbuf</key>
++      <value>0</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(333, 367)</value>
++      <value>(488, 77)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -858,20 +942,20 @@
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>blocks_throttle_0</source_block_id>
+-    <sink_block_id>digital_ofdm_rx_0</sink_block_id>
++    <source_block_id>digital_ofdm_tx_0</source_block_id>
++    <sink_block_id>channels_channel_model_0</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>blocks_throttle_0</source_block_id>
+-    <sink_block_id>wxgui_fftsink2_0</sink_block_id>
++    <source_block_id>channels_channel_model_0</source_block_id>
++    <sink_block_id>blocks_tag_gate_0</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>digital_ofdm_rx_0</source_block_id>
+-    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
++    <source_block_id>blocks_stream_to_vector_0</source_block_id>
++    <sink_block_id>wxgui_scopesink2_0</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+@@ -882,26 +966,26 @@
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>blocks_tag_gate_0</source_block_id>
+-    <sink_block_id>blocks_throttle_0</sink_block_id>
++    <source_block_id>digital_ofdm_rx_0</source_block_id>
++    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>blocks_stream_to_vector_0</source_block_id>
+-    <sink_block_id>wxgui_scopesink2_0</sink_block_id>
++    <source_block_id>blocks_throttle_0</source_block_id>
++    <sink_block_id>wxgui_fftsink2_0</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>digital_ofdm_tx_0</source_block_id>
+-    <sink_block_id>channels_channel_model_0</sink_block_id>
++    <source_block_id>blocks_throttle_0</source_block_id>
++    <sink_block_id>digital_ofdm_rx_0</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+   <connection>
+-    <source_block_id>channels_channel_model_0</source_block_id>
+-    <sink_block_id>blocks_tag_gate_0</sink_block_id>
++    <source_block_id>blocks_tag_gate_0</source_block_id>
++    <sink_block_id>blocks_throttle_0</sink_block_id>
+     <source_key>0</source_key>
+     <sink_key>0</sink_key>
+   </connection>
+diff --git a/gr-digital/grc/digital_ofdm_rx.xml b/gr-digital/grc/digital_ofdm_rx.xml
+index 6f10a2e..9c2bf65 100644
+--- a/gr-digital/grc/digital_ofdm_rx.xml
++++ b/gr-digital/grc/digital_ofdm_rx.xml
+@@ -24,7 +24,8 @@
+ 	  #end if
+ 	  bps_header=$header_mod.bps,
+ 	  bps_payload=$payload_mod.bps,
+-	  debug_log=$log
++	  debug_log=$log,
++	  scramble_bits=$scramble_bits
+ 	 )</make>
+   <param>
+     <name>FFT Length</name>
+@@ -145,6 +146,21 @@
+     </option>
+   </param>
+   <param>
++    <name>Scramble Bits</name>
++    <key>scramble_bits</key>
++    <value>False</value>
++    <type>enum</type>
++    <hide> #if $scramble_bits then 'part' else 'none'#</hide>
++    <option>
++      <name>No</name>
++      <key>False</key>
++    </option>
++    <option>
++      <name>Yes</name>
++      <key>True</key>
++    </option>
++  </param>
++  <param>
+     <name>Log Debug Info</name>
+     <key>log</key>
+     <value>False</value>
+diff --git a/gr-digital/grc/digital_ofdm_tx.xml b/gr-digital/grc/digital_ofdm_tx.xml
+index cde045d..bad0b2b 100644
+--- a/gr-digital/grc/digital_ofdm_tx.xml
++++ b/gr-digital/grc/digital_ofdm_tx.xml
+@@ -24,7 +24,8 @@
+ 	  bps_header=$header_mod.bps,
+ 	  bps_payload=$payload_mod.bps,
+ 	  rolloff=$rolloff,
+-	  debug_log=$log
++	  debug_log=$log,
++	  scramble_bits=$scramble_bits
+ 	 )</make>
+   <param>
+     <name>FFT Length</name>
+@@ -151,6 +152,21 @@
+     <type>int</type>
+   </param>
+   <param>
++    <name>Scramble Bits</name>
++    <key>scramble_bits</key>
++    <value>False</value>
++    <type>enum</type>
++    <hide> #if $scramble_bits then 'part' else 'none'#</hide>
++    <option>
++      <name>No</name>
++      <key>False</key>
++    </option>
++    <option>
++      <name>Yes</name>
++      <key>True</key>
++    </option>
++  </param>
++  <param>
+     <name>Log Debug Info</name>
+     <key>log</key>
+     <value>False</value>
+diff --git a/gr-digital/python/digital/ofdm_txrx.py b/gr-digital/python/digital/ofdm_txrx.py
+index a48a48d..76bf337 100644
+--- a/gr-digital/python/digital/ofdm_txrx.py
++++ b/gr-digital/python/digital/ofdm_txrx.py
+@@ -145,7 +145,8 @@ class ofdm_tx(gr.hier_block2):
+                  sync_word1=None,
+                  sync_word2=None,
+                  rolloff=0,
+-                 debug_log=False
++                 debug_log=False,
++                 scramble_bits=False
+                  ):
+         gr.hier_block2.__init__(self, "ofdm_tx",
+                     gr.io_signature(1, 1, gr.sizeof_char),
+@@ -193,13 +194,32 @@ class ofdm_tx(gr.hier_block2):
+         ### Payload modulation ###############################################
+         payload_constellation = _get_constellation(bps_payload)
+         payload_mod = digital.chunks_to_symbols_bc(payload_constellation.points())
++        if scramble_bits:
++            self.connect(
++                crc,
++                digital.additive_scrambler_bb(
++                    0x8a, 0x7f, 7,
++                    bits_per_byte=bps_payload,
++                    reset_tag_key=self.packet_length_tag_key
++                ),
++                blocks.repack_bits_bb(
++                    8, # Unpack 8 bits per byte
++                    bps_payload,
++                    self.packet_length_tag_key
++                ),
++                payload_mod
++            )
++        else:
++            self.connect(
++                crc,
++                blocks.repack_bits_bb(
++                    8, # Unpack 8 bits per byte
++                    bps_payload,
++                    self.packet_length_tag_key
++                ),
++                payload_mod
++            )
+         self.connect(
+-            crc,
+-            blocks.repack_bits_bb(
+-                8, # Unpack 8 bits per byte
+-                bps_payload,
+-                self.packet_length_tag_key
+-            ),
+             payload_mod,
+             (header_payload_mux, 1)
+         )
+@@ -262,7 +282,8 @@ class ofdm_rx(gr.hier_block2):
+                  bps_payload=1,
+                  sync_word1=None,
+                  sync_word2=None,
+-                 debug_log=False
++                 debug_log=False,
++                 scramble_bits=False
+                  ):
+         gr.hier_block2.__init__(self, "ofdm_rx",
+                     gr.io_signature(1, 1, gr.sizeof_gr_complex),
+@@ -372,7 +393,16 @@ class ofdm_rx(gr.hier_block2):
+         payload_demod = digital.constellation_decoder_cb(payload_constellation.base())
+         repack = blocks.repack_bits_bb(bps_payload, 8, self.packet_length_tag_key, True)
+         crc = digital.crc32_bb(True, self.packet_length_tag_key)
+-        self.connect((hpd, 1), payload_fft, payload_eq, payload_serializer, payload_demod, repack, crc, self)
++        self.connect((hpd, 1), payload_fft, payload_eq, payload_serializer, payload_demod, repack)
++        if scramble_bits:
++            descrambler = digital.additive_scrambler_bb(
++                0x8a, 0x7f, 7,
++                bits_per_byte=bps_payload,
++                reset_tag_key=self.packet_length_tag_key
++            )
++            self.connect(repack, descrambler, crc, self)
++        else:
++            self.connect(repack, crc, self)
+         if debug_log:
+             self.connect((hpd, 1),           blocks.tag_debug(gr.sizeof_gr_complex*fft_len, 'post-hpd'));
+             self.connect(payload_fft,        blocks.file_sink(gr.sizeof_gr_complex*fft_len, 'post-payload-fft.dat'))
+diff --git a/gr-digital/python/digital/qa_ofdm_txrx.py b/gr-digital/python/digital/qa_ofdm_txrx.py
+index adf93ee..6f5bd2e 100755
+--- a/gr-digital/python/digital/qa_ofdm_txrx.py
++++ b/gr-digital/python/digital/qa_ofdm_txrx.py
+@@ -31,11 +31,11 @@ from gnuradio.digital.utils import tagged_streams
+ LOG_DEBUG_INFO=False
+ 
+ class ofdm_tx_fg (gr.top_block):
+-    def __init__(self, data, len_tag_key):
++    def __init__(self, data, len_tag_key, scramble_bits=False):
+         gr.top_block.__init__(self, "ofdm_tx")
+         tx_data, tags = tagged_streams.packets_to_vectors((data,), len_tag_key)
+         src = blocks.vector_source_b(data, False, 1, tags)
+-        self.tx = ofdm_tx(packet_length_tag_key=len_tag_key, debug_log=LOG_DEBUG_INFO)
++        self.tx = ofdm_tx(packet_length_tag_key=len_tag_key, debug_log=LOG_DEBUG_INFO, scramble_bits=scramble_bits)
+         self.sink = blocks.vector_sink_c()
+         self.connect(src, self.tx, self.sink)
+ 
+@@ -43,12 +43,12 @@ class ofdm_tx_fg (gr.top_block):
+         return self.sink.data()
+ 
+ class ofdm_rx_fg (gr.top_block):
+-    def __init__(self, samples, len_tag_key, channel=None, prepend_zeros=100):
++    def __init__(self, samples, len_tag_key, channel=None, prepend_zeros=100, scramble_bits=False):
+         gr.top_block.__init__(self, "ofdm_rx")
+         if prepend_zeros:
+             samples = (0,) * prepend_zeros + tuple(samples)
+         src = blocks.vector_source_c(tuple(samples) + (0,) * 1000)
+-        self.rx = ofdm_rx(frame_length_tag_key=len_tag_key, debug_log=LOG_DEBUG_INFO)
++        self.rx = ofdm_rx(frame_length_tag_key=len_tag_key, debug_log=LOG_DEBUG_INFO, scramble_bits=scramble_bits)
+         if channel is not None:
+             self.connect(src, channel, self.rx)
+         else:
+@@ -113,6 +113,28 @@ class test_ofdm_txrx (gr_unittest.TestCase):
+         self.assertEqual(tuple(tx_fg.tx.sync_word2), tuple(rx_fg.rx.sync_word2))
+         self.assertEqual(test_data, rx_data)
+ 
++    def test_003_tx1packet_scramble(self):
++        """ Same as before, use scrambler. """
++        len_tag_key = 'frame_len'
++        n_bytes = 21
++        fft_len = 64
++        test_data = tuple([random.randint(0, 255) for x in range(n_bytes)])
++        # 1.0/fft_len is one sub-carrier, a fine freq offset stays below that
++        freq_offset = 1.0 / fft_len * 0.7
++        #channel = channels.channel_model(0.01, freq_offset)
++        channel = None
++        # Tx
++        tx_fg = ofdm_tx_fg(test_data, len_tag_key, scramble_bits=True)
++        tx_fg.run()
++        tx_samples = tx_fg.get_tx_samples()
++        # Rx
++        rx_fg = ofdm_rx_fg(tx_samples, len_tag_key, channel, prepend_zeros=100, scramble_bits=True)
++        rx_fg.run()
++        rx_data = rx_fg.get_rx_bytes()
++        self.assertEqual(tuple(tx_fg.tx.sync_word1), tuple(rx_fg.rx.sync_word1))
++        self.assertEqual(tuple(tx_fg.tx.sync_word2), tuple(rx_fg.rx.sync_word2))
++        self.assertEqual(test_data, rx_data)
++
+     def test_004_tx1packet_large_fO(self):
+         """ Transmit one packet, with slight AWGN and large frequency offset.
+         Check packet is received and no bit errors have occurred. """
+-- 
+1.7.10.4
+

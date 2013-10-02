@@ -1,0 +1,47 @@
+From 9d7f1706b1e880e13f3fad52b3d73c2ac176bdda Mon Sep 17 00:00:00 2001
+From: Sylvain Munaut <246tnt@gmail.com>
+Date: Tue, 24 Sep 2013 15:38:13 -0400
+Subject: [PATCH 31/40] qtgui: fixes to allow QTGUI to build on Gentoo.
+
+---
+ cmake/Modules/FindQwt.cmake         |    3 ++-
+ gr-qtgui/lib/spectrumdisplayform.ui |    2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/Modules/FindQwt.cmake b/cmake/Modules/FindQwt.cmake
+index 248d803..785d884 100644
+--- a/cmake/Modules/FindQwt.cmake
++++ b/cmake/Modules/FindQwt.cmake
+@@ -12,6 +12,7 @@ find_path(QWT_INCLUDE_DIRS
+   PATHS
+   /usr/local/include/qwt-qt4
+   /usr/local/include/qwt
++  /usr/include/qwt6
+   /usr/include/qwt-qt4
+   /usr/include/qwt
+   /opt/local/include/qwt
+@@ -20,7 +21,7 @@ find_path(QWT_INCLUDE_DIRS
+ )
+ 
+ find_library (QWT_LIBRARIES
+-  NAMES qwt qwt-qt4
++  NAMES qwt qwt6 qwt-qt4
+   HINTS
+   ${CMAKE_INSTALL_PREFIX}/lib
+   ${CMAKE_INSTALL_PREFIX}/lib64
+diff --git a/gr-qtgui/lib/spectrumdisplayform.ui b/gr-qtgui/lib/spectrumdisplayform.ui
+index f6f21c6..d548ba7 100644
+--- a/gr-qtgui/lib/spectrumdisplayform.ui
++++ b/gr-qtgui/lib/spectrumdisplayform.ui
+@@ -506,7 +506,7 @@
+   </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11"/>
+- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
++ <pixmapfunction></pixmapfunction>
+  <customwidgets>
+  <customwidget>
+    <class>QwtSlider</class>
+-- 
+1.7.10.4
+

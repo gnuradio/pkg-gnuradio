@@ -1,0 +1,41 @@
+From 8fd3be0a5e4a7a24af2143fb238535e3832e79af Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Fri, 13 Sep 2013 16:16:49 -0400
+Subject: [PATCH 24/40] qtgui: installing all examples.
+
+---
+ gr-qtgui/examples/CMakeLists.txt |   14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/gr-qtgui/examples/CMakeLists.txt b/gr-qtgui/examples/CMakeLists.txt
+index 998d17b..fafa4d7 100644
+--- a/gr-qtgui/examples/CMakeLists.txt
++++ b/gr-qtgui/examples/CMakeLists.txt
+@@ -20,10 +20,24 @@
+ include(GrPython)
+ 
+ GR_PYTHON_INSTALL(PROGRAMS
++  pyqt_const_c.py
+   pyqt_example_c.py
+   pyqt_example_f.py
++  pyqt_freq_c.py
++  pyqt_freq_f.py
+   pyqt_time_c.py
+   pyqt_time_f.py
++  pyqt_time_raster_b.py
++  pyqt_time_raster_f.py
++  pyqt_waterfall_c.py
++  pyqt_waterfall_f.py
+   DESTINATION ${GR_PKG_QTGUI_EXAMPLES_DIR}
+   COMPONENT "qtgui_python"
+ )
++
++install(
++    FILES
++    dark.qss
++    DESTINATION ${GR_PKG_QTGUI_EXAMPLES_DIR}
++    COMPONENT "qtgui_python"
++)
+-- 
+1.7.10.4
+

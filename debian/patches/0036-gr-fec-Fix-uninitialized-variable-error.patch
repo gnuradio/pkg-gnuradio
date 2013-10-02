@@ -1,0 +1,31 @@
+From 57ed3253d51788bdbba7502322c5ee4dc3ffb1de Mon Sep 17 00:00:00 2001
+From: Philip Balister <philip@balister.org>
+Date: Tue, 24 Sep 2013 14:23:21 -0400
+Subject: [PATCH 36/40] gr-fec : Fix uninitialized variable error.
+
+Addresses Coverity issue 1043258. Code likely worked since d_count is only
+used with the % operator. I think there is a potential rollover bug in the
+code and the use of % is a performance issue. This code needs some more
+janitor work.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ gr-fec/lib/decode_ccsds_27_fb_impl.cc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-fec/lib/decode_ccsds_27_fb_impl.cc b/gr-fec/lib/decode_ccsds_27_fb_impl.cc
+index 7c0f302..014297c 100644
+--- a/gr-fec/lib/decode_ccsds_27_fb_impl.cc
++++ b/gr-fec/lib/decode_ccsds_27_fb_impl.cc
+@@ -39,7 +39,7 @@ namespace gr {
+       : sync_decimator("decode_ccsds_27_fb",
+ 			  io_signature::make (1, 1, sizeof(float)),
+ 			  io_signature::make (1, 1, sizeof(char)),
+-			  2*8)  // Rate 1/2 code, unpacked to packed conversion
++			  2*8), d_count(0)  // Rate 1/2 code, unpacked to packed conversion
+     {
+       float RATE = 0.5;
+       float ebn0 = 12.0;
+-- 
+1.7.10.4
+

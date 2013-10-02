@@ -1,3 +1,10 @@
+gnuradio (3.7.1-2) unstable; urgency=low
+
+  * Match GNU Radio live distribution 2013-0926
+  * Use libsndfile if available
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 01 Oct 2013 18:36:54 -0400
+
 gnuradio (3.7.1-1) unstable; urgency=low
 
   * New upstream release

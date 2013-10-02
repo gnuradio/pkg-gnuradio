@@ -1,0 +1,25 @@
+From 8cbc3e7f83735b0b7eb546bec242d1f053c3d677 Mon Sep 17 00:00:00 2001
+From: Bastian Bloessl <bastian.bloessl@uibk.ac.at>
+Date: Sat, 17 Aug 2013 06:41:47 +0200
+Subject: [PATCH 25/40] logger: fix memory leak
+
+---
+ gnuradio-runtime/lib/logger.cc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gnuradio-runtime/lib/logger.cc b/gnuradio-runtime/lib/logger.cc
+index ce14abd..273183d 100644
+--- a/gnuradio-runtime/lib/logger.cc
++++ b/gnuradio-runtime/lib/logger.cc
+@@ -250,7 +250,7 @@ namespace gr {
+ 
+     layout->setConversionPattern(pattern);
+     app->setLayout(layout);
+-    logger->setAppender(*app);
++    logger->setAppender(app);
+   }
+ 
+   void
+-- 
+1.7.10.4
+

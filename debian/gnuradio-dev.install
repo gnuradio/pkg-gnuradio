@@ -1,4 +1,5 @@
 usr/include
 usr/lib/*/*.so
 usr/lib/*/pkgconfig/*.pc
-usr/lib/cmake/gnuradio
+usr/lib/*/cmake/gnuradio
+usr/lib/*/cmake/volk
