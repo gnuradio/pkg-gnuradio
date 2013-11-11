@@ -1,3 +1,141 @@
+gnuradio (3.7.1.1-1) unstable; urgency=low
+
+  * New upstream bugfix release
+  * Avoid functions not in FreeBSD libusb (Closes: #729270)
+  Bastian Bloessl (1):
+      logger: fix memory leak
+
+  Ben Hilburn (4):
+      CID: 1090040. Fairly straight-forward UNINIT fix in pycallback_object.
+      CID: 1090040. This bug can't, and doesn't need to be, fixed. Documented.
+      CID: 1088855. Fixing resource leak issues in fcdOpen
+      CID: 1090068. Fixes missing virtual destructor issue.
+
+  Douglas Geiger (2):
+      CID: Fixes 1046322
+      volk: fix typo in cmake symbol test
+
+  Jaroslav Skarvada (2):
+      cmake: Fixed FindGnuradio.cmake file for new 3.7 locations of headers.
+      cmake: adding library suffix variable for setting the cmake install
+             directory.
+
+  Jaroslav Škarvada (1):
+      uhd: add top-level exception reporting to uhd_fft
+
+  Johnathan Corgan (6):
+      Fix missing module imports in error case
+      filter: fix rational resampler tap defaults in GRC
+      modtool: fix GRC XML file creation when no args
+      modtool: fix broken commit d09f1c3d
+      Removed stray file from 3.6.x
+      cmake: update revision to 3.7.1.1
+
+  Louis Philippe Lessard (1):
+      fix: max_noutput_items is set globally but it should be local to a block.
+
+  Marcus Müller (2):
+      virtual destructor
+      running python slider.py now works again
+
+  Mark Cottrell (1):
+      runtime: fix disconnecting a msg port on a hier_block2
+
+  Martin Braun (4):
+      digital: Fixes CID 1043266
+      blocks: Fix CID 1088839, 1046407 and 1046395
+      digital: Fix CID 1043270, minor refactoring
+      modtool: Fixes for in-tree adds, argument parsing (&-bug)
+
+  Mathieu Rene (1):
+      volk: Add compiler flags for clang in archs.xml
+
+  Michael Dickens (1):
+      cmake: Fix and cleanup for new Ice library names in OSX through macports.
+
+  Micheal Dickens (1):
+      volk: allow AVX to compile using any compiler accepting xgetbv
+
+  Moritz Fischer (6):
+      Fixing issue CID 1046354.
+      Fixing CID 1043304. Lol wut?! ROFL
+      Fixing CID 1043300. Trivial UNINIT fix.
+      Fixing CID 1043296: Trivial UNINIT.
+      filter: Fixes CID 1046198
+      vocoder: Fixes CID 1043299. Simple unitialized variable.
+
+  Nathan West (3):
+      blocks: address CID 1043279. Remove member d_count (of keep_m_in_n)
+              that wasn't being used.
+      blocks: address CID 1043280. An unused member (of endian_swap) had
+              the same name as parameter. Removed member.
+      runtime: add qa for fast_atan2f, removed a float equality test
+
+  Nicholas Corgan (1):
+      wxgui: CPack fix
+
+  Philip Balister (6):
+      gr-filter : Eliminate memory leak in pm_remez.cc
+      gr-filter : Fix memory leaks in pm_remez.cc.
+      gr-filter: Add missing break statement.
+      gr-analog : Fix initialization bugs in cc anf ff power squelch blocks.
+      gnuradio-runtime : Fix uninitialized variable.
+      gr-fec : Fix uninitialized variable error.
+
+  Rick Spanbauer (1):
+      grc: fix instance of namespace change in error_rate.py
+
+  Sebastian Koslowski (2):
+      Allow variable vlen in GRC generated hier blocks
+      grc: make backspace chars work in TextDisplay
+
+  Sylvain Munaut (3):
+      qtgui: fixes to allow QTGUI to build on Gentoo.
+      wxgui: Allow Linux/X11 apps to be thread-safe
+      wxgui: ensure flowgraph shutdown before app exit
+
+  Tim O'Shea (5):
+      gr-ctrlport-monitor: update knob properties cleanly
+                           if exports are added at runtime
+      runtime: make sure all message only blocks always get a thread context
+               (not just message recievers), otherwise no thread context is
+               created and start() is never called
+      volk: fix for cross-compiling with non-standard toolchains
+      blocks: pdu_to_tagged stream, fix for meta to tag
+              conversion with multiple keys
+      runtime: expose message_subscribers() interface to python blocks
+
+  Tom Rondeau (18):
+      blocks: fixed simple documentation for blocks module
+              (copy/paste error from gr-digital).
+      docs: Adding documentation for how to use the thread priority
+            API of GR blocks.
+      runtime: fixed bug where average Performance Counters were
+               not being exported into Python.
+      runtime: exporting msg_edge_list now, too.
+      docs: updated/expanded docs for qtgui and filter capabilities.
+      qtgui: installing all examples.
+      cmake: improve OOT projects find the installed GNU Radio.
+      grc: fixes issue of needing [] around the core affinity field in GRC.
+      filter: Fixing the Hilbert transform and QA.
+      filter: fixed filter QA to calculate filter and delay instead of
+              using previously generated samples.
+      filter: fixed some QA code to compute the output instead of
+              using previously generated samples.
+      Merge branch 'maint' of git.gnuradio.org:gnuradio into maint
+      filter: sets comments for windows to export into Doxygen manual.
+      filter: fixing windows functions.
+      filter: fixed frequency translating filter.
+      volk: fixed volk rotator kernel to support aligned and unaligned.
+      build: don't allow us to build against QWT 6.1 until we can
+             update to support it.
+      volk: fixed rotatorpuppet for avx.
+
+  riatsila (1):
+      bug fix in pdu_to_tagged_stream_impl.cc
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 10 Nov 2013 17:35:42 -0500
+
 gnuradio (3.7.1-2) unstable; urgency=low
 
   * Match GNU Radio live distribution 2013-0926

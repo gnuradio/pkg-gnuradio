@@ -1,55 +1,23 @@
 --- a/gr-fcd/lib/hid/hid-libusb.c
 +++ b/gr-fcd/lib/hid/hid-libusb.c
-@@ -255,7 +255,7 @@
+@@ -250,7 +250,7 @@
  }
- #endif // INVASIVE_GET_USAGE
+ #endif /* INVASIVE_GET_USAGE */
  
--
-+#ifndef __FreeBSD_kernel__
- /* Get the first language the device says it reports. This comes from
-    USB string #0. */
- static uint16_t get_first_language(libusb_device_handle *dev)
-@@ -300,7 +300,7 @@
+-#ifdef __FreeBSD__
++#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+ /* The FreeBSD version of libusb doesn't have this funciton. In mainline
+    libusb, it's inlined in libusb.h. This function will bear a striking
+    resemblence to that one, because there's about one way to code it.
+@@ -757,7 +757,11 @@
+ 	libusb_cancel_transfer(dev->transfer);
  
- 	return 0;
- }
--
-+#endif
- 
- /* This function returns a newly allocated wide string containing the USB
-    device string numbered by the index. The returned string must be freed
-@@ -320,6 +320,25 @@
- 	char *inptr;
- 	char *outptr;
- 
-+#ifdef __FreeBSD_kernel__
-+        /* Get the string from libusb. */
-+        len = libusb_get_string_descriptor_ascii(dev,
-+                        idx,
-+                        (unsigned char*)buf,
-+                        sizeof(buf));
-+        if (len < 0)
-+                return NULL;
-+        
-+        buf[sizeof(buf)-1] = '\0';
-+        
-+        if (len+1 < sizeof(buf))
-+                buf[len+1] = '\0';
-+        
-+        /* Initialize iconv. */
-+        ic = iconv_open("UTF-32", "ASCII");
-+        if (ic == (iconv_t)-1)
-+                return NULL;
+ 	while (!dev->cancelled)
++#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
++	        libusb_handle_events(usb_context);
 +#else
- 	/* Determine which language to use. */
- 	uint16_t lang;
- 	lang = get_usb_code_for_current_locale();
-@@ -345,6 +364,8 @@
- 	if (ic == (iconv_t)-1)
- 		return NULL;
- 
+ 		libusb_handle_events_completed(usb_context, &dev->cancelled);
 +#endif
-+
- 	/* Convert to UTF-32 (wchar_t on glibc systems).
- 	   Skip the first character (2-bytes). */
- 	inptr = buf+2;
+ 
+ 	/* Now that the read thread is stopping, Wake any threads which are
+ 	   waiting on data (in hid_read_timeout()). Do this under a mutex to
