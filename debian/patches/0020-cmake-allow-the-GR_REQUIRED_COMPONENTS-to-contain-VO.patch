@@ -1,0 +1,25 @@
+From 8d80f587ffa5c7e50293c21287f3ea0f366efc9c Mon Sep 17 00:00:00 2001
+From: Tim O'Shea <tim.oshea753@gmail.com>
+Date: Fri, 13 Dec 2013 13:58:02 -0500
+Subject: [PATCH 20/25] cmake: allow the GR_REQUIRED_COMPONENTS to contain
+ VOLK when using GnuradioConfig.cmake interface
+
+---
+ cmake/Modules/GnuradioConfig.cmake |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/cmake/Modules/GnuradioConfig.cmake b/cmake/Modules/GnuradioConfig.cmake
+index a81211f..e120aba 100644
+--- a/cmake/Modules/GnuradioConfig.cmake
++++ b/cmake/Modules/GnuradioConfig.cmake
+@@ -130,6 +130,7 @@ GR_MODULE(VOCODER gnuradio-vocoder gnuradio/vocoder/api.h gnuradio-vocoder)
+ GR_MODULE(WAVELET gnuradio-wavelet gnuradio/wavelet/api.h gnuradio-wavelet)
+ GR_MODULE(WXGUI gnuradio-wxgui gnuradio/wxgui/api.h gnuradio-wxgui)
+ GR_MODULE(PMT gnuradio-runtime pmt/pmt.h gnuradio-pmt)
++GR_MODULE(VOLK volk volk/volk.h volk)
+ 
+ list(REMOVE_DUPLICATES GNURADIO_ALL_INCLUDE_DIRS)
+ list(REMOVE_DUPLICATES GNURADIO_ALL_LIBRARIES)
+-- 
+1.7.10.4
+

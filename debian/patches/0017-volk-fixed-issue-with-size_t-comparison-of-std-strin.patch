@@ -1,0 +1,28 @@
+From 756b9bbc82f9f19d1fd3f9d1ce186a9edcf04607 Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Tue, 17 Dec 2013 14:01:41 -0500
+Subject: [PATCH 17/25] volk: fixed issue with size_t comparison of
+ std::string function (compare against std::npos, not
+ -1).
+
+---
+ volk/lib/qa_utils.cc |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/volk/lib/qa_utils.cc b/volk/lib/qa_utils.cc
+index 8e9c4c2..17164a4 100644
+--- a/volk/lib/qa_utils.cc
++++ b/volk/lib/qa_utils.cc
+@@ -93,7 +93,8 @@ volk_type_t volk_type_from_string(std::string name) {
+ 
+     //get the data size
+     size_t last_size_pos = name.find_last_of("0123456789");
+-    if(last_size_pos < 0) throw std::string("no size spec in type ").append(name);
++    if(last_size_pos == std::string::npos)
++      throw std::string("no size spec in type ").append(name);
+     //will throw if malformed
+     int size = boost::lexical_cast<int>(name.substr(0, last_size_pos+1));
+ 
+-- 
+1.7.10.4
+

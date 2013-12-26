@@ -1,0 +1,386 @@
+GNU Radio releases 3.7.1.1 and 3.7.2 are now available for download:
+  
+  http://gnuradio.org/releases/gnuradio/gnuradio-3.7.1.1.tar.gz
+  http://gnuradio.org/releases/gnuradio/gnuradio-3.7.2.tar.gz
+  
+  MD5 Sums:
+  9e83fda298ceb4855b473c591dd5d397  gnuradio-3.7.1.1.tar.gz
+  9a9da8458fd0c1b452487524ed29f3fd  gnuradio-3.7.2.tar.gz
+  
+  Release 3.7.2 is a significant new feature and bux fix release, while
+  3.7.1.1 contains only the bug fixes since 3.7.1.
+  
+  These releases are the result of contributions from 22 developers in
+  the GNU Radio community:
+  
+  Alistair Bird <alistair.bird@gmail.com>
+  Bastian Bloessl <bastian.bloessl@uibk.ac.au>
+  Ben Hilburn <ben.hilburn@ettus.com>
+  Douglas Geiger <doug.geiger@bioradiation.net>
+  Jaroslav Škarvada <jskarvad@redhat.com>
+  Johnathan Corgan <johnathan@corganlabs.com>
+  Louis Philippe Lessard <git@louif.com>
+  Marcus Müller <marcus.mueller@student.kit.edu>
+  Mark Cottrell <mark.cottrell@taitradio.com>
+  Martin Braun <martin.braun@kit.edu>
+  Mathieu Rene <mrene@avgs.ca>
+  Michael Berman <michael@gpstoo.com>
+  Michael Dickens <michael.dickens@ettus.com>
+  Moritz Fischer <mortiz.fischer@ettus.com>
+  Nathan West <nathan.west@okstate.edu>
+  Nicholas Corgan <nick.corgan@ettus.com>
+  Philip Balister <philip@balister.org>
+  Rick Spanbauer <rspanbauer@ieee.org>
+  Sebastian Koslowski <koslowski@kit.edu>
+  Sylvain Munaut <246tnt@gmail.com>
+  Tim O'Shea <tim.oshea753@gmail.com>
+  Tom Rondeau <tom@trondeau.com>
+  
+  
+  GNU Radio Runtime/Framework updates
+  
+  Work continues on fleshing out the new asynchronous messaging
+  capabilities in GNU Radio, with additional functionality available in
+  Python flowgraphs, several blocks getting message ports to accept
+  parameter changes (noted below), better support for messaging only
+  blocks (mblocks) that have no streaming ports, and several bug fixes.
+  
+  Stream tag handling and propagation has been improved in cases where
+  DSP blocks introduce a signal delay.  Block authors/users are able to
+  declare an effective delay value to the runtime, and stream tags will
+  have their position adjusted by the runtime when tags are
+  automatically propagated through the block.  In addition, for blocks
+  derived from gr::block directly and have no fixed input/output item
+  ratio, the internal relative rate is dynamically adjusted according to
+  actual usage and stream tags are propagated appropriately.
+  
+  The performance monitoring system has a new counter that tracks
+  accumulated work function time, and the high_res_timer functions are
+  now exported to Python.
+  
+  
+  GNU Radio Companion Updates
+  The GRC Working Group that formed at GRCON13 in October established a
+  roadmap for GRC:
+  
+  http://gnuradio.org/redmine/projects/gnuradio/wiki/GRCroadmap
+  
+  Led by Sebastian Koslowski, several new features and some clean up
+  and bug fixes have been merged for release in 3.7.2.
+  
+  Searching for blocks on the right side GRC menu has always been
+  problematic.  The search is now implemented with a search box above
+  the category tree that is accessed via menu, Ctrl-F, or '/'. This box
+  is persistent, and typing in it filters the category tree in-place,
+  allowing one to note which category the block is in.  This also fixes
+  the long standing bug where GRC would crash if the search box was
+  opened and the category tree was scrolled.
+  
+  Tim O'Shea added the ability to set max_output_buffer on a per-block
+  basis inside GRC parameter blocks.
+  
+  
+  Correlate and Sync block (Tom Rondeau)
+  
+  As a result of work begun at GRHACK13 in June, we have added a new
+  block called gr::digital::correlate_and_sync. This block is designed
+  to search for a preamble by correlation and uses the results of the
+  correlation to get a time and phase offset estimate.  These estimates
+  are passed downstream as stream tags for use by follow-on
+  synchronization blocks. The tags are:
+  
+  * time_est: the estimate of the timing offset in fractions of samples.
+  
+  * phase_est: the phase estimate in radians (from 0 to 2pi).
+  
+  * corr_est: the value that triggered the correlation. Could be used
+    downstream to estimate the quality of the time/phase estimates.
+  
+  These tags are located on the sample index where the correlation peak
+  occurred.
+  
+  The correlate_and_sync block is designed to aid in the processing of
+  burst modems where the timing and phase acquisition loops can get out
+  of sync when there is no transmission.
+  
+  Currently, the pfb_clock_sync_ccf looks for and, if found, uses the
+  time_est tag to set its current value of the sample timing. By doing
+  this, we prime the clock synchronizer to be very close to the correct
+  sample time, which allows the loop to quickly converge and track
+  through the rest of the packet.
+  
+  The Costas loop block (costas_loop_cc) looks for and, if found, uses
+  the phase_est tag. The loop uses the phase estimation to set its
+  internal phase value. The frequency estimation of the loop is left as
+  is. This again gets the loop very close to the real phase offset and
+  allows the loop to acquire and track the actual phase offset quickly.
+  
+  There are three GRC programs that were created to test and explore the
+  use of this block. gr-digital/examples/demod/test_corr_and_sync.py is
+  a full simulation that generates burst PSK packets with a known header
+  and uses the correlate_and_sync block along with the
+  pfb_clock_sync_ccf and costas_loop_cc block's to generate and use the
+  correlation-based tags. Noise, timing offset, and frequency offset can
+  all be adjusted to test the limits and behavior of the receiver. If
+  the bottom disabled blocks are enabled, this example will also show
+  the original bits of the packets against the received and recovered
+  packets. Because the timing synchronization has a non-consistent
+  consume/produce model, the delay between the transmitter and receiver
+  is not constant, especially when a timing offset is applied. The
+  initial delay value is correct for the very start of the simulation
+  but will quickly walk away and must be manually tuned to keep the
+  streams synchronized.
+  
+  The uhd_corr_and_sync_tx and _rx are designed for OTA testing. They
+  allow us to set the center frequency and gains (both digital and
+  analog) of both receiver and transmitter.
+  
+  
+  QTGUI Time Sink Improvements (Tom Rondeau)
+  
+  Also derived from work begun at GRHACK13, time sinks from gr-qtgui now
+  display stream tags as a "key: value" on the sample they are
+  associated with. This behavior can be turned off using the drop-down
+  context menu (middle mouse button) and can be selected for a given
+  input stream. By default, all tags are shown on all input streams.
+  
+  Time sinks also include triggering features. The triggering parameters
+  can be set in the Properties box of the sink or by using the drop-down
+  context menu (middle mouse button). The triggering features include
+  setting the mode to "free running," "auto trigger," "normal trigger,"
+  and "tag trigger." The auto and normal trigger modes are done based on
+  the slope of the line (positive or negative) crossing a set threshold
+  level. Tag triggering is done off a tag's key and will trigger if that
+  key is seen. Triggering is done on the left-most side of the screen by
+  default (delay = 0). A delay can be set from 0 to the end of the
+  visible timeline. If set outside this range, it is automatically
+  restricted to these bounds. The input channel to trigger off can also
+  be set.
+  
+  
+  Channel Model Additions (Tim O'Shea)
+  
+  Three new channel model blocks have been added:
+  
+  * gr::channels::cfo_model implements a bounded random-walk on center
+    frequency offset
+  
+  * gr::channels::sro_model implements a bounded random-walk on sample
+    rate offset
+  
+  * gr::channels::dynamic_channel_model is a hierarchical block that
+    combines AWGN, sample rate offset, center frequency offset, Rayleigh
+    and Rician fading, channel impulse response, and power delay profile
+    modeling.
+  
+  
+  OFDM Reference Code Updates
+  
+  Martin Braun continues to improve the new OFDM reference code released
+  in 3.7.0, with new features such as scrambling and header error
+  checking.  This is an area of rapid development and feedback on usage
+  is encouraged.
+  
+  
+  Digital Filter and Windows Cleanup (Tom Rondeau)
+  
+  The code for implementing window functions has been overhauled, to
+  remove duplicated code between gr::fft and gr::filter, and fix a few
+  bugs.
+  
+  
+  Coverity Scan Bug Fixes
+  
+  In July this year, Philip Balister set GNU Radio up to begin using the
+  Coverity static analysis tool, and an announcement went out on the
+  discussion list in October:
+  
+  https://lists.gnu.org/archive/html/discuss-gnuradio/2013-10/msg00014.html
+  Since then, 25 identified bugs have been fixed and closed by several
+  contributors.  If you are looking for a way to get involved in GNU
+  Radio, this is a great place to start.
+  
+  
+  Other new blocks or block updates:
+  
+  * gr::blocks::stream_to_tagged_stream is a new block to add periodic
+    length tags, allowing uses like feeding file sources into tagged
+    stream blocks. (Martin Braun)
+  
+  * gr::blocks::file_sink now has the ability to append to a file,
+    making it easier to use with IPC instead of files. (Bastian Bloessl)
+  
+  * gr::blocks::chunks_to_symbols can now receive symbol table updates
+    via async messages (Tom Rondeau)
+  
+  * gr::blocks::tag_debug can now filter/display single keys (Tom Rondeau)
+  
+  * gr::blocks::repack_bits can now update input and output values via
+    async messages (Tom Rondeau)
+  
+  * gr::digital::constellation_soft_decoder is a new block that produces
+    soft decisions as floats instead of hard decisions (Tom Rondeau)
+  
+  * gr::digital::constellation_modulator is a new block that uses a
+    constellation object for configuration (Tom Rondeau)
+  
+  * gr::digital::constellation_receiver now has ControlPort interfaces
+    and can receive a new constellation configuration via async message
+    (Tom Rondeau)
+  
+  * gr::digital::costas_loop can now be monitored remotely by
+    ControlPort.  It can also now receive an initial phase offset
+    estimate via an upstream added stream tag. (Tom Rondeau)
+  
+  * gr::digital::pfb_clock_sync can now receive an initial timing offset
+    estimate via an upstream added stream tag (Tom Rondeau)
+  
+  * gr::digital::additive_scrambler now supports stream tags (Martin
+    Braun)
+  
+  
+  VOLK Library Updates
+  
+  Improved support for detecting and using AVX instructions was added,
+  and a number of toolchain related bugs were cleaned up.  Tim O'Shea
+  added a new inverse square root kernel and speedups for
+  gr::analog::agc3.
+  
+  Bug Fixes
+  
+  There were too many bug fixes to list them individually; those
+  interested may look at the git log changes between tags v3.7.1 and
+  v3.7.1.1:
+  
+$ git shortlog v3.7.1...v3.7.1.1
+   Bastian Bloessl (1):
+      logger: fix memory leak
+
+  Ben Hilburn (4):
+      CID: 1090040. Fairly straight-forward UNINIT fix in pycallback_object.
+      CID: 1090040. This bug can't, and doesn't need to be, fixed. Documented.
+      CID: 1088855. Fixing resource leak issues in fcdOpen
+      CID: 1090068. Fixes missing virtual destructor issue.
+
+  Douglas Geiger (2):
+      CID: Fixes 1046322
+      volk: fix typo in cmake symbol test
+
+  Jaroslav Skarvada (2):
+      cmake: Fixed FindGnuradio.cmake file for new 3.7 locations of headers.
+      cmake: adding library suffix variable for setting the cmake install
+             directory.
+
+  Jaroslav Škarvada (1):
+      uhd: add top-level exception reporting to uhd_fft
+
+  Johnathan Corgan (6):
+      Fix missing module imports in error case
+      filter: fix rational resampler tap defaults in GRC
+      modtool: fix GRC XML file creation when no args
+      modtool: fix broken commit d09f1c3d
+      Removed stray file from 3.6.x
+      cmake: update revision to 3.7.1.1
+
+  Louis Philippe Lessard (1):
+      fix: max_noutput_items is set globally but it should be local to a block.
+
+  Marcus Müller (2):
+      virtual destructor
+      running python slider.py now works again
+
+  Mark Cottrell (1):
+      runtime: fix disconnecting a msg port on a hier_block2
+
+  Martin Braun (4):
+      digital: Fixes CID 1043266
+      blocks: Fix CID 1088839, 1046407 and 1046395
+      digital: Fix CID 1043270, minor refactoring
+      modtool: Fixes for in-tree adds, argument parsing (&-bug)
+
+  Mathieu Rene (1):
+      volk: Add compiler flags for clang in archs.xml
+
+  Michael Dickens (1):
+      cmake: Fix and cleanup for new Ice library names in OSX through macports.
+
+  Micheal Dickens (1):
+      volk: allow AVX to compile using any compiler accepting xgetbv
+
+  Moritz Fischer (6):
+      Fixing issue CID 1046354.
+      Fixing CID 1043304. Lol wut?! ROFL
+      Fixing CID 1043300. Trivial UNINIT fix.
+      Fixing CID 1043296: Trivial UNINIT.
+      filter: Fixes CID 1046198
+      vocoder: Fixes CID 1043299. Simple unitialized variable.
+
+  Nathan West (3):
+      blocks: address CID 1043279. Remove member d_count (of keep_m_in_n)
+              that wasn't being used.
+      blocks: address CID 1043280. An unused member (of endian_swap) had
+              the same name as parameter. Removed member.
+      runtime: add qa for fast_atan2f, removed a float equality test
+
+  Nicholas Corgan (1):
+      wxgui: CPack fix
+
+  Philip Balister (6):
+      gr-filter : Eliminate memory leak in pm_remez.cc
+      gr-filter : Fix memory leaks in pm_remez.cc.
+      gr-filter: Add missing break statement.
+      gr-analog : Fix initialization bugs in cc anf ff power squelch blocks.
+      gnuradio-runtime : Fix uninitialized variable.
+      gr-fec : Fix uninitialized variable error.
+
+  Rick Spanbauer (1):
+      grc: fix instance of namespace change in error_rate.py
+
+  Sebastian Koslowski (2):
+      Allow variable vlen in GRC generated hier blocks
+      grc: make backspace chars work in TextDisplay
+
+  Sylvain Munaut (3):
+      qtgui: fixes to allow QTGUI to build on Gentoo.
+      wxgui: Allow Linux/X11 apps to be thread-safe
+      wxgui: ensure flowgraph shutdown before app exit
+
+  Tim O'Shea (5):
+      gr-ctrlport-monitor: update knob properties cleanly
+                           if exports are added at runtime
+      runtime: make sure all message only blocks always get a thread context
+               (not just message recievers), otherwise no thread context is
+               created and start() is never called
+      volk: fix for cross-compiling with non-standard toolchains
+      blocks: pdu_to_tagged stream, fix for meta to tag
+              conversion with multiple keys
+      runtime: expose message_subscribers() interface to python blocks
+
+  Tom Rondeau (18):
+      blocks: fixed simple documentation for blocks module
+              (copy/paste error from gr-digital).
+      docs: Adding documentation for how to use the thread priority
+            API of GR blocks.
+      runtime: fixed bug where average Performance Counters were
+               not being exported into Python.
+      runtime: exporting msg_edge_list now, too.
+      docs: updated/expanded docs for qtgui and filter capabilities.
+      qtgui: installing all examples.
+      cmake: improve OOT projects find the installed GNU Radio.
+      grc: fixes issue of needing [] around the core affinity field in GRC.
+      filter: Fixing the Hilbert transform and QA.
+      filter: fixed filter QA to calculate filter and delay instead of
+              using previously generated samples.
+      filter: fixed some QA code to compute the output instead of
+              using previously generated samples.
+      Merge branch 'maint' of git.gnuradio.org:gnuradio into maint
+      filter: sets comments for windows to export into Doxygen manual.
+      filter: fixing windows functions.
+      filter: fixed frequency translating filter.
+      volk: fixed volk rotator kernel to support aligned and unaligned.
+      build: don't allow us to build against QWT 6.1 until we can
+             update to support it.
+      volk: fixed rotatorpuppet for avx.
+
+  riatsila (1):
+      bug fix in pdu_to_tagged_stream_impl.cc

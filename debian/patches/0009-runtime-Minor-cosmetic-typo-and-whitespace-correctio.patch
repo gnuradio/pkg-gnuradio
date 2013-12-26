@@ -1,0 +1,68 @@
+From 9a72fbbbc55f27bd01dfcfac2fa90b950c5c076d Mon Sep 17 00:00:00 2001
+From: Moritz Fischer <moritz@ettus.com>
+Date: Sat, 7 Dec 2013 13:57:43 +0100
+Subject: [PATCH 09/25] runtime: Minor cosmetic typo and whitespace
+ corrections.
+
+Signed-off-by: Moritz Fischer <moritz@ettus.com>
+---
+ gnuradio-runtime/include/gnuradio/buffer.h |    2 +-
+ gnuradio-runtime/lib/buffer.cc             |    8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/gnuradio-runtime/include/gnuradio/buffer.h b/gnuradio-runtime/include/gnuradio/buffer.h
+index 4e95783..e2d5760 100644
+--- a/gnuradio-runtime/include/gnuradio/buffer.h
++++ b/gnuradio-runtime/include/gnuradio/buffer.h
+@@ -31,7 +31,7 @@
+ #include <deque>
+ 
+ namespace gr {
+-  
++
+   class vmcircbuf;
+ 
+   /*!
+diff --git a/gnuradio-runtime/lib/buffer.cc b/gnuradio-runtime/lib/buffer.cc
+index afa3efa..162324e 100644
+--- a/gnuradio-runtime/lib/buffer.cc
++++ b/gnuradio-runtime/lib/buffer.cc
+@@ -40,7 +40,7 @@ namespace gr {
+ 
+   /* ----------------------------------------------------------------------------
+   			Notes on storage management
+-  
++
+    Pretty much all the fundamental classes are now using the
+    shared_ptr stuff for automatic reference counting. To ensure that
+    no mistakes are made, we make the constructors for classes private,
+@@ -68,7 +68,7 @@ namespace gr {
+   /*
+    * Compute the minimum number of buffer items that work (i.e.,
+    * address space wrap-around works).  To work is to satisfy this
+-   * contraint for integer buffer_size and k:
++   * constraint for integer buffer_size and k:
+    *
+    *     type_size * nitems == k * page_size
+    */
+@@ -79,7 +79,7 @@ namespace gr {
+   }
+ 
+ 
+-  buffer::buffer(int nitems, size_t sizeof_item, block_sptr link) 
++  buffer::buffer(int nitems, size_t sizeof_item, block_sptr link)
+     : d_base(0), d_bufsize(0), d_max_reader_delay(0), d_vmcircbuf(0),
+       d_sizeof_item(sizeof_item), d_link(link),
+       d_write_index(0), d_abs_write_offset(0), d_done(false),
+@@ -356,7 +356,7 @@ namespace gr {
+ 	  v.back().marked_deleted.clear();
+ 	}
+       }
+-      
++
+       itr++;
+     }
+   }
+-- 
+1.7.10.4
+

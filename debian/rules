@@ -5,14 +5,15 @@ export DEB_HOST_MULTIARCH
 %:
 	dh $@ --parallel --builddirectory=build --with-buildsystem=cmake --with python2
 
-#override_dh_python2:
-#	dh_python2 --no-guessing-versions
-
 override_dh_auto_configure:
 	dh_auto_configure -- -DLIB_SUFFIX="/$(DEB_HOST_MULTIARCH)" -DPythonLibs_FIND_VERSION:STRING="2.7" -DPythonInterp_FIND_VERSION:STRING="2.7"
+#	dh_auto_configure -- -DCMAKE_CC_COMPILER=gcc-4.6 -DCMAKE_CXX_COMPILER=g++-4.6 -DLIB_SUFFIX="/$(DEB_HOST_MULTIARCH)" -DPythonLibs_FIND_VERSION:STRING="2.7" -DPythonInterp_FIND_VERSION:STRING="2.7"
+
+override_dh_python2:
+	dh_python2 --no-guessing-versions
 
 override_dh_auto_test:
-	- dh_auto_test -- -DCTEST_TEST_TIMEOUT=60
+	- dh_auto_test -- CTEST_TEST_TIMEOUT=60
 
 override_dh_auto_install:
 	dh_auto_install

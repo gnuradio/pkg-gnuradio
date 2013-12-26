@@ -1,0 +1,27 @@
+From 17730e5ad61ceb90cee130e620624d3430ff3985 Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Fri, 6 Dec 2013 21:41:11 -0500
+Subject: [PATCH] Feature 606: Allow grc to find OOT blocks under /usr/local
+ by default
+
+---
+ grc/CMakeLists.txt |    3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/grc/CMakeLists.txt b/grc/CMakeLists.txt
+index 05c1293..bd9bb57 100644
+--- a/grc/CMakeLists.txt
++++ b/grc/CMakeLists.txt
+@@ -67,6 +67,9 @@ CPACK_COMPONENT("grc"
+ # Create and install the grc conf file
+ ########################################################################
+ file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${GRC_BLOCKS_DIR} blocksdir)
++if(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
++  SET(blocksdir "${blocksdir};/usr/local/${GRC_BLOCKS_DIR}")
++endif(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
+ 
+ configure_file(
+     ${CMAKE_CURRENT_SOURCE_DIR}/grc.conf.in
+-- 
+1.7.10.4
+

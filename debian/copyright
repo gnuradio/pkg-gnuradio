@@ -2,7 +2,7 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: gnuradio
 Upstream-Contact: http://gnuradio.org/
 Source:
- http://gnuradio.org/releases/gnuradio/gnuradio-3.7.1.tar.gz
+ http://gnuradio.org/releases/gnuradio/gnuradio-3.7.2.1.tar.gz
 Comment:
  Packages of versions 3.4 and up by A. Maitland Bottoms <bottoms@debian.org>,
  GNU Radio was re-packaged by Bdale Garbee <bdale@gag.com> to reflect
@@ -67,22 +67,17 @@ License: public-domain
  Copyright year based on timestamps of files retrieved from
  http://web.archive.org/web/20060721140319/http://www.cwi.nl/ftp/audio/ccitt-adpcm.tar.gz
 
-Files: gnuradio-core/src/lib/general/malloc16.c
+Files: gnuradio-runtime/src/lib/general/malloc16.c
 Copyright: 2001 Phil Karn, KA9Q
 License: GPL-3+
 
-Files: gnuradio-core/src/lib/reed-solomon/*
+Files: gr-fec/lib/reed-solomon/*
 Copyright: 2002, Phil Karn, KA9Q
 License: GPL-3+
 
-Files: gnuradio-core/src/lib/viterbi/*
+Files: gr-fec/lib/viterbi/*
 Copyright: 1995 Phil Karn, KA9Q
  Copyright 2008 Free Software Foundation, Inc.
-License: GPL-3+
-
-Files: gnuradio-core/src/lib/filter/short_dotprod_mmx*
-Copyright: 1999, Phil Karn KA9Q
- Copyright 2002,2005 Free Software Foundation, Inc.
 License: GPL-3+
 
 Files: gr-vocoder/lib/gsm/*
@@ -90,7 +85,7 @@ Copyright: 1992, 1993, 1994 by Jutta Degener and Carsten Bormann, Technische Uni
 Comment: MIT-like license
 License: TUB
 
-Files: gruel/src/include/gruel/thread_group.h gruel/src/lib/thread_group.cc
+Files: gnuradio-runtime/include/gnuradio/thread/thread_group.h gnuradio-runtime/src/lib/thread_group.cc
 Copyright: (C) 2001-2003 William E. Kempf
  Copyright (C) 2007 Anthony Williams
  Copyright 2008 Free Software Foundation, Inc.
@@ -100,7 +95,7 @@ Comment:
  Version 1.0, but this derivative work is now covered by the overall
  license assertion for GNU Radio.
 
-Files: gnuradio-core/src/lib/general/gr_remez.cc
+Files: gr-filter/lib/pm_remez.cc
 Copyright: (c) 1995,1998  Jake Janovetz (janovetz@uiuc.edu)
  Copyright (c) 2004  Free Software Foundation, Inc.
 License: GPL-3+
@@ -124,12 +119,7 @@ Comment:
  derivative work is now covered by the overall license assertion 
  for GNU Radio.
 
-Files: gnuradio-core/src/guile/Swig/common.scm
-Copyright: (C) 2003 John Lenz (jelenz@wisc.edu)
- Copyright (C) 2004 Matthias Koeppe (mkoeppe@mail.math.uni-magdeburg.de)
-License: other-sa
-
-Files: gnuradio-core/src/python/gnuradio/gr_xmlrunner.py
+Files: gnuradio-runtime/python/gnuradio/gr_xmlrunner.py
 Copyright: 2006 Public Domain
 License: public-domain
  Written by Sebastian Rittau <srittau@jroger.in-berlin.de> and placed in
@@ -145,16 +135,16 @@ Copyright: 2003-2010, Mark Borgerding
 License: KISS-BSD
 
 Files: gr-vocoder/lib/codec2/*
-Copyright: (C) 1990-2010 David Rowe
+Copyright: (C) 1990-2013 David Rowe
 License: LGPLv2.1+
 
-Files: volk/msvc/*
-Copyright: (c) 2006 Alexander Chemeris
+Files: volk/cmake/msvc/*
+Copyright: (c) 2006-2008 Alexander Chemeris
 License: BSD-3
 
 Files: debian/*
-Copyright: 2011-2012 A. Maitland Bottoms <bottoms@debian.org>
- Copyright 2011-2012 Free Software Foundation, Inc.
+Copyright: 2011-2013 A. Maitland Bottoms <bottoms@debian.org>
+ Copyright 2011-2013 Free Software Foundation, Inc.
 License: GPL-3+
 
 Files: gr-fcd/*
@@ -169,10 +159,6 @@ Files: gr-fcd/lib/fcd/*
 Copyright: 2010  Howard Long, G6LVB
  Copyright 2011 Alexandru Csete, OZ9AEC ; Mario Lorenz, DL5MLO
 License: GPL-3
-
-License: other-sa
- This file may be freely redistributed without license or fee provided
- this copyright message remains intact
 
 License: TUB
  Any use of this software is permitted provided that this notice is not

@@ -1,0 +1,72 @@
+From 7f9e9e19edbcfe9dc856f659f733bdd1c20d8b2c Mon Sep 17 00:00:00 2001
+From: Tim O'Shea <tim.oshea753@gmail.com>
+Date: Tue, 10 Dec 2013 15:35:39 -0500
+Subject: [PATCH 12/25] volk: clang/linux/avx fix cmake: findIce fix (search
+ $CMAKE_INSTALL_PREFIX first for source installed 3.5
+ needed for clang)
+
+---
+ cmake/Modules/FindICE.cmake |    6 ++++++
+ volk/lib/CMakeLists.txt     |    2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/cmake/Modules/FindICE.cmake b/cmake/Modules/FindICE.cmake
+index c1d18df..85144b3 100644
+--- a/cmake/Modules/FindICE.cmake
++++ b/cmake/Modules/FindICE.cmake
+@@ -39,6 +39,7 @@ FIND_PATH(
+   ICE_INCLUDE_DIR
+   NAMES IceUtil/IceUtil.h Ice/Ice.h
+   NO_DEFAULT_PATH
++  HINTS ${CMAKE_INSTALL_PREFIX}/include
+   HINTS ${ICE_PATH}/include
+ )
+ 
+@@ -53,26 +54,31 @@ endif(APPLE)
+ FIND_LIBRARY(
+   ICE_ICE ${ICE_LIB_PREFIX}Ice
+   NO_DEFAULT_PATH
++  HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/lib64
+   HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ FIND_LIBRARY(
+   ICE_ICESTORM ${ICE_LIB_PREFIX}IceStorm
+   NO_DEFAULT_PATH
++  HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/lib64
+   HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ FIND_LIBRARY(
+   ICE_ICEGRID ${ICE_LIB_PREFIX}IceGrid
+   NO_DEFAULT_PATH
++  HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/lib64
+   HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ FIND_LIBRARY(
+   ICE_ICEUTIL ${ICE_LIB_PREFIX}IceUtil
+   NO_DEFAULT_PATH
++  HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/lib64
+   HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ FIND_LIBRARY(
+   ICE_GLACIER2 Glacier2
+   NO_DEFAULT_PATH
++  HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/lib64
+   HINTS ${ICE_PATH}/lib ${ICE_PATH}/lib64
+ )
+ 
+diff --git a/volk/lib/CMakeLists.txt b/volk/lib/CMakeLists.txt
+index eda3a10..4ac67bc 100644
+--- a/volk/lib/CMakeLists.txt
++++ b/volk/lib/CMakeLists.txt
+@@ -154,7 +154,7 @@ endif()
+ # eliminate AVX if cvtpi32_ps intrinsic fails on Apple
+ ########################################################################
+ 
+-if(${HAVE_XGETBV} AND APPLE)
++if(${HAVE_XGETBV})
+     # check to see if the compiler/linker works with cvtpi32_ps instrinsic
+     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test_cvtpi32_ps.c "#include <immintrin.h>\nint main (void) {__m128 __a; __m64 __b; __m128 foo = _mm_cvtpi32_ps(__a, __b); return (0); }")
+     execute_process(COMMAND ${CMAKE_C_COMPILER} -mavx -o
+-- 
+1.7.10.4
+

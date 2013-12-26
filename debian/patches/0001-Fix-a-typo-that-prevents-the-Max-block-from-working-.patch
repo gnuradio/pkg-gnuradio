@@ -1,0 +1,26 @@
+From 1f286ca086446eb8fa55c6cb90ebb55de35325cc Mon Sep 17 00:00:00 2001
+From: Clayton Smith <argilo@gmail.com>
+Date: Sun, 1 Dec 2013 10:03:48 -0500
+Subject: [PATCH 01/25] Fix a typo that prevents the Max block from working in
+ GNU Radio Companion when its IO Type is set to Short.
+
+---
+ gr-blocks/grc/blocks_max_xx.xml |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-blocks/grc/blocks_max_xx.xml b/gr-blocks/grc/blocks_max_xx.xml
+index afbcae9..587b471 100644
+--- a/gr-blocks/grc/blocks_max_xx.xml
++++ b/gr-blocks/grc/blocks_max_xx.xml
+@@ -27,7 +27,7 @@
+ 		<option>
+ 			<name>Short</name>
+ 			<key>short</key>
+-			<opt>fcn:dd</opt>
++			<opt>fcn:ss</opt>
+ 		</option>
+ 	</param>
+ 	<param>
+-- 
+1.7.10.4
+
