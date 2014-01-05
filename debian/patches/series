@@ -34,4 +34,3 @@ bsd-shm
 bsd-alsa
 bsd-no-thread-affinity
 debian-ICE-default-location
-update-codec2

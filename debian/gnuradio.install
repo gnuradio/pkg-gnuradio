@@ -1,4 +1,4 @@
-etc/*
-usr/bin/*
-usr/lib/p*
-usr/share/gnuradio/*
+etc
+usr/bin
+usr/lib/python*
+usr/share/gnuradio
