@@ -1,3 +1,9 @@
+gnuradio (3.7.2.1-5) unstable; urgency=low
+
+  * use correct compiler for unstable build
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 05 Jan 2014 12:14:43 -0500
+
 gnuradio (3.7.2.1-4) unstable; urgency=low
 
   * Clarify gnuradio.install (Closes: #734207)
