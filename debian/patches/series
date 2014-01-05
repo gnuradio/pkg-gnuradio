@@ -1,4 +1,3 @@
-Feature606
 0001-Fix-a-typo-that-prevents-the-Max-block-from-working-.patch
 0002-volk-removing-duplicate-entry-for-volk_8i_convert_16.patch
 0003-volk-using-union-for-float-to-int-conversion-in-volk.patch
