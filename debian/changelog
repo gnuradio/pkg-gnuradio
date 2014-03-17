@@ -1,3 +1,9 @@
+gnuradio (3.7.3-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 09 Mar 2014 20:55:45 -0400
+
 gnuradio (3.7.2.2-1) unstable; urgency=low
 
   * New upstream bugfix release
