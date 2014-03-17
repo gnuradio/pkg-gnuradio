@@ -1,3 +1,15 @@
+gnuradio (3.7.2.2-1) unstable; urgency=low
+
+  * New upstream bugfix release
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sat, 08 Mar 2014 23:29:48 -0500
+
+gnuradio (3.7.2.1-5~bpo70+1) wheezy-backports; urgency=low
+
+  * Rebuild for wheezy-backports.
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 27 Jan 2014 23:14:55 -0500
+
 gnuradio (3.7.2.1-5) unstable; urgency=low
 
   * use correct compiler for unstable build

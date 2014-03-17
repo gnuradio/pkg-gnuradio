@@ -1,11 +1,11 @@
 --- a/gnuradio-runtime/lib/thread/thread.cc
 +++ b/gnuradio-runtime/lib/thread/thread.cc
-@@ -115,7 +115,7 @@
- } /* namespace gr */
+@@ -116,7 +116,7 @@
  
  
--#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
-+#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__) || defined(__FreeBSD_kernel__)
+ #elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__) || \
+-    defined(__FreeBSD__)
++  defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
  
  namespace gr {
    namespace thread {
