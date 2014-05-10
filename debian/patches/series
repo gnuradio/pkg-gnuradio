@@ -13,6 +13,8 @@
 0013-Revert-When-specifying-a-const-reference-member-vari.patch
 0014-blocks-WAV-file-sink-s-DTOR-is-not-called-so-added-s.patch
 0015-digital-fix-for-issue-664.patch
+0016-qtgui-fixed-frequency-scale-for-float-frequency-plot.patch
+0017-filter-Python-pfb.arb_resampler-calculating-better-t.patch
 codec2-library-update
 codec2-blocks-update
 debian-soname
@@ -26,3 +28,4 @@ bsd-shm
 bsd-alsa
 bsd-no-thread-affinity
 debian-ICE-default-location
+gr-fcd-needs-usb
