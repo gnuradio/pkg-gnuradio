@@ -1,3 +1,11 @@
+gnuradio (3.7.3-9) unstable; urgency=low
+
+  * Update to v3.7.3-37-gaffda0b
+  * Additional codec2 updates
+  * Avoid buggy comedilib
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 04 May 2014 14:07:49 -0400
+
 gnuradio (3.7.3-8) unstable; urgency=low
 
   * No gr-fcd on hurd

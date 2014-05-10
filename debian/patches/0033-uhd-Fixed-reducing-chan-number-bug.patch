@@ -1,0 +1,27 @@
+From affda0ba43433927d6da0f692960af52dd952c06 Mon Sep 17 00:00:00 2001
+From: Martin Braun <martin.braun@ettus.com>
+Date: Fri, 2 May 2014 10:44:54 +0200
+Subject: [PATCH 33/33] uhd: Fixed "reducing chan number" bug
+
+In some cases, there could be an error when reducing the number
+of chans for UHD device in GRC (e.g. going from 2 chans to 1).
+This adds another check which will alert the user.
+---
+ gr-uhd/grc/gen_uhd_usrp_blocks.py |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gr-uhd/grc/gen_uhd_usrp_blocks.py b/gr-uhd/grc/gen_uhd_usrp_blocks.py
+index 02a89af..f80a7ee 100644
+--- a/gr-uhd/grc/gen_uhd_usrp_blocks.py
++++ b/gr-uhd/grc/gen_uhd_usrp_blocks.py
+@@ -298,6 +298,7 @@ self.\$(id).set_bandwidth(\$bw$(n), $n)
+ 	<check>$max_mboards >= \$num_mboards</check>
+ 	<check>\$num_mboards > 0</check>
+ 	<check>\$nchan >= \$num_mboards</check>
++	<check>(not \$stream_chans()) or (\$nchan == len(\$stream_chans))</check>
+ 	<$sourk>
+ 		<name>$direction</name>
+ 		<type>\$type.type</type>
+-- 
+1.7.10.4
+

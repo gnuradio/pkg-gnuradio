@@ -1,0 +1,35 @@
+From f1075bab714eb95afb1c68e8733dc5bab9df730a Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Mon, 21 Apr 2014 18:29:44 -0400
+Subject: [PATCH 20/33] controlport: in gr-perf-monitorx, if all work times
+ returned are 0, avoid a divide-by-zero fault.
+
+---
+ gnuradio-runtime/python/gnuradio/ctrlport/gr-perf-monitorx |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/gnuradio-runtime/python/gnuradio/ctrlport/gr-perf-monitorx b/gnuradio-runtime/python/gnuradio/ctrlport/gr-perf-monitorx
+index 1c6e074..5d9cdd1 100755
+--- a/gnuradio-runtime/python/gnuradio/ctrlport/gr-perf-monitorx
++++ b/gnuradio-runtime/python/gnuradio/ctrlport/gr-perf-monitorx
+@@ -412,6 +412,8 @@ class DataTableRuntimes(DataTable):
+ 
+         # strip values out of ctrlport response
+         total_work = sum(map(lambda x: x.value, wrk_knobs.values()))
++        if(total_work == 0):
++            total_work = 1
+         work_times = dict(zip(
+                     map(lambda x: x.split("::")[0], wrk_knobs.keys()),
+                     map(lambda x: x.value/total_work, wrk_knobs.values())))
+@@ -489,6 +491,8 @@ class MForm(QtGui.QWidget):
+ 
+             # strip values out of ctrlport response
+             total_work = sum(map(lambda x: x.value, wrk_knobs.values()))
++            if(total_work == 0):
++                total_work = 1
+             work_times = dict(zip(
+                         map(lambda x: x.split("::")[0], wrk_knobs.keys()),
+                         map(lambda x: x.value/total_work, wrk_knobs.values())))
+-- 
+1.7.10.4
+

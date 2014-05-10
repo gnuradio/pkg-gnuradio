@@ -1,0 +1,172 @@
+From 95c7554d7502e1add5c048f9a372c07f0de80637 Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Thu, 1 May 2014 18:28:50 -0400
+Subject: [PATCH 31/33] filter: updates kernel::fft_filter_xxx documentation
+ to better explain how it works and how to use it in
+ other blocks.
+
+Addresses concern raised in issue #662.
+---
+ gr-filter/include/gnuradio/filter/fft_filter.h |   98 ++++++++++++++++++++++--
+ 1 file changed, 91 insertions(+), 7 deletions(-)
+
+diff --git a/gr-filter/include/gnuradio/filter/fft_filter.h b/gr-filter/include/gnuradio/filter/fft_filter.h
+index 24f6ce3..6afd84d3 100644
+--- a/gr-filter/include/gnuradio/filter/fft_filter.h
++++ b/gr-filter/include/gnuradio/filter/fft_filter.h
+@@ -35,6 +35,34 @@ namespace gr {
+       /*!
+        * \brief Fast FFT filter with float input, float output and float taps
+        * \ingroup filter_blk
++       *
++       * \details
++       * This block performs fast convolution using the
++       * overlap-and-save algorithm. The filtering is performand in
++       * the frequency domain instead of the time domain (see
++       * gr::filter::kernel::fir_filter_fff). For an input signal x
++       * and filter coefficients (taps) t, we compute y as:
++       *
++       * \code
++       *    y = ifft(fft(x)*fft(t))
++       * \endcode
++       *
++       * This kernel computes the FFT of the taps when they are set to
++       * only perform this operation once. The FFT of the input signal
++       * x is done every time.
++       *
++       * Because this is designed as a very low-level kernel
++       * operation, it is designed for speed and avoids certain checks
++       * in the filter() function itself. The filter function expects
++       * that the input signal is a multiple of d_nsamples in the
++       * class that's computed internally to be as fast as
++       * possible. The function set_taps will return the value of
++       * nsamples that can be used externally to check this
++       * boundary. Notice that all implementations of the fft_filter
++       * GNU Radio blocks (e.g., gr::filter::fft_filter_fff) use this
++       * value of nsamples to compute the value to call
++       * gr::block::set_output_multiple that ensures the scheduler
++       * always passes this block the right number of samples.
+        */
+       class FILTER_API fft_filter_fff
+       {
+@@ -58,10 +86,10 @@ namespace gr {
+ 	 * \brief Construct an FFT filter for float vectors with the given taps and decimation rate.
+ 	 *
+ 	 * This is the basic implementation for performing FFT filter for fast convolution
+-	 * in other blocks for complex vectors (such as fft_filter_ccc).
++	 * in other blocks (e.g., gr::filter::fft_filter_fff).
+ 	 *
+ 	 * \param decimation The decimation rate of the filter (int)
+-	 * \param taps       The filter taps (complex)
++	 * \param taps       The filter taps (vector of float)
+ 	 * \param nthreads   The number of threads for the FFT to use (int)
+ 	 */
+ 	fft_filter_fff(int decimation,
+@@ -99,7 +127,7 @@ namespace gr {
+ 	int nthreads() const;
+ 
+ 	/*!
+-l	 * \brief Perform the filter operation
++	 * \brief Perform the filter operation
+ 	 *
+ 	 * \param nitems  The number of items to produce
+ 	 * \param input   The input vector to be filtered
+@@ -112,6 +140,34 @@ l	 * \brief Perform the filter operation
+       /*!
+        * \brief Fast FFT filter with gr_complex input, gr_complex output and gr_complex taps
+        * \ingroup filter_blk
++       *
++       * \details
++       * This block performs fast convolution using the
++       * overlap-and-save algorithm. The filtering is performand in
++       * the frequency domain instead of the time domain (see
++       * gr::filter::kernel::fir_filter_ccc). For an input signal x
++       * and filter coefficients (taps) t, we compute y as:
++       *
++       * \code
++       *    y = ifft(fft(x)*fft(t))
++       * \endcode
++       *
++       * This kernel computes the FFT of the taps when they are set to
++       * only perform this operation once. The FFT of the input signal
++       * x is done every time.
++       *
++       * Because this is designed as a very low-level kernel
++       * operation, it is designed for speed and avoids certain checks
++       * in the filter() function itself. The filter function expects
++       * that the input signal is a multiple of d_nsamples in the
++       * class that's computed internally to be as fast as
++       * possible. The function set_taps will return the value of
++       * nsamples that can be used externally to check this
++       * boundary. Notice that all implementations of the fft_filter
++       * GNU Radio blocks (e.g., gr::filter::fft_filter_ccc) use this
++       * value of nsamples to compute the value to call
++       * gr::block::set_output_multiple that ensures the scheduler
++       * always passes this block the right number of samples.
+        */
+       class FILTER_API fft_filter_ccc
+       {
+@@ -135,10 +191,10 @@ l	 * \brief Perform the filter operation
+ 	 * \brief Construct an FFT filter for complex vectors with the given taps and decimation rate.
+ 	 *
+ 	 * This is the basic implementation for performing FFT filter for fast convolution
+-	 * in other blocks for complex vectors (such as fft_filter_ccc).
++	 * in other blocks (e.g., gr::filter::fft_filter_ccc).
+ 	 *
+ 	 * \param decimation The decimation rate of the filter (int)
+-	 * \param taps       The filter taps (complex)
++	 * \param taps       The filter taps (vector of complex)
+ 	 * \param nthreads   The number of threads for the FFT to use (int)
+ 	 */
+ 	fft_filter_ccc(int decimation,
+@@ -190,6 +246,34 @@ l	 * \brief Perform the filter operation
+       /*!
+        * \brief Fast FFT filter with gr_complex input, gr_complex output and float taps
+        * \ingroup filter_blk
++       *
++       * \details
++       * This block performs fast convolution using the
++       * overlap-and-save algorithm. The filtering is performand in
++       * the frequency domain instead of the time domain (see
++       * gr::filter::kernel::fir_filter_ccf). For an input signal x
++       * and filter coefficients (taps) t, we compute y as:
++       *
++       * \code
++       *    y = ifft(fft(x)*fft(t))
++       * \endcode
++       *
++       * This kernel computes the FFT of the taps when they are set to
++       * only perform this operation once. The FFT of the input signal
++       * x is done every time.
++       *
++       * Because this is designed as a very low-level kernel
++       * operation, it is designed for speed and avoids certain checks
++       * in the filter() function itself. The filter function expects
++       * that the input signal is a multiple of d_nsamples in the
++       * class that's computed internally to be as fast as
++       * possible. The function set_taps will return the value of
++       * nsamples that can be used externally to check this
++       * boundary. Notice that all implementations of the fft_filter
++       * GNU Radio blocks (e.g., gr::filter::fft_filter_ccf) use this
++       * value of nsamples to compute the value to call
++       * gr::block::set_output_multiple that ensures the scheduler
++       * always passes this block the right number of samples.
+        */
+       class FILTER_API fft_filter_ccf
+       {
+@@ -213,10 +297,10 @@ l	 * \brief Perform the filter operation
+ 	 * \brief Construct an FFT filter for complex vectors with the given taps and decimation rate.
+ 	 *
+ 	 * This is the basic implementation for performing FFT filter for fast convolution
+-	 * in other blocks for complex vectors (such as fft_filter_ccf).
++	 * in other blocks (e.g., gr::filter::fft_filter_ccf).
+ 	 *
+ 	 * \param decimation The decimation rate of the filter (int)
+-	 * \param taps       The filter taps (complex)
++	 * \param taps       The filter taps (float)
+ 	 * \param nthreads   The number of threads for the FFT to use (int)
+ 	 */
+ 	fft_filter_ccf(int decimation,
+-- 
+1.7.10.4
+

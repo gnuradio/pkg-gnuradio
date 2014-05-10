@@ -1,0 +1,26 @@
+From 53ac8e81710ababafba629ac6b6c2b65622af0cd Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Thu, 24 Apr 2014 10:00:38 -0400
+Subject: [PATCH 27/33] channels: fixing a minor bug in the flag_fader model.
+
+Bug fix from 'qin 1921' submitted to GR mailing list.
+---
+ gr-channels/lib/flat_fader_impl.cc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-channels/lib/flat_fader_impl.cc b/gr-channels/lib/flat_fader_impl.cc
+index af35e29..33cf37d 100644
+--- a/gr-channels/lib/flat_fader_impl.cc
++++ b/gr-channels/lib/flat_fader_impl.cc
+@@ -64,7 +64,7 @@ namespace gr {
+         gr_complex H(0,0);
+ 
+         for(int n=1; n<d_N; n++){
+-            float alpha_n = (2*M_PI*n - M_PI + d_theta)/4*d_N;
++	  float alpha_n = (2*M_PI*n - M_PI + d_theta)/(4*d_N);
+ #if FASTSINCOS == 1
+             float s_i = scale_sin*gr::fxpt::cos(gr::fxpt::float_to_fixed(2*M_PI*d_fDTs*d_m*gr::fxpt::cos(gr::fxpt::float_to_fixed(alpha_n))+d_psi[n+1]));
+             float s_q = scale_sin*gr::fxpt::cos(gr::fxpt::float_to_fixed(2*M_PI*d_fDTs*d_m*gr::fxpt::sin(gr::fxpt::float_to_fixed(alpha_n))+d_phi[n+1]));
+-- 
+1.7.10.4
+

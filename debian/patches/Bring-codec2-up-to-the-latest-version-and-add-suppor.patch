@@ -1,0 +1,582 @@
+From 9d48d89998bb9b4c36615bc7bab622f9b5c066dd Mon Sep 17 00:00:00 2001
+From: Clayton Smith <argilo@gmail.com>
+Date: Sun, 6 Apr 2014 08:56:50 -0400
+Subject: [PATCH 05/46] Bring codec2 up to the latest version, and add support
+ for all six bit rates.
+
+---
+ gr-vocoder/examples/codec2_audio_loopback.py       |    5 +-
+ gr-vocoder/grc/vocoder_codec2_decode_ps.xml        |   35 ++++++++++++-
+ gr-vocoder/grc/vocoder_codec2_encode_sp.xml        |   35 ++++++++++++-
+ gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt |    1 +
+ gr-vocoder/include/gnuradio/vocoder/codec2.h       |   54 ++++++++++++++++++++
+ .../include/gnuradio/vocoder/codec2_decode_ps.h    |    2 +-
+ .../include/gnuradio/vocoder/codec2_encode_sp.h    |    2 +-
+ gr-vocoder/lib/CMakeLists.txt                      |    1 +
+ gr-vocoder/lib/codec2.cc                           |   33 ++++++++++++
+ gr-vocoder/lib/codec2_decode_ps_impl.cc            |   44 ++++++++++------
+ gr-vocoder/lib/codec2_decode_ps_impl.h             |    5 +-
+ gr-vocoder/lib/codec2_encode_sp_impl.cc            |   35 ++++++++-----
+ gr-vocoder/lib/codec2_encode_sp_impl.h             |    5 +-
+ gr-vocoder/python/vocoder/qa_codec2_vocoder.py     |   22 +++-----
+ gr-vocoder/swig/vocoder_swig.i                     |    2 +
+ 15 files changed, 226 insertions(+), 55 deletions(-)
+ create mode 100644 gr-vocoder/include/gnuradio/vocoder/codec2.h
+ create mode 100644 gr-vocoder/lib/codec2.cc
+
+diff --git a/gr-vocoder/examples/codec2_audio_loopback.py b/gr-vocoder/examples/codec2_audio_loopback.py
+index bf95f39..b63d508 100755
+--- a/gr-vocoder/examples/codec2_audio_loopback.py
++++ b/gr-vocoder/examples/codec2_audio_loopback.py
+@@ -24,14 +24,15 @@ from gnuradio import gr
+ from gnuradio import audio
+ from gnuradio import blocks
+ from gnuradio import vocoder
++from gnuradio.vocoder import codec2
+ 
+ def build_graph():
+     tb = gr.top_block()
+     src = audio.source(8000)
+     src_scale = blocks.multiply_const_ff(32767)
+     f2s = blocks.float_to_short()
+-    enc = vocoder.codec2_encode_sp()
+-    dec = vocoder.codec2_decode_ps()
++    enc = vocoder.codec2_encode_sp(codec2.MODE_2400)
++    dec = vocoder.codec2_decode_ps(codec2.MODE_2400)
+     s2f = blocks.short_to_float()
+     sink_scale = blocks.multiply_const_ff(1.0/32767.)
+     sink = audio.sink(8000)
+diff --git a/gr-vocoder/grc/vocoder_codec2_decode_ps.xml b/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
+index 8b5f348..b6e10ef 100644
+--- a/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
++++ b/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
+@@ -8,11 +8,42 @@
+ 	<name>CODEC2 Audio Decoder</name>
+ 	<key>vocoder_codec2_decode_ps</key>
+ 	<import>from gnuradio import vocoder</import>
+-	<make>vocoder.codec2_decode_ps()</make>
++	<import>from gnuradio.vocoder import codec2</import>
++	<make>vocoder.codec2_decode_ps($mode)</make>
++	<param>
++		<name>Bit rate</name>
++		<key>mode</key>
++		<value>codec2.MODE_2400</value>
++		<type>int</type>
++		<option>
++			<name>3200 bps</name>
++			<key>codec2.MODE_3200</key>
++		</option>
++		<option>
++			<name>2400 bps</name>
++			<key>codec2.MODE_2400</key>
++		</option>
++		<option>
++			<name>1600 bps</name>
++			<key>codec2.MODE_1600</key>
++		</option>
++		<option>
++			<name>1400 bps</name>
++			<key>codec2.MODE_1400</key>
++		</option>
++		<option>
++			<name>1300 bps</name>
++			<key>codec2.MODE_1300</key>
++		</option>
++		<option>
++			<name>1200 bps</name>
++			<key>codec2.MODE_1200</key>
++		</option>
++	</param>
+ 	<sink>
+ 		<name>in</name>
+ 		<type>byte</type>
+-		<vlen>50</vlen>
++		<vlen>{ 0: 64, 1: 48, 2: 64, 3: 56, 4: 52, 5: 48 }[$mode]</vlen>
+ 	</sink>
+ 	<source>
+ 		<name>out</name>
+diff --git a/gr-vocoder/grc/vocoder_codec2_encode_sp.xml b/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
+index 0fb0ecc..6af54fa 100644
+--- a/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
++++ b/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
+@@ -8,7 +8,38 @@
+ 	<name>CODEC2 Audio Encoder</name>
+ 	<key>vocoder_codec2_encode_sp</key>
+ 	<import>from gnuradio import vocoder</import>
+-	<make>vocoder.codec2_encode_sp()</make>
++	<import>from gnuradio.vocoder import codec2</import>
++	<make>vocoder.codec2_encode_sp($mode)</make>
++	<param>
++		<name>Bit rate</name>
++		<key>mode</key>
++		<value>codec2.MODE_2400</value>
++		<type>int</type>
++		<option>
++			<name>3200 bps</name>
++			<key>codec2.MODE_3200</key>
++		</option>
++		<option>
++			<name>2400 bps</name>
++			<key>codec2.MODE_2400</key>
++		</option>
++		<option>
++			<name>1600 bps</name>
++			<key>codec2.MODE_1600</key>
++		</option>
++		<option>
++			<name>1400 bps</name>
++			<key>codec2.MODE_1400</key>
++		</option>
++		<option>
++			<name>1300 bps</name>
++			<key>codec2.MODE_1300</key>
++		</option>
++		<option>
++			<name>1200 bps</name>
++			<key>codec2.MODE_1200</key>
++		</option>
++	</param>
+ 	<sink>
+ 		<name>in</name>
+ 		<type>short</type>
+@@ -16,7 +47,7 @@
+ 	<source>
+ 		<name>out</name>
+ 		<type>byte</type>
+-		<vlen>50</vlen>
++		<vlen>{ 0: 64, 1: 48, 2: 64, 3: 56, 4: 52, 5: 48 }[$mode]</vlen>
+ 	</source>
+ </block>
+ 
+diff --git a/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt b/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
+index ea0562f..1ad2f71 100644
+--- a/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
++++ b/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
+@@ -24,6 +24,7 @@ install(FILES
+     api.h
+     alaw_decode_bs.h
+     alaw_encode_sb.h
++    codec2.h
+     codec2_decode_ps.h
+     codec2_encode_sp.h
+     cvsd_decode_bs.h
+diff --git a/gr-vocoder/include/gnuradio/vocoder/codec2.h b/gr-vocoder/include/gnuradio/vocoder/codec2.h
+new file mode 100644
+index 0000000..ca09e4d
+--- /dev/null
++++ b/gr-vocoder/include/gnuradio/vocoder/codec2.h
+@@ -0,0 +1,54 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2014 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifndef _VOCODER_CODEC2_H_
++#define _VOCODER_CODEC2_H_
++
++#include <gnuradio/vocoder/api.h>
++
++extern "C" {
++#include "../lib/codec2/codec2.h"
++}
++
++namespace gr {
++  namespace vocoder {
++
++    class VOCODER_API codec2 {
++    public:
++
++      enum bit_rate {
++	MODE_3200 = CODEC2_MODE_3200,
++	MODE_2400 = CODEC2_MODE_2400,
++	MODE_1600 = CODEC2_MODE_1600,
++	MODE_1400 = CODEC2_MODE_1400,
++	MODE_1300 = CODEC2_MODE_1300,
++	MODE_1200 = CODEC2_MODE_1200,
++      };
++      
++    private:
++
++    };
++    
++  } /* namespace vocoder */
++} /* namespace gr */
++
++#endif /* _VOCODER_CODEC2_H_ */
+diff --git a/gr-vocoder/include/gnuradio/vocoder/codec2_decode_ps.h b/gr-vocoder/include/gnuradio/vocoder/codec2_decode_ps.h
+index 0418771..2b74c01 100644
+--- a/gr-vocoder/include/gnuradio/vocoder/codec2_decode_ps.h
++++ b/gr-vocoder/include/gnuradio/vocoder/codec2_decode_ps.h
+@@ -48,7 +48,7 @@ namespace gr {
+       /*!
+        * \brief Make Codec2 decoder block.
+        */
+-      static sptr make();
++      static sptr make(int mode);
+     };
+ 
+   } /* namespace vocoder */
+diff --git a/gr-vocoder/include/gnuradio/vocoder/codec2_encode_sp.h b/gr-vocoder/include/gnuradio/vocoder/codec2_encode_sp.h
+index 12b91b0..a6acc58 100644
+--- a/gr-vocoder/include/gnuradio/vocoder/codec2_encode_sp.h
++++ b/gr-vocoder/include/gnuradio/vocoder/codec2_encode_sp.h
+@@ -53,7 +53,7 @@ namespace gr {
+       /*!
+        * \brief Make Codec2 encoder block.
+        */
+-      static sptr make();
++      static sptr make(int mode);
+     };
+ 
+   } /* namespace vocoder */
+diff --git a/gr-vocoder/lib/CMakeLists.txt b/gr-vocoder/lib/CMakeLists.txt
+index 08ff410..e8368f7 100644
+--- a/gr-vocoder/lib/CMakeLists.txt
++++ b/gr-vocoder/lib/CMakeLists.txt
+@@ -44,6 +44,7 @@ link_directories(${LOG4CPP_LIBRARY_DIRS})
+ list(APPEND gr_vocoder_sources
+     alaw_decode_bs_impl.cc
+     alaw_encode_sb_impl.cc
++    codec2.cc
+     codec2_decode_ps_impl.cc
+     codec2_encode_sp_impl.cc
+     cvsd_decode_bs_impl.cc
+diff --git a/gr-vocoder/lib/codec2.cc b/gr-vocoder/lib/codec2.cc
+new file mode 100644
+index 0000000..6d0ef61
+--- /dev/null
++++ b/gr-vocoder/lib/codec2.cc
+@@ -0,0 +1,33 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2002,2007,2008,2012,2013 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++
++#include <gnuradio/vocoder/codec2.h>
++
++namespace gr {
++  namespace vocoder {
++
++  } /* namespace vocoder */
++} /* namespace gr */
+diff --git a/gr-vocoder/lib/codec2_decode_ps_impl.cc b/gr-vocoder/lib/codec2_decode_ps_impl.cc
+index a4f7ccc..fa4c183 100644
+--- a/gr-vocoder/lib/codec2_decode_ps_impl.cc
++++ b/gr-vocoder/lib/codec2_decode_ps_impl.cc
+@@ -24,12 +24,12 @@
+ #include "config.h"
+ #endif
+ 
+-#include "codec2_decode_ps_impl.h"
+-
+ extern "C" {
+ #include "codec2/codec2.h"
+ }
+ 
++#include "codec2_decode_ps_impl.h"
++
+ #include <gnuradio/io_signature.h>
+ #include <stdexcept>
+ #include <assert.h>
+@@ -38,22 +38,34 @@ namespace gr {
+   namespace vocoder {
+ 
+     codec2_decode_ps::sptr
+-    codec2_decode_ps::make()
++    codec2_decode_ps::make(int mode)
+     {
++      CODEC2 *codec2;
++      int samples_per_frame, bits_per_frame;
++
++      // Check the number of input samples and output bits per frame.
++      codec2 = codec2_create(mode);
++      samples_per_frame = codec2_samples_per_frame(codec2);
++      bits_per_frame = codec2_bits_per_frame(codec2);
++      codec2_destroy(codec2);
++
+       return gnuradio::get_initial_sptr
+-	(new codec2_decode_ps_impl());
++	(new codec2_decode_ps_impl(mode, samples_per_frame, bits_per_frame));
+     }
+ 
+ 
+-    codec2_decode_ps_impl::codec2_decode_ps_impl ()
++    codec2_decode_ps_impl::codec2_decode_ps_impl (int mode, int samples_per_frame, int bits_per_frame)
+       : sync_interpolator("vocoder_codec2_decode_ps",
+-			     io_signature::make(1, 1, CODEC2_BITS_PER_FRAME * sizeof(char)),
++			     io_signature::make(1, 1, bits_per_frame * sizeof(char)),
+ 			     io_signature::make (1, 1, sizeof(short)),
+-			     CODEC2_SAMPLES_PER_FRAME),
+-      d_frame_buf(CODEC2_BYTES_PER_FRAME, 0)
++			     samples_per_frame),
++      d_frame_buf((bits_per_frame + 7) / 8, 0)
+     {
+-      if((d_codec2 = codec2_create()) == 0)
++      if((d_codec2 = codec2_create(mode)) == 0)
+ 	throw std::runtime_error("codec2_decode_ps_impl: codec2_create failed");
++      d_samples_per_frame = samples_per_frame;
++      d_bits_per_frame = bits_per_frame;
++      d_bytes_per_frame = (bits_per_frame + 7) / 8;
+     }
+ 
+     codec2_decode_ps_impl::~codec2_decode_ps_impl()
+@@ -69,13 +81,13 @@ namespace gr {
+       const unsigned char *in = (const unsigned char*)input_items[0];
+       short *out = (short *) output_items[0];
+ 
+-      assert((noutput_items % CODEC2_SAMPLES_PER_FRAME) == 0);
++      assert((noutput_items % d_samples_per_frame) == 0);
+ 
+-      for(int i = 0; i < noutput_items; i += CODEC2_SAMPLES_PER_FRAME) {
++      for(int i = 0; i < noutput_items; i += d_samples_per_frame) {
+ 	pack_frame(in, &d_frame_buf[0]);
+-	codec2_decode (d_codec2, out, const_cast<unsigned char*>(&d_frame_buf[0]));
+-	in += CODEC2_BITS_PER_FRAME * sizeof (char);
+-	out += CODEC2_SAMPLES_PER_FRAME;
++	codec2_decode (d_codec2, out, const_cast<unsigned char*>(&d_frame_buf[0]), 0.0);
++	in += d_bits_per_frame * sizeof (char);
++	out += d_samples_per_frame;
+       }
+ 
+       return noutput_items;
+@@ -84,10 +96,10 @@ namespace gr {
+     void
+     codec2_decode_ps_impl::pack_frame(const unsigned char *in_unpacked, unsigned char *out_packed)
+     {
+-      memset((void *) &d_frame_buf[0], 0x00, CODEC2_BYTES_PER_FRAME);
++      memset((void *) &d_frame_buf[0], 0x00, d_bytes_per_frame);
+ 
+       int byte_idx = 0, bit_idx = 0;
+-      for(int k = 0; k < CODEC2_BITS_PER_FRAME; k++) {
++      for(int k = 0; k < d_bits_per_frame; k++) {
+ 	out_packed[byte_idx] |= ((in_unpacked[k] & 0x01) << (7-bit_idx));
+ 	bit_idx = (bit_idx + 1) % 8;
+ 	if (bit_idx == 0) {
+diff --git a/gr-vocoder/lib/codec2_decode_ps_impl.h b/gr-vocoder/lib/codec2_decode_ps_impl.h
+index b9591dc..db5ba2e 100644
+--- a/gr-vocoder/lib/codec2_decode_ps_impl.h
++++ b/gr-vocoder/lib/codec2_decode_ps_impl.h
+@@ -31,13 +31,14 @@ namespace gr {
+     class codec2_decode_ps_impl : public codec2_decode_ps
+     {
+     private:
+-      void *d_codec2;
++      CODEC2 *d_codec2;
++      int d_samples_per_frame, d_bits_per_frame, d_bytes_per_frame;
+       std::vector<unsigned char> d_frame_buf; //!< Store 1 packed frame for decoding
+ 
+       void pack_frame(const unsigned char *in_unpacked, unsigned char *out_packed); //!< Pack the bytes from unpacked bits for codec2
+ 
+     public:
+-      codec2_decode_ps_impl();
++      codec2_decode_ps_impl(int mode, int samples_per_frame, int bits_per_frame);
+       ~codec2_decode_ps_impl();
+ 
+       int work(int noutput_items,
+diff --git a/gr-vocoder/lib/codec2_encode_sp_impl.cc b/gr-vocoder/lib/codec2_encode_sp_impl.cc
+index fc0b3ee..ae76b09 100644
+--- a/gr-vocoder/lib/codec2_encode_sp_impl.cc
++++ b/gr-vocoder/lib/codec2_encode_sp_impl.cc
+@@ -24,12 +24,12 @@
+ #include "config.h"
+ #endif
+ 
+-#include "codec2_encode_sp_impl.h"
+-
+ extern "C" {
+ #include "codec2/codec2.h"
+ }
+ 
++#include "codec2_encode_sp_impl.h"
++
+ #include <gnuradio/io_signature.h>
+ #include <stdexcept>
+ #include <iostream>
+@@ -39,21 +39,32 @@ namespace gr {
+   namespace vocoder {
+ 
+     codec2_encode_sp::sptr
+-    codec2_encode_sp::make()
++    codec2_encode_sp::make(int mode)
+     {
++      CODEC2 *codec2;
++      int samples_per_frame, bits_per_frame;
++
++      // Check the number of input samples and output bits per frame.
++      codec2 = codec2_create(mode);
++      samples_per_frame = codec2_samples_per_frame(codec2);
++      bits_per_frame = codec2_bits_per_frame(codec2);
++      codec2_destroy(codec2);
++
+       return gnuradio::get_initial_sptr
+-	(new codec2_encode_sp_impl());
++	(new codec2_encode_sp_impl(mode, samples_per_frame, bits_per_frame));
+     }
+ 
+-    codec2_encode_sp_impl::codec2_encode_sp_impl()
++    codec2_encode_sp_impl::codec2_encode_sp_impl(int mode, int samples_per_frame, int bits_per_frame)
+       : sync_decimator("vocoder_codec2_encode_sp",
+ 			  io_signature::make(1, 1, sizeof(short)),
+-			  io_signature::make(1, 1, CODEC2_BITS_PER_FRAME * sizeof(char)),
+-			  CODEC2_SAMPLES_PER_FRAME),
+-      d_frame_buf(CODEC2_BYTES_PER_FRAME, 0)
++			  io_signature::make(1, 1, bits_per_frame * sizeof(char)),
++			  samples_per_frame),
++      d_frame_buf((bits_per_frame + 7) / 8, 0)
+     {
+-      if((d_codec2 = codec2_create()) == 0)
++      if((d_codec2 = codec2_create(mode)) == 0)
+ 	throw std::runtime_error("codec2_encode_sp_impl: codec2_create failed");
++      d_samples_per_frame = samples_per_frame;
++      d_bits_per_frame = bits_per_frame;
+     }
+ 
+     codec2_encode_sp_impl::~codec2_encode_sp_impl()
+@@ -72,8 +83,8 @@ namespace gr {
+       for(int i = 0; i < noutput_items; i++) {
+ 	codec2_encode(d_codec2, &d_frame_buf[0], const_cast<short*>(in));
+ 	unpack_frame((const unsigned char *) &d_frame_buf[0], out);
+-	in += CODEC2_SAMPLES_PER_FRAME;
+-	out += CODEC2_BITS_PER_FRAME * sizeof(char);
++	in += d_samples_per_frame;
++	out += d_bits_per_frame * sizeof(char);
+       }
+ 
+       return noutput_items;
+@@ -83,7 +94,7 @@ namespace gr {
+     codec2_encode_sp_impl::unpack_frame(const unsigned char *packed, unsigned char *out)
+     {
+       int byte_idx = 0, bit_idx = 0;
+-      for(int k = 0; k < CODEC2_BITS_PER_FRAME; k++) {
++      for(int k = 0; k < d_bits_per_frame; k++) {
+ 	out[k] = (packed[byte_idx] >> (7-bit_idx)) & 0x01;
+ 	bit_idx = (bit_idx + 1) % 8;
+ 	if (bit_idx == 0) {
+diff --git a/gr-vocoder/lib/codec2_encode_sp_impl.h b/gr-vocoder/lib/codec2_encode_sp_impl.h
+index 7402d09..17d6f4e 100644
+--- a/gr-vocoder/lib/codec2_encode_sp_impl.h
++++ b/gr-vocoder/lib/codec2_encode_sp_impl.h
+@@ -31,13 +31,14 @@ namespace gr {
+     class codec2_encode_sp_impl : public codec2_encode_sp
+     {
+     private:
+-      void *d_codec2;
++      CODEC2 *d_codec2;
++      int d_samples_per_frame, d_bits_per_frame;
+       std::vector<unsigned char> d_frame_buf; //!< Save 1 CODEC2 frame
+ 
+       void unpack_frame(const unsigned char *packed, unsigned char *out); //!< Unpack the bytes from codec2 into unpacked bits
+ 
+     public:
+-      codec2_encode_sp_impl();
++      codec2_encode_sp_impl(int mode, int samples_per_frame, int bits_per_frame);
+       ~codec2_encode_sp_impl();
+ 
+       int work(int noutput_items,
+diff --git a/gr-vocoder/python/vocoder/qa_codec2_vocoder.py b/gr-vocoder/python/vocoder/qa_codec2_vocoder.py
+index 0e29401..8fe3ac5 100755
+--- a/gr-vocoder/python/vocoder/qa_codec2_vocoder.py
++++ b/gr-vocoder/python/vocoder/qa_codec2_vocoder.py
+@@ -21,6 +21,7 @@
+ #
+ 
+ from gnuradio import gr, gr_unittest, vocoder, blocks
++from gnuradio.vocoder import codec2
+ 
+ class test_codec2_vocoder (gr_unittest.TestCase):
+ 
+@@ -31,27 +32,18 @@ class test_codec2_vocoder (gr_unittest.TestCase):
+         self.tb = None
+ 
+     def test001_module_load (self):
+-        data = 20*(100,200,300,400,500,600,700,800)
+-        expected_data = (0,0,0,3,2,0,1,5,6,7,1,-1,0,-5,-11,-10,-20,-22,
+-                         -20,-20,-27,-26,-36,-48,-59,-24,5,-7,-12,-27,-22,
+-                         -22,-16,13,20,39,23,25,8,-6,15,44,97,135,145,125,
+-                         94,102,126,129,165,192,180,132,99,79,73,83,72,47,
+-                         40,0,-32,-46,-67,-99,-123,-114,-87,-108,-131,-152,
+-                         -181,-245,-348,-294,-101,-71,-85,-26,99,123,15,2,77,
+-                         13,-117,-145,-105,-39,-50,-89,-59,-77,-134,-95,-51,
+-                         -22,17,-19,-59,-74,-103,-78,4,77,113,60,18,13,-67,
+-                         -49,24,88,179,190,89,18,-90,-102,-50,-5,123,135,57,
+-                         31,-82,-98,-51,6,93,104,44,-5,-84,-107,-44,45,102,104,
+-                         15,-47,-107,-126,-87,-11,89,93,13,-95,-136,-187,-70,
+-                         -167,216,-70,-103,175,-284,-486)
++        data = 40*(100,200,300,400,500,600,700,800)
++        expected_data = (0, 5, 10, 14, 15, 13, 14, 20, 40, 46, 39, 36, 35, 33, 22, 17, 31, 34, 29, 24, 24, 15, -3, -8, -7, 1, -4, -11, -14, -22, -39, -53, -51, -52, -58, -58, -59, -58, -61, -74, -73, -79, -75, -61, -73, -76, -72, -75, -62, -74, -75, -64, -64, -59, -61, -49, -68, -60, -23, -46, -48, -33, -48, 2, 20, -3, 2, -8, 9, 38, 9, 16, 23, 16, 44, 65, 37, 24, 25, 55, 61, 57, 52, 39, 47, 57, 66, 73, 50, 46, 47, 55, 55, 45, 73, 86, 63, 66, 60, 55, 60, 55, 71, 59, 46, 58, 46, 2, 38, 50, 33, 41, 32, 0, -16, -11, 10, 16, -13, 0, -5, -33, -45, -38, -28, -24, -41, 21, -2, -53, -55, -74, -66, -64, -64, -41, -46, -94, -122, -130, -92, -126, -104, -90, -74, -118, -162, -154, -130, -133, -163, -18, -23, -155, -95, -145, -60, -63, 156, 864, 882, 607, 449, 163, 204, 17, 47, 612, 447, 200, -59, -188, -175, -418, -192, 170, 14, -73, -258, -276, -267, -335, -117, 96, 34, -28, -152, -130, -124, -187, 42, 176, 131, 78, -52, -2, -57, -75, 104, 130, 111, 29, -50, -46, -107, -64, 66, 36, 33, -39, -129, -91, -157, -39, 69, 1, -12, -84, -99, -52, -61, 86, 147, 58, 21, -63, -60, -100, -48, 68, 76, 6, -65, -79, -108, -159, -71, 89, 171, 183, 216, 152, 26, -35, 0, 87, 126, 143, 182, 151, 95, 106, 115, 155, 103, 86, 127, 12, -41, -91, -87, -32, -52, -41, -32, -123, -147, -154, -156, -61, -37, -8, -51, -127, -132, -127, -107, -54, 1, 26, -17, -100, -61, -9, 3, 57, 117, 102, 58, -47, 24, 67, 42, 116, 141, 113, 39, -15, 63, 68, 41, 118, 80, 24, -46, -72, 12, 5, -17, 18, -43, -61, -110, -119, -42, -40, -16, 2, -11, -50)
++
+         src = blocks.vector_source_s(data)
+-        enc = vocoder.codec2_encode_sp()
+-        dec = vocoder.codec2_decode_ps()
++        enc = vocoder.codec2_encode_sp(codec2.MODE_2400)
++        dec = vocoder.codec2_decode_ps(codec2.MODE_2400)
+         snk = blocks.vector_sink_s()
+         self.tb.connect(src, enc, dec, snk)
+         self.tb.run()
+         actual_result = snk.data()
+         self.assertEqual(expected_data, actual_result)
++        self.tb.disconnect(src, enc, dec, snk)
+ 
+ if __name__ == '__main__':
+     # Note: The Vocoder is stateful, which means this test will produce failure when removing the xml option.
+diff --git a/gr-vocoder/swig/vocoder_swig.i b/gr-vocoder/swig/vocoder_swig.i
+index c404ea2..dac35c9 100644
+--- a/gr-vocoder/swig/vocoder_swig.i
++++ b/gr-vocoder/swig/vocoder_swig.i
+@@ -30,6 +30,7 @@
+ %{
+ #include "gnuradio/vocoder/alaw_decode_bs.h"
+ #include "gnuradio/vocoder/alaw_encode_sb.h"
++#include "gnuradio/vocoder/codec2.h"
+ #include "gnuradio/vocoder/codec2_decode_ps.h"
+ #include "gnuradio/vocoder/codec2_encode_sp.h"
+ #include "gnuradio/vocoder/cvsd_decode_bs.h"
+@@ -48,6 +49,7 @@
+ 
+ %include "gnuradio/vocoder/alaw_decode_bs.h"
+ %include "gnuradio/vocoder/alaw_encode_sb.h"
++%include "gnuradio/vocoder/codec2.h"
+ %include "gnuradio/vocoder/codec2_decode_ps.h"
+ %include "gnuradio/vocoder/codec2_encode_sp.h"
+ %include "gnuradio/vocoder/cvsd_decode_bs.h"
+-- 
+1.7.10.4
+

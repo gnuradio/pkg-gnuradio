@@ -1,0 +1,74 @@
+From e4ce0b18808c65ea52602a28207fe9d5c0292ffe Mon Sep 17 00:00:00 2001
+From: Michael Dickens <mlk@alum.mit.edu>
+Date: Thu, 24 Apr 2014 10:08:39 -0400
+Subject: [PATCH 26/33] runtime: enable thread priority, same as with Linux;
+ fix header comments to this effect
+
+---
+ gnuradio-runtime/include/gnuradio/thread/thread.h |    8 ++------
+ gnuradio-runtime/lib/thread/thread.cc             |   16 ++++++++++++----
+ 2 files changed, 14 insertions(+), 10 deletions(-)
+
+diff --git a/gnuradio-runtime/include/gnuradio/thread/thread.h b/gnuradio-runtime/include/gnuradio/thread/thread.h
+index a0c9e4f..5149e21 100644
+--- a/gnuradio-runtime/include/gnuradio/thread/thread.h
++++ b/gnuradio-runtime/include/gnuradio/thread/thread.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2009-2013 Free Software Foundation, Inc.
++ * Copyright 2009-2014 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -139,14 +139,10 @@ namespace gr {
+     GR_RUNTIME_API void thread_unbind(gr_thread_t thread);
+ 
+     /*! \brief get current thread priority for a given thread ID
+-     *
+-     * Note: this does not work on OSX
+      */
+     GR_RUNTIME_API int thread_priority(gr_thread_t thread);
+     
+-    /*! \brief get current thread priority for a given thread ID
+-     *
+-     * Note: this does not work on OSX
++    /*! \brief set current thread priority for a given thread ID
+      */
+     GR_RUNTIME_API int set_thread_priority(gr_thread_t thread, int priority);
+ 
+diff --git a/gnuradio-runtime/lib/thread/thread.cc b/gnuradio-runtime/lib/thread/thread.cc
+index 8d1ef76..1b3ebe5 100644
+--- a/gnuradio-runtime/lib/thread/thread.cc
++++ b/gnuradio-runtime/lib/thread/thread.cc
+@@ -167,15 +167,23 @@ namespace gr {
+     int
+     thread_priority(gr_thread_t thread)
+     {
+-      // Not implemented on OSX
+-      return -1;
++      sched_param param;
++      int priority;
++      int policy;
++      int ret;
++      ret = pthread_getschedparam (thread, &policy, &param);
++      priority = param.sched_priority;
++      return (ret==0)?priority:ret;
+     }
+ 
+     int
+     set_thread_priority(gr_thread_t thread, int priority)
+     {
+-      // Not implemented on OSX
+-      return -1;
++      int policy;
++      struct sched_param param;
++      pthread_getschedparam (thread, &policy, &param);
++      param.sched_priority = priority;
++      return pthread_setschedparam(thread, policy, &param);
+     }
+ 
+   } /* namespace thread */
+-- 
+1.7.10.4
+
