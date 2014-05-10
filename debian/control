@@ -170,7 +170,7 @@ Description: gnuradio forward error correction support
 
 Package: libgnuradio-fcd3.7.3
 Section: libs
-Architecture: any
+Architecture: linux-any kfreebsd-any
 Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Multi-Arch: same
