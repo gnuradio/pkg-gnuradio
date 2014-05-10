@@ -1,3 +1,11 @@
+gnuradio (3.7.3-3) unstable; urgency=low
+
+  * Update to v3.7.3-18-gb1855f7
+  * Update debian/patches/bsd-fcd since special case handling for
+    kFreeBSD libusb is no longer needed since freebsd-libs 10.0-4
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 10 Apr 2014 19:12:43 -0400
+
 gnuradio (3.7.3-2) unstable; urgency=low
 
   * Update to v3.7.3-17-gc3ef245

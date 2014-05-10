@@ -1,0 +1,23 @@
+--- a/gr-fcd/lib/hid/hid-libusb.c
++++ b/gr-fcd/lib/hid/hid-libusb.c
+@@ -250,7 +250,7 @@
+ }
+ #endif /* INVASIVE_GET_USAGE */
+ 
+-#ifdef __FreeBSD__
++#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+ /* The FreeBSD version of libusb doesn't have this funciton. In mainline
+    libusb, it's inlined in libusb.h. This function will bear a striking
+    resemblence to that one, because there's about one way to code it.
+@@ -757,7 +757,11 @@
+ 	libusb_cancel_transfer(dev->transfer);
+ 
+ 	while (!dev->cancelled)
++#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
++	        libusb_handle_events(usb_context);
++#else
+ 		libusb_handle_events_completed(usb_context, &dev->cancelled);
++#endif
+ 
+ 	/* Now that the read thread is stopping, Wake any threads which are
+ 	   waiting on data (in hid_read_timeout()). Do this under a mutex to

@@ -12,6 +12,7 @@
 0012-made-the-usage-of-mt19937-Boost-pre-1.47-compatible.patch
 0013-Revert-When-specifying-a-const-reference-member-vari.patch
 0014-blocks-WAV-file-sink-s-DTOR-is-not-called-so-added-s.patch
+0015-digital-fix-for-issue-664.patch
 codec2-library-update
 codec2-blocks-update
 debian-soname
