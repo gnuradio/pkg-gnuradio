@@ -1,3 +1,9 @@
+gnuradio (3.7.3-5) unstable; urgency=low
+
+  * no thread affinity for hurd
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sat, 12 Apr 2014 20:55:12 -0400
+
 gnuradio (3.7.3-4) unstable; urgency=low
 
   * Update to v3.7.3-20-gb0dce1e

@@ -26,6 +26,6 @@ bsd-usb
 bsd-fcd
 bsd-shm
 bsd-alsa
-bsd-no-thread-affinity
+bsd-hurd-no-thread-affinity
 debian-ICE-default-location
 gr-fcd-needs-usb
