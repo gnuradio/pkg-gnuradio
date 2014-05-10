@@ -1,3 +1,9 @@
+gnuradio (3.7.3-6) unstable; urgency=low
+
+  * Avoid ALSA on hurd (patch bsd-hurd-alsa)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 13 Apr 2014 08:11:53 -0400
+
 gnuradio (3.7.3-5) unstable; urgency=low
 
   * no thread affinity for hurd
