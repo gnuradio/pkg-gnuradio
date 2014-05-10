@@ -1,3 +1,9 @@
+gnuradio (3.7.3-7) unstable; urgency=low
+
+  * No comedi on hurd
+
+ -- A. Maitland Bottoms <bottoms@petros.rf.org>  Mon, 14 Apr 2014 00:12:10 -0400
+
 gnuradio (3.7.3-6) unstable; urgency=low
 
   * Avoid ALSA on hurd (patch bsd-hurd-alsa)
