@@ -1,0 +1,25 @@
+From b9fcc9ecc39c4d3e72e63b831f99015520f6ca33 Mon Sep 17 00:00:00 2001
+From: Michael Dickens <mlk@alum.mit.edu>
+Date: Tue, 25 Mar 2014 12:53:11 -0400
+Subject: [PATCH 09/13] Use LOG4CPP directories, not the library itself.
+
+---
+ gr-filter/lib/CMakeLists.txt |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-filter/lib/CMakeLists.txt b/gr-filter/lib/CMakeLists.txt
+index 9889a4d..27d1e0d 100644
+--- a/gr-filter/lib/CMakeLists.txt
++++ b/gr-filter/lib/CMakeLists.txt
+@@ -103,7 +103,7 @@ include_directories(
+ 
+ link_directories(
+   ${Boost_LIBRARY_DIRS}
+-  ${LOG4CPP_LIBRARIES}
++  ${LOG4CPP_LIBRARY_DIRS}
+ )
+ 
+ if(ENABLE_GR_CTRLPORT)
+-- 
+1.7.10.4
+

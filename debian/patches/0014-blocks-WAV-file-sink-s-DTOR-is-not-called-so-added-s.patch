@@ -1,0 +1,54 @@
+From c3ef245e71e3adcb537a1d635227e30f4b12f4d5 Mon Sep 17 00:00:00 2001
+From: Balint Seeber <balint@ettus.com>
+Date: Fri, 4 Apr 2014 09:31:42 -0700
+Subject: [PATCH 14/16] blocks: WAV file sink's DTOR is not called, so added
+ 'stop' override to force call of WAV file completion
+ routine (fills in total size in RIFF header)
+
+---
+ gr-blocks/lib/wavfile_sink_impl.cc |   10 +++++++++-
+ gr-blocks/lib/wavfile_sink_impl.h  |    3 +++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/gr-blocks/lib/wavfile_sink_impl.cc b/gr-blocks/lib/wavfile_sink_impl.cc
+index 9a96f7c..57bdb5f 100644
+--- a/gr-blocks/lib/wavfile_sink_impl.cc
++++ b/gr-blocks/lib/wavfile_sink_impl.cc
+@@ -164,11 +164,19 @@ namespace gr {
+ 
+     wavfile_sink_impl::~wavfile_sink_impl()
+     {
++      stop();
++    }
++
++    bool wavfile_sink_impl::stop()
++    {
+       if(d_new_fp) {
+-	fclose(d_new_fp);
++        fclose(d_new_fp);
++        d_new_fp = NULL;
+       }
+ 
+       close();
++      
++      return true;
+     }
+ 
+     int
+diff --git a/gr-blocks/lib/wavfile_sink_impl.h b/gr-blocks/lib/wavfile_sink_impl.h
+index 52dfd22..0e77f97 100644
+--- a/gr-blocks/lib/wavfile_sink_impl.h
++++ b/gr-blocks/lib/wavfile_sink_impl.h
+@@ -67,6 +67,9 @@ namespace gr {
+        */
+       void close_wav();
+ 
++    protected:
++      bool stop();
++
+     public:
+       wavfile_sink_impl(const char *filename,
+ 			int n_channels,
+-- 
+1.7.10.4
+

@@ -1,3 +1,11 @@
+gnuradio (3.7.3-2) unstable; urgency=low
+
+  * Update to v3.7.3-17-gc3ef245
+  * Update Codec2 library
+  * Update Codec2 gnuradio blocks: Clayton Smith (argilo, VE3IRR)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Wed, 09 Apr 2014 00:28:09 -0400
+
 gnuradio (3.7.3-1) unstable; urgency=low
 
   * New upstream release

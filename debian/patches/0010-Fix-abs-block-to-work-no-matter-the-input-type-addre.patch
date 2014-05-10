@@ -1,0 +1,34 @@
+From 4e553afe7d5639fb54e886da0bf732772f22e77a Mon Sep 17 00:00:00 2001
+From: Michael Dickens <mlk@alum.mit.edu>
+Date: Tue, 25 Mar 2014 12:55:48 -0400
+Subject: [PATCH 10/13] Fix abs block to work no matter the input type;
+ addresses issue #660.
+
+---
+ gr-blocks/lib/abs_XX_impl.cc.t |   10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/gr-blocks/lib/abs_XX_impl.cc.t b/gr-blocks/lib/abs_XX_impl.cc.t
+index 2a701ad..6bb9f14 100644
+--- a/gr-blocks/lib/abs_XX_impl.cc.t
++++ b/gr-blocks/lib/abs_XX_impl.cc.t
+@@ -51,10 +51,12 @@ namespace gr {
+     {
+       @I_TYPE@ *iptr = (@I_TYPE@ *) input_items[0];
+       @O_TYPE@ *optr = (@O_TYPE@ *) output_items[0];
+-      
+-      for(int i=0; i<noutput_items; i++)
+-        optr[i] = abs(iptr[i]);
+-      
++
++      for(int i=0; i<noutput_items; i++) {
++        @I_TYPE@ val = iptr[i];
++        optr[i] = ((val < ((@I_TYPE@)0)) ? -val : val);
++      }
++
+       return noutput_items;
+     }
+ 
+-- 
+1.7.10.4
+

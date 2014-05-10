@@ -1,0 +1,26 @@
+From 5764b7959ab7052b0afd61d887f37fccf4cd6965 Mon Sep 17 00:00:00 2001
+From: Sylvain Munaut <tnt@246tNt.com>
+Date: Tue, 18 Mar 2014 11:31:27 -0400
+Subject: [PATCH 04/13] math: fix for index lookup of fast_atan2f; prevents a
+ segfault when x=inf and y=inf.
+
+---
+ gnuradio-runtime/lib/math/fast_atan2f.cc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gnuradio-runtime/lib/math/fast_atan2f.cc b/gnuradio-runtime/lib/math/fast_atan2f.cc
+index 2cafeec..20e21be 100644
+--- a/gnuradio-runtime/lib/math/fast_atan2f.cc
++++ b/gnuradio-runtime/lib/math/fast_atan2f.cc
+@@ -148,7 +148,7 @@ namespace gr {
+     else {
+       /* find index and interpolation value */
+       alpha = z * (float)TAN_MAP_SIZE - .5;
+-      index = (int)alpha;
++      index = (int)alpha & 0xff;
+       alpha -= (float)index;
+       /* determine base angle based on quadrant and */
+       /* add or subtract table value from base angle based on quadrant */
+-- 
+1.7.10.4
+
