@@ -1,4 +1,2 @@
 # Funcube Dongle
-ACTION=="add", BUS=="usb", SYSFS{idVendor}=="04d8", SYSFS{idProduct}=="fb56", GROUP:="usrp", MODE:="0660", SYMLINK+="FCD"
-# Funcube Dongle
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="fb56",GROUP:="usrp", MODE:="0660", SYMLINK+="FCD"
+ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="fb56",MODE:="0666", SYMLINK+="FCD"

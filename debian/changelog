@@ -1,3 +1,11 @@
+gnuradio (3.7.3-10) unstable; urgency=low
+
+  * restore comedilib
+  * Avoid buggy gr-ctrlport
+  * fix fcd udev rules for modern kernel udev (Closes: #757236)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 10 Aug 2014 23:26:46 -0400
+
 gnuradio (3.7.3-9) unstable; urgency=low
 
   * Update to v3.7.3-37-gaffda0b
