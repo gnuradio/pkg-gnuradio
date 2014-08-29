@@ -7,16 +7,15 @@ Section: comm
 Priority: optional
 Maintainer: A. Maitland Bottoms <bottoms@debian.org>
 Uploaders: Bdale Garbee <bdale@gag.com>
-Build-Depends: debhelper (>= 9.0.0~), cmake, libuhd-dev (>=3.5),
+Build-Depends: debhelper (>= 9.0.0~), cmake, libuhd-dev (>=3.7.2),
  libasound2-dev, libjack-jackd2-dev, portaudio19-dev, libxi-dev, libfontconfig1-dev,
  libxrender-dev, libpulse-dev, swig (>=1.3.31), libcomedi-dev [!hurd-i386],
  python-dev, libfftw3-dev, libcppunit-dev (>=1.9.14), liborc-0.4-dev, liboil0.3-dev,
  libusb-1.0-0-dev [linux-any], libusb2-dev [kfreebsd-any],
- libsdl1.2-dev, python-wxgtk3.0, python-wxgtk2.8, libqt4-dev, python-numpy, python-opengl,
+ libsdl1.2-dev, python-wxgtk3.0|python-wxgtk2.8, libqt4-dev, python-numpy, python-opengl,
  libgsl0-dev (>=1.10), python-cheetah, python-lxml, python-sphinx, doxygen, xmlto,
  qt4-dev-tools, libqwt5-qt4-dev, libqwtplot3d-qt4-dev, pyqt4-dev-tools, python-qwt5-qt4,
- python-gtk2-dev, pkg-config (>=0.15.0), libsndfile1-dev, libgsm1-dev, 
- liblog4cpp5-dev, libwxgtk3.0-dev|libwxgtk2.8-dev,
+ python-gtk2-dev, pkg-config (>=0.15.0), libsndfile1-dev, libgsm1-dev,  liblog4cpp5-dev,
  libboost-dev,
  libboost-date-time-dev,
  libboost-filesystem-dev,
@@ -24,10 +23,8 @@ Build-Depends: debhelper (>= 9.0.0~), cmake, libuhd-dev (>=3.5),
  libboost-system-dev,
  libboost-thread-dev,
  libboost-test-dev,
- libzmq3-dev | libzmq-dev
+ libzmq3-dev [!hurd-i386]| libzmq-dev [!hurd-i386], python-zmq [!hurd-i386]
 #, gcc-4.6, g++-4.6
-# libzeroc-ice35-dev [!hurd-i386]|libzeroc-ice34-dev [!hurd-i386],
-# ice35-translators [!hurd-i386]|ice34-translators [!hurd-i386], python-zeroc-ice [!hurd-i386],
 Standards-Version: 3.9.4
 Vcs-Git: git://anonscm.debian.org/users/bottoms/pkg-gnuradio.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/bottoms/pkg-gnuradio.git;a=summary
@@ -39,10 +36,13 @@ X-Python-Version: =2.7
 
 Package: gnuradio
 Architecture: any
-Depends: ${python:Depends}, python-opengl, python-lxml, python-wxgtk2.8,
- python-cheetah, adduser, ${shlibs:Depends}, ${misc:Depends},
+Depends: ${python:Depends}, python-opengl, python-lxml,
+ python-wxgtk3.0|python-wxgtk2.8, python-cheetah, adduser,
+ ${shlibs:Depends}, ${misc:Depends},
  libvolk0.0.0 (=${binary:Version}), libvolk-bin (=${binary:Version})
-Recommends: python-qt4, python-qwt5-qt4, python-scipy, python-matplotlib, python-networkx, uhd-host, python-tk, qthid-fcd-controller
+Recommends: python-qt4, python-qwt5-qt4, python-scipy, python-matplotlib,
+ python-networkx, uhd-host (>=3.7.2), python-tk, qthid-fcd-controller,
+ python-zmq
 Description: GNU Radio Software Radio Toolkit
  GNU Radio provides signal processing blocks to implement software
  radios. It can be used with readily-available low-cost external RF
@@ -272,7 +272,7 @@ Package: libgnuradio-uhd3.7.4
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support
-Depends: ${shlibs:Depends}, ${misc:Depends}, libuhd003 (>= 3.4.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, libuhd003 (>= 3.7.2)
 Multi-Arch: same
 Description: gnuradio universal hardware driver functions
  The gnuradio interface to the UHD library to connect to and send and

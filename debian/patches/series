@@ -9,3 +9,4 @@ bsd-hurd-alsa
 bsd-hurd-no-thread-affinity
 gr-fcd-needs-usb
 fix-ctrlport-install
+wxpy3.0-compat

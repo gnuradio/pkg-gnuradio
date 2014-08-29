@@ -1,3 +1,13 @@
+gnuradio (3.7.4-2) unstable; urgency=low
+
+  * wxPython fixes from Olly Betts <olly@survex.com> (Closes: #758846)
+   - Update dependencies on wxPython to all be python-wxgtk3.0|python-wxgtk2.8.
+   - Drop unused build dependency on libwxgtk3.0-dev|libwxgtk2.8-dev.
+   - New patch wxpy3.0-compat to improve wxPython 3.0 compatibility.
+  * No zmq on hurd, build-depend upon python-zmq for build testing
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Fri, 22 Aug 2014 17:22:09 -0400
+
 gnuradio (3.7.4-1) unstable; urgency=low
 
   * package based upon git maint branch v3.7.4-28-g3897c85
@@ -34,7 +44,7 @@ gnuradio (3.7.3-7) unstable; urgency=low
 
   * No comedi on hurd
 
- -- A. Maitland Bottoms <bottoms@petros.rf.org>  Mon, 14 Apr 2014 00:12:10 -0400
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 14 Apr 2014 00:12:10 -0400
 
 gnuradio (3.7.3-6) unstable; urgency=low
 
