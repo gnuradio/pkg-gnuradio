@@ -1,6 +1,6 @@
 --- a/gnuradio-runtime/lib/thread/thread.cc
 +++ b/gnuradio-runtime/lib/thread/thread.cc
-@@ -116,7 +116,7 @@
+@@ -158,7 +158,7 @@
  
  
  #elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__) || \

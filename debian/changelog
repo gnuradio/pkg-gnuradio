@@ -1,3 +1,13 @@
+gnuradio (3.7.4-1) unstable; urgency=low
+
+  * package based upon git maint branch v3.7.4-28-g3897c85
+  * New upstream release, see extended release notes in the gnuradio
+    package /usr/share/doc/gnuradio/ChangeLogV3_7_4
+  * Build gr-wxgui with wxwidgets3.0 if available
+  * New 0MQ support using libzmq3-dev
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Fri, 15 Aug 2014 00:14:35 -0400
+
 gnuradio (3.7.3-10) unstable; urgency=low
 
   * restore comedilib

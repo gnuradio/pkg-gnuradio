@@ -1,6 +1,6 @@
 --- a/gr-audio/lib/CMakeLists.txt
 +++ b/gr-audio/lib/CMakeLists.txt
-@@ -45,7 +45,7 @@
+@@ -44,7 +44,7 @@
  ########################################################################
  find_package(ALSA)
  
