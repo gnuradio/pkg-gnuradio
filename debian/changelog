@@ -1,3 +1,16 @@
+gnuradio (3.7.5-1) unstable; urgency=low
+
+  * New upstream release, see extended release notes in the gnuradio
+    package /usr/share/doc/gnuradio/ChangeLogV3_7_5
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sat, 30 Aug 2014 13:08:50 -0400
+
+gnuradio (3.7.4-4) unstable; urgency=low
+
+  * Update to v3.7.4-50-gcbb0698
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sat, 30 Aug 2014 12:38:45 -0400
+
 gnuradio (3.7.4-3) unstable; urgency=low
 
   * Update to v3.7.4-43-gb3927e7

@@ -1,0 +1,109 @@
+h1. Work in progress for release 3.7.5
+
+This is a list of some of the planned new feature sets for release 3.7.5.  This is not comprehensive; other features or changes could happen opportunistically and some of the below might not make the release.
+
+h2. By component
+
+*@gr-zeromq@* 
+
+* Extend @gr-zeromq@ blocks to include async message transports in and out of ZeroMQ sockets (JC)
+
+* Tunnel stream tags through ZeroMQ streaming blocks (JC)
+
+*@gr-qtgui@*
+
+* Close the gap between QT and WX blocks
+
+** Mostly done
+
+* Convert all examples to use QT instead of WX
+
+** Also mostly done
+
+* Persistence of plotters
+
+** Debatable if this is really necessary or useful for these plotters, especially since the plots don't actually plot every sample.
+
+*** Rely on things like gr-fosphor for purposes that need behavior like persistence
+
+* Sidebar control
+
+** Provide an (optional) sidebar to control the main plotting features
+
+* Strip chart for time plot for updating when plotting slow data
+
+*@grc@*
+
+* Add <hide> tags to ports in the xml file for a block
+
+** Use to control which and when blocks' ports are seen on the canvas
+
+** We can set them off by default and use a setting in the block properties to turn them on/off
+
+* User-toggled parameter to show or hide the names of ports
+
+** Ports appear as small rectangles of their type color, but with no label
+
+** when mousing over a port, the port expands to show the full name
+
+** connecting arrows are adjusted with the width of the box nicely
+
+** User-controlled feature; "View->Auto-hide Port Lable" to turn feature on/off
+
+h2. New Component(s)
+
+*@gr-dtv@*
+
+* Create new top-level component @gr-dtv@ (JC)
+
+* Port @gr-atsc@ code over into lib/atsc (JC)
+
+* Merge Bogdan Diaconescu's gr-dvbt into lib/dvbt (JC)
+
+* Merge (undecided) DVB-S code into lib/dvbs (JC)
+
+* Merge (undecided) CATV code into lib/catv (JC)
+
+* Extract common MPEG code into lib/mpeg (JC)
+
+* Implement common, format-selectable transceiver application (JC)
+
+h2. General Improvements
+
+*@Message Passing@*
+
+* Messaging as many things as possible for control
+
+** 3.7.4 saw some additions of various message interfaces for a few blocks, and we had to work out proper interactions between them all. We should add more message port controls to blocks that we can identify as having a big impact on usage and come to a general understanding of message formats for certain controls to make sure they are generic and usable for many blocks, not just between two specifically designed to talk to each other.
+
+* Think about how to add back-pressure on messages
+
+*@Optimizations@*
+
+* Add more VOLK kernels
+
+* Use VOLK kernels in more blocks
+
+* Add better NEON support
+
+** More hand-written NEON proto-kernels
+
+** NEON intrinsics are not necessarily great, need to use assembly to properly optimize
+
+*** NEON inline ASM in C is terrible; need to have separate .s files
+
+*** We want to add support in the build system to have NEON asm files built into VOLK and used in proto-kernels
+
+* Add a new build type to help us understand compiler optimization and assembly code
+
+** Add a "NoOptWithASM" build type that uses the flags "-O0 -g -save-temps"
+
+** for GCC and Clang, this produces code with debug symbols, no compiler optimization, and all assembly files saved in the build dir
+
+** Need a good location in our cmake structure to add new build types
+
+* Add Nathan's performance counter work from last hackfest
+
+** Adds perf tool calls to Performance Counters such as cache hits/misses, branch prediction misses
+
+** Adds ability to select which PC to show in gr-perf-monitorx and tooltip for all PCs when hovering over a block

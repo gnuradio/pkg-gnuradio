@@ -1,17 +1,6 @@
---- a/gr-audio/lib/CMakeLists.txt
-+++ b/gr-audio/lib/CMakeLists.txt
-@@ -44,7 +44,7 @@
- ########################################################################
- find_package(ALSA)
- 
--if(ALSA_FOUND)
-+if((ALSA_FOUND) AND NOT (CMAKE_SYSTEM_NAME STREQUAL "kFreeBSD") AND NOT (CMAKE_SYSTEM_NAME STREQUAL GNU))
- 
-     include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/alsa)
-     include_directories(${ALSA_INCLUDE_DIRS})
 --- a/gr-audio/lib/alsa/alsa_source.cc
 +++ b/gr-audio/lib/alsa/alsa_source.cc
-@@ -473,7 +473,7 @@
+@@ -472,7 +472,7 @@
            }
            continue;  // try again
          }
@@ -20,7 +9,7 @@
          else if(r == -ESTRPIPE) {   // h/w is suspended (whatever that means)
                                      // This is apparently related to power management
            d_nsuspends++;
-@@ -483,7 +483,7 @@
+@@ -482,7 +482,7 @@
            }
            continue;   // try again
          }
@@ -49,3 +38,23 @@
          else if (r < 0) {
            output_error_msg("snd_pcm_writei failed", r);
            return false;
+--- a/gr-audio/lib/CMakeLists.txt
++++ b/gr-audio/lib/CMakeLists.txt
+@@ -46,7 +46,7 @@
+ ########################################################################
+ find_package(ALSA)
+ 
+-if(ALSA_FOUND)
++if((ALSA_FOUND) AND NOT (CMAKE_SYSTEM_NAME STREQUAL "kFreeBSD") AND NOT (CMAKE_SYSTEM_NAME STREQUAL GNU))
+ 
+     add_definitions(-DALSA_FOUND)
+     GR_APPEND_SUBCOMPONENT("alsa")
+@@ -61,7 +61,7 @@
+     )
+     list(APPEND gr_audio_confs ${CMAKE_CURRENT_SOURCE_DIR}/alsa/gr-audio-alsa.conf)
+ 
+-endif(ALSA_FOUND)
++endif((ALSA_FOUND) AND NOT (CMAKE_SYSTEM_NAME STREQUAL "kFreeBSD") AND NOT (CMAKE_SYSTEM_NAME STREQUAL GNU))
+ 
+ ########################################################################
+ ## OSS Support
