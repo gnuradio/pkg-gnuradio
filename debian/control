@@ -332,7 +332,7 @@ Description: gnuradio wxgui functions
 
 Package: libgnuradio-zeromq3.7.5
 Section: libs
-Architecture: any
+Architecture: linux-any kfreebsd-any
 Pre-Depends: multiarch-support
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Multi-Arch: same
