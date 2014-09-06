@@ -1,3 +1,10 @@
+gnuradio (3.7.5-3) unstable; urgency=low
+
+  * Actual release notes in the gnuradio
+    package /usr/share/doc/gnuradio/ChangeLogV3_7_5
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Fri, 05 Sep 2014 23:35:13 -0400
+
 gnuradio (3.7.5-2) unstable; urgency=low
 
   * Handle lack of zeromq on hurd-i386
