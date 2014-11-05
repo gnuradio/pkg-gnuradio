@@ -356,6 +356,8 @@ Package: libvolk-dev
 Section: libdevel
 Architecture: any
 Pre-Depends: multiarch-support
+Breaks: gnuradio-dev (<< 3.7.4-1)
+Replaces: gnuradio-dev (<< 3.7.4-1)
 Depends: ${shlibs:Depends}, ${misc:Depends}, libvolk0.0.0 (=${binary:Version}),
  libvolk-bin (=${binary:Version})
 Description: gnuradio vector optimized function headers
