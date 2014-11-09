@@ -1,9 +1,16 @@
+gnuradio (3.7.5-5) unstable; urgency=low
+
+  * Use Breaks/Replaces to manage upgrades now that the newer libvolk-bin
+    has files formerly found in gnuradio (Closes: #762072)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 09 Nov 2014 10:18:34 -0500
+
 gnuradio (3.7.5-4) unstable; urgency=low
 
   * Use Breaks/Replaces to manage upgrades now that the newer libvolk-dev
     has files formerly found in gnuradio-dev (Closes: #762072, #767838)
 
- -- A. Maitland Bottoms <bottoms@petros.rf.org>  Tue, 04 Nov 2014 22:21:46 -0500
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 04 Nov 2014 22:21:46 -0500
 
 gnuradio (3.7.5-3) unstable; urgency=low
 

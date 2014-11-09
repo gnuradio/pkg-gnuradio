@@ -373,6 +373,8 @@ Package: libvolk-bin
 Section: libs
 Architecture: any
 Pre-Depends: multiarch-support
+Breaks: gnuradio (<< 3.7.4-1)
+Replaces: gnuradio (<< 3.7.4-1)
 Depends: ${shlibs:Depends}, ${misc:Depends}, libvolk0.0.0 (=${binary:Version})
 Description: vector optimized runtime tools
  Vector-Optimized Library of Kernels is designed to help
