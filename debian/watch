@@ -1,4 +1,3 @@
 version=3
-opts=uversionmangle=s/(\d)[_\.\-\+]?((RC|rc|pre|dev|beta|alpha|b|a)[\-\.]?\d*)$/$1~$2/ \
-http://gnuradio.org/releases/gnuradio/gnuradio-(\d.*)\.(?:tgz|tbz2|txz|tar\.(?:gz|bz2|xz))
-# Bart Martens <bartm@debian.org>  Mon, 28 Jan 2013 21:44:34 +0000
+opts="downloadurlmangle=s/refs\/tags/snapshot/,uversionmangle=s|(.*)git|1|" \
+ http://gnuradio.org/cgit/cgit.cgi/gnuradio/refs/tags/ /cgit/cgit.cgi/gnuradio/snapshot/gnuradio-(\d.*)\.tar\.gz
