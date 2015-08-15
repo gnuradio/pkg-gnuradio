@@ -6,7 +6,11 @@ debian/gnuradio-config-info.1
 debian/grcc.1
 debian/gr_constellation_plot.1
 debian/gr-ctrlport-curses.1
+debian/gr-ctrlport-monitorc.1
+debian/gr-ctrlport-monitoro.1
 debian/gr-ctrlport-monitor.1
+debian/gr-ctrlport-monitorxc.1
+debian/gr-ctrlport-monitorxo.1
 debian/gr_filter_design.1
 debian/gr_modtool.1
 debian/gr-perf-monitorx.1

@@ -1,7 +1,7 @@
 ################################################################################
 # Single source deb for entire distribution                                    #
 ################################################################################
-# built without liblog4cpp5-dev, libthrift-c-glib-dev,
+# built without libthrift-c-glib-dev
 
 Source: gnuradio
 Section: comm
@@ -17,7 +17,7 @@ Build-Depends: debhelper (>= 9.0.0~), cmake, dh-python, dh-acc,
  libgsl0-dev (>=1.10), python-lxml, python-sphinx, doxygen, xmlto,
  qt4-dev-tools, libqwt5-qt4-dev, libqwtplot3d-qt4-dev, pyqt4-dev-tools,
  python-qwt5-qt4, python-gtk2-dev, pkg-config (>=0.15.0),
- libsndfile1-dev, libgsm1-dev,
+ libsndfile1-dev, libgsm1-dev, liblog4cpp5-dev,
  libboost-dev, libboost-date-time-dev, libboost-filesystem-dev,
  libboost-program-options-dev, libboost-system-dev,
  libboost-thread-dev, libboost-test-dev,
