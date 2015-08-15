@@ -39,7 +39,7 @@ Last-Update: 2014-08-21
                  or (wx.Bitmap)- Bitmap to overlay the text with
          centered (bool)       - Center the text
  
-@@ -313,7 +313,7 @@
+@@ -317,7 +317,7 @@
              text (string)           - displayed text
              font (wx.Font)          - if None, system default font will be used with font_size
              font_size (int)         - font size in points

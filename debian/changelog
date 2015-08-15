@@ -1,3 +1,16 @@
+gnuradio (3.7.8-1) unstable; urgency=medium
+
+  * New upstream release
+  * Update to codec2 version 0.3
+  * Funcube Dongle udev rule is current syntax (Closes: #669601)
+  * gnuradio-dev brings in more common -dev packages (Closes: #770520)
+  * removed unused build-dependency on libqwtplot3d-qt4-dev (Closes: #793075)
+  * removed unused build-dependency on liboil0.3-dev (Closes: #793625)
+  * built without log4cpp pending GCC ABI transition #791191.
+  * built without thrift until version > 0.9.2-2 enters unstable
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Wed, 05 Aug 2015 20:43:26 -0400
+
 gnuradio (3.7.5-5) unstable; urgency=low
 
   * Use Breaks/Replaces to manage upgrades now that the newer libvolk-bin

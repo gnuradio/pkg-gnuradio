@@ -1,0 +1,102 @@
+Changelog for Release 3.7.6
+
+GNU Radio releases 3.7.6 and 3.7.5.2 are available for download:
+
+http://s3-dist.gnuradio.org/gnuradio-3.7.5.2.tar.gz
+http://s3-dist.gnuradio.org/gnuradio-3.7.6.tar.gz
+
+GNU Radio Live DVD 3.7.6:
+
+http://s3-dist.gnuradio.org/ubuntu-14.04.1-desktop-amd64-gnuradio-3.7.6.torrent
+
+MD5 sums:
+
+dc5da27c3e37387384ed762e677d3594  gnuradio-3.7.5.2.tar.gz
+388d4af6c68e095f62dc4745b0f805c0  gnuradio-3.7.6.tar.gz
+3485b0e81360ad431f92133315f7ef5c
+ubuntu-14.04.1-desktop-amd64-gnuradio-3.7.6.torrent
+
+We'd like to thank the below contributors for their efforts:
+
+    Abhishek Bhowmick <abhowmick22@gmail.com>
+    Achilleas Anastasopoulos <anastas@umich.edu>
+    Doug Geiger <doug.geiger@bioradiation.net>
+    Felix Wunsch <uncnr@student.kit.edu>
+    Jiří Pinkava <j-pi@seznam.cz>
+    Johnathan Corgan <johnathan@corganlabs.com>
+    Marcus Müller <marcus@hostalia.de>
+    Martin Braun <martin.braun@ettus.com>
+    Michael Dickens <michael.dickens@ettus.com>
+    Michael Ossmann <mike@ossmann.com>
+    Nathan West <nathan.west@okstate.edu>
+    Nick Foster <bistromath@gmail.com>
+    Paul Garver <garverp@gatech.edu>
+    Philipp Aigner <phaigner@gmail.com>
+    Sebastian Koslowski <koslowski@kit.edu>
+    Stefan-Olt <stefan-oltmanns@gmx.net>
+    Sylvain Munaut <tnt@246tNt.com>
+    Tim O'Shea <tim.oshea753@gmail.com>
+    Tom Rondeau <tom@trondeau.com>
+    Uwe Hermann <uwe@hermann-uwe.de>
+    Will Code <willcode4@gmail.com>
+
+Release 3.7.5.2 is a bug-fix only maintenance patch following 3.7.5.1, and will be the last one for the 3.7.5 release. Release 3.7.6 incorporates all these fixes and adds significant new features.
+GNU Radio Distribution and Mirror Sites
+
+The GNU Radio Project has changed its distribution location for release and data files. The new location allows us to more easily add GNU Radio mirror sites, and we're in the process of adding two new ones in Europe. An announcement with more details will follow. (Hint: We expect to be distributing a lot more files...)
+GNU Radio Live SDR Environment
+
+The new live SDR image not only has GNU Radio 3.7.6 pre-installed, but has updated driver support from several SDR hardware vendors and new versions of many of the pre-installed GNU Radio-based applications.
+
+Newly added with this release is gr-fosphor, a GPU-accelerated real-time spectrum analyzer display component from Sylvain Munaut. However, due to distribution restrictions, the live SDR environment only comes pre-installed with the Intel CPU OpenCL driver, and gr-fosphor will not run in GPU-accelerated mode even if one is available. It is possible, after converting the ISO image to a USB drive, to download, install, and configure additional OpenCL support.
+
+Further details on the live SDR image are here:
+
+http://gnuradio.org/redmine/projects/gnuradio/wiki/GNURadioLiveDVD
+Major Changes
+
+There have been hundreds of changes in the GNU Radio software in this release, throughout the tree. Below is a summary of the more significant ones:
+GNU Radio Companion
+
+Sebastian Koslowski and the GRC Working Group continue to make many
+updates to GRC. Important among these:
+
+    The default windowing system for new flowgraphs is now QT GUI. Existing flowgraphs that use WX GUI are not affected, and one can still choose to use WX GUI for new flowgraphs. However, we've formally deprecated WX GUI support, will not be making further updates to it, and will remove it in a future API version.
+
+    Introduction of port domains. GRC now allows blocks to declare a domain property for ports, along with code for managing and displaying their connections. This is primarily to support FPGA- and co-processor-offload hardware block development.
+
+Stream Tag Performance Improvements
+
+At GRCON14, Tim O'Shea, Doug Geiger, and Eric Blossom (!) reworked the stream tag dequeuing implementation in gnuradio-runtime, resulting in a very significant performance increase for flowgraphs using tagged stream blocks for burst-mode processing. More details can be found on Tim's blog:
+
+http://tinyurl.com/n3qr2ab
+Vector Optimized Library of Kernels (libvolk)
+
+VOLK continues to undergo rapid development by the VOLK working group members, and has become mature enough to break off into its own project/package. Nathan West will be leading the effort to migrate libvolk into its own source code tree, repository and release cycle.
+
+GNU Radio 3.7.6 will likely be the last release that will have libvolk directly included in its source code tree. However, we'll be closely coordinating with VOLK releases and distribution to ensure a smooth build process for GNU Radio.
+QT GUI Display Support
+
+With this release, GNU Radio's implementation of instrumentation display "sinks" and controls using the QT GUI windowing system has become our official way of creating application GUIs. As mentioned above, GRC has changed its default option for new flowgraphs to use QT GUI, and further development on WX GUI has stopped.
+Bug fixes (3.7.5.2, also in 3.7.6):
+
+    blocks: improved docs for repack_bits
+    blocks: fixed tag duplication issues in tagged_stream_multiply_length
+    blocks: fixed use of "not" for "!"
+    cmake: fixed Boost version detection for bad boost versions
+    digital: fixed false trigger bug in correlate_access_code_tag
+    digital: fixed byte-in, byte-out version of TSB correlate access code
+    digital: fixed issues with the constellation soft decoder decisions
+    fec: fixed bug in dummy decoder that shifted the samples by +1
+    filter: added documentation to using the rational resamplers
+    filter: fixed default filter for rational_resampler
+    grc: on Linux, respect x-terminal-emulator
+    grc: catch EOFError on fg exit
+    grc: fixed port type cache for empty types
+    grc: no tooltips for old GTK versions
+    qtgui: fixed issue of setting min/max when using qwt < 6.1.0
+    qtgui: fixed time axis unit updates in number sink
+    runtime: fixed 80s backref
+    runtime: fixed Python loggers not respecting settings in preferences
+    runtime: fixed fast_atan2f function for much higher precision
+    uhd: fixed UHD manual URLs

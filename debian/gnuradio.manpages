@@ -29,6 +29,7 @@ debian/gr_psd_plot_f.1
 debian/gr_psd_plot_i.1
 debian/gr_psd_plot_s.1
 debian/gr_read_file_metadata.1
+debian/gr_spectrogram_plot.1
 debian/gr_spectrogram_plot_b.1
 debian/gr_spectrogram_plot_c.1
 debian/gr_spectrogram_plot_f.1

@@ -1,0 +1,57 @@
+Changelog for Release 3.7.6.1
+
+GNU Radio release 3.7.6.1 is available for download:
+
+http://gnuradio.org/releases/gnuradio/gnuradio-3.7.6.1.tar.gz
+
+MD5 sum:
+
+7872eaa48e466c31732addd32c19ba22  gnuradio-3.7.6.1.tar.gz
+
+Git Shortlog of Contributions:
+Johnathan Corgan <johnathan@corganlabs.com> (9):
+
+    Updated revision for 3.7.6git development
+    wxgui: Fix wxgui breakage due to renamed variable
+    Update revision (again) for 3.7.6 release
+    Updated revision to 3.7.7git
+    Merge remote-tracking branch 'skoslowski/hier_block2_fixes'
+    Update revision for 3.7.6 release.
+    Merge remote-tracking branch 'martin/cmake/fixes' into maint
+    Merge remote-tracking branch 'gnuradio-wg-grc/maint_grcwg' into maint
+    cmake: updated revision to 3.7.6.1 for maintenance release
+
+Jonathon Pendlum <jonathon.pendlum@ettus.com> (1):
+
+    qtgui: Fixed QT GUI Entry Widget eval error when using type 'Any'.
+
+Martin Braun <martin.braun@ettus.com> (1):
+
+    cmake: Less warnings, more info
+
+Paul Garver <garverp@gatech.edu> (2):
+
+    gr-qtgui: Adding gr_spectrogram_plot script. Reads sample rate and data type from header and launches appropriate plotter
+    qtgui: Fix Y-Axis timescale issues on gr_spectrogram_plot/gr_spectrogram_plot_* by adding a function to set the time per fft. Scale should also update when
+
+Sebastian Koslowski <koslowski@kit.edu> (6):
+
+    wxgui: white space fixes in common.py
+    wxgui+grc: stop bypassing hier_block2 proxy class
+    grc: inter-domain coloring for messages
+    grc: fix virtual source resolution
+    grc: fix connection validation and error state display
+    grc: undo port type caching (fixes type controller)
+
+Sylvain Munaut <tnt@246tNt.com> (2):
+
+    runtime: Add a timeout option on basic_block::delete_head_blocking
+    blocks: Fix pdu_to_tagged_stream CPU spinning using blocking with timeout
+
+Tom Rondeau <tom@trondeau.com> (5):
+
+    trellis: remove import of fsm_utils from init.py for gr-trellis.
+    Merge remote-tracking branch 'garverp/offlineplotfixes'
+    qtgui: spectrogram offline plotter: changed title to just the data type read from the header. Also fixes issues with short and int support.
+    fec: no need for this forecasting.
+    filter: fixing having the delay of the resampler as a negative number, which I think I backed into from making the other computations work.

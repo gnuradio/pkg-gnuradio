@@ -1,0 +1,122 @@
+ChangeLogV3.7.1
+Contributors:
+
+Contributors this release:
+
+Alexandru Csete <oz9aec@gmail.com>
+Andrej Lajovic <andrej.lajovic@ad-vega.si>
+Andrew F. Davis <glneolistmail@gmail.com>
+Clayton Smith <argilo@gmail.com>
+Doug Geiger <doug.geiger@bioradiation.net>
+Jiri Pinkava <j-pi@seznam.cz>
+Johnathan Corgan <johnathan@corganlabs.com>
+Josh Blum <josh.blum@ettus.com>
+Julien Olivain <julien.olivain@lsv.ens-cachan.fr>
+Marcus Müller <marcus.mueller@student.kit.edu>
+Michael Dickens <mlk@alum.mit.edu>
+Mike Jameson <mike@scanoo.com>
+Miklos Maroti <mmaroti@gmail.com>
+Nathan West <nathan.west@okstate.edu>
+Nicholas Corgan <nick.corgan@ettus.com>
+Nicholas McCarthy <namccart@gmail.com>
+Philip Balister <philip@opensdr.com>
+Roy Thompson <rthompso@gmail.com>
+Stefano Banti <ik2yxt@gmail.com>
+Tim Newman <tim.newman@gmail.com>
+Tim O'Shea <tim.oshea753@gmail.com>
+Timo Lindfors <timo.lindfors@iki.fi>
+Tom Rondeau <tom@trondeau.com>
+Volker Schroer <dl1ksv@gmx.de>
+Important new features
+
+GRC Bus Ports (Nicholas McCarthy)
+
+Bus ports in the GNU Radio Companion (GRC) allow ganging block input
+or output ports into a single port for display and connections. This
+simplifies flowgraph entry when dealing with blocks that work with an
+arbitrary number of streams.
+
+For further information, see:
+
+http://gnuradio.org/redmine/projects/gnuradio/wiki/Busports
+Minor features/updates (3.7.1):
+
+atsc: created atsc_rx.py and removed obsolete scripts (Andrew Davis)
+blocks: added interleaved_char_to_complex block (Tim O'Shea)
+blocks: Added QA code for all ControlPort probe types. (Tom Rondeau)
+blocks: adding a complex VCO block. (Tom Rondeau)
+blocks: adding a tags strobing block to help test tag stream. (Tom Rondeau)
+blocks: modified tag_debug block to publish number of tags queued (Tom Rondeau)
+build: Windows packages automatically include compiler runtime DLLs (Nicholas Corgan)
+build: installing all cmake files into lib/cmake/gnuradio directory (Tom Rondeau)
+channels: Added hardware impairments blocks from Matt Ettus' GRCon11 talk (Tom Rondeau)
+channels: added second channel model to dynamically change freq/timing offsets. (Tom Rondeau)
+channels: updated quantization demo for new histogram constructor (Tom Rondeau)
+channels: using new qtgui histogram sink in quantization demo. (Tom Rondeau)
+digital: added lo_offset and external clock utilisation to OFDM (Mike Jameson)
+digital: added lo_offset and external clock source to narrowband examples (Mike Jameson)
+digital: delay ofdm benchmark_tx exit to allow TX to empty (Mike Jameson)
+filter: added optional second input that dynamically adjusts resampling rate (Tom Rondeau)
+grc: Sorts the block tree column at start-up. (Julien Olivain)
+grc: Remove *out from sinks, *in from sources (Marcus Müller)
+grc: allow set_min_output_buffer on any blocks that have output ports (Tim O'Shea)
+grc: added special variable objects to represent constellations (Tom Rondeau)
+qtgui: Added histogram sink (Tom Rondeau)
+runtime: added tag_propagation_policy_t to block_gateway (Marcus Müller)
+runtime: Improved display handling for gr-ctrlport-monitor (Tim Newman)
+runtime: Added probes for byte, short, and int data types (Tom Rondeau)
+runtime: allow setting thread affinity to all blocks under a hier_block2 (Tom Rondeau)
+uhd: squashed per-channel stream support (Josh Blum)
+Bug Fixes (3.7.1, 3.7.0.1):
+
+analog: agc3_cc: Fix uninitialized variable error. (Philip Balister)
+analog: agc3_cc: bug fix for input values of zero (Tim O'Shea)
+atsc: Fix bugs in atsc_field_sync_mux (Clayton Smith)
+blocks: expose set_period callback for blocks.message_strobe in GRC (Tim O'Shea)
+blocks: moved type conversions to use Volk dispatchers. (Tom Rondeau)
+blocks: set file_descriptor_source default to repeat=false (Tom Rondeau)
+build: don't install controlport config file in two places (Tom Rondeau)
+build: fix for finding and handling ICE 3.5 or 3.4 (Tom Rondeau)
+build: fix to allow reconfiguring install prefix (Johnathan Corgan)
+build: fixed some differences between handling Ice 3.4 and 3.5. (Tom Rondeau)
+build: fixes FindQwt cmake module to check that Qwt is >= 5.2.0. (Tom Rondeau)
+build: force detection to Python 2.x only (Julien Olivain)
+build: more robust FindICE operation with multiple ICE installs (Tom Rondeau)
+build: require Python v2 for build configuration (Jiri Pinkava)
+digital: fix digital.cpmmod_bc XML for new constants location (Johnathan Corgan)
+digital: fix for OFDM serializer QA after FFT block fix (Johnathan Corgan)
+digital: fix for moving average filter in OFDM equalizer. (Stefano Banti)
+digital: ofdm benchmark_rx fft conflict fix (Mike Jameson)
+docs: Fixes sphinx docs for user set LD_LIBRARY_PATH (Tom Rondeau)
+docs: Minor corrections, fixes to ControlPort documentation. (Tom Rondeau)
+docs: Updated and improved the message passing docs page. (Tom Rondeau)
+docs: added doc page on Performance Counters. (Tom Rondeau)
+docs: added documentation of the stream tags interface. (Tom Rondeau)
+docs: added information about the new pfb_arb_resampler kernel. (Tom Rondeau)
+examples: fix examples using 3.7 API without importing namespaces (Nathan West)
+fec: fix uninitialized class member in decode_ccsds_27 (Johnathan Corgan)
+fft: Remove the default constructor for fft::goertzel. (Philip Balister)
+fft: fix XML import for logpwrfft block (Andrej Lajovic)
+fft: fix missing set_window call on initialization (Johnathan Corgan)
+grc: added utf8 encoding line to python templates (Marcus Müller)
+grc: applying hidapi update patch from Hans de Goede (Volker Schroer)
+grc: fix to allow grcc to execute in headless mode (Roy Thompson)
+grc: fixes grcc to exit with error in case of a compilation error. (Julien Olivain)
+modtool: fixes using templates in OOT projects created with modtool. (Tom Rondeau)
+modtool: more robust checks for gnuradio-runtime include dirs and libs. (Tom Rondeau)
+modtool: fix finding gnuradio-runtime (Jiri Pinkava)
+modtool: fix detection of GNU Radio module directory (Jiri Pinkava)
+qtgui: fix missing API declarations (Nicholas McCarthy)
+qtgui: fixes some bugs between qwt 5 and 6, some reorg. (Tom Rondeau)
+runtime: Fixed runtime SWIG linker error (Nicholas Corgan)
+runtime: fix asynch messages delivery when handler not defined (Tim O'Shea)
+runtime: fix hier_block2 disconnect_all() (Johnathan Corgan)
+runtime: fixed copy/paste error in volk_types.py (Alexandru Csete)
+runtime: vmcircbuf_sysv_shm workaround for shmem race condition (Tim O'Shea)
+uhd: fix GRC wrapper generation to match UHD change (fixes #562) (Timo Lindfors)
+uhd: fix USRP config info strings to account for B2x0 (Nicholas Corgan)
+volk: fix ARM test functions that resulted in an infinite loop (Tom Rondeau)
+volk: fix xgetbv tests for OSX/gcc (Michael Dickens)
+volk: fix QA test to use non-integer multiples of register sizes (Doug Geiger)
+volk: fix Volk profiler to use non integer multiples of register sizes (Doug Geiger)
+wxgui: Prevent crash displaying a tooltip before initialization (Miklos Maroti)

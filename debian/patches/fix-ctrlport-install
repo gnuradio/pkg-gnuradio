@@ -1,11 +1,11 @@
 --- a/gnuradio-runtime/python/gnuradio/ctrlport/CMakeLists.txt
 +++ b/gnuradio-runtime/python/gnuradio/ctrlport/CMakeLists.txt
-@@ -27,7 +27,7 @@
-     COMPONENT "runtime_python"
+@@ -28,7 +28,7 @@
  )
+ 
  
 -GR_PYTHON_INSTALL(
 +install(
      FILES
+     ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py
      ${CMAKE_CURRENT_SOURCE_DIR}/GrDataPlotter.py
-     ${CMAKE_CURRENT_SOURCE_DIR}/monitor.py

@@ -1,6 +1,6 @@
 --- a/gnuradio-runtime/lib/CMakeLists.txt
 +++ b/gnuradio-runtime/lib/CMakeLists.txt
-@@ -144,7 +144,7 @@
+@@ -153,7 +153,7 @@
  ENDIF(HAVE_WINDOWS_H)
  
  #need to link with librt on ubuntu 11.10 for shm_*

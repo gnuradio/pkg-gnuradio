@@ -1,0 +1,94 @@
+Changelog for Release 3.7.6.2
+
+GNU Radio release 3.7.6.2 is available for download:
+
+http://gnuradio.org/releases/gnuradio/gnuradio-3.7.6.2.tar.gz
+
+MD5 sum:
+
+84bd2ba1ce04fb1489fd9422c41bb53d  gnuradio-3.7.6.2.tar.gz
+
+Git Shortlog of Contributions:
+Bastian Bloessl <bloessl@ccs-labs.org> (1):
+
+    digital: mm clock recovery - fix clipping w/ 2nd output
+
+Harm te Hennepe <d.h.tehennepe@student.utwente.nl> (1):
+
+    Warn when the throttlers sleep time variable overflows
+
+Henry Xu <xuweihong.cn@gmail.com> (1):
+
+    fix gr-digital/examples/ofdm/tunnel.py error: option mismatch
+
+James Saari <jsaari@defense.mrcy.com> (1):
+
+    wxgui: fixes a bug with wx > 3.0.
+
+Jiří Pinkava <j-pi@seznam.cz> (5):
+
+    analog: fix check of sample rate vs audio rate
+    runtime: do not return buffer created on stact #722
+    runtime: fix wait() race condition
+    runtime: QA for lock()/unlock() deadlock
+    runtime: fix deadlock in unlock() from Python #594
+
+Johnathan Corgan <johnathan@corganlabs.com> (5):
+
+    Merge remote-tracking branch 'tom/qtgui/bug767' into maint
+    Merge remote-tracking branch 'tom/filter_design_pyqt4' into maint
+    Merge remote-tracking branch 'github/fix-qt-freq-sink-half-width' into maint
+    Merge remote-tracking branch 'pinkavaj/lock-fix-03' into maint
+    cmake: update revision to 3.7.6.2 for maintenance release
+
+Luke Berndt <lukekb@gmail.com> (1):
+
+    analog: Added squelch_base_cc.h
+
+Martin Braun <martin.braun@ettus.com> (3):
+
+    blocks: Fixed static init of matrix_multiply members
+    blocks: Fixed UDP source bug
+    modtool: Bugfix for info command, would confuse in- and out-of-tree components
+
+Michael Dickens <michael.dickens@ettus.com> (8):
+
+    qtgui: clarify return value, to make some compilers happier.
+    filter: use correct function for argument type; where's std::abs when you need it to auto-type?
+    blocks: fixmsg handler pmt length / size comparison to be valid.
+    audio osx: change copying of a UInt32 type into a string by using memcpy instead of a direct pointer manipulation, to make some newer compilers happy.
+    audio osx: use memcpy instead of bcopy, to be consistent with the rest of GNU Radio.
+    blocks: use explicit type conversion to compare the same types.
+    pager & digital: add explicit type to constants that could be interpreted in other ways, to make various compilers happy.
+    logger: fix macro name in comments.
+
+Scott Talbert <swt@techie.net> (1):
+
+    Fix gnuradio for wxPython3/GTK+3
+
+Sebastian Koslowski <koslowski@kit.edu> (1):
+
+    grc: fix undefined color in headless mode
+
+Sreeraj Rajendran <rsreeraj@gmail.com> (1):
+
+    gr_filter_design: Issue #749; Replaced pyqt4 imports with numpy ones.
+
+Tom Rondeau <tom@trondeau.com> (8):
+
+    qtgui: removing all references to aligned volk calls -- which I thought that I had already done.
+    blocks: cleans up the docs for the multiply_matrix blocks.
+    Merge remote-tracking branch 'mbant/blocks/bug_742' into maint
+    blocks: message strobe shutdown fix.
+    docs: fixed labels and references in manual.
+    qtgui: fixes issue #767.
+    qtgui: fix broken QT tab widgets when trying to use more than five.
+    qtgui: fix max/min hold traces when using half width in time sink
+
+Zero_Chaos <sidhayn@gmail.com> (1):
+
+    Update FindQwt.cmake to support qwt6-qt4
+
+fengzhe29888 <fengzhe29888@gmali.com> (1):
+
+    trellis: bug fixed:adding a missing callback function set_K in trellis_encoder

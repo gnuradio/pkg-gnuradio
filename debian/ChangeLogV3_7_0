@@ -1,0 +1,152 @@
+ChangeLogV3.7.0
+Contributors:
+
+Ben Reynwar <ben@reynwar.net>
+Gerald Baier <gerald.baier@student.kit.edu>
+Jaroslav Škarvada <jskarvad@redhat.com>
+Jeff Long <jeff@longhouse.net>
+Johnathan Corgan <johnathan@corganlabs.com>
+Josh Blum <josh@joshknows.com>
+Mark Plett <mark.plett@jhuapl.edu>
+Martin Braun <martin.braun@kit.edu>
+Michael Dickens <mlk@alum.mit.edu>
+Nicholas Corgan <nick.corgan@ettus.com>
+Nick Foster <nick@ettus.com>
+Nick McCarthy <namccart@gmail.com>
+Philip Balister <philip@balister.org>
+Sreeraj Rajendran <rsreeraj@gmail.com>
+Tim Newman <tim.newman@gmail.com>
+Tim O'Shea <tim.oshea753@gmail.com>
+Tom Rondeau <trondeau@vt.edu>
+Volker Schroer <dl1ksv@gmx.de>
+Code Structure Changes (Johnathan Corgan, Tom Rondeau)
+
+The GNU Radio source code was restructured and flattened. All top-level components now use the same structure for consistency and ease of use. All blocks were moved out of gnuradio-core, which has been renamed to gnuradio-runtime. The blocks are now in their appropriate top-level components and reimplemented with the new 3.7 API style. The new API makes use of C++ namespaces and the virtual private implementation class pattern to better hide GNU Radio internals from user code.
+
+Details about this can be found here:
+
+http://gnuradio.org/redmine/projects/gnuradio/wiki/Move_3-6_to_3-7
+
+A Google doc showing all items that were moved from one place to another in the new style is here:
+
+http://ow.ly/mDpey
+
+Blocks not listed were already in their own components. Many blocks were removed. All columns marked with ‘-----’ means that column is not applicable to that block or class. Any column (except those marked as Remove) that are blank means that we might be able to improve upon it, which normally indicates using VOLK or improving documentation.
+
+A Google doc showing the new component and Doxygen categories for all components is here:
+
+http://ow.ly/mDplO
+Important new features:
+ControlPort (Tom Rondeau, Tim O’Shea)
+
+ControlPort is a new interface for standardizing remote procedure calls in GNU Radio:
+
+    Remote control and visualization.
+    Use of ControlPort to enable debugging without requiring extra debug streams.
+    Abstracted interface, but currently using ICE (www.zeroc.com).
+    No additional CPU usage while no monitoring is occurring.
+    Can connect multiple remotes to same GNU Radio application.
+    Can also have single ControlPort app control multiple GR apps.
+
+Each block creates interfaces to control data members, by defining ‘get’ and ‘set’ interface to query and update values of block variables. Preference files control the state of ControlPort in section [ControlPort] of gnuradio-runtime.conf.
+
+ControlPort comes with a generic utility to allow you to see all interfaces of a flowgraph:
+
+    gr-ctrlport-monitor <ip address> -p <port>
+
+Within a flowgraph, one can also use ControlPort probes to pass vectors of data to a ControlPort client, including complex IQ data. One useful probe calculates the power spectral density of a block output for remote display.
+
+See the ControlPort page in the GNU Radio manual for more information:
+
+http://gnuradio.org/doc/doxygen/page_ctrlport.html
+Performance Measurement Tools
+
+Performance Counters were first built into GNU Radio in 3.6.5, but could only be accessed locally. Now, all Performance Counters can be exported over ControlPort.
+
+Performance Counters must be compiled into GNU Radio using -DENABLE_PERFORMANCE_COUNTERS=True. They can be toggled on/off at runtime using the [PerfCounters] section in gnuradio-runtime.conf. Use option ‘export’ to export Performance Counters over ControlPort.
+
+We now include a new tool to visualize the Performance Counters over ControlPort. This is installed as gr-perf-monitorx and requires the Python modules Scipy, NetworkX, and Matplotlib. Nodes of the flowgraph are represented as blue squares. The size of the square is proportional to the amount of time spent in the work function (either thread time or monotonic (wall clock) time). The size and depth of the shade of red of the edges is proportional to how full the block’s output buffer is.
+QTGUI Enhancements (Tom Rondeau, Nick Foster, Ben Reynwar)
+
+The QTGUI widgets defined in gr-qtgui have had a major overhaul in 3.7. All plots are now split out into individual components, including:
+
+    Time plots (amplitude versus time)
+    FFT plots (or PSD) (log magnitude versus frequency)
+    Waterfall plots (or spectrograms) (time versus frequency with magnitude as the color intensity)
+    Constellation plots (imaginary (quadrature) versus real (inphase))
+    Time raster plots (time vs. time)
+
+Each plot can accept multiple connections that will overlay the signals on them. Zooming and unzooming are the same using the left and right mouse buttons. The center mouse button will pull up a context menu to allow manipulations of all kinds of properties of the display, such as line and marker styles, the size of the FFT, averaging, line transparency, etc. Significant work has gone into improving the performance, including the use of VOLK and more intelligent ways of handling the display to reduce the computational load.
+
+QT defined QT Style Sheets (QSS) that allow us to specify looks, colors, and other properties of a display. Support for the use of QSS has been added to gr-qtgui to make establishing your preferences easier.
+
+gr-qtgui/examples contains a number of examples showing how to use each type of plot and the QSS definition and interface.
+Uninstalled imports (Ben Reynwar)
+
+The GNU Radio source tree was updated to allow us to directly import all GNU Radio components in-tree before install but using the same syntax. This change greatly reduces problems and complexity of writing Python code for use in both normal installations and QA code. This change will also allow us to automatically build the Sphinx Python manual during make.
+Updated gr_filter_design (Sreeraj Rajendran)
+
+Overhauled the current gr_filter_design to add better visualization and interactive tools. Installed as part of the gr-filter component now, the gr_filter_design tool adds many new features for visualizing filters as well as support for IIR filter tap design. The new tool also includes a programmatic API that allows a user to launch the filter design tool inline in a program, design the new filter, and pass back an object containing the filter taps and parameters. Passing a callback function allows the designer to run in a separate thread and every time a new filter is designed, the callback function can be triggered to update a filter.
+
+Examples of using the programmatic access to gr_filter_design can be found in gr-filter/examples/gr_filtdes_*.
+Other New Components and Features
+New blocks added
+
+    gr::analog::fast_noise_source - pre-generates a table of random samples from the selected PDF and randomly samples from them. This has somewhat less entropy than the normal noise_source block but is significantly faster.
+
+    gr::analog::agc3_*: Performs an initial linear gain ramp to quickly converge on a signal during startup and then falls back to an iterative loop similar to agc2.
+
+    The agc, agc2, and agc3 blocks have been made to use a unified interface that now includes a default maximum gain value (set to 2^16 so that it can scale up even the LSB of a USRP’s device).
+
+New gr-fec component
+
+This new top-level component mainly functions as a placeholder for new FEC block implementations. Currently contains only a couple of purpose-built FEC blocks.
+New gr-channels component (Tim O'Shea)
+
+This new top-level component holds current and future channel model blocks. The standard AWGN channel_model has moved here. In addition, there are two new channel models:
+
+    fading_model - Uses configurable max Doppler shift, Rician power factor, and lists of the delays (in samples) and magnitudes of a power delay profile.
+    selective_fading model - Basic fading model that can have a number of sinusoids, max Doppler shift, and Rician power factor defined for it.
+
+volk_modtool (Nick McCarthy)
+
+This new tool allows the creation of out-of-tree VOLK libraries. These allow developers or organizations to develop a set of VOLK kernels for internal use apart from the main libvolk provided by GNU Radio.
+GnuradioConfig.cmake (Tom Rondeau, Tim O’Shea)
+
+New GnuradioConfig.cmake and GnuradioConfigVersion.cmake cmake files are installed into the system under $prefix/lib/cmake/gnuradio. These files can be used by any other project to easily test if any GNU Radio components are installed and the minimum API-compatible version required.
+
+Set GR_REQUIRED_MODULES to any of the top-level components in GNU Radio in all caps. Then use find_package(Gnuradio) to search for them. The second optional argument is the API compatible version is was built against. For example, to test if gnuradio-runtime, gnuradio-blocks, and gnuradio-filter are installed, we would use:
+
+set(GR_REQUIRED_MODULES RUNTIME BLOCKS FILTER)
+find_package(Gnuradio 3.7.0)
+Additional Fixes (Ben Reynwar, Tom Rondeau, Josh Blum, Nicholas Corgan)
+
+    Added symbol output stream from constellation_receiver so we can see the locked constellation as well as the output bits.
+
+    Introduced a new pfb_arb_resampler kernel class that can be used by other blocks. We have used this to significantly simplify the pfb_arb_resampler_ccf/fff blocks.
+
+    All PFB code has new QA and fixed a few minor bugs in the calculation of some of the filters.
+
+    Added more QAM support with Gray coding.
+
+    Reworked VOLK. All kernels are now in volk/kernels/volk, made all kernels consistent in use of num_points, and redid any kernels that used num_bytes.
+
+    Removed assumptions that were Linux-only to continue to support native MSVC builds.
+
+Obsoleted and/or removed functionality
+
+The following items have been removed or redone:
+
+    gr-shd (removed)
+    gruel (removed; all functionality now in gnuradio-runtime)
+    gr-howto-write-a-block (functionality replaced by gr_modtool)
+
+For more removed components, see:
+
+http://ow.ly/mDpey
+Deprecated functionality
+
+These are items that are currently part of GNU Radio, but are planned to be removed in the next API release (3.8).
+
+    gr-noaa - will be reimplemented as a stand-alone, out-of-tree project and supported with PyBOMBS
+    gr-pager - will be reimplemented as a stand-alone, out-of-tree project and supported with PyBOMBS

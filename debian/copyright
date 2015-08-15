@@ -2,7 +2,7 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: gnuradio
 Upstream-Contact: http://gnuradio.org/
 Source:
- git archive --format=tar --prefix=gnuradio-3.7.5/ v3.7.5 | xz > gnuradio_3.7.5.orig.tar.xz
+ git archive --format=tar --prefix=gnuradio-3.7.8/ v3.7.8 | xz > gnuradio_3.7.8.orig.tar.xz
 Comment:
  Packages of versions 3.4 and up by A. Maitland Bottoms <bottoms@debian.org>,
  GNU Radio was re-packaged by Bdale Garbee <bdale@gag.com> to reflect
@@ -22,16 +22,17 @@ Comment:
 Copyright: 2001-2012 Free Software Foundation, Inc.
 License: GPL-3+
 
-Files: */CMakeLists.txt
-Copyright: 2010-2012 Free Software Foundation, Inc.
+Files: .gitignore .gitmodules .gitattributes CMakeLists.txt
+ README README.building-boost README.hacking
+ cmake/* config.h.in docs/* dtools/* gnuradio-runtime/* gr-*/* grc/*
+Copyright: 2010-2015 Free Software Foundation, Inc.
 License: GPL-3+
-Comment:
- Most of the work for Cmake build is due to
- Josh Blum <josh@joshknows.com>
 
-Files: */Makefile.am
-Copyright: 2001-2011 Free Software Foundation, Inc.
-License: GPL-3+
+Files: COPYING
+Copyright: 1989, 1991 Free Software Foundation, Inc.
+License: COPYING
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
 
 Files: gr-vocoder/lib/g7xx/*
 Copyright: 1992 Public Domain
@@ -136,7 +137,7 @@ License: KISS-BSD
 
 Files: gr-vocoder/lib/codec2/*
 Copyright: (C) 1990-2013 David Rowe
-License: LGPLv2.1+
+License: LGPL-2.1+
 
 Files: volk/cmake/msvc/*
 Copyright: (c) 2006-2008 Alexander Chemeris
@@ -221,7 +222,7 @@ License: BSD-3
  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-License: LGPLv2.1+
+License: LGPL-2.1+
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License version 2.1, as
  published by the Free Software Foundation.  This program is

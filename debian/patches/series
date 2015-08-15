@@ -1,5 +1,4 @@
 debian-soname
-volk-profile-no-rpath
 usr-bin-examples
 bsd-fcd
 bsd-shm
@@ -8,4 +7,4 @@ bsd-hurd-no-thread-affinity
 gr-fcd-needs-usb
 fix-ctrlport-install
 wxpy3.0-compat
-native-armv7-build-support
+update-to-codec2-0.3

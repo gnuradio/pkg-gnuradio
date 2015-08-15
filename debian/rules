@@ -6,20 +6,20 @@ export DEB_HOST_MULTIARCH
 	dh $@ --with python2
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DLIB_SUFFIX="/$(DEB_HOST_MULTIARCH)" -DPYTHON_EXECUTABLE:STRING="/usr/bin/python"
+	dh_auto_configure -- -DLIB_SUFFIX="/$(DEB_HOST_MULTIARCH)" -DPYTHON_EXECUTABLE:STRING="/usr/bin/python" -DENABLE_INTERNAL_VOLK=OFF
+	#-DCMAKE_C_COMPILER=gcc-4.9 -DCMAKE_CXX_COMPILER=g++-4.9
 
 override_dh_auto_test:
-	- dh_auto_test -- CTEST_TEST_TIMEOUT=60
+	mkdir debian/test
+	mkdir debian/test/.gnuradio
+	- HOME=debian/test dh_auto_test -- CTEST_TEST_TIMEOUT=60
+	rm -rf debian/test
 
 override_dh_auto_install:
 	dh_auto_install
 	# jquery.js is provided in another debian package, do not ship one here too
 	rm debian/tmp/usr/share/doc/gnuradio*/html/jquery.js
-	chmod +x debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/grc/python/flow_graph.tmpl
+	# chmod +x debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/grc/python/flow_graph.tmpl
 
 override_dh_install:
 	dh_install
-	# remove duplicate files that are in new libvolk-* packages
-	rm debian/gnuradio/usr/bin/volk*
-	rm debian/gnuradio-dev/usr/lib/*/libvolk.so
-	rm debian/gnuradio-dev/usr/lib/*/pkgconfig/volk.pc

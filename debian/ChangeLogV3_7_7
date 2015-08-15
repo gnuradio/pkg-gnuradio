@@ -1,0 +1,241 @@
+Changelog for Release 3.7.7
+
+GNU Radio releases 3.7.7 and 3.7.6.2 are available for download:
+
+http://gnuradio.org/releases/gnuradio/gnuradio-3.7.6.2.tar.gz
+http://gnuradio.org/releases/gnuradio/gnuradio-3.7.7.tar.gz
+
+GNU Radio Live DVD 3.7.7: see maintenance release 3.7.7.1
+
+MD5 sums:
+
+84bd2ba1ce04fb1489fd9422c41bb53d  gnuradio-3.7.6.2.tar.gz
+6eab8f59d73abaec29c25c25de4b8eec  gnuradio-3.7.7.tar.gz
+
+Release 3.7.6.2 is a bug-fix only increment, while release 3.7.7 adds both bug fixes and new features within the 3.7 API compatibility series. We'd like to thank the below contributors for their efforts:
+
+    Bastian Bloessl <bloessl@ccs-labs.org>
+    Bill Clark <saikou@vt.edu>
+    Brian Padalino <bpadalino@gmail.com>
+    Ethan Trewhitt <ethan@trewhitt.org>
+    Feng Zhe <fengzhe29888@gmail.com>
+    Harm te Hennepe <d.h.tehennepe@student.utwente.nl>
+    Henry Xu <xuweihong.cn@gmail.com>
+    James Saari <jsaari@defense.mrcy.com>
+    Jiří Pinkava <j-pi@seznam.cz>
+    Johannes Demel <ufcsy@student.kit.edu>
+    Johnathan Corgan <johnathan@corganlabs.com>
+    Jon Szymaniak <jon.szymaniak@gmail.com>
+    Julian Arnold <julian.arnold@ettus.com>
+    Luke Berndt <lukekb@gmail.com>
+    Marcus Müller <Marcus.Mueller@ettus.com>
+    Martin Braun <martin.braun@ettus.com>
+    Michael Dickens <michael.dickens@ettus.com>
+    Moritz Fischer <moritz.fischer@ettus.com>
+    Nathan West <nathan.west@okstate.edu>
+    Paul Garver <garverp@gatech.edu>
+    Ron Economos <w6rz@comcast.net>
+    Scott Talbert <swt@techie.net>
+    Sean Nowlan <sean.nowlan@gtri.gatech.edu>
+    Sebastian Koslowski <koslowski@kit.edu>
+    Seth Hitefield <sdh11@vt.edu>
+    Sreeraj Rajendran <rsreeraj@gmail.com>
+    Stephan Ludwig (donludovico)
+    Sylvain Munaut <tnt@246tNt.com>
+    Thaddeus Koehn <tkoehn@vt.edu>
+    Tim Kuester <tpkuester@gmail.com>
+    Tim O'Shea <tim.oshea753@gmail.com>
+    Tom Rondeau <tom@trondeau.com>
+    Zero_Chaos <sidhayn@gmail.com>
+
+Major Changes: (3.7.7)
+Runtime:
+
+Added the ability to set the output buffer min/max size for a
+hier_block, which propagates to all blocks internally, or it can be
+set to only set the buffers of blocks attached to output ports.
+
+Better use of the logger within the flat_flowgraph class.
+CMAKE
+
+The CMake work dealt mainly with issues related to the VOLK
+submodule/external project. The intent is to find out if a newer
+version is installed in the system somewhere or fall back to using the
+submodule in-tree. The OE SDK's support the submodule as well.
+
+CMake now supports the flag NO_DEFAULT_PATH to look only in the paths provided.
+
+We found a bug in SWIG version 3.0.3 and 3.0.4. CMake now Add checks
+these version and prints a user-friendly messages for both success and
+failure.
+DTV
+
+The DTV module has new support for ATSC, DVB-S2, and DVB-T2 transmitter blocks.
+FEC
+
+The FEC component now has support for an LDPC encoder and decoder as
+well as some support for ALIST files, a common format for the LDPC
+parity matrix. This is work that began with Manu TS's GSoC project.
+
+The FEC component now also supports a Turbo Product Code (TPC) encoder
+and decoder thanks to Kiran Karra.
+
+Both TPC and LDPC codes are available in GRC and use the FEC-API
+structure for GNU Radio FEC support. The ber_curves.grc example has
+been updated to plot the BER vs. ESN0 results alongside the dummy,
+repetition, and convolutional code we already supported.
+Filtering
+
+The IIR filters for certain combinations of input/output/tap types
+could be unstable if the internal accumulator was not the appropriate
+type. The IIR filter kernels are template based, so we added a fourth
+template for the accumulator value, which should be the highest
+precision type for any portion of the algorithm. This is documented in
+the iir_filter kernel class page in the manual.
+GNU Radio Companion
+
+When using QTGUI or WXGUI widgets in a GRC application, GRC now checks
+to see if the Generate Options match and provides an error message if
+they do not. This feature will help with an on-going problem of mixing
+and matching the two.
+
+We added the ability to Apply changes when setting a block's
+properties instead of just OK and Cancel. This feature is designed to
+help address the problem of validating the entry before exiting the
+dialog box. When Apply is hit, all entries are validated (including
+Python code, if any) to mark any entries red if there are errors. A
+short cut key Ctrl+Enter was added to quickly apply any changes. If
+Cancel is pressed after Apply, any properties set/changed before Apply
+are still the same; only changes made between Apply and Cancel are
+voided.
+
+GRC supports the use of comments to annotate blocks. There is a
+multiline (and new 'multiline' parameter type to support this) Comment
+section under the Advanced tab in all block properties box to place
+any comments. These will go underneath the block in the canvas in a
+slightly different background shade to help distinguish them. Disabled
+blocks will not show the comments, and comments can be toggled on/off
+globally by clicking View -> Show Block Comments.
+
+We also added a variable type Tag Object to make it easier to build
+tags in GRC. This is useful for adding tags to a vector source, and an
+example is installed into
+examples/blocks/vector_source_with_tags.grc. In the future, we plan on
+making more variable blocks like this to help us more easily build
+some complex objects
+
+There were a handful of other helpful issues addressed in this release
+as well:
+
+    grc: button in save dialog defaults to 'save' instead of 'close without saving'
+    grc: set permissions for generated files
+    grc: no shebang for hier blocks; use python2
+    grc: use 'import' for grc-generated hier_blocks (#763)
+    grc: optional thread-safe setters in generated code (#748)
+    grc: don't try to open missing files
+    grc: move context def into Bars.py and add submenu
+    grc: clean-up 'gnuradio-companion', add mode 'run from source'
+    grc: use abs path for source tree run mode
+
+QTGUI
+
+We have added a control panel to the time and frequency GUI sinks. The
+control panel allows easy access to adjust certain display properties
+of the sink, such as X and Y axis, max/min holds, autoscaling, and
+trigger settings. The control panel can be turned on/off in GRC by
+going to the Config tab of the block's property box. It can also be
+turn on/off at runtime using the drop-down menu (middle mouse button
+click).
+
+The legends of all graphs can be turned on/off, but only set at the
+start of the application. In GRC, this is toggled in the Config tab of
+the properties box. All QTGUI blocks support this.
+
+We replaced the QTGUI range widget from using PyQWT to just PyQT4,
+which means we have also removed PyQWT as a dependency of GNU
+Radio. PyQWT is used by the gr_filter_design tool, but can be added on
+later for running just that Python application.
+
+A new QTGUI Push Button widget is available to signal behavior in a
+flowgraph.
+
+QSS files can be used to set the look of a QTGUI application. We moved
+the available dark.qss and alt.qss files in
+$prefix/share/gnuradio/themes directory to be more easily found and
+used.
+UHD
+
+The UHD updates this release include the addition of building gr-uhd
+as a static library to help support static and embedded system builds
+that require this. This required an update in UHD, and the GNU Radio
+CMake structure verifies that the installed version of UHD supports
+this.
+
+UHD gain ranges have also been normalized, and a set_stream_args()
+method has been added to the UHD sink & source blocks.
+VOLK
+
+We have separated VOLK into its own project; added it as a submodule
+to GNU Radio. An explanation and more details on the VOLK 1.0 release
+announcement can be found here:
+
+http://lists.gnu.org/archive/html/discuss-gnuradio/2015-04/msg00202.html
+ZeroMQ
+
+Supports sending and receiving tags through the stream-based ZMQ
+blocks and added new ZMQ blocks to pass messages.
+Other Additions and Changes
+
+    analog: Added frequency accessor and modifier to CTCSS squelch
+    blocks: Make tap/tun configurable, fix GRC spec to be consistent with default flag of IFF_TAP
+    blocks: add message output port to probe_rate block
+    blocks: add blocks_stream_align to support acquiring alignment to TSB from an unaligned TSB streamtests
+    blocks: added callback functions to stream_to_tagged_stream
+    blocks: added callback function set_k_and_l to repack bits
+    digital: added reset_tag_key field to additive scrambler GRC xml
+    digital: update control loop frequency limits in fll_band_edge_cc when samps_per_sym is changed
+    digital: added new constellations objects naturally mapped 8PSK and 16QAM
+    digital: updated the decision maker of 16QAM
+    digital: added callback function set_header_formatter to packet_headergenerator_bb
+    general: Removed any use of the gr_<type> data types that will removed in 3.8.
+    general: gnuradio-config-info: Added --enabled-components
+    grc: GRC block for video SDL sink
+    modtool: Added rename capability to gr_modtool
+    modtool: Added sample manifest file
+    modtool: Added interactive language selection, renamed "code type" to "block type" to be more descriptive.
+    qtgui: improved speed of time plots.
+    runtime: added accessor to get base address of buffer. Addresses Issue #729.
+    uhd: support for IQ imbalance enable/disable
+    utils: Added octave function to write fc32 format (gr_complex) from Octave variables.
+
+Bug Fixes
+
+    analog: Made CTCSS squelch find_tone() a static member function
+    analog: Moved CTCSS squelch FFT parameter calculations
+    analog: Wrapped squelch blocks' setter methods with lock
+    blocks: integration supports vector input
+    blocks: the API for the peak_detector blocks incorrectly uses int instead of float for setting alpha.
+    blocks: pack_k_bits_bb: removed unused d_k member; Coverity 1216153
+    blocks: fix tagged_stream_align min/max output items
+    blocks: minor cleanup for types and using alias_pmt directly in pdu_to_tagged_stream.
+    cmake: In Python files only, remove all shebanging (anywhere) then prepend that used for GNU Radio.
+    digital: bug fixed in chunks_to_symbols that the callback function set_symbol_table didn't work with additional qa
+    docs: removed doxyxml example
+    dtv: redo c++0x complaint std::complex to be c++11 compliant
+    dtv: move "static const" variables from header / class into the main code.
+    dtv: Fixed out-of-bounds memset in DVB-T2 frame mapper
+    fec: Move the definition of yp_kernel from the class into a temp variable in the main code.
+    fec: Fixing memset(..,0xCCCC,...); Coverity 1293309
+    fec: fixed printf("%d", size_t); Coverity 1293327
+    filter: fixing the pfb_arb_resampler's prototype to use the correct argument order.
+    filter: exporting IIR filter kernels from library.
+    grc: Remove duplicate block paths
+    grc,blocks,fft,filter: assigned categories to all blocks without any
+    grc,blocks,fft,filter: further checked all other gr-* of gnuradio
+    grc: Move the XInitThreads to "As Early As Possible"
+    pmt: moves the rest of the PMT constants from static globals to using get_ functions.
+    qtgui: use QPen::setWidthF for non-integer values.
+    qtgui: fixed a small bug in the time sink where it could miss a tag to display every now and then.
+    qtgui: fixed issue with QWT 6 and 6.1 changes.
+    runtime: possible bug fix for limited-run flowgraphs with message-only blocks.
+    runtime: better documentation for the set min/max output buffer functions.
