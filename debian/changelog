@@ -1,3 +1,14 @@
+gnuradio (3.7.8-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Updated dependencies for libvolk to latest package names:
+   - libvolk1.0-dev -> libvolk1-dev
+   - libvolk1.0 -> libvolk1.1
+  * Updated dependencies for libuhd to latest package names:
+   - libuhd003 -> libuhd003v5 (Closes: #797754)
+
+ -- Iain R. Learmonth <irl@debian.org>  Wed, 02 Sep 2015 19:55:47 +0100
+
 gnuradio (3.7.8-2) unstable; urgency=medium
 
   * build with log4cpp
