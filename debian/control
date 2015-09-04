@@ -34,7 +34,7 @@ Package: gnuradio
 Architecture: any
 Depends: ${python:Depends}, python-opengl, python-lxml,
  python-wxgtk3.0, python-cheetah, adduser,
- ${shlibs:Depends}, ${misc:Depends}, libvolk1.1-bin
+ ${shlibs:Depends}, ${misc:Depends}, libvolk1-bin
 Recommends: python-qt4, python-qwt5-qt4, python-scipy, python-matplotlib,
  python-networkx, uhd-host (>=3.8), python-tk, qthid-fcd-controller,
  python-zmq

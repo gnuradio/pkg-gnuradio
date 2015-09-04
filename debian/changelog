@@ -1,3 +1,11 @@
+gnuradio (3.7.8-2.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Updated dependencies for libvolk to latest package names:
+   - libvolk1.0-bin -> libvolk1-bin
+
+ -- Iain R. Learmonth <irl@debian.org>  Thu, 03 Sep 2015 11:33:49 +0100
+
 gnuradio (3.7.8-2.1) unstable; urgency=medium
 
   * Non-maintainer upload.
