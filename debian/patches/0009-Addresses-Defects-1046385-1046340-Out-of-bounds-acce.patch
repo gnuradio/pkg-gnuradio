@@ -1,0 +1,58 @@
+From ff5eef1c94649a26b893bbf45455190bc72c6b4a Mon Sep 17 00:00:00 2001
+From: Ben Hilburn <ben.hilburn@ettus.com>
+Date: Fri, 28 Aug 2015 20:20:29 -0700
+Subject: [PATCH 09/17] Addresses Defects 1046385 & 1046340: Out-of-bounds
+ access
+
+Both of these defects are for the second parameter of the `constellation`
+class' `map_to_points` function that accepts a pointer to an array of
+`gr_complex` values. In both of these defects, a class is calling this function
+and passing the address of a single `gr_complex` value in place of an array
+pointer. The only reason this isn't exploding with SEGFAULTs is because both of
+these functions happen to use the default constructor of `constellation`, which
+sets the loop limit in `map_to_points` to `1`. It's generally a dangerous
+design, but changing the function prototype seems heavy heanded, and adding
+additional conditionals will end up affecting the fast-path. For now, I am just
+documenting this oddity in the code.
+---
+ gr-digital/lib/lms_dd_equalizer_cc_impl.cc | 6 ++++++
+ gr-digital/lib/ofdm_equalizer_simpledfe.cc | 6 ++++++
+ 2 files changed, 12 insertions(+)
+
+diff --git a/gr-digital/lib/lms_dd_equalizer_cc_impl.cc b/gr-digital/lib/lms_dd_equalizer_cc_impl.cc
+index 530b3aa..296d8fe 100644
+--- a/gr-digital/lib/lms_dd_equalizer_cc_impl.cc
++++ b/gr-digital/lib/lms_dd_equalizer_cc_impl.cc
+@@ -86,6 +86,12 @@ namespace gr {
+     lms_dd_equalizer_cc_impl::error(const gr_complex &out)
+     { 
+       gr_complex decision, error;
++      // The `map_to_points` function will treat `decision` as an array pointer.
++      // This call is "safe" because `map_to_points` is limited by the
++      // dimensionality of the constellation. This class calls the
++      // `constellation` class default constructor, which initializes the
++      // dimensionality value to `1`. Thus, Only the single `gr_complex` value
++      // will be dereferenced.
+       d_cnst->map_to_points(d_cnst->decision_maker(&out), &decision);
+       error = decision - out;
+       return error;
+diff --git a/gr-digital/lib/ofdm_equalizer_simpledfe.cc b/gr-digital/lib/ofdm_equalizer_simpledfe.cc
+index 9e1ac4e..f618ba5 100644
+--- a/gr-digital/lib/ofdm_equalizer_simpledfe.cc
++++ b/gr-digital/lib/ofdm_equalizer_simpledfe.cc
+@@ -96,6 +96,12 @@ namespace gr {
+ 	    frame[i*d_fft_len+k] = d_pilot_symbols[d_pilot_carr_set][k];
+ 	  } else {
+ 	    sym_eq = frame[i*d_fft_len+k] / d_channel_state[k];
++            // The `map_to_points` function will treat `sym_est` as an array
++            // pointer.  This call is "safe" because `map_to_points` is limited
++            // by the dimensionality of the constellation. This class calls the
++            // `constellation` class default constructor, which initializes the
++            // dimensionality value to `1`. Thus, Only the single `gr_complex`
++            // value will be dereferenced.
+ 	    d_constellation->map_to_points(d_constellation->decision_maker(&sym_eq), &sym_est);
+ 	    d_channel_state[k] = d_alpha * d_channel_state[k]
+                                + (1-d_alpha) * frame[i*d_fft_len + k] / sym_est;
+-- 
+2.1.4
+

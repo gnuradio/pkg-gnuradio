@@ -1,0 +1,29 @@
+From c173b20994a2d230a8200ea20b37da936c89fe7b Mon Sep 17 00:00:00 2001
+From: Ben Hilburn <ben.hilburn@ettus.com>
+Date: Fri, 28 Aug 2015 21:05:12 -0700
+Subject: [PATCH 12/17] Fixes Cov Defect 1043301: Unitialized Variable in
+ Conditional
+
+`extra_len` was declared but not initialized except in a conditional code path,
+after which it was compared to zero. It is now initialized to zero in case the
+conditional code path is not taken.
+---
+ gr-blocks/lib/file_meta_source_impl.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-blocks/lib/file_meta_source_impl.cc b/gr-blocks/lib/file_meta_source_impl.cc
+index 5686945..4cb0ab8 100644
+--- a/gr-blocks/lib/file_meta_source_impl.cc
++++ b/gr-blocks/lib/file_meta_source_impl.cc
+@@ -159,7 +159,7 @@ namespace gr {
+       hdr = pmt::deserialize_str(str);
+       delete [] hdr_buffer;
+ 
+-      uint64_t seg_start, extra_len;
++      uint64_t seg_start, extra_len = 0;
+       pmt::pmt_t r, dump;
+       if(pmt::dict_has_key(hdr, pmt::string_to_symbol("strt"))) {
+ 	r = pmt::dict_ref(hdr, pmt::string_to_symbol("strt"), dump);
+-- 
+2.1.4
+

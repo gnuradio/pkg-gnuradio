@@ -1,0 +1,28 @@
+From afa05059211c0e27ecb111500fc9628ba550eced Mon Sep 17 00:00:00 2001
+From: Ben Hilburn <ben.hilburn@ettus.com>
+Date: Fri, 28 Aug 2015 20:53:18 -0700
+Subject: [PATCH 10/17] Addresses Defects 1046385 & 1046340: Buffer not
+ NULL-terminated
+
+This was rather harmless. The only result was that the OS copied a character
+that would then get overwritten as a NULL buffer termination.
+---
+ gr-blocks/lib/tuntap_pdu_impl.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-blocks/lib/tuntap_pdu_impl.cc b/gr-blocks/lib/tuntap_pdu_impl.cc
+index 4e01f45..45995e4 100644
+--- a/gr-blocks/lib/tuntap_pdu_impl.cc
++++ b/gr-blocks/lib/tuntap_pdu_impl.cc
+@@ -120,7 +120,7 @@ namespace gr {
+        * specified type
+        */
+       if (*dev)
+-        strncpy(ifr.ifr_name, dev, IFNAMSIZ);
++        strncpy(ifr.ifr_name, dev, IFNAMSIZ - 1);
+ 
+       /* try to create the device */
+       if ((err = ioctl(fd, TUNSETIFF, (void *) &ifr)) < 0) {
+-- 
+2.1.4
+

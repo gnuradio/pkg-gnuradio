@@ -1,3 +1,12 @@
+gnuradio (3.7.8-3) unstable; urgency=low
+
+  * Acknowlegde NMUs
+  * Update to v3.7.8-22-g2fa3642
+  * update dependencies to uhd 3.9.0, volk 1.1, codec2 0.4
+  * Absolute path for temporary HOME to allow tests to run
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 07 Sep 2015 16:10:48 -0400
+
 gnuradio (3.7.8-2.2) unstable; urgency=medium
 
   * Non-maintainer upload.

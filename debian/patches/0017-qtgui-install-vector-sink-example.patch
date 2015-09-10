@@ -1,0 +1,24 @@
+From 2fa36424c30dc81f23a49413543d7205b2f127ff Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <johnathan@corganlabs.com>
+Date: Sat, 5 Sep 2015 17:17:47 -0700
+Subject: [PATCH 17/17] qtgui: install vector sink example
+
+---
+ gr-qtgui/examples/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gr-qtgui/examples/CMakeLists.txt b/gr-qtgui/examples/CMakeLists.txt
+index d4b914a..c893c02 100644
+--- a/gr-qtgui/examples/CMakeLists.txt
++++ b/gr-qtgui/examples/CMakeLists.txt
+@@ -39,6 +39,7 @@ GR_PYTHON_INSTALL(PROGRAMS
+ install(
+     FILES
+     qtgui_tags_viewing.grc
++    qtgui_vector_sink_example.grc
+     DESTINATION ${GR_PKG_QTGUI_EXAMPLES_DIR}
+     COMPONENT "qtgui_python"
+ )
+-- 
+2.1.4
+

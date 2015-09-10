@@ -1,0 +1,25 @@
+From 3e2dc168467304212328abd061bf10f0c511f17f Mon Sep 17 00:00:00 2001
+From: Gwenhael Goavec-Merou <gwenhael.goavec-merou@trabucayre.com>
+Date: Mon, 31 Aug 2015 09:46:07 +0200
+Subject: [PATCH 14/17] logger.h.in: sys/types.h is needed for mode_t
+
+---
+ gnuradio-runtime/include/gnuradio/logger.h.in | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/gnuradio-runtime/include/gnuradio/logger.h.in b/gnuradio-runtime/include/gnuradio/logger.h.in
+index 941ce75..08cb209 100644
+--- a/gnuradio-runtime/include/gnuradio/logger.h.in
++++ b/gnuradio-runtime/include/gnuradio/logger.h.in
+@@ -44,6 +44,8 @@
+ 
+ #ifdef _MSC_VER
+ typedef unsigned short mode_t;
++#else
++#include <sys/types.h>
+ #endif
+ 
+ #include <gnuradio/api.h>
+-- 
+2.1.4
+

@@ -7,12 +7,12 @@ Comment:
  Packages of versions 3.4 and up by A. Maitland Bottoms <bottoms@debian.org>,
  GNU Radio was re-packaged by Bdale Garbee <bdale@gag.com> to reflect
  upstream restructuring on Wed, 6 Sep 2006 16:02:03 -0600.  Much was
- learned and portions were taken from the previous Debian packages built 
+ learned and portions were taken from the previous Debian packages built
  by Ramakrishnan Muthukrishnan and Steinar H. Gunderson.
  .
  GNU Radio was downloaded from http://gnuradio.org/
  .
- Upstream Authors: 
+ Upstream Authors:
 	Eric Blossom <eb@comsec.com>
 	Matt Ettus <matt@ettus.com>
 	Johnathan Corgan <jcorgan@corganenterprises.com>
@@ -37,8 +37,8 @@ License: COPYING
 Files: gr-vocoder/lib/g7xx/*
 Copyright: 1992 Public Domain
 License: public-domain
- This source code is released by Sun Microsystems, Inc. to the public 
- domain.  Please give your acknowledgement in product literature if 
+ This source code is released by Sun Microsystems, Inc. to the public
+ domain.  Please give your acknowledgement in product literature if
  this code is used in your product implementation.
  .
  This source code is a product of Sun Microsystems, Inc. and is provided
@@ -92,7 +92,7 @@ Copyright: (C) 2001-2003 William E. Kempf
  Copyright 2008 Free Software Foundation, Inc.
 License: GPL-3+
 Comment:
- The original was distributed under the Boost Software License, 
+ The original was distributed under the Boost Software License,
  Version 1.0, but this derivative work is now covered by the overall
  license assertion for GNU Radio.
 
@@ -102,14 +102,14 @@ Copyright: (c) 1995,1998  Jake Janovetz (janovetz@uiuc.edu)
 License: GPL-3+
 Comment:
  The original was distributed under LGPL version 2 or later, this
- derivative work is now covered by the overall license assertion 
+ derivative work is now covered by the overall license assertion
  for GNU Radio.
 
 Files: gr-wxgui/src/python/plot.py
 Copyright: (C) 2002, 2007 Gordon Williams
 License: GPL-3+
 Comment:
- The original was licensed "Use as you wish", this derivative work 
+ The original was licensed "Use as you wish", this derivative work
  is now covered by the overall license assertion for GNU Radio.
 
 Files: gr-wxgui/src/python/plotter/gltext.py
@@ -117,7 +117,7 @@ Copyright: (C) 2007 Christian Brugger, Stefan Hacker
 License: GPL-3+
 Comment:
  The original was distributed under GPL version 2 or later, this
- derivative work is now covered by the overall license assertion 
+ derivative work is now covered by the overall license assertion
  for GNU Radio.
 
 Files: gnuradio-runtime/python/gnuradio/gr_xmlrunner.py
@@ -217,7 +217,7 @@ License: BSD-3
  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+ OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -232,7 +232,7 @@ License: LGPL-2.1+
  License for more details.
  .
  On Debian systems, the complete text of the GNU Lesser General Public
- License (LGPL) version 2.1 can be found in the file 
+ License (LGPL) version 2.1 can be found in the file
  '/usr/share/common-licenses/LGPL-2.1'.
 
 License: GPL-3+
@@ -247,7 +247,7 @@ License: GPL-3+
  GNU General Public License for more details.
  .
  On Debian systems, the complete text of the GNU General Public
- License (GPL) version 3 can be found in the file 
+ License (GPL) version 3 can be found in the file
  '/usr/share/common-licenses/LGPL-3'.
 
 License: GPL-3
@@ -262,5 +262,5 @@ License: GPL-3
  GNU General Public License for more details.
  .
  On Debian systems, the complete text of the GNU General Public
- License (GPL) version 3 can be found in the file 
+ License (GPL) version 3 can be found in the file
  '/usr/share/common-licenses/LGPL-3'.
