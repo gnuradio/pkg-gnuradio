@@ -30,7 +30,7 @@ Build-Depends: cmake,
                libqwt5-qt4-dev,
                libsdl1.2-dev,
                libsndfile1-dev,
-               libuhd-dev (>=3.9) [!kfreebsd-i386 !hurd-i386 !hppa],
+               libuhd-dev (>=3.9) [!hurd-i386 !hppa],
                libusb-1.0-0-dev [linux-any],
                libusb2-dev [kfreebsd-any],
                libvolk1-dev,
@@ -326,7 +326,7 @@ Description: gnuradio trellis modulation functions
 
 Package: libgnuradio-uhd3.7.8
 Section: libs
-Architecture: any
+Architecture: kfreebsd-any linux-any
 Pre-Depends: multiarch-support
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Multi-Arch: same

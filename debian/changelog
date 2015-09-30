@@ -1,3 +1,12 @@
+gnuradio (3.7.8-4) unstable; urgency=medium
+
+  * Tighten libuhd003 versioned dependency via dh_makeshlibs
+  * Add new codec2 700 modes to grc template
+  * wrap-and-sort makes it easier to see unnecessary libqwtplot3d-qt4-dev
+    dependency was removed in 3.7.8-3 (Closes: #793075)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 29 Sep 2015 23:02:00 -0400
+
 gnuradio (3.7.8-3) unstable; urgency=low
 
   * Acknowlegde NMUs

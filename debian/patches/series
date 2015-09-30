@@ -15,6 +15,10 @@
 0015-qtgui-Fixed-vector-sink-example-block-not-showing.patch
 0016-blocks-import-pmt-to-get-GRC-to-recognize-defaults-i.patch
 0017-qtgui-install-vector-sink-example.patch
+0018-modtool-Add-hint-regarding-python-blocks-makexml.patch
+0019-trellis-fixed-pulse-normalization-in-CPM-test-script.patch
+0020-grc-no-block-alias-param-for-Options-blocks.patch
+0021-fec-Fixed-async_decoder.-Can-t-use-nbits_out-because.patch
 debian-soname
 usr-bin-examples
 bsd-fcd
@@ -25,3 +29,4 @@ gr-fcd-needs-usb
 fix-ctrlport-install
 wxpy3.0-compat
 update-to-codec2-0.3
+codec2-700-modes
