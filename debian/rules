@@ -11,7 +11,7 @@ override_dh_auto_configure:
 override_dh_auto_test:
 	mkdir debian/test
 	mkdir debian/test/.gnuradio
-	- HOME=$(CURDIR)/debian/test dh_auto_test -- CTEST_TEST_TIMEOUT=60
+	- if [ $(DEB_BUILD_ARCH) != hurd-i386 ]; then HOME=$(CURDIR)/debian/test dh_auto_test -- CTEST_TEST_TIMEOUT=60 ; fi
 	rm -rf debian/test
 
 # Doxygen's jquery.js isn't really jquery.js - look for upstream to ship doxygen.js soon instead.
@@ -20,7 +20,3 @@ override_dh_auto_install:
 	# jquery.js is provided in another debian package, do not ship one here too
 	rm debian/tmp/usr/share/doc/gnuradio*/html/jquery.js
 	# chmod +x debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/grc/python/flow_graph.tmpl
-
-override_dh_makeshlibs:
-	dh_makeshlibs --no-package=gnuradio --no-package=libgnuradio-uhd3.7.8
-	dh_makeshlibs --package=gnuradio --package=libgnuradio-uhd3.7.8 -V 'libuhd003 (>= 3.9)'
