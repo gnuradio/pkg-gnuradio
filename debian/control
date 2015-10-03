@@ -4,7 +4,6 @@ Priority: optional
 Maintainer: A. Maitland Bottoms <bottoms@debian.org>
 Build-Depends: cmake,
                debhelper (>= 9.0.0~),
-               dh-acc,
                dh-python,
                doxygen,
                libasound2-dev,
@@ -60,24 +59,28 @@ Vcs-Browser: http://anonscm.debian.org/cgit/users/bottoms/pkg-gnuradio.git/
 
 Package: gnuradio
 Architecture: any
-Depends: adduser,
-         libvolk1-bin,
+Depends: libvolk1-bin,
          python-cheetah,
+	 python-gtk,
          python-lxml,
          python-opengl,
+	 python-qt4,
+	 python-sip,
          python-wxgtk3.0,
+         python-zmq [!hurd-i386],
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends}
 Recommends: python-matplotlib,
             python-networkx,
-            python-qt4,
+	    python-numpy,
             python-qwt5-qt4,
             python-scipy,
             python-tk,
-            python-zmq,
-            qthid-fcd-controller,
+            rtl-sdr,
             uhd-host (>=3.9)
+Suggests: gr-fosphor,
+	  gr-osmosdr
 Description: GNU Radio Software Radio Toolkit
  GNU Radio provides signal processing blocks to implement software
  radios. It can be used with readily-available low-cost external RF
