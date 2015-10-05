@@ -1,0 +1,13 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -26,6 +26,10 @@
+ # Project setup
+ ########################################################################
+ cmake_minimum_required(VERSION 2.6)
++# use cmake_policy to silence warnings without updating code
++cmake_policy(SET CMP0026 OLD)
++cmake_policy(SET CMP0045 OLD)
++cmake_policy(SET CMP0046 OLD)
+ project(gnuradio CXX C)
+ enable_testing()
+ 

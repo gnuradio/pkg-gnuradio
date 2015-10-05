@@ -1,0 +1,26 @@
+From a42b7dca3c784a3ee2f307d7c1989a9184ee5717 Mon Sep 17 00:00:00 2001
+From: Paul Cercueil <paul.cercueil@analog.com>
+Date: Mon, 28 Sep 2015 18:52:36 +0200
+Subject: [PATCH 23/23] blocks: Fix incorrect size check
+
+Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
+---
+ gr-blocks/lib/multiply_matrix_cc_impl.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-blocks/lib/multiply_matrix_cc_impl.cc b/gr-blocks/lib/multiply_matrix_cc_impl.cc
+index e9800c7..7ecf3e9 100644
+--- a/gr-blocks/lib/multiply_matrix_cc_impl.cc
++++ b/gr-blocks/lib/multiply_matrix_cc_impl.cc
+@@ -141,7 +141,7 @@ namespace gr {
+           GR_LOG_ALERT(d_logger, "Invalid message to set A (wrong type).");
+           return;
+       }
+-      if (!pmt::length(A) == d_A.size()) {
++      if (pmt::length(A) != d_A.size()) {
+           GR_LOG_ALERT(d_logger, "Invalid message to set A (wrong size).");
+           return;
+       }
+-- 
+2.1.4
+

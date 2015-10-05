@@ -19,6 +19,8 @@
 0019-trellis-fixed-pulse-normalization-in-CPM-test-script.patch
 0020-grc-no-block-alias-param-for-Options-blocks.patch
 0021-fec-Fixed-async_decoder.-Can-t-use-nbits_out-because.patch
+0022-blocks-enable-missing-multiply_matrix_cc-and-backpor.patch
+0023-blocks-Fix-incorrect-size-check.patch
 debian-soname
 usr-bin-examples
 bsd-fcd
@@ -30,3 +32,4 @@ fix-ctrlport-install
 wxpy3.0-compat
 update-to-codec2-0.3
 codec2-700-modes
+cmake-policies
