@@ -1,3 +1,9 @@
+gnuradio (3.7.8-7) unstable; urgency=medium
+
+  * That would be python-gtk2 dependency
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 05 Oct 2015 01:00:28 -0400
+
 gnuradio (3.7.8-6) unstable; urgency=medium
 
   * add python-gtk dependency (Closes: #800688)

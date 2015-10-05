@@ -61,7 +61,7 @@ Package: gnuradio
 Architecture: any
 Depends: libvolk1-bin,
          python-cheetah,
-	 python-gtk,
+	 python-gtk2,
          python-lxml,
          python-opengl,
 	 python-qt4,
