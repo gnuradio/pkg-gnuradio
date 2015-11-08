@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: A. Maitland Bottoms <bottoms@debian.org>
 Build-Depends: cmake,
                debhelper (>= 9.0.0~),
+	       dh-acc,
                dh-python,
                doxygen,
                libasound2-dev,

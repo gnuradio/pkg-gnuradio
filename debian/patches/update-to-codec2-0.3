@@ -45,11 +45,9 @@ Subject: [PATCH] update to codec 0.3
  delete mode 100644 gr-vocoder/lib/codec2/globals.h
  delete mode 100644 gr-vocoder/lib/codec2/glottal.c
 
-diff --git a/gr-vocoder/lib/codec2/CMakeLists.txt b/gr-vocoder/lib/codec2/CMakeLists.txt
-index ac25b7c..66bdf15 100644
 --- a/gr-vocoder/lib/codec2/CMakeLists.txt
 +++ b/gr-vocoder/lib/codec2/CMakeLists.txt
-@@ -46,8 +46,8 @@ set(CODEBOOKS
+@@ -46,8 +46,8 @@
  
  add_custom_command(
      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/codebook.c
@@ -59,7 +57,7 @@ index ac25b7c..66bdf15 100644
  )
  
  ########################################################################
-@@ -68,8 +68,8 @@ set(CODEBOOKSD
+@@ -68,8 +68,8 @@
  
  add_custom_command(
      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/codebookd.c
@@ -69,7 +67,7 @@ index ac25b7c..66bdf15 100644
  )
  
  ########################################################################
-@@ -85,8 +85,8 @@ set(CODEBOOKSVQ
+@@ -85,8 +85,8 @@
  
  add_custom_command(
      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/codebookvq.c
@@ -79,7 +77,7 @@ index ac25b7c..66bdf15 100644
  )
  
  ########################################################################
-@@ -102,8 +102,8 @@ set(CODEBOOKSJND
+@@ -102,8 +102,8 @@
  
  add_custom_command(
      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/codebookjnd.c
@@ -89,7 +87,7 @@ index ac25b7c..66bdf15 100644
  )
  
  ########################################################################
-@@ -117,8 +117,8 @@ set(CODEBOOKSJVM
+@@ -117,8 +117,8 @@
  
  add_custom_command(
      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/codebookjvm.c
@@ -99,7 +97,7 @@ index ac25b7c..66bdf15 100644
  )
  
  ########################################################################
-@@ -133,8 +133,8 @@ set(CODEBOOKSVQANSSI
+@@ -133,8 +133,8 @@
  
  add_custom_command(
      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/codebookvqanssi.c
@@ -109,7 +107,7 @@ index ac25b7c..66bdf15 100644
  )
  
  ########################################################################
-@@ -155,8 +155,8 @@ set(CODEBOOKSDT
+@@ -155,8 +155,8 @@
  
  add_custom_command(
      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/codebookdt.c
@@ -119,7 +117,7 @@ index ac25b7c..66bdf15 100644
  )
  
  ########################################################################
-@@ -166,8 +166,8 @@ set(CODEBOOKSGE ${CMAKE_CURRENT_SOURCE_DIR}/codebook/gecb.txt)
+@@ -166,8 +166,8 @@
  
  add_custom_command(
      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/codebookge.c
@@ -129,9 +127,6 @@ index ac25b7c..66bdf15 100644
  )
  
  ########################################################################
-diff --git a/gr-vocoder/lib/codec2/codebook/lsp45678910.txt b/gr-vocoder/lib/codec2/codebook/lsp45678910.txt
-deleted file mode 100644
-index 291d3cd..0000000
 --- a/gr-vocoder/lib/codec2/codebook/lsp45678910.txt
 +++ /dev/null
 @@ -1,4097 +0,0 @@
@@ -4232,9 +4227,6 @@ index 291d3cd..0000000
 -1.498303  1.644212  1.960732  2.103288  2.440309  2.572412
 -1.415476  1.548286  1.770800  2.099931  2.450265  2.599463
 -1.367188  1.460632  1.739482  2.074030  2.551953  2.639997
-diff --git a/gr-vocoder/lib/codec2/codebook/lsp8910.txt b/gr-vocoder/lib/codec2/codebook/lsp8910.txt
-new file mode 100644
-index 0000000..759136b
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lsp8910.txt
 @@ -0,0 +1,65 @@
@@ -4303,9 +4295,6 @@ index 0000000..759136b
 +2.214655  2.425510  2.620013
 +2.199931  2.390272  2.520731
 +2.271755  2.448682  2.552649
-diff --git a/gr-vocoder/lib/codec2/codebook/lspdt.txt b/gr-vocoder/lib/codec2/codebook/lspdt.txt
-new file mode 100644
-index 0000000..3041c40
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspdt.txt
 @@ -0,0 +1,1025 @@
@@ -5334,9 +5323,6 @@ index 0000000..3041c40
 +-0.095335  -0.245500  -0.413513  -0.452595  -0.267405  -0.350696  -0.306392  -0.165956  -0.365291  -0.259848
 +0.017043  0.074424  -0.018924  -0.361609  -0.203250  -0.240739  -0.145098  -0.086500  -0.210696  -0.137598
 +0.124238  0.207238  0.284440  0.252714  0.202845  0.164381  0.010536  0.089786  0.383036  0.251000
-diff --git a/gr-vocoder/lib/codec2/codebook/lspdt1-10.txt b/gr-vocoder/lib/codec2/codebook/lspdt1-10.txt
-new file mode 100644
-index 0000000..2f08a7e
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspdt1-10.txt
 @@ -0,0 +1,513 @@
@@ -5853,9 +5839,6 @@ index 0000000..2f08a7e
 +-26.353815  -0.544388  26.486794  -28.141678  -28.819151  -19.970861  -30.929327  22.311621  27.651613  26.565744
 +1.227070  10.043915  -22.600807  26.245567  25.942457  -30.712118  -27.150064  -30.792393  -24.804663  -30.143036
 +26.438381  12.739036  29.980673  29.757868  17.797293  25.890196  28.367943  -28.205496  16.972397  -27.318939
-diff --git a/gr-vocoder/lib/codec2/codebook/lspdt1-4.txt b/gr-vocoder/lib/codec2/codebook/lspdt1-4.txt
-new file mode 100644
-index 0000000..ad5b3c9
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspdt1-4.txt
 @@ -0,0 +1,82 @@
@@ -5941,9 +5924,6 @@ index 0000000..ad5b3c9
 + -25   25   50   50
 +   0   25   50   50
 +  25   25   50   50
-diff --git a/gr-vocoder/lib/codec2/codebook/lspdt5-10.txt b/gr-vocoder/lib/codec2/codebook/lspdt5-10.txt
-new file mode 100644
-index 0000000..9893bce
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspdt5-10.txt
 @@ -0,0 +1,730 @@
@@ -6677,9 +6657,6 @@ index 0000000..9893bce
 + -50   50   50   50   50   50
 +   0   50   50   50   50   50
 +  50   50   50   50   50   50
-diff --git a/gr-vocoder/lib/codec2/codebook/lspjnd5-10.txt b/gr-vocoder/lib/codec2/codebook/lspjnd5-10.txt
-deleted file mode 100644
-index e4e500c..0000000
 --- a/gr-vocoder/lib/codec2/codebook/lspjnd5-10.txt
 +++ /dev/null
 @@ -1,8317 +0,0 @@
@@ -15000,9 +14977,6 @@ index e4e500c..0000000
 -1500.0  2000.0  2400.0  2600.0  2700.0  3100.0
 -2000.0  2100.0  2300.0  2500.0  2700.0  3300.0
 -1000.0  1500.0  2700.0  2800.0  3300.0  3400.0
-diff --git a/gr-vocoder/lib/codec2/codebook/lspres_bw1.txt b/gr-vocoder/lib/codec2/codebook/lspres_bw1.txt
-new file mode 100644
-index 0000000..2d24a67
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspres_bw1.txt
 @@ -0,0 +1,5 @@
@@ -15011,9 +14985,6 @@ index 0000000..2d24a67
 +80
 +140
 +250
-diff --git a/gr-vocoder/lib/codec2/codebook/lspres_bw2.txt b/gr-vocoder/lib/codec2/codebook/lspres_bw2.txt
-new file mode 100644
-index 0000000..c7a3e39
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspres_bw2.txt
 @@ -0,0 +1,10 @@
@@ -15027,9 +14998,6 @@ index 0000000..c7a3e39
 +800
 +1000
 +
-diff --git a/gr-vocoder/lib/codec2/codebook/lspres_centre1.txt b/gr-vocoder/lib/codec2/codebook/lspres_centre1.txt
-new file mode 100644
-index 0000000..111a734
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspres_centre1.txt
 @@ -0,0 +1,9 @@
@@ -15042,9 +15010,6 @@ index 0000000..111a734
 +550
 +600
 +650
-diff --git a/gr-vocoder/lib/codec2/codebook/lspres_centre2.txt b/gr-vocoder/lib/codec2/codebook/lspres_centre2.txt
-new file mode 100644
-index 0000000..ee8dd3e
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspres_centre2.txt
 @@ -0,0 +1,10 @@
@@ -15058,9 +15023,6 @@ index 0000000..ee8dd3e
 +1500
 +1700
 +
-diff --git a/gr-vocoder/lib/codec2/codebook/lspvqexp1.txt b/gr-vocoder/lib/codec2/codebook/lspvqexp1.txt
-new file mode 100644
-index 0000000..808b95b
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspvqexp1.txt
 @@ -0,0 +1,2049 @@
@@ -17113,9 +17075,6 @@ index 0000000..808b95b
 +0.436819 0.511780 0.811933 1.004760 1.128440 1.604755 1.813182 1.987683 2.595291 2.709021
 +0.249083 0.362078 0.480846 0.813722 1.404123 1.566622 1.741757 2.142883 2.302238 2.567856
 +0.249083 0.362078 0.480846 0.813722 1.404123 1.566622 1.741757 2.142883 2.302238 2.567856
-diff --git a/gr-vocoder/lib/codec2/codebook/lspvqexp2.txt b/gr-vocoder/lib/codec2/codebook/lspvqexp2.txt
-new file mode 100644
-index 0000000..80fe18f
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspvqexp2.txt
 @@ -0,0 +1,2049 @@
@@ -19168,9 +19127,6 @@ index 0000000..80fe18f
 +0.012199 -0.031424 -0.049425 0.036742 -0.023385
 +0.016261 0.046336 0.082459 -0.046018 -0.072305
 +0.007065 -0.052342 0.072695 -0.082325 0.056070
-diff --git a/gr-vocoder/lib/codec2/codebook/lspvqexp3.txt b/gr-vocoder/lib/codec2/codebook/lspvqexp3.txt
-new file mode 100644
-index 0000000..04cd64b
 --- /dev/null
 +++ b/gr-vocoder/lib/codec2/codebook/lspvqexp3.txt
 @@ -0,0 +1,2049 @@
@@ -21223,11 +21179,9 @@ index 0000000..04cd64b
 +-0.117689 0.049576 -0.059663 -0.109523 0.015561
 +-0.039089 0.097102 -0.015266 -0.057401 0.015861
 +0.029363 -0.123492 0.017355 -0.025359 0.005924
-diff --git a/gr-vocoder/lib/codec2/codec2_fdmdv.h b/gr-vocoder/lib/codec2/codec2_fdmdv.h
-index b7da96f..e0b1d61 100644
 --- a/gr-vocoder/lib/codec2/codec2_fdmdv.h
 +++ b/gr-vocoder/lib/codec2/codec2_fdmdv.h
-@@ -110,7 +110,7 @@ void           CODEC2_WIN32SUPPORT fdmdv_get_rx_spectrum(struct FDMDV *fdmdv_sta
+@@ -110,7 +110,7 @@
  void           CODEC2_WIN32SUPPORT fdmdv_8_to_48(float out48k[], float in8k[], int n);
  void           CODEC2_WIN32SUPPORT fdmdv_48_to_8(float out8k[], float in48k[], int n);
  
@@ -21236,11 +21190,9 @@ index b7da96f..e0b1d61 100644
  
  /* debug/development function(s) */
  
-diff --git a/gr-vocoder/lib/codec2/fdmdv.c b/gr-vocoder/lib/codec2/fdmdv.c
-index 8855f76..c51b918 100644
 --- a/gr-vocoder/lib/codec2/fdmdv.c
 +++ b/gr-vocoder/lib/codec2/fdmdv.c
-@@ -215,8 +215,6 @@ struct FDMDV * CODEC2_WIN32SUPPORT fdmdv_create(int Nc)
+@@ -215,8 +215,6 @@
      }
  
      f->foff = 0.0;
@@ -21249,7 +21201,7 @@ index 8855f76..c51b918 100644
      f->foff_phase_rect.real = 1.0;
      f->foff_phase_rect.imag = 0.0;
  
-@@ -451,9 +449,10 @@ void tx_filter(COMP tx_baseband[NC+1][M], int Nc, COMP tx_symbols[], COMP tx_fil
+@@ -451,9 +449,10 @@
  
  void fdm_upconvert(COMP tx_fdm[], int Nc, COMP tx_baseband[NC+1][M], COMP phase_tx[], COMP freq[])
  {
@@ -21263,7 +21215,7 @@ index 8855f76..c51b918 100644
  
      for(i=0; i<M; i++) {
  	tx_fdm[i].real = 0.0;
-@@ -498,8 +497,9 @@ void fdm_upconvert(COMP tx_fdm[], int Nc, COMP tx_baseband[NC+1][M], COMP phase_
+@@ -498,8 +497,9 @@
      /* normalise digital oscilators as the magnitude can drfift over time */
  
      for (c=0; c<Nc+1; c++) {
@@ -21275,7 +21227,7 @@ index 8855f76..c51b918 100644
      }
  }
  
-@@ -764,21 +764,24 @@ float rx_est_freq_offset(struct FDMDV *f, COMP rx_fdm[], int nin)
+@@ -764,21 +764,24 @@
  \*---------------------------------------------------------------------------*/
  
  void CODEC2_WIN32SUPPORT fdmdv_freq_shift(COMP rx_fdm_fcorr[], COMP rx_fdm[], float foff,
@@ -21306,7 +21258,7 @@ index 8855f76..c51b918 100644
  }
  
  /*---------------------------------------------------------------------------*\
-@@ -793,7 +796,8 @@ void CODEC2_WIN32SUPPORT fdmdv_freq_shift(COMP rx_fdm_fcorr[], COMP rx_fdm[], fl
+@@ -793,7 +796,8 @@
  
  void fdm_downconvert(COMP rx_baseband[NC+1][M+M/P], int Nc, COMP rx_fdm[], COMP phase_rx[], COMP freq[], int nin)
  {
@@ -21316,7 +21268,7 @@ index 8855f76..c51b918 100644
  
      /* maximum number of input samples to demod */
  
-@@ -826,8 +830,9 @@ void fdm_downconvert(COMP rx_baseband[NC+1][M+M/P], int Nc, COMP rx_fdm[], COMP
+@@ -826,8 +830,9 @@
      /* normalise digital oscilators as the magnitude can drift over time */
  
      for (c=0; c<Nc+1; c++) {
@@ -21328,7 +21280,7 @@ index 8855f76..c51b918 100644
      }
  }
  
-@@ -1299,7 +1304,7 @@ void CODEC2_WIN32SUPPORT fdmdv_demod(struct FDMDV *fdmdv, int rx_bits[],
+@@ -1299,7 +1304,7 @@
  
      if (fdmdv->sync == 0)
  	fdmdv->foff = foff_coarse;
@@ -21337,7 +21289,7 @@ index 8855f76..c51b918 100644
  
      /* baseband processing */
  
-@@ -1565,7 +1570,7 @@ void CODEC2_WIN32SUPPORT fdmdv_dump_osc_mags(struct FDMDV *f)
+@@ -1565,7 +1570,7 @@
      fprintf(stderr,"\nfreq[]:\n");
      for(i=0; i<=f->Nc; i++)
  	fprintf(stderr,"  %1.3f", cabsolute(f->freq[i]));
@@ -21346,11 +21298,9 @@ index 8855f76..c51b918 100644
      fprintf(stderr,"\nphase_rx[]:\n");
      for(i=0; i<=f->Nc; i++)
  	fprintf(stderr,"  %1.3f", cabsolute(f->phase_rx[i]));
-diff --git a/gr-vocoder/lib/codec2/fdmdv_internal.h b/gr-vocoder/lib/codec2/fdmdv_internal.h
-index 24080e6..a465cc4 100644
 --- a/gr-vocoder/lib/codec2/fdmdv_internal.h
 +++ b/gr-vocoder/lib/codec2/fdmdv_internal.h
-@@ -114,7 +114,6 @@ struct FDMDV {
+@@ -114,7 +114,6 @@
      /* freq offset correction states */
  
      float foff;
@@ -21358,7 +21308,7 @@ index 24080e6..a465cc4 100644
      COMP foff_phase_rect;
  
      /* Demodulator */
-@@ -158,7 +157,6 @@ void generate_pilot_fdm(COMP *pilot_fdm, int *bit, float *symbol, float *filter_
+@@ -158,7 +157,6 @@
  void generate_pilot_lut(COMP pilot_lut[], COMP *pilot_freq);
  float rx_est_freq_offset(struct FDMDV *f, COMP rx_fdm[], int nin);
  void lpf_peak_pick(float *foff, float *max, COMP pilot_baseband[], COMP pilot_lpf[], kiss_fft_cfg fft_pilot_cfg, COMP S[], int nin);
@@ -21366,9 +21316,6 @@ index 24080e6..a465cc4 100644
  void fdm_downconvert(COMP rx_baseband[NC+1][M+M/P], int Nc, COMP rx_fdm[], COMP phase_rx[], COMP freq[], int nin);
  void rx_filter(COMP rx_filt[NC+1][P+1], int Nc, COMP rx_baseband[NC+1][M+M/P], COMP rx_filter_memory[NC+1][NFILTER], int nin);
  float rx_est_timing(COMP  rx_symbols[], int Nc,
-diff --git a/gr-vocoder/lib/codec2/globals.c b/gr-vocoder/lib/codec2/globals.c
-deleted file mode 100644
-index da2faf7..0000000
 --- a/gr-vocoder/lib/codec2/globals.c
 +++ /dev/null
 @@ -1,49 +0,0 @@
@@ -21421,9 +21368,6 @@ index da2faf7..0000000
 -float Sn_[AW_DEC];	/* synthesised speech */
 -float Pn[AW_DEC];	/* time domain Parzen (trapezoidal) window */
 -
-diff --git a/gr-vocoder/lib/codec2/globals.h b/gr-vocoder/lib/codec2/globals.h
-deleted file mode 100644
-index d01e7b4..0000000
 --- a/gr-vocoder/lib/codec2/globals.h
 +++ /dev/null
 @@ -1,47 +0,0 @@
@@ -21474,9 +21418,6 @@ index d01e7b4..0000000
 -extern float Sn_[];	/* output synthesised speech samples */
 -extern float Pn[];	/* time domain Parzen (trapezoidal) window */
 -
-diff --git a/gr-vocoder/lib/codec2/glottal.c b/gr-vocoder/lib/codec2/glottal.c
-deleted file mode 100644
-index 8ac3ff4..0000000
 --- a/gr-vocoder/lib/codec2/glottal.c
 +++ /dev/null
 @@ -1,257 +0,0 @@
@@ -21737,8 +21678,6 @@ index 8ac3ff4..0000000
 -  2.895045,
 -  2.977167,
 -  3.059362};
-diff --git a/gr-vocoder/lib/codec2/pilot_coeff.h b/gr-vocoder/lib/codec2/pilot_coeff.h
-index 66e7501..b284af9 100644
 --- a/gr-vocoder/lib/codec2/pilot_coeff.h
 +++ b/gr-vocoder/lib/codec2/pilot_coeff.h
 @@ -1,34 +1,34 @@
@@ -21806,6 +21745,14 @@ index 66e7501..b284af9 100644
 +  0.00301037,
 +  0.00223001
  };
--- 
-2.1.4
-
+--- a/gr-vocoder/include/gnuradio/vocoder/codec2.h
++++ b/gr-vocoder/include/gnuradio/vocoder/codec2.h
+@@ -26,7 +26,7 @@
+ #include <gnuradio/vocoder/api.h>
+ 
+ extern "C" {
+-#include "../lib/codec2/codec2.h"
++#include <codec2/codec2.h>
+ }
+ 
+ namespace gr {
