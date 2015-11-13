@@ -1,0 +1,25 @@
+From 4bbe46efa323a05567ed6ec0ddfb03efe737dfaa Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <johnathan@corganlabs.com>
+Date: Wed, 11 Nov 2015 14:53:37 -0800
+Subject: [PATCH 2/2] grc: fix #858 category string splitting
+
+---
+ grc/gui/BlockTreeWindow.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/grc/gui/BlockTreeWindow.py b/grc/gui/BlockTreeWindow.py
+index 631272b..1cc4d90 100644
+--- a/grc/gui/BlockTreeWindow.py
++++ b/grc/gui/BlockTreeWindow.py
+@@ -125,7 +125,7 @@ class BlockTreeWindow(gtk.VBox):
+         if treestore is None: treestore = self.treestore
+         if categories is None: categories = self._categories
+ 
+-        if isinstance(category, str): category = category.split('/')
++        if isinstance(category, (str, unicode)): category = category.split('/')
+         category = tuple(filter(lambda x: x, category)) #tuple is hashable
+         #add category and all sub categories
+         for i, cat_name in enumerate(category):
+-- 
+2.1.4
+

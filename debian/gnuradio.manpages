@@ -14,6 +14,8 @@ debian/gr-ctrlport-monitorxo.1
 debian/gr_filter_design.1
 debian/gr_modtool.1
 debian/gr-perf-monitorx.1
+debian/gr-perf-monitorxc.1
+debian/gr-perf-monitorxo.1
 debian/gr_plot_char.1
 debian/gr_plot_const.1
 debian/gr_plot_fft.1

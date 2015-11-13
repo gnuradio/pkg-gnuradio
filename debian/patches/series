@@ -1,3 +1,5 @@
+0001-dtv-fix-coverity-issue-1327836.patch
+0002-grc-fix-858-category-string-splitting.patch
 debian-soname
 usr-bin-examples
 bsd-fcd
@@ -7,6 +9,7 @@ bsd-hurd-no-thread-affinity
 gr-fcd-needs-usb
 fix-ctrlport-install
 wxpy3.0-compat
+codec2-embedding-fixups
 update-to-codec2-0.3
 codec2-700-modes
 cmake-policies

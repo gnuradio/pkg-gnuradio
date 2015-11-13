@@ -1,3 +1,14 @@
+gnuradio (3.7.8.1-2) unstable; urgency=medium
+
+  * Update to v3.7.8.1-2-g4bbe46e
+    dtv-fix-coverity-issue-1327836
+    grc-fix-858-category-string-splitting
+  * update build depends to libgsl-dev (>= 2.0) (Closes: #804495)
+  * update build depends, libuhd-dev is available on hppa (Closes: #803129)
+  * do not use comedilib until it does the libgsl transition
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 19 Nov 2015 00:23:23 -0500
+
 gnuradio (3.7.8.1-1) unstable; urgency=medium
 
   * New upstream release
