@@ -1,0 +1,164 @@
+From: A. Maitland Bottoms <bottoms@debian.org>
+Date: Sat, 21 Nov 2015 23:34:17 -0500
+Subject: gnuradio spelling
+
+---
+ Ouput -> Output
+ bellow -> below
+ reproducable -> reproducible
+ usualy -> usually
+ lenght -> length
+ sythesis -> synthesis
+ transfering -> transferring
+ reenable -> re-enable
+  
+--- a/gr-analog/include/gnuradio/analog/phase_modulator_fc.h
++++ b/gr-analog/include/gnuradio/analog/phase_modulator_fc.h
+@@ -37,7 +37,7 @@
+      * output = complex(cos(in*sensitivity), sin(in*sensitivity))
+      *
+      * Input stream 0: floats
+-     * Ouput stream 0: complex
++     * Output stream 0: complex
+      */
+     class ANALOG_API phase_modulator_fc : virtual public sync_block
+     {
+--- a/gr-audio/lib/osx/osx_source.cc
++++ b/gr-audio/lib/osx/osx_source.cc
+@@ -436,7 +436,7 @@
+ 	 kAudioUnitScope_Output, 1,
+ 	 &d_asbd_client, prop_size);
+       check_error_and_throw
+-	(err, "Set Device Ouput Stream Format failed",
++	(err, "Set Device Output Stream Format failed",
+ 	 "audio_osx_source::setup");
+ 
+       // Get the Stream Format (client side), again
+--- a/gr-blocks/include/gnuradio/blocks/peak_detector_XX.h.t
++++ b/gr-blocks/include/gnuradio/blocks/peak_detector_XX.h.t
+@@ -56,7 +56,7 @@
+        * \param threshold_factor_fall The threshold factor determins
+        *        when a peak has ended. An average of the signal is
+        *        calculated and when the value of the signal goes
+-       *        bellow threshold_factor_fall*average, we stop looking
++       *        below threshold_factor_fall*average, we stop looking
+        *        for a peak.
+        * \param look_ahead The look-ahead value is used when the
+        *        threshold is found to look if there another peak
+--- a/gr-fec/include/gnuradio/fec/ber_bf.h
++++ b/gr-fec/include/gnuradio/fec/ber_bf.h
+@@ -53,7 +53,7 @@
+      * berminerrors are observed and then produces a BER
+      * calculation. The parameter \p ber_limit helps make sure that
+      * the simulation is controlled. If the BER calculation drops
+-     * bellow the \p ber_limit setting, the block will exit and simply
++     * below the \p ber_limit setting, the block will exit and simply
+      * return the set limit; the real BER is therefore some amount
+      * lower than this.
+      *
+--- a/gr-atsc/lib/qa_atsci_fake_single_viterbi.cc
++++ b/gr-atsc/lib/qa_atsci_fake_single_viterbi.cc
+@@ -82,7 +82,7 @@
+ 
+   // printf ("  Delay is %d.\n", delay);
+ 
+-  srandom (27);		// reproducable sequence of "random" values
++  srandom (27);		// reproducible sequence of "random" values
+ 
+   for (int nt = 0; nt < NTRIALS; nt++){
+ 
+--- a/gr-atsc/lib/qa_atsci_single_viterbi.cc
++++ b/gr-atsc/lib/qa_atsci_single_viterbi.cc
+@@ -79,7 +79,7 @@
+ 
+   // printf ("  Delay is %d.\n", delay);
+ 
+-  srandom (27);		// reproducable sequence of "random" values
++  srandom (27);		// reproducible sequence of "random" values
+ 
+   for (int nt = 0; nt < NTRIALS; nt++){
+ 
+@@ -157,7 +157,7 @@
+ 
+   // printf ("  Delay is %d.\n", delay);
+ 
+-  srandom (1);		// reproducable sequence of "random" values
++  srandom (1);		// reproducible sequence of "random" values
+ 
+   for (int nt = 0; nt < NTRIALS; nt++){
+ 
+--- a/gr-channels/include/gnuradio/channels/channel_model.h
++++ b/gr-channels/include/gnuradio/channels/channel_model.h
+@@ -42,7 +42,7 @@
+      * This model allows the user to set the voltage of an AWGN noise
+      * source (\p noise_voltage), a (normalized) frequency offset (\p
+      * frequency_offset), a sample timing offset (\p epsilon), and a
+-     * seed (\p noise_seed) to randomize or make reproducable the AWGN
++     * seed (\p noise_seed) to randomize or make reproducible the AWGN
+      * noise source.
+      *
+      * Multipath can be approximated in this model by using a FIR
+--- a/gr-digital/include/gnuradio/digital/lms_dd_equalizer_cc.h
++++ b/gr-digital/include/gnuradio/digital/lms_dd_equalizer_cc.h
+@@ -45,7 +45,7 @@
+      * e[n] = d[n] - y[n]
+      * w[n+1] = w[n] + mu u[n] conj(e[n])
+      *
+-     * Where mu is a gain value (between 0 and 1 and usualy small,
++     * Where mu is a gain value (between 0 and 1 and usually small,
+      * around 0.001 - 0.01.
+      *
+      * This block uses the digital_constellation object for making the
+--- a/gr-dtv/include/gnuradio/dtv/dvbt_inner_coder.h
++++ b/gr-dtv/include/gnuradio/dtv/dvbt_inner_coder.h
+@@ -54,7 +54,7 @@
+        * \brief Create an Inner coder with Puncturing.
+        *
+        * \param ninput length of input. \n
+-       * \param noutput lenght of output. \n
++       * \param noutput length of output. \n
+        * \param constellation type of constellation. \n
+        * \param hierarchy type of hierarchy used. \n
+        * \param coderate coderate used.
+--- a/gr-filter/include/gnuradio/filter/pfb_synthesizer_ccf.h
++++ b/gr-filter/include/gnuradio/filter/pfb_synthesizer_ccf.h
+@@ -37,7 +37,7 @@
+      *
+      * \details
+      *
+-     * The PFB sythesis filterbank combines multiple baseband signals
++     * The PFB synthesis filterbank combines multiple baseband signals
+      * into a single channelized signal. Each input stream is,
+      * essentially, modulated onto an output channel according the the
+      * channel mapping (see set_channel_map for details).
+--- a/gnuradio-runtime/include/gnuradio/block.h
++++ b/gnuradio-runtime/include/gnuradio/block.h
+@@ -169,7 +169,7 @@
+      * \brief Called to enable drivers, etc for i/o devices.
+      *
+      * This allows a block to enable an associated driver to begin
+-     * transfering data just before we start to execute the scheduler.
++     * transferring data just before we start to execute the scheduler.
+      * The end result is that this reduces latency in the pipeline
+      * when dealing with audio devices, usrps, etc.
+      */
+@@ -341,7 +341,7 @@
+      *
+      * Use this value to clear the 'is_set' flag so the scheduler will
+      * ignore this. Use the set_max_noutput_items(m) call to both set
+-     * a new value for max_noutput_items and to reenable its use in
++     * a new value for max_noutput_items and to re-enable its use in
+      * the scheduler.
+      */
+     void unset_max_noutput_items();
+--- a/gr-utils/python/utils/gr_plot_qt
++++ b/gr-utils/python/utils/gr_plot_qt
+@@ -26,7 +26,7 @@
+     raise SystemExit, 1
+ 
+ try:
+-    # FIXME: reenable this before committing
++    # FIXME: re-enable this before committing
+     #from gnuradio.pyqt_plot import Ui_MainWindow
+     from gnuradio.pyqt_plot import Ui_MainWindow
+ except ImportError:

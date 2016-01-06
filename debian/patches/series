@@ -1,5 +1,3 @@
-0001-dtv-fix-coverity-issue-1327836.patch
-0002-grc-fix-858-category-string-splitting.patch
 debian-soname
 usr-bin-examples
 bsd-fcd
@@ -9,9 +7,16 @@ bsd-hurd-no-thread-affinity
 gr-fcd-needs-usb
 fix-ctrlport-install
 wxpy3.0-compat
-codec2-embedding-fixups
-update-to-codec2-0.3
 codec2-700-modes
 cmake-policies
+codec2-embedding-fixups
 do-not-install-obsolete-headers
 make-acc-happy
+spelling
+workaround-FindGSL.cmake-bug
+unbotch-release-version
+0001-Fixed-delayed-tag-propagation.patch
+0002-added-unit-test-for-tag-forwarding-to-delay.patch
+0003-gr-fec-Repair-puncture-and-depuncture-XML-files.patch
+0004-blocks-resolve-char-sign-ambiguity-causing-build-bre.patch
+0005-Fix-64-bit-OpenEmbedded-builds.patch

@@ -1,3 +1,6 @@
+Description: Place example executables in /usr/bin
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gr-fcd/examples/c++/CMakeLists.txt
 +++ b/gr-fcd/examples/c++/CMakeLists.txt
 @@ -32,6 +32,6 @@

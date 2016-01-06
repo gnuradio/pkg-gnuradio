@@ -1,3 +1,7 @@
+Description: Debian's codec2 libraries have two new modes. Add support
+ for them in the grc blocks.
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
 +++ b/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
 @@ -39,11 +39,19 @@

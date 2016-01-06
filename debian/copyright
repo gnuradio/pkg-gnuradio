@@ -2,7 +2,7 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: gnuradio
 Upstream-Contact: http://gnuradio.org/
 Source:
- git archive --format=tar --prefix=gnuradio-3.7.8/ v3.7.8 | xz > gnuradio_3.7.8.orig.tar.xz
+ git archive --format=tar --prefix=gnuradio-3.7.9~rc1/  v3.7.9rc1  | xz > ../gnuradio_3.7.9~rc1.orig.tar.xz
 Comment:
  Packages of versions 3.4 and up by A. Maitland Bottoms <bottoms@debian.org>,
  GNU Radio was re-packaged by Bdale Garbee <bdale@gag.com> to reflect
@@ -22,17 +22,26 @@ Comment:
 Copyright: 2001-2012 Free Software Foundation, Inc.
 License: GPL-3+
 
-Files: .gitignore .gitmodules .gitattributes CMakeLists.txt
- README README.building-boost README.hacking
+Files: CMakeLists.txt README README.building-boost README.hacking
  cmake/* config.h.in docs/* dtools/* gnuradio-runtime/* gr-*/* grc/*
 Copyright: 2010-2015 Free Software Foundation, Inc.
 License: GPL-3+
 
-Files: COPYING
+Files: volk/*
+Copyright: 2014-2015 Free Software Foundation, Inc.
+License: GPL-3+
+Comment: Unused embedded copy. Debian has separate volk packages.
+
+Files: COPYING volk/COPYING
 Copyright: 1989, 1991 Free Software Foundation, Inc.
 License: COPYING
  Everyone is permitted to copy and distribute verbatim copies
- of this license document, but changing it is not allowed.
+  of this license document, but changing it is not allowed.
+
+Files: cmake/msvc/inttypes.h cmake/msvc/stdint.h
+ volk/cmake/msvc/inttypes.h volk/cmake/msvc/stdint.h
+Copyright: 2006-2008 Alexander Chemeris
+License: BSD-3
 
 Files: gr-vocoder/lib/g7xx/*
 Copyright: 1992 Public Domain
@@ -68,7 +77,7 @@ License: public-domain
  Copyright year based on timestamps of files retrieved from
  http://web.archive.org/web/20060721140319/http://www.cwi.nl/ftp/audio/ccitt-adpcm.tar.gz
 
-Files: gnuradio-runtime/src/lib/general/malloc16.c
+Files: gnuradio-runtime/lib/malloc16.c
 Copyright: 2001 Phil Karn, KA9Q
 License: GPL-3+
 
@@ -86,7 +95,7 @@ Copyright: 1992, 1993, 1994 by Jutta Degener and Carsten Bormann, Technische Uni
 Comment: MIT-like license
 License: TUB
 
-Files: gnuradio-runtime/include/gnuradio/thread/thread_group.h gnuradio-runtime/src/lib/thread_group.cc
+Files: gnuradio-runtime/include/gnuradio/thread/thread_group.h gnuradio-runtime/lib/thread/thread_group.cc
 Copyright: (C) 2001-2003 William E. Kempf
  Copyright (C) 2007 Anthony Williams
  Copyright 2008 Free Software Foundation, Inc.
@@ -105,14 +114,14 @@ Comment:
  derivative work is now covered by the overall license assertion
  for GNU Radio.
 
-Files: gr-wxgui/src/python/plot.py
+Files: gr-wxgui/python/wxgui/plot.py
 Copyright: (C) 2002, 2007 Gordon Williams
 License: GPL-3+
 Comment:
  The original was licensed "Use as you wish", this derivative work
  is now covered by the overall license assertion for GNU Radio.
 
-Files: gr-wxgui/src/python/plotter/gltext.py
+Files: gr-wxgui/python/wxgui/plotter/gltext.py
 Copyright: (C) 2007 Christian Brugger, Stefan Hacker
 License: GPL-3+
 Comment:
@@ -131,17 +140,13 @@ License: public-domain
  http://www.rittau.org/blog/20060714-01
  http://www.rittau.org/python/xmlrunner.py
 
-Files: gr-vocoder/lib/codec2/*kiss*
-Copyright: 2003-2010, Mark Borgerding
-License: KISS-BSD
-
 Files: gr-vocoder/lib/codec2/*
 Copyright: (C) 1990-2013 David Rowe
 License: LGPL-2.1+
 
-Files: volk/cmake/msvc/*
-Copyright: (c) 2006-2008 Alexander Chemeris
-License: BSD-3
+Files: gr-vocoder/lib/codec2/*kiss*
+Copyright: 2003-2010, Mark Borgerding
+License: KISS-BSD
 
 Files: debian/*
 Copyright: 2011-2013 A. Maitland Bottoms <bottoms@debian.org>

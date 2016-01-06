@@ -1,3 +1,28 @@
+gnuradio (3.7.9-1) experimental; urgency=medium
+
+  * New upstream release
+  * Update to v3.7.9-5-gdec480a
+    Fixed delayed tag propagation
+    added unit test for tag forwarding to delay
+    gr-fec Repair puncture and depuncture XML files
+    blocks resolve char sign ambiguity causing build bre
+    Fix 64-bit OpenEmbedded builds
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 04 Jan 2016 19:03:42 -0500
+
+gnuradio (3.7.9~rc1-2) experimental; urgency=medium
+
+  * Add copyright info for unused embedded copy of volk from upstream tarball
+  * Not re-packing upstream tarball to make use of upstream source signature
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 14 Dec 2015 20:24:41 -0500
+
+gnuradio (3.7.9~rc1-1) experimental; urgency=medium
+
+  * New upstream release candidate
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Fri, 11 Dec 2015 15:51:37 -0500
+
 gnuradio (3.7.8.1-2) unstable; urgency=medium
 
   * Update to v3.7.8.1-2-g4bbe46e

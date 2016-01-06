@@ -23,8 +23,21 @@ set -e
 ICON_SIZES="32 48 64 128 256"
 SRCDIR="/usr/share/gnuradio/grc/freedesktop"
 
+pathfind() {
+    OLDIFS="$IFS"
+    IFS=:
+    for p in $PATH; do
+	if [ -x "$p/$*" ]; then
+	    IFS="$OLDIFS"
+	    return 0
+	fi
+    done
+    IFS="$OLDIFS"
+    return 1
+}
+
 # Only do this when the xdg-utils package is installed...
-if [ -x /usr/bin/xdg-desktop-menu ] ; then
+if `pathfind xdg-icon-resource` ; then
 echo "Begin freedesktop uninstall..."
 for size in ${ICON_SIZES}; do \
 	echo "Uninstall icon: ${size}x${size}"

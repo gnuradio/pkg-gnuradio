@@ -1,3 +1,6 @@
+Description: Handle Debian kFreeBSD architecture.
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gnuradio-runtime/lib/CMakeLists.txt
 +++ b/gnuradio-runtime/lib/CMakeLists.txt
 @@ -153,7 +153,7 @@

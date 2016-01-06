@@ -1,3 +1,6 @@
+Description: set suitable soname for Debian packaged gnuradio libraries.
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/cmake/Modules/GrMiscUtils.cmake
 +++ b/cmake/Modules/GrMiscUtils.cmake
 @@ -150,9 +150,10 @@

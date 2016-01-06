@@ -1,3 +1,6 @@
+Description: Only install Python source for Debian.
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gnuradio-runtime/python/gnuradio/ctrlport/CMakeLists.txt
 +++ b/gnuradio-runtime/python/gnuradio/ctrlport/CMakeLists.txt
 @@ -28,7 +28,7 @@

@@ -1,3 +1,6 @@
+Description: Allow building gr-fcd on non-Linux systems.
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gr-fcd/CMakeLists.txt
 +++ b/gr-fcd/CMakeLists.txt
 @@ -31,7 +31,7 @@

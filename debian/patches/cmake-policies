@@ -1,3 +1,6 @@
+Description: Quiet Debian build logs by setting cmake policies.
+Authr: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -26,6 +26,10 @@

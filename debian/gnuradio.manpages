@@ -50,6 +50,7 @@ debian/gr_time_raster_b.1
 debian/gr_time_raster_f.1
 debian/hrpt_decode.1
 debian/hrpt_demod.1
+debian/polar_channel_construction.1
 debian/tags_demo.1
 debian/uhd_fft.1
 debian/uhd_rx_cfile.1

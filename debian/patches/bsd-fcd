@@ -1,3 +1,6 @@
+Description: Handle Debian kFreeBSD architecture.
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gr-fcd/lib/hid/hid-libusb.c
 +++ b/gr-fcd/lib/hid/hid-libusb.c
 @@ -250,7 +250,9 @@

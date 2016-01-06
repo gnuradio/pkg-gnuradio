@@ -1,0 +1,54 @@
+From 6dfb538932cb5079bc2a6778f05d9ad558ce8f4a Mon Sep 17 00:00:00 2001
+From: Ron Economos <w6rz@comcast.net>
+Date: Sun, 27 Dec 2015 15:14:09 -0800
+Subject: [PATCH 3/5] gr-fec: Repair puncture and depuncture XML files.
+
+---
+ gr-fec/grc/fec_depuncture_bb.xml | 6 +++---
+ gr-fec/grc/fec_puncture_xx.xml   | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gr-fec/grc/fec_depuncture_bb.xml b/gr-fec/grc/fec_depuncture_bb.xml
+index 1a7615d..03dec9b 100644
+--- a/gr-fec/grc/fec_depuncture_bb.xml
++++ b/gr-fec/grc/fec_depuncture_bb.xml
+@@ -3,7 +3,7 @@
+   <name>Depuncture</name>
+   <key>fec_depuncture_bb</key>
+   <import>from gnuradio import fec</import>
+-  <make>fec.depucture_bb($delay, $puncpat, $puncholes, $puncsize, $sym)</make>
++  <make>fec.depuncture_bb($puncsize, $puncpat, $delay, $sym)</make>
+ 
+   <param>
+     <name>Puncture Size</name>
+@@ -34,12 +34,12 @@
+ 
+   <sink>
+     <name>in</name>
+-    <type>float</type>
++    <type>byte</type>
+   </sink>
+ 
+   <source>
+     <name>out</name>
+-    <type>float</type>
++    <type>byte</type>
+   </source>
+ 
+ </block>
+diff --git a/gr-fec/grc/fec_puncture_xx.xml b/gr-fec/grc/fec_puncture_xx.xml
+index 8ad9b0c..1075a1c 100644
+--- a/gr-fec/grc/fec_puncture_xx.xml
++++ b/gr-fec/grc/fec_puncture_xx.xml
+@@ -3,7 +3,7 @@
+   <name>Puncture</name>
+   <key>fec_puncture_xx</key>
+   <import>from gnuradio import fec</import>
+-  <make>fec.puncture_$(type.fcn)($puncsize, $puncpat, $puncholes, $delay)</make>
++  <make>fec.puncture_$(type.fcn)($puncsize, $puncpat, $delay)</make>
+ 
+   <param>
+     <name>Type</name>
+-- 
+2.1.4
+

@@ -1,3 +1,6 @@
+Description: Handle building on non-Linux systems with ALSA
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gr-audio/lib/alsa/alsa_source.cc
 +++ b/gr-audio/lib/alsa/alsa_source.cc
 @@ -472,7 +472,7 @@

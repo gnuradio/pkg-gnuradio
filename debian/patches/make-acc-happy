@@ -1,3 +1,6 @@
+Description: Make headers cpmilable on their own.
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gnuradio-runtime/include/gnuradio/sys_pri.h
 +++ b/gnuradio-runtime/include/gnuradio/sys_pri.h
 @@ -23,7 +23,7 @@

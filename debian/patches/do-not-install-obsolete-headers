@@ -1,3 +1,7 @@
+Description: Do not install obsolete headers.
+ These header files are no longer compilable after source refactoring.
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/gr-atsc/include/gnuradio/atsc/CMakeLists.txt
 +++ b/gr-atsc/include/gnuradio/atsc/CMakeLists.txt
 @@ -41,7 +41,6 @@
