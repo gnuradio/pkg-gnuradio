@@ -1,3 +1,9 @@
+gnuradio (3.7.9-3) unstable; urgency=medium
+
+  * Do *not* try test on any i386 arch due to scipy sgegv_ errors
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Fri, 08 Jan 2016 21:48:22 -0500
+
 gnuradio (3.7.9-2) unstable; urgency=medium
 
   * Do not try test on any i386 arch due to scipy sgegv_ errors
