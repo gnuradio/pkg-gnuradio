@@ -12,6 +12,8 @@ debian/ChangeLogV3_7_7
 debian/ChangeLogV3_7_7_1
 debian/ChangeLogV3_7_8
 debian/ChangeLogV3_7_8_1
+debian/ChangeLogV3_7_9
+docs/RELEASE-NOTES-3.7.9.1.md
 gr-fec/python/fec/polar/README.md
 gr-pager/README
 gr-audio/doc/README.audio

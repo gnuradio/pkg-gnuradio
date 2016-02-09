@@ -1,3 +1,24 @@
+gnuradio (3.7.9.1-1) unstable; urgency=medium
+
+  * New upstream point release, notes in the gnuradio
+    package: in file /usr/share/doc/gnuradio/RELEASE-NOTES-3.7.9.1.md
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 09 Feb 2016 00:43:23 -0500
+
+gnuradio (3.7.9-4) unstable; urgency=medium
+
+  * use comedilib again
+  * update to v3.7.9-16-g4ce1d49
+    grc: fix Parser errors menu item
+    analog: Addresses issue 831
+    analog: enable setting max dev. during runtime for NB
+    gru: Fixes an obsolete numpy function call
+    digital: Addresses issue 812
+    Updated URL to UHD manual in USRP sink and source blocks
+    gr-utils: Update error message
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 19 Jan 2016 15:11:08 -0500
+
 gnuradio (3.7.9-3) unstable; urgency=medium
 
   * Do *not* try test on any i386 arch due to scipy sgegv_ errors

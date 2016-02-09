@@ -14,9 +14,3 @@ do-not-install-obsolete-headers
 make-acc-happy
 spelling
 workaround-FindGSL.cmake-bug
-unbotch-release-version
-0001-Fixed-delayed-tag-propagation.patch
-0002-added-unit-test-for-tag-forwarding-to-delay.patch
-0003-gr-fec-Repair-puncture-and-depuncture-XML-files.patch
-0004-blocks-resolve-char-sign-ambiguity-causing-build-bre.patch
-0005-Fix-64-bit-OpenEmbedded-builds.patch

@@ -1,3 +1,6 @@
+Description: undo git version in release tarball
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -50,8 +50,8 @@

@@ -15,6 +15,7 @@ Build-Depends: cmake,
                libboost-test-dev,
                libboost-thread-dev,
                libcodec2-dev (>= 0.4),
+	       libcomedi-dev,
                libcppunit-dev (>=1.9.14),
                libfftw3-dev,
                libfontconfig1-dev,
@@ -183,7 +184,6 @@ Description: gnuradio comedi instrument control functions
  Allows gnuradio to use signals from data acquisition hardware
  supported by the Comedi library and drivers.
  Part of the main gnuradio build.
- This is an empty package until comedilib is rebuilt with gsl >=2.0
 
 Package: libgnuradio-blocks3.7.9
 Section: libs
