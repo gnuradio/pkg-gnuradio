@@ -1,0 +1,105 @@
+From 62e8f2383b340c7fae4addeaa8d44330da95a6ea Mon Sep 17 00:00:00 2001
+From: Martin Braun <martin.braun@ettus.com>
+Date: Fri, 12 Feb 2016 10:29:16 -0800
+Subject: [PATCH 03/19] uhd: Loosen requirements for multi-chan ops to have
+ timed command capability
+
+---
+ gr-uhd/apps/uhd_app.py   | 22 ++++++++++++++++------
+ gr-uhd/apps/uhd_rx_cfile | 11 ++++++++---
+ 2 files changed, 24 insertions(+), 9 deletions(-)
+
+diff --git a/gr-uhd/apps/uhd_app.py b/gr-uhd/apps/uhd_app.py
+index bb4b9a7..59bebe2 100644
+--- a/gr-uhd/apps/uhd_app.py
++++ b/gr-uhd/apps/uhd_app.py
+@@ -167,12 +167,17 @@ class UHDApp(object):
+             treq = uhd.tune_request(args.freq)
+         self.has_lo_sensor = 'lo_locked' in self.usrp.get_sensor_names()
+         # Make sure tuning is synched:
++        command_time_set = False
+         if len(self.channels) > 1:
+             if args.sync == 'pps':
+                 self.usrp.set_time_unknown_pps(uhd.time_spec())
+             cmd_time = self.usrp.get_time_now() + uhd.time_spec(COMMAND_DELAY)
+-            for mb_idx in xrange(self.usrp.get_num_mboards()):
+-                self.usrp.set_command_time(cmd_time, mb_idx)
++            try:
++                for mb_idx in xrange(self.usrp.get_num_mboards()):
++                    self.usrp.set_command_time(cmd_time, mb_idx)
++                command_time_set = True
++            except RuntimeError:
++                sys.stderr.write('[{prefix}] [WARNING] Failed to set command times.\n'.format(prefix=self.prefix))
+         for chan in self.channels:
+             self.tr = self.usrp.set_center_freq(treq, chan)
+             if self.tr == None:
+@@ -180,7 +185,7 @@ class UHDApp(object):
+                     prefix=self.prefix, chan=chan
+                 ))
+                 exit(1)
+-        if len(self.channels) > 1:
++        if command_time_set:
+             for mb_idx in xrange(self.usrp.get_num_mboards()):
+                 self.usrp.clear_command_time(mb_idx)
+             self.vprint("Syncing channels...".format(prefix=self.prefix))
+@@ -223,10 +228,15 @@ class UHDApp(object):
+         else:
+             treq = uhd.tune_request(freq)
+         # Make sure tuning is synched:
++        command_time_set = False
+         if len(self.channels) > 1 and not skip_sync:
+             cmd_time = self.usrp.get_time_now() + uhd.time_spec(COMMAND_DELAY)
+-            for mb_idx in xrange(self.usrp.get_num_mboards()):
+-                self.usrp.set_command_time(cmd_time, mb_idx)
++            try:
++                for mb_idx in xrange(self.usrp.get_num_mboards()):
++                    self.usrp.set_command_time(cmd_time, mb_idx)
++                command_time_set = True
++            except RuntimeError:
++                sys.stderr.write('[{prefix}] [WARNING] Failed to set command times.\n'.format(prefix=self.prefix))
+         for chan in self.channels:
+             self.tr = self.usrp.set_center_freq(treq, chan)
+             if self.tr == None:
+@@ -234,7 +244,7 @@ class UHDApp(object):
+                     prefix=self.prefix, chan=chan
+                 ))
+                 exit(1)
+-        if len(self.channels) > 1 and not skip_sync:
++        if command_time_set:
+             for mb_idx in xrange(self.usrp.get_num_mboards()):
+                 self.usrp.clear_command_time(mb_idx)
+             self.vprint("Syncing channels...".format(prefix=self.prefix))
+diff --git a/gr-uhd/apps/uhd_rx_cfile b/gr-uhd/apps/uhd_rx_cfile
+index 80bbc87..672e964 100755
+--- a/gr-uhd/apps/uhd_rx_cfile
++++ b/gr-uhd/apps/uhd_rx_cfile
+@@ -115,18 +115,23 @@ class rx_cfile_block(gr.top_block):
+         else:
+             treq = uhd.tune_request(options.freq)
+         # Make sure tuning is synched:
++        command_time_set = False
+         if len(self.channels) > 1:
+             if options.sync == 'pps':
+                 self._u.set_time_unknown_pps(uhd.time_spec())
+             cmd_time = self._u.get_time_now() + uhd.time_spec(COMMAND_DELAY)
+-            for mb_idx in xrange(self._u.get_num_mboards()):
+-                self._u.set_command_time(cmd_time, mb_idx)
++            try:
++                for mb_idx in xrange(self._u.get_num_mboards()):
++                    self._u.set_command_time(cmd_time, mb_idx)
++                command_time_set = True
++            except RuntimeError:
++                sys.stderr.write('[UHD_RX] [WARNING] Failed to set command times.\n')
+         for chan in self.channels:
+             tr = self._u.set_center_freq(treq, chan)
+             if tr == None:
+                 sys.stderr.write('[UHD_RX] [ERROR] Failed to set center frequency on channel {chan}\n'.format(chan=chan))
+                 exit(1)
+-        if len(self.channels) > 1:
++        if command_time_set:
+             for mb_idx in xrange(self._u.get_num_mboards()):
+                 self._u.clear_command_time(mb_idx)
+             print("[UHD_RX] Syncing channels...")
+-- 
+2.1.4
+

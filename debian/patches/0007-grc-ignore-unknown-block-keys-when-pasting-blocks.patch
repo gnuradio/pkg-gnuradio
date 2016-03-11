@@ -1,0 +1,25 @@
+From 252f6823fb24fa73ccbcbd6ec9ff07d880635d57 Mon Sep 17 00:00:00 2001
+From: Sebastian Koslowski <koslowski@kit.edu>
+Date: Wed, 17 Feb 2016 19:39:52 +0100
+Subject: [PATCH 07/19] grc: ignore unknown block keys when pasting blocks
+
+---
+ grc/gui/FlowGraph.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/grc/gui/FlowGraph.py b/grc/gui/FlowGraph.py
+index 04c2f9d..63fd841 100644
+--- a/grc/gui/FlowGraph.py
++++ b/grc/gui/FlowGraph.py
+@@ -191,6 +191,8 @@ class FlowGraph(Element):
+             block_key = block_n.find('key')
+             if block_key == 'options': continue
+             block = self.get_new_block(block_key)
++            if not block:
++                continue  # unknown block was pasted (e.g. dummy block)
+             selected.add(block)
+             #set params
+             params_n = block_n.findall('param')
+-- 
+2.1.4
+

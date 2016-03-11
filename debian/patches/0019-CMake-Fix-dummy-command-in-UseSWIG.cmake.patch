@@ -1,0 +1,37 @@
+From fd6fc554256dfa16884274f0f59665c50fc8098a Mon Sep 17 00:00:00 2001
+From: Paul Cercueil <paul.cercueil@analog.com>
+Date: Tue, 1 Mar 2016 11:43:07 +0100
+Subject: [PATCH 19/19] CMake: Fix dummy command in UseSWIG.cmake
+
+Having the COMMAND parameter of the add_custom_command() function as an
+empty string only works on Linux when generating Makefiles. It did not
+work on Linux when using a different generator (in my case, Ninja), or
+when building under Visual Studio.
+
+This commit removes the empty string, and just don't specify any
+command. This will work on all system / build system couples possible.
+
+Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
+---
+ cmake/Modules/UseSWIG.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/Modules/UseSWIG.cmake b/cmake/Modules/UseSWIG.cmake
+index c0f1728..d101494 100644
+--- a/cmake/Modules/UseSWIG.cmake
++++ b/cmake/Modules/UseSWIG.cmake
+@@ -224,9 +224,9 @@ print(re.sub('\\W', '_', '${name} ${reldir} ' + unique))"
+   foreach(swig_gen_file ${${outfiles}})
+     add_custom_command(
+       OUTPUT ${swig_gen_file}
+-      COMMAND ""
++      COMMAND
+       DEPENDS ${_target}
+-      COMMENT ""
++      COMMENT
+     )
+   endforeach()
+ 
+-- 
+2.1.4
+

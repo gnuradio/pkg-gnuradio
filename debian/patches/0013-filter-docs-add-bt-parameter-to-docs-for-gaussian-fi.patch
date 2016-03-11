@@ -1,0 +1,55 @@
+From c4b0d7c1f687e91da8a44093552041854e59f749 Mon Sep 17 00:00:00 2001
+From: Nathan West <nathan.west@okstate.edu>
+Date: Fri, 4 Mar 2016 23:32:42 -0500
+Subject: [PATCH 13/19] filter docs: add bt parameter to docs for gaussian
+ filter
+
+---
+ gr-filter/include/gnuradio/filter/firdes.h |  7 ++++---
+ gr-filter/lib/firdes.cc                    | 10 +++++-----
+ 2 files changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/gr-filter/include/gnuradio/filter/firdes.h b/gr-filter/include/gnuradio/filter/firdes.h
+index 78540bd..1fca65a 100644
+--- a/gr-filter/include/gnuradio/filter/firdes.h
++++ b/gr-filter/include/gnuradio/filter/firdes.h
+@@ -348,9 +348,10 @@ namespace gr {
+       /*!
+        * \brief design a Gaussian filter
+        *
+-       * \p gain:		overall gain of filter (typically 1.0)
+-       * \p symbols per bit:	symbol rate, must be a factor of sample rate
+-       * \p ntaps:		number of taps
++       * \p gain:           overall gain of filter (typically 1.0)
++       * \p symbols/bit:    symbol rate, must be a factor of sample rate
++       * \p bt:             bandwidth to bitrate ratio
++       * \p ntaps:          number of taps
+        */
+       static std::vector<float>
+ 	gaussian(double gain,
+diff --git a/gr-filter/lib/firdes.cc b/gr-filter/lib/firdes.cc
+index 351eb7a..323de42 100644
+--- a/gr-filter/lib/firdes.cc
++++ b/gr-filter/lib/firdes.cc
+@@ -590,13 +590,13 @@ namespace gr {
+       double t0 = -0.5 * ntaps;
+       double ts;
+       for(int i=0;i<ntaps;i++) {
+-	t0++;
+-	ts = s*dt*t0;
+-	taps[i] = exp(-0.5*ts*ts);
+-	scale += taps[i];
++        t0++;
++        ts = s*dt*t0;
++        taps[i] = exp(-0.5*ts*ts);
++        scale += taps[i];
+       }
+       for(int i=0;i<ntaps;i++)
+-	taps[i] = taps[i] / scale * gain;
++        taps[i] = taps[i] / scale * gain;
+ 
+       return taps;
+     }
+-- 
+2.1.4
+

@@ -1,0 +1,24 @@
+From b2ae00c01d98904b574643eb5afb3498b86c352d Mon Sep 17 00:00:00 2001
+From: Nathan West <nathan.west@okstate.edu>
+Date: Wed, 9 Mar 2016 01:01:26 -0500
+Subject: [PATCH 18/19] fft: explicitly link to volk
+
+---
+ gr-fft/lib/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gr-fft/lib/CMakeLists.txt b/gr-fft/lib/CMakeLists.txt
+index 7dd576f..77476e5 100644
+--- a/gr-fft/lib/CMakeLists.txt
++++ b/gr-fft/lib/CMakeLists.txt
+@@ -57,6 +57,7 @@ endif(ENABLE_GR_CTRLPORT)
+ 
+ list(APPEND fft_libs
+     gnuradio-runtime
++    ${VOLK_LIBRARIES}
+     ${Boost_LIBRARIES}
+     ${FFTW3F_LIBRARIES}
+ )
+-- 
+2.1.4
+

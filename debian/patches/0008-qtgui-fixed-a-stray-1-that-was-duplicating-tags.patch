@@ -1,0 +1,42 @@
+From 860b200ee26dde30cf2cd8ad455305754d663c52 Mon Sep 17 00:00:00 2001
+From: Tom Rondeau <tom@trondeau.com>
+Date: Wed, 30 Dec 2015 16:26:07 -0500
+Subject: [PATCH 08/19] qtgui: fixed a stray +1 that was duplicating tags.
+
+When this was looking at the very end of the buffer, the +1 was a
+look-ahead based on history; but this would then become the 0th
+element the next call to work and would double up on that tag.
+---
+ gr-qtgui/lib/time_sink_c_impl.cc | 2 +-
+ gr-qtgui/lib/time_sink_f_impl.cc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
+index 9f1a04c..7e5aabf 100644
+--- a/gr-qtgui/lib/time_sink_c_impl.cc
++++ b/gr-qtgui/lib/time_sink_c_impl.cc
+@@ -652,7 +652,7 @@ namespace gr {
+ 
+         uint64_t nr = nitems_read(n);
+         std::vector<gr::tag_t> tags;
+-        get_tags_in_range(tags, n, nr, nr + nitems + 1);
++        get_tags_in_range(tags, n, nr, nr + nitems);
+         for(size_t t = 0; t < tags.size(); t++) {
+           tags[t].offset = tags[t].offset - nr + (d_index-d_start-1);
+         }
+diff --git a/gr-qtgui/lib/time_sink_f_impl.cc b/gr-qtgui/lib/time_sink_f_impl.cc
+index e81a9f4..579dfd9 100644
+--- a/gr-qtgui/lib/time_sink_f_impl.cc
++++ b/gr-qtgui/lib/time_sink_f_impl.cc
+@@ -643,7 +643,7 @@ namespace gr {
+ 
+         uint64_t nr = nitems_read(idx);
+         std::vector<gr::tag_t> tags;
+-        get_tags_in_range(tags, idx, nr, nr + nitems + 1);
++        get_tags_in_range(tags, idx, nr, nr + nitems);
+         for(size_t t = 0; t < tags.size(); t++) {
+           tags[t].offset = tags[t].offset - nr + (d_index-d_start-1);
+         }
+-- 
+2.1.4
+

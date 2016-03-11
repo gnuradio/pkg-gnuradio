@@ -1,0 +1,40 @@
+From a1cf11937665392bcfa223a5095ff903eb44c69b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jaroslav=20=C5=A0karvada?= <jskarvad@redhat.com>
+Date: Fri, 12 Feb 2016 18:29:13 +0100
+Subject: [PATCH 11/19] Fix compilation in gcc-6
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Jaroslav Škarvada <jskarvad@redhat.com>
+---
+ gr-fec/include/gnuradio/fec/polar_decoder_common.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/gr-fec/include/gnuradio/fec/polar_decoder_common.h b/gr-fec/include/gnuradio/fec/polar_decoder_common.h
+index b0ecb85..a39ee4f 100644
+--- a/gr-fec/include/gnuradio/fec/polar_decoder_common.h
++++ b/gr-fec/include/gnuradio/fec/polar_decoder_common.h
+@@ -28,6 +28,10 @@
+ #include <gnuradio/fec/generic_decoder.h>
+ #include <gnuradio/fec/polar_common.h>
+ 
++#ifndef BOOST_CONSTEXPR_OR_CONST
++#define BOOST_CONSTEXPR_OR_CONST const
++#endif
++
+ namespace gr {
+   namespace fec {
+     namespace code {
+@@ -64,7 +68,7 @@ namespace gr {
+         bool set_frame_size(unsigned int frame_size){return false;};
+ 
+       private:
+-        static const float D_LLR_FACTOR = -2.19722458f;
++        static BOOST_CONSTEXPR_OR_CONST float D_LLR_FACTOR = -2.19722458f;
+         unsigned int d_frozen_bit_counter;
+ 
+       protected:
+-- 
+2.1.4
+
