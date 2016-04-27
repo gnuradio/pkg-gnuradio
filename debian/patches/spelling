@@ -11,6 +11,17 @@ Subject: gnuradio spelling
  sythesis -> synthesis
  transfering -> transferring
  reenable -> re-enable
+ thier -> their
+ relevent -> relevant
+ funtion -> function
+ uesd -> used
+ Maxium -> Maximum
+ arbitray -> arbitrary
+ classs -> class
+ interger -> integer
+ reponse -> response
+ mininum -> minimum
+ occured -> occurred
   
 --- a/gr-analog/include/gnuradio/analog/phase_modulator_fc.h
 +++ b/gr-analog/include/gnuradio/analog/phase_modulator_fc.h
@@ -151,6 +162,15 @@ Subject: gnuradio spelling
       * the scheduler.
       */
      void unset_max_noutput_items();
+@@ -409,7 +409,7 @@
+     long min_output_buffer(size_t i);
+ 
+     /*!
+-     * \brief Request limit on the mininum buffer size on all output
++     * \brief Request limit on the minimum buffer size on all output
+      * ports.
+      *
+      * \details
 --- a/gr-utils/python/utils/gr_plot_qt
 +++ b/gr-utils/python/utils/gr_plot_qt
 @@ -26,7 +26,7 @@
@@ -162,3 +182,335 @@ Subject: gnuradio spelling
      #from gnuradio.pyqt_plot import Ui_MainWindow
      from gnuradio.pyqt_plot import Ui_MainWindow
  except ImportError:
+--- a/gr-blocks/include/gnuradio/blocks/endian_swap.h
++++ b/gr-blocks/include/gnuradio/blocks/endian_swap.h
+@@ -30,7 +30,7 @@
+   namespace blocks {
+ 
+     /*!
+-     * \brief Convert stream of items into thier byte swapped version
++     * \brief Convert stream of items into their byte swapped version
+      * \ingroup stream_operators_blk
+      */
+     class BLOCKS_API endian_swap : virtual public sync_block
+--- a/docs/doxygen/other/stream_tags.dox
++++ b/docs/doxygen/other/stream_tags.dox
+@@ -201,7 +201,7 @@
+ propagation internally.
+ 
+ In no case is the value of the tag modified when propagating through a
+-block. This becomes relevent when using \ref page_tagged_stream_blocks.
++block. This becomes relevant when using \ref page_tagged_stream_blocks.
+ 
+ \section stream_tags_issues Notes on How to Use Tags
+ 
+--- a/gr-blocks/include/gnuradio/blocks/pack_k_bits_bb.h
++++ b/gr-blocks/include/gnuradio/blocks/pack_k_bits_bb.h
+@@ -31,7 +31,7 @@
+ 
+     /*!
+      * \brief Converts a stream of bytes with 1 bit in the LSB to a
+-     * byte with k relevent bits.
++     * byte with k relevant bits.
+      *
+      * This block takes in K bytes at a time, and uses the least significant
+      * bit to form a new byte.
+--- a/gr-blocks/include/gnuradio/blocks/unpack_k_bits_bb.h
++++ b/gr-blocks/include/gnuradio/blocks/unpack_k_bits_bb.h
+@@ -30,7 +30,7 @@
+   namespace blocks {
+ 
+     /*!
+-     * \brief Converts a byte with k relevent bits to k output bytes with 1 bit in the LSB.
++     * \brief Converts a byte with k relevant bits to k output bytes with 1 bit in the LSB.
+      *
+      * This block picks the K least significant bits from a byte, and expands
+      * them into K bytes of 0 or 1.
+--- a/gr-blocks/include/gnuradio/blocks/pack_k_bits.h
++++ b/gr-blocks/include/gnuradio/blocks/pack_k_bits.h
+@@ -32,7 +32,7 @@
+ 
+       /*!
+        * \brief Converts a vector of bytes with 1 bit in the LSB to a
+-       * byte with k relevent bits.
++       * byte with k relevant bits.
+        *
+        * Example:
+        * k = 4
+--- a/gr-blocks/include/gnuradio/blocks/unpack_k_bits.h
++++ b/gr-blocks/include/gnuradio/blocks/unpack_k_bits.h
+@@ -31,7 +31,7 @@
+     namespace kernel {
+ 
+       /*!
+-       * \brief Converts a byte with k relevent bits to k output bytes with 1 bit in the LSB.
++       * \brief Converts a byte with k relevant bits to k output bytes with 1 bit in the LSB.
+        *
+        * This is the algorithm kernel for the gr::blocks::unpack_k_bits_bb block.
+        *
+--- a/gr-digital/include/gnuradio/digital/pfb_clock_sync_ccf.h
++++ b/gr-digital/include/gnuradio/digital/pfb_clock_sync_ccf.h
+@@ -196,7 +196,7 @@
+        * differential filterbank.
+        *
+        * WARNING: this should not be used externally and will be moved
+-       * to a private funtion in the next API.
++       * to a private function in the next API.
+        */
+       virtual void set_taps(const std::vector<float> &taps,
+ 			    std::vector< std::vector<float> > &ourtaps,
+--- a/gr-digital/include/gnuradio/digital/pfb_clock_sync_fff.h
++++ b/gr-digital/include/gnuradio/digital/pfb_clock_sync_fff.h
+@@ -196,7 +196,7 @@
+        * differential filterbank.
+        *
+        * WARNING: this should not be used externally and will be moved
+-       * to a private funtion in the next API.
++       * to a private function in the next API.
+        */
+       virtual void set_taps(const std::vector<float> &taps,
+ 			    std::vector< std::vector<float> > &ourtaps,
+--- a/gr-digital/include/gnuradio/digital/fll_band_edge_cc.h
++++ b/gr-digital/include/gnuradio/digital/fll_band_edge_cc.h
+@@ -107,7 +107,7 @@
+        * \brief Set the number of samples per symbol
+        *
+        * Set's the number of samples per symbol the system should
+-       * use. This value is uesd to calculate the filter taps and will
++       * use. This value is used to calculate the filter taps and will
+        * force a recalculation.
+        *
+        * \param sps    (float) new samples per symbol
+--- a/gr-fec/include/gnuradio/fec/tagged_encoder.h
++++ b/gr-fec/include/gnuradio/fec/tagged_encoder.h
+@@ -56,7 +56,7 @@
+        * \param input_item_size size of a block of data for the encoder.
+        * \param output_item_size size of a block of data the encoder will produce.
+        * \param lengthtagname Key name of the tagged stream frame size.
+-       * \param mtu The Maxium Transmission Unit (MTU) of the input
++       * \param mtu The Maximum Transmission Unit (MTU) of the input
+        *            frame that the block will be able to
+        *            process. Specified in bytes and defaults to 1500.
+        */
+--- a/gr-fec/include/gnuradio/fec/tagged_decoder.h
++++ b/gr-fec/include/gnuradio/fec/tagged_decoder.h
+@@ -76,7 +76,7 @@
+        * \param input_item_size The size of the input items (often the my_decoder object can tell us this).
+        * \param output_item_size The size of the output items (often the my_decoder object can tell us this).
+        * \param lengthtagname Key name of the tagged stream frame size.
+-       * \param mtu The Maxium Transmission Unit (MTU) of the output
++       * \param mtu The Maximum Transmission Unit (MTU) of the output
+        *            frame that the block will be able to
+        *            process. Specified in bytes and defaults to 1500.
+        */
+--- a/gr-fec/include/gnuradio/fec/async_encoder.h
++++ b/gr-fec/include/gnuradio/fec/async_encoder.h
+@@ -82,7 +82,7 @@
+        * \param packed True if working on packed bytes (like PDUs).
+        * \param rev_unpack Reverse the unpacking order from input bytes to bits.
+        * \param rev_pack Reverse the packing order from bits to output bytes.
+-       * \param mtu The Maxium Transmission Unit (MTU) of the input
++       * \param mtu The Maximum Transmission Unit (MTU) of the input
+        *            frame that the block will be able to
+        *            process. Specified in bytes and defaults to 1500.
+        */
+--- a/gr-fec/include/gnuradio/fec/async_decoder.h
++++ b/gr-fec/include/gnuradio/fec/async_decoder.h
+@@ -87,7 +87,7 @@
+        * \param my_decoder An FECAPI decoder object child of the generic_decoder class.
+        * \param packed Sets output to packed bytes if true; otherwise, 1 bit per byte.
+        * \param rev_pack If packing bits, should they be reversed?
+-       * \param mtu The Maxium Transmission Unit (MTU) of the output
++       * \param mtu The Maximum Transmission Unit (MTU) of the output
+        *            frame that the block will be able to
+        *            process. Specified in bytes and defaults to 1500.
+        */
+--- a/gr-filter/include/gnuradio/filter/pfb_arb_resampler_fff.h
++++ b/gr-filter/include/gnuradio/filter/pfb_arb_resampler_fff.h
+@@ -99,7 +99,7 @@
+       typedef boost::shared_ptr<pfb_arb_resampler_fff> sptr;
+ 
+       /*!
+-       * Build the polyphase filterbank arbitray resampler.
++       * Build the polyphase filterbank arbitrary resampler.
+        * \param rate  (float) Specifies the resampling rate to use
+        * \param taps  (vector/list of floats) The prototype filter to populate the filterbank. The taps
+        *                                      should be generated at the filter_size sampling rate.
+--- a/gr-filter/include/gnuradio/filter/pfb_arb_resampler_ccf.h
++++ b/gr-filter/include/gnuradio/filter/pfb_arb_resampler_ccf.h
+@@ -50,7 +50,7 @@
+       typedef boost::shared_ptr<pfb_arb_resampler_ccf> sptr;
+ 
+       /*!
+-       * Build the polyphase filterbank arbitray resampler.
++       * Build the polyphase filterbank arbitrary resampler.
+        * \param rate  (float) Specifies the resampling rate to use
+        * \param taps  (vector/list of floats) The prototype filter to populate the filterbank. The taps
+        *              should be generated at the filter_size sampling rate.
+--- a/gr-filter/include/gnuradio/filter/pfb_arb_resampler_ccc.h
++++ b/gr-filter/include/gnuradio/filter/pfb_arb_resampler_ccc.h
+@@ -50,7 +50,7 @@
+       typedef boost::shared_ptr<pfb_arb_resampler_ccc> sptr;
+ 
+       /*!
+-       * Build the polyphase filterbank arbitray resampler.
++       * Build the polyphase filterbank arbitrary resampler.
+        * \param rate  (float) Specifies the resampling rate to use
+        * \param taps  (vector/list of complex) The prototype filter to populate the filterbank. The taps
+        *              should be generated at the filter_size sampling rate.
+--- a/gr-filter/include/gnuradio/filter/pfb_channelizer_ccf.h
++++ b/gr-filter/include/gnuradio/filter/pfb_channelizer_ccf.h
+@@ -50,7 +50,7 @@
+      * filter has the same number of taps.
+      *
+      * Each filter operates using the gr::blocks::fir_filter_XXX
+-     * classs of GNU Radio, which takes the input stream at <EM>i</EM>
++     * class of GNU Radio, which takes the input stream at <EM>i</EM>
+      * and performs the inner product calculation to <EM>i+(n-1)</EM>
+      * where <EM>n</EM> is the number of filter taps. To efficiently
+      * handle this in the GNU Radio structure, each filter input must
+--- a/gr-filter/include/gnuradio/filter/polyphase_filterbank.h
++++ b/gr-filter/include/gnuradio/filter/polyphase_filterbank.h
+@@ -55,7 +55,7 @@
+        * number of taps.
+        *
+        * Each filter operates using the gr::filter::fir_filter_XXX
+-       * classs of GNU Radio, which takes the input stream at
++       * class of GNU Radio, which takes the input stream at
+        * <EM>i</EM> and performs the inner product calculation to
+        * <EM>i+(n-1)</EM> where <EM>n</EM> is the number of filter
+        * taps. To efficiently handle this in the GNU Radio structure,
+--- a/gr-filter/include/gnuradio/filter/fft_filter_fff.h
++++ b/gr-filter/include/gnuradio/filter/fft_filter_fff.h
+@@ -36,7 +36,7 @@
+      * \details
+      * This block implements a real-value decimating filter using the
+      * fast convolution method via an FFT. The decimation factor is an
+-     * interger that is greater than or equal to 1.
++     * integer that is greater than or equal to 1.
+      *
+      * The filter takes a set of real-valued taps to use in the
+      * filtering operation. These taps can be defined as anything that
+--- a/gr-filter/include/gnuradio/filter/fft_filter_ccf.h
++++ b/gr-filter/include/gnuradio/filter/fft_filter_ccf.h
+@@ -36,7 +36,7 @@
+      * \details
+      * This block implements a complex decimating filter using the
+      * fast convolution method via an FFT. The decimation factor is an
+-     * interger that is greater than or equal to 1.
++     * integer that is greater than or equal to 1.
+      *
+      * The filter takes a set of complex (or real) taps to use in the
+      * filtering operation. These taps can be defined as anything that
+--- a/gr-filter/include/gnuradio/filter/fft_filter_ccc.h
++++ b/gr-filter/include/gnuradio/filter/fft_filter_ccc.h
+@@ -36,7 +36,7 @@
+      * \details
+      * This block implements a complex decimating filter using the
+      * fast convolution method via an FFT. The decimation factor is an
+-     * interger that is greater than or equal to 1.
++     * integer that is greater than or equal to 1.
+      *
+      * The filter takes a set of complex (or real) taps to use in the
+      * filtering operation. These taps can be defined as anything that
+--- a/gr-filter/include/gnuradio/filter/pfb_interpolator_ccf.h
++++ b/gr-filter/include/gnuradio/filter/pfb_interpolator_ccf.h
+@@ -36,7 +36,7 @@
+      * \ingroup channelizers_blk
+      *
+      * \details
+-     * This block takes in a signal stream and performs interger up-
++     * This block takes in a signal stream and performs integer up-
+      * sampling (interpolation) with a polyphase filterbank. The first
+      * input is the integer specifying how much to interpolate by. The
+      * second input is a vector (Python list) of floating-point taps
+--- a/gr-filter/include/gnuradio/filter/pfb_decimator_ccf.h
++++ b/gr-filter/include/gnuradio/filter/pfb_decimator_ccf.h
+@@ -36,7 +36,7 @@
+      * \ingroup channelizers_blk
+      *
+      * \details
+-     * This block takes in a signal stream and performs interger down-
++     * This block takes in a signal stream and performs integer down-
+      * sampling (decimation) with a polyphase filterbank. The first
+      * input is the integer specifying how much to decimate by. The
+      * second input is a vector (Python list) of floating-point taps
+--- a/gr-filter/lib/pm_remez.cc
++++ b/gr-filter/lib/pm_remez.cc
+@@ -575,7 +575,7 @@
+      *=======
+      * Calculates the optimal (in the Chebyshev/minimax sense)
+      * FIR filter impulse response given a set of band edges,
+-     * the desired reponse on those bands, and the weight given to
++     * the desired response on those bands, and the weight given to
+      * the error in those bands.
+      *
+      * INPUT:
+--- a/gr-filter/include/gnuradio/filter/pm_remez.h
++++ b/gr-filter/include/gnuradio/filter/pm_remez.h
+@@ -36,8 +36,8 @@
+      *
+      * \details
+      * Calculates the optimal (in the Chebyshev/minimax sense) FIR
+-     * filter inpulse reponse given a set of band edges, the desired
+-     * reponse on those bands, and the weight given to the error in
++     * filter inpulse response given a set of band edges, the desired
++     * response on those bands, and the weight given to the error in
+      * those bands.
+      *
+      * \param order         filter order (number of taps in the returned filter - 1)
+--- a/gr-uhd/include/gnuradio/uhd/usrp_block.h
++++ b/gr-uhd/include/gnuradio/uhd/usrp_block.h
+@@ -393,7 +393,7 @@
+       virtual ::uhd::time_spec_t get_time_now(size_t mboard = 0) = 0;
+ 
+       /*!
+-       * Get the time when the last pps pulse occured.
++       * Get the time when the last pps pulse occurred.
+        * \param mboard the motherboard index 0 to M-1
+        * \return the current usrp time
+        */
+--- a/volk/apps/volk_profile.cc
++++ b/volk/apps/volk_profile.cc
+@@ -151,7 +151,7 @@
+         kernel_expression = boost::xpressive::sregex::compile(kernel_regex);
+     }
+     catch (boost::xpressive::regex_error& error) {
+-        std::cerr << "Error occured while compiling regex" << std::endl << std::endl;
++        std::cerr << "Error occurred while compiling regex" << std::endl << std::endl;
+         return 1;
+     }
+ 
+--- a/grc/gui/FileDialogs.py
++++ b/grc/gui/FileDialogs.py
+@@ -199,7 +199,7 @@
+         Get the filename and destroy the dialog.
+ 
+         Returns:
+-            the filename or None if a close/cancel occured.
++            the filename or None if a close/cancel occurred.
+         """
+         filename = self.get_rectified_filename()
+         self.destroy()
+--- a/gr-blocks/lib/tagged_file_sink_impl.cc
++++ b/gr-blocks/lib/tagged_file_sink_impl.cc
+@@ -137,7 +137,7 @@
+ 		double tfrac = pmt::to_double(pmt::tuple_ref(time, 1));
+ 
+ 		// Get new time from last time tag + difference in time to when
+-		// burst tag occured based on the sample rate
++		// burst tag occurred based on the sample rate
+ 		double delta = (double)(N - time_nitems) / d_sample_rate;
+ 		d_timeval = (double)tsecs + tfrac + delta;
+ 
+--- a/gnuradio-runtime/lib/tpb_thread_body.cc
++++ b/gnuradio-runtime/lib/tpb_thread_body.cc
+@@ -152,7 +152,7 @@
+           while(!d->d_tpb.input_changed && block->empty_handled_p()){
+             boost::system_time const timeout=boost::get_system_time()+ boost::posix_time::milliseconds(250);
+             if(!d->d_tpb.input_cond.timed_wait(guard, timeout)){
+-              goto tpb_loop_top; // timeout occured (perform sanity checks up top)
++              goto tpb_loop_top; // timeout occurred (perform sanity checks up top)
+             }
+           }
+ 

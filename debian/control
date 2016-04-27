@@ -15,7 +15,7 @@ Build-Depends: cmake,
                libboost-test-dev,
                libboost-thread-dev,
                libcodec2-dev (>= 0.4),
-	       libcomedi-dev,
+	       libcomedi-dev [!hurd-i386],
                libcppunit-dev (>=1.9.14),
                libfftw3-dev,
                libfontconfig1-dev,
@@ -31,6 +31,7 @@ Build-Depends: cmake,
                libsndfile1-dev,
                libuhd-dev (>=3.9.1-3) [!hurd-i386],
                libusb-1.0-0-dev [linux-any],
+	       libusb-dev [hurd-i386],
                libusb2-dev [kfreebsd-any],
                libvolk1-dev (>=1.1.1-5),
                libxi-dev,
@@ -344,7 +345,7 @@ Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Multi-Arch: same
 Description: gnuradio trellis modulation functions
- Library for trellis coding modulation, including the Vitterbi
+ Library for trellis coding modulation, including the Viterbi
  Algorithm, Concatenated Coding and Turbo Decoding
  based upon finite state machine (FSM) class.
  Part of the main gnuradio build.

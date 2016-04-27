@@ -1,3 +1,7 @@
+Description: remove-obsolete-doxygen-XML-tags
+ Clean up Doxygen logs by removing tags
+Author: A. Maitland Bottoms <bottoms@debian.org>
+
 --- a/docs/doxygen/Doxyfile.in
 +++ b/docs/doxygen/Doxyfile.in
 @@ -1637,18 +1637,6 @@
