@@ -1,0 +1,26 @@
+From 48730536db3ebcfd8c7a4f1cc54ac8bd8a866140 Mon Sep 17 00:00:00 2001
+From: tracierenea <tracie.perez@mavs.uta.edu>
+Date: Thu, 7 Apr 2016 01:25:00 -0500
+Subject: [PATCH 11/28] gr-fec, LDPC: correct the name of the python function
+ called
+
+---
+ gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py b/gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py
+index 6c55d0b..c42fee6 100644
+--- a/gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py
++++ b/gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py
+@@ -679,7 +679,7 @@ def getSystematicGmatrix(GenMatrix):
+     if found == False:
+       # push the row of 0s to the bottom, and move the bottom
+       # rows up (sort of a rotation thing)
+-      tempArray = moveRowToBottom(i,tempArray)
++      tempArray = move_row_to_bottom(i,tempArray)
+       # decrease limit since we just found a row of 0s
+       limit -= 1
+   # the rows below i are the dependent rows, which we discard
+-- 
+2.1.4
+

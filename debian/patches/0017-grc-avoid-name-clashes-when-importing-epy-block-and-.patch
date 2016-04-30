@@ -1,0 +1,65 @@
+From 2a68b6844eb89cf2660b9973cecb42c53959b9ca Mon Sep 17 00:00:00 2001
+From: Sebastian Koslowski <koslowski@kit.edu>
+Date: Thu, 21 Apr 2016 15:19:30 +0200
+Subject: [PATCH 17/28] grc: avoid name clashes when importing epy block and
+ really fix epy block c&p
+
+---
+ grc/gui/FlowGraph.py | 11 ++++++-----
+ grc/python/Block.py  |  7 +++----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/grc/gui/FlowGraph.py b/grc/gui/FlowGraph.py
+index f315431..2053e86 100644
+--- a/grc/gui/FlowGraph.py
++++ b/grc/gui/FlowGraph.py
+@@ -195,12 +195,13 @@ class FlowGraph(Element):
+                 continue  # unknown block was pasted (e.g. dummy block)
+             selected.add(block)
+             #set params
++            params = dict((n.find('key'), n.find('value'))
++                          for n in block_n.findall('param'))
+             if block_key == 'epy_block':
+-                block.rewrite()
+-            params_n = block_n.findall('param')
+-            for param_n in params_n:
+-                param_key = param_n.find('key')
+-                param_value = param_n.find('value')
++                block.get_param('_io_cache').set_value(params.pop('_io_cache'))
++                block.get_param('_source_code').set_value(params.pop('_source_code'))
++                block.rewrite()  # this creates the other params
++            for param_key, param_value in params.iteritems():
+                 #setup id parameter
+                 if param_key == 'id':
+                     old_id2block[param_value] = block
+diff --git a/grc/python/Block.py b/grc/python/Block.py
+index 8509aa3..782893f 100644
+--- a/grc/python/Block.py
++++ b/grc/python/Block.py
+@@ -247,7 +247,7 @@ class Block(_Block, _GUIBlock):
+         doc_end_tag = 'Block Documentation:'
+ 
+         src = param_src.get_value()
+-        src_hash = hash(src)
++        src_hash = hash((self.get_id(), src))
+         if src_hash == self._epy_source_hash:
+             return
+ 
+@@ -265,12 +265,11 @@ class Block(_Block, _GUIBlock):
+             param_blk.set_value(repr(tuple(blk_io)))
+ 
+         # print "Rewriting embedded python block {!r}".format(self.get_id())
+-
+         self._epy_source_hash = src_hash
+         self._name = blk_io.name or blk_io.cls
+         self._doc = self._doc.split(doc_end_tag)[0] + doc_end_tag + '\n' + blk_io.doc
+-        self._imports[0] = 'from {} import {}'.format(self.get_id(), blk_io.cls)
+-        self._make = '{}({})'.format(blk_io.cls, ', '.join(
++        self._imports[0] = 'import ' + self.get_id()
++        self._make = '{0}.{1}({2})'.format(self.get_id(), blk_io.cls, ', '.join(
+             '{0}=${0}'.format(key) for key, _ in blk_io.params))
+ 
+         params = {}
+-- 
+2.1.4
+

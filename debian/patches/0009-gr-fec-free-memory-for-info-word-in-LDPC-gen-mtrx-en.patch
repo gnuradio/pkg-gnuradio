@@ -1,0 +1,25 @@
+From f825d6b6d96cbf22d5bf4c00de2cd79cb1b6e27a Mon Sep 17 00:00:00 2001
+From: tracierenea <tracie.perez@mavs.uta.edu>
+Date: Wed, 6 Apr 2016 12:17:28 -0500
+Subject: [PATCH 09/28] gr-fec: free memory for info word in LDPC gen mtrx
+ encoder
+
+---
+ gr-fec/lib/ldpc_G_matrix_impl.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gr-fec/lib/ldpc_G_matrix_impl.cc b/gr-fec/lib/ldpc_G_matrix_impl.cc
+index 8ed7969..f12b4e9 100644
+--- a/gr-fec/lib/ldpc_G_matrix_impl.cc
++++ b/gr-fec/lib/ldpc_G_matrix_impl.cc
+@@ -168,6 +168,7 @@ namespace gr {
+         }
+ 
+         // Free memory
++        gsl_matrix_free(s);
+         gsl_matrix_free(codeword);
+       }
+ 
+-- 
+2.1.4
+

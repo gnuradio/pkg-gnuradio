@@ -1,0 +1,40 @@
+From 403a41671d8b867e6ed68e3eeb81e57766c7cc32 Mon Sep 17 00:00:00 2001
+From: Andy Sloane <andy@a1k0n.net>
+Date: Mon, 18 Apr 2016 08:49:26 -0700
+Subject: [PATCH 24/28] udp sink: actually send 0-byte packets at EOF
+
+Adjusted udp source to expect a 0-byte packet at EOF too.
+---
+ gr-blocks/lib/udp_sink_impl.cc   | 2 +-
+ gr-blocks/lib/udp_source_impl.cc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gr-blocks/lib/udp_sink_impl.cc b/gr-blocks/lib/udp_sink_impl.cc
+index 6989fdb..b540a7d 100644
+--- a/gr-blocks/lib/udp_sink_impl.cc
++++ b/gr-blocks/lib/udp_sink_impl.cc
+@@ -99,7 +99,7 @@ namespace gr {
+       gr::thread::scoped_lock guard(d_mutex);  // protect d_socket from work()
+ 
+       // Send a few zero-length packets to signal receiver we are done
+-      boost::array<char, 1> send_buf = {{ 0 }};
++      boost::array<char, 0> send_buf;
+       if(d_eof) {
+         int i;
+         for(i = 0; i < 3; i++)
+diff --git a/gr-blocks/lib/udp_source_impl.cc b/gr-blocks/lib/udp_source_impl.cc
+index b1977a8..e09ed43 100644
+--- a/gr-blocks/lib/udp_source_impl.cc
++++ b/gr-blocks/lib/udp_source_impl.cc
+@@ -149,7 +149,7 @@ namespace gr {
+       if(!error) {
+         {
+           boost::lock_guard<gr::thread::mutex> lock(d_udp_mutex);
+-          if(d_eof && (bytes_transferred == 1) && (d_rxbuf[0] == 0x00)) {
++          if(d_eof && (bytes_transferred == 0)) {
+             // If we are using EOF notification, test for it and don't
+             // add anything to the output.
+             d_residual = WORK_DONE;
+-- 
+2.1.4
+

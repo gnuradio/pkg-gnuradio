@@ -1,0 +1,42 @@
+From b5826d75eadc7c325d8dc74952460662c94c4374 Mon Sep 17 00:00:00 2001
+From: tracierenea <tracie.perez@mavs.uta.edu>
+Date: Tue, 5 Apr 2016 18:11:07 -0500
+Subject: [PATCH 05/28] gr-fec: LDPC python function - making a better
+ docstring
+
+The help/docstring for this function was misleading and confusing even to myself!
+---
+ gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py b/gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py
+index 6222443..344e5fd 100644
+--- a/gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py
++++ b/gr-fec/python/fec/LDPC/Generate_LDPC_matrix_functions.py
+@@ -636,14 +636,18 @@ def get_best_matrix(H, numIterations=100, verbose=False):
+       print 'for encoding.'
+     return
+ 
+-def getSystematicGmatrix(H):
++def getSystematicGmatrix(GenMatrix):
+   """
+   This function finds the systematic form of the generator
+-  matrix G. The form is G = [I P] where I is an identity matrix
+-  and P is the parity submatrix. If the H matrix provided
+-  is not full rank, then dependent rows will be deleted.
++  matrix GenMatrix. This form is G = [I P] where I is an identity
++  matrix and P is the parity submatrix. If the GenMatrix matrix
++  provided is not full rank, then dependent rows will be deleted.
++
++  This function does not convert parity check (H) matrices to the 
++  generator matrix format. Use the function getSystematicGmatrixFromH
++  for that purpose.
+   """
+-  tempArray = H.copy()
++  tempArray = GenMatrix.copy()
+   numRows = tempArray.shape[0]
+   numColumns = tempArray.shape[1]
+   limit = numRows
+-- 
+2.1.4
+
