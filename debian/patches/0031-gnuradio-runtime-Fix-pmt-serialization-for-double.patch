@@ -1,0 +1,26 @@
+From cd07e5e56647a9380ccd0f25960164d72b338e10 Mon Sep 17 00:00:00 2001
+From: johschmitz <johannes.schmitz1@gmail.com>
+Date: Thu, 28 Apr 2016 17:19:17 +0200
+Subject: [PATCH 31/46] gnuradio-runtime: Fix pmt serialization for double
+
+double was wrongly casted to float
+---
+ gnuradio-runtime/lib/pmt/pmt_serialize.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gnuradio-runtime/lib/pmt/pmt_serialize.cc b/gnuradio-runtime/lib/pmt/pmt_serialize.cc
+index 6147082..12a97b9 100644
+--- a/gnuradio-runtime/lib/pmt/pmt_serialize.cc
++++ b/gnuradio-runtime/lib/pmt/pmt_serialize.cc
+@@ -297,7 +297,7 @@ serialize(pmt_t obj, std::streambuf &sb)
+     }
+ 
+     if(is_real(obj)) {
+-      float i = to_double(obj);
++      double i = to_double(obj);
+       ok = serialize_untagged_u8(PST_DOUBLE, sb);
+       ok &= serialize_untagged_f64(i, sb);
+       return ok;
+-- 
+2.1.4
+

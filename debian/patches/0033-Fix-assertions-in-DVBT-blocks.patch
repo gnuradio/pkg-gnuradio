@@ -1,6 +1,18 @@
+From 2568e9d09d587ba9e210cafbdeaf3c0406a59d05 Mon Sep 17 00:00:00 2001
+From: Clayton Smith <argilo@gmail.com>
+Date: Fri, 29 Apr 2016 06:44:15 -0400
+Subject: [PATCH 33/46] Fix assertions in DVBT blocks.
+
+---
+ gr-dtv/lib/dvbt/dvbt_inner_coder_impl.cc     | 5 ++---
+ gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc | 2 +-
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/gr-dtv/lib/dvbt/dvbt_inner_coder_impl.cc b/gr-dtv/lib/dvbt/dvbt_inner_coder_impl.cc
+index 4f24f02..54d25e4 100644
 --- a/gr-dtv/lib/dvbt/dvbt_inner_coder_impl.cc
 +++ b/gr-dtv/lib/dvbt/dvbt_inner_coder_impl.cc
-@@ -161,14 +161,13 @@
+@@ -161,14 +161,13 @@ namespace gr {
        // We output one byte for a symbol of m bits
        // The out/in rate in bytes is: 8n/km (Bytes)
  
@@ -17,9 +29,11 @@
        set_relative_rate((float)(d_ninput * 8 * d_n) / (float)d_noutput * d_k * d_m);
  
        // calculate in and out block sizes
+diff --git a/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc b/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc
+index 3b0f9fd..8e22d8d 100644
 --- a/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc
 +++ b/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc
-@@ -578,7 +578,7 @@
+@@ -578,7 +578,7 @@ namespace gr {
         *
         * out/in rate is therefore km/8n in bytes
         */
@@ -28,3 +42,6 @@
        set_relative_rate((d_k * d_m) / (8 * d_n));
  
        assert ((d_bsize * d_n) % d_m == 0);
+-- 
+2.1.4
+

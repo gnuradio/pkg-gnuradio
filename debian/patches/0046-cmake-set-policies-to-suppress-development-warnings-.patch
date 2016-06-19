@@ -1,0 +1,44 @@
+From 2a6c82f5c2b719720dc180276c9815287e8a9586 Mon Sep 17 00:00:00 2001
+From: Stefan Wunsch <stefan.wunsch@student.kit.edu>
+Date: Mon, 6 Jun 2016 12:12:04 +0200
+Subject: [PATCH 46/46] cmake: set policies to suppress development warnings
+ with cmake greater than minimum
+
+Conflicts:
+	CMakeLists.txt
+---
+ CMakeLists.txt | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 622b724..c2529f0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -55,6 +55,24 @@ IF (NOT MSVC)
+     SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O2")
+     SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O2")
+ ENDIF()
++
++# Set cmake policies.
++# This will suppress developer warnings during the cmake process that can occur
++# if a newer cmake version than the minimum is used.
++
++if(POLICY CMP0026)
++    cmake_policy(SET CMP0026 OLD)
++endif()
++if(POLICY CMP0043)
++    cmake_policy(SET CMP0043 OLD)
++endif()
++if(POLICY CMP0045)
++    cmake_policy(SET CMP0045 OLD)
++endif()
++if(POLICY CMP0046)
++    cmake_policy(SET CMP0046 OLD)
++endif()
++
+ ########################################################################
+ # Environment setup
+ ########################################################################
+-- 
+2.1.4
+

@@ -1,0 +1,137 @@
+From 1476345476ad490ec71e88d53ecd4679f4163a38 Mon Sep 17 00:00:00 2001
+From: "dae hyun, yang" <daehyun.yang@gmail.com>
+Date: Sun, 8 May 2016 01:26:39 +0900
+Subject: [PATCH 34/46] runtime: fixed dangling pointer returns in
+ vmcircbuf_prefs.cc and fft.cc
+
+The following error messages occurs In Windows XP/7/8
+:Invalid argument
+:Invalid argument
+:Invalid argument
+
+The reason is
+return path.string().c_str(); // return invalid pointer in Windows
+XP/7/8
+---
+ gnuradio-runtime/lib/vmcircbuf_prefs.cc | 19 ++++++++++---------
+ gr-fft/lib/fft.cc                       | 16 ++++++++--------
+ 2 files changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/gnuradio-runtime/lib/vmcircbuf_prefs.cc b/gnuradio-runtime/lib/vmcircbuf_prefs.cc
+index a786b8a..4cb09f6 100644
+--- a/gnuradio-runtime/lib/vmcircbuf_prefs.cc
++++ b/gnuradio-runtime/lib/vmcircbuf_prefs.cc
+@@ -45,12 +45,13 @@ namespace gr {
+    * The simplest thing that could possibly work:
+    *  the key is the filename; the value is the file contents.
+    */
+-  static const char *
++
++  static std::string
+   pathname(const char *key)
+   {
+     static fs::path path;
+-    path = fs::path(gr::appdata_path()) / ".gnuradio" / "prefs" / key;
+-    return path.string().c_str();
++    path = fs::path(gr::appdata_path()) / ".gnuradio" / "prefs" / key;    
++    return path.string();
+   }
+ 
+   static void
+@@ -70,9 +71,9 @@ namespace gr {
+   {
+     gr::thread::scoped_lock guard(s_vm_mutex);
+ 
+-    FILE *fp = fopen(pathname (key), "r");
++    FILE *fp = fopen(pathname (key).c_str(), "r");
+     if(fp == 0) {
+-      perror(pathname (key));
++      perror(pathname (key).c_str());
+       return 0;
+     }
+ 
+@@ -80,7 +81,7 @@ namespace gr {
+     value[ret] = '\0';
+     if(ret == 0 && !feof(fp)) {
+       if(ferror(fp) != 0) {
+-        perror(pathname (key));
++        perror(pathname (key).c_str());
+         fclose(fp);
+         return -1;
+       }
+@@ -96,16 +97,16 @@ namespace gr {
+ 
+     ensure_dir_path();
+ 
+-    FILE *fp = fopen(pathname(key), "w");
++    FILE *fp = fopen(pathname(key).c_str(), "w");
+     if(fp == 0) {
+-      perror(pathname (key));
++      perror(pathname (key).c_str());
+       return;
+     }
+ 
+     size_t ret = fwrite(value, 1, strlen(value), fp);
+     if(ret == 0) {
+       if(ferror(fp) != 0) {
+-        perror(pathname (key));
++        perror(pathname (key).c_str());
+         fclose(fp);
+         return;
+       }
+diff --git a/gr-fft/lib/fft.cc b/gr-fft/lib/fft.cc
+index 9041712..5af77d9 100644
+--- a/gr-fft/lib/fft.cc
++++ b/gr-fft/lib/fft.cc
+@@ -83,24 +83,24 @@ namespace gr {
+       return s_planning_mutex;
+     }
+ 
+-    static const char *
++    static std::string
+     wisdom_filename()
+     {
+       static fs::path path;
+       path = fs::path(gr::appdata_path()) / ".gr_fftw_wisdom";
+-      return path.string().c_str();
++      return path.string();
+     }
+ 
+     static void
+     import_wisdom()
+     {
+-      const char *filename = wisdom_filename ();
+-      FILE *fp = fopen (filename, "r");
++      const std::string filename = wisdom_filename ();
++      FILE *fp = fopen (filename.c_str(), "r");
+       if (fp != 0){
+         int r = fftwf_import_wisdom_from_file (fp);
+         fclose (fp);
+         if (!r){
+-          fprintf (stderr, "gr::fft: can't import wisdom from %s\n", filename);
++          fprintf (stderr, "gr::fft: can't import wisdom from %s\n", filename.c_str());
+         }
+       }
+     }
+@@ -124,15 +124,15 @@ namespace gr {
+     static void
+     export_wisdom()
+     {
+-      const char *filename = wisdom_filename ();
+-      FILE *fp = fopen (filename, "w");
++      const std::string filename = wisdom_filename ();
++      FILE *fp = fopen (filename.c_str(), "w");
+       if (fp != 0){
+         fftwf_export_wisdom_to_file (fp);
+         fclose (fp);
+       }
+       else {
+         fprintf (stderr, "fft_impl_fftw: ");
+-        perror (filename);
++        perror (filename.c_str());
+       }
+     }
+ 
+-- 
+2.1.4
+

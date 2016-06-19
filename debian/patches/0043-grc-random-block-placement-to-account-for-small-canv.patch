@@ -1,0 +1,34 @@
+From 49e1f51d7943aab7cb63524499e046c81856198f Mon Sep 17 00:00:00 2001
+From: Glenn Richardson <glenn.richardson@live.com>
+Date: Mon, 30 May 2016 22:08:49 -0400
+Subject: [PATCH 43/46] grc: random block placement to account for small canvas
+ vs screen size
+
+---
+ grc/gui/FlowGraph.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/grc/gui/FlowGraph.py b/grc/gui/FlowGraph.py
+index 2053e86..cfaa6a0 100644
+--- a/grc/gui/FlowGraph.py
++++ b/grc/gui/FlowGraph.py
+@@ -124,11 +124,14 @@ class FlowGraph(Element):
+         """
+         id = self._get_unique_id(key)
+         #calculate the position coordinate
++        W, H = self.get_size()
+         h_adj = self.get_scroll_pane().get_hadjustment()
+         v_adj = self.get_scroll_pane().get_vadjustment()
+         if coor is None: coor = (
+-            int(random.uniform(.25, .75)*h_adj.page_size + h_adj.get_value()),
+-            int(random.uniform(.25, .75)*v_adj.page_size + v_adj.get_value()),
++            int(random.uniform(.25, .75) * min(h_adj.page_size, W) +
++                h_adj.get_value()),
++            int(random.uniform(.25, .75) * min(v_adj.page_size, H) +
++                v_adj.get_value()),
+         )
+         #get the new block
+         block = self.get_new_block(key)
+-- 
+2.1.4
+

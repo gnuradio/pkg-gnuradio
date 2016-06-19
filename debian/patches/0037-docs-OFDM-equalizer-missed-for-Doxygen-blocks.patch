@@ -1,0 +1,56 @@
+From 6720e650adaf9eb6bb43f08fe30a7da380eea074 Mon Sep 17 00:00:00 2001
+From: Martin Braun <martin.braun@ettus.com>
+Date: Thu, 19 May 2016 11:30:51 -0700
+Subject: [PATCH 37/46] docs: OFDM equalizer missed ! for Doxygen blocks
+
+---
+ gr-digital/include/gnuradio/digital/ofdm_equalizer_base.h      | 3 ++-
+ gr-digital/include/gnuradio/digital/ofdm_equalizer_simpledfe.h | 3 ++-
+ gr-digital/include/gnuradio/digital/ofdm_equalizer_static.h    | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/gr-digital/include/gnuradio/digital/ofdm_equalizer_base.h b/gr-digital/include/gnuradio/digital/ofdm_equalizer_base.h
+index ca53382..85443da 100644
+--- a/gr-digital/include/gnuradio/digital/ofdm_equalizer_base.h
++++ b/gr-digital/include/gnuradio/digital/ofdm_equalizer_base.h
+@@ -30,7 +30,8 @@
+ namespace gr {
+   namespace digital {
+ 
+-    /* \brief Base class for implementation details of frequency-domain OFDM equalizers.
++    /*!
++     * \brief Base class for implementation details of frequency-domain OFDM equalizers.
+      * \ingroup ofdm_blk
+      * \ingroup equalizers_blk
+      */
+diff --git a/gr-digital/include/gnuradio/digital/ofdm_equalizer_simpledfe.h b/gr-digital/include/gnuradio/digital/ofdm_equalizer_simpledfe.h
+index d526f9f..03a4c82 100644
+--- a/gr-digital/include/gnuradio/digital/ofdm_equalizer_simpledfe.h
++++ b/gr-digital/include/gnuradio/digital/ofdm_equalizer_simpledfe.h
+@@ -29,7 +29,8 @@
+ namespace gr {
+   namespace digital {
+ 
+-    /* \brief Simple decision feedback equalizer for OFDM.
++    /*!
++     * \brief Simple decision feedback equalizer for OFDM.
+      * \ingroup ofdm_blk
+      * \ingroup equalizers_blk
+      *
+diff --git a/gr-digital/include/gnuradio/digital/ofdm_equalizer_static.h b/gr-digital/include/gnuradio/digital/ofdm_equalizer_static.h
+index 892025c..ed3fe83 100644
+--- a/gr-digital/include/gnuradio/digital/ofdm_equalizer_static.h
++++ b/gr-digital/include/gnuradio/digital/ofdm_equalizer_static.h
+@@ -29,7 +29,8 @@
+ namespace gr {
+   namespace digital {
+ 
+-    /* \brief Very simple static equalizer for OFDM.
++    /*!
++     * \brief Very simple static equalizer for OFDM.
+      * \ingroup ofdm_blk
+      * \ingroup equalizers_blk
+      *
+-- 
+2.1.4
+

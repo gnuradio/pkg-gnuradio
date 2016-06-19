@@ -1,0 +1,25 @@
+From 6228e9b3eadb86e694f309f1b7b5a2c0f57c6a9f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ji=C5=99=C3=AD=20Pinkava?= <j-pi@seznam.cz>
+Date: Sat, 4 Jun 2016 15:52:28 +0200
+Subject: [PATCH 45/46] scheduler: fix doc
+
+---
+ gnuradio-runtime/lib/scheduler.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gnuradio-runtime/lib/scheduler.h b/gnuradio-runtime/lib/scheduler.h
+index 575862b..0924808 100644
+--- a/gnuradio-runtime/lib/scheduler.h
++++ b/gnuradio-runtime/lib/scheduler.h
+@@ -45,7 +45,7 @@ namespace gr {
+     /*!
+      * \brief Construct a scheduler and begin evaluating the graph.
+      *
+-     * The scheduler will continue running until all blocks until they
++     * The scheduler will continue running until all blocks
+      * report that they are done or the stop method is called.
+      */
+     scheduler(flat_flowgraph_sptr ffg, int max_noutput_items);
+-- 
+2.1.4
+

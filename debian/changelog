@@ -1,3 +1,9 @@
+gnuradio (3.7.9.2-4) unstable; urgency=medium
+
+  * update to v3.7.9.2-56-g2a6c82f
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 19 Jun 2016 17:06:10 -0400
+
 gnuradio (3.7.9.2-3) unstable; urgency=medium
 
   * update to v3.7.9.2-33-g2e77960

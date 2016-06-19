@@ -1,0 +1,40 @@
+From b7e07b638ffea7236d3e533acfea95f3f229a882 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
+Date: Sat, 7 May 2016 17:42:00 +0200
+Subject: [PATCH 35/46] prefs reader misparses '#' anywhere but start-of-line
+ -> rm inline comments
+
+---
+ gr-audio/lib/alsa/gr-audio-alsa.conf | 6 ++++--
+ gr-audio/lib/oss/gr-audio-oss.conf   | 3 ++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/gr-audio/lib/alsa/gr-audio-alsa.conf b/gr-audio/lib/alsa/gr-audio-alsa.conf
+index 6fb7643..81fa456 100644
+--- a/gr-audio/lib/alsa/gr-audio-alsa.conf
++++ b/gr-audio/lib/alsa/gr-audio-alsa.conf
+@@ -6,6 +6,8 @@
+ 
+ default_input_device = default
+ default_output_device = default
+-period_time = 0.010                      # in seconds
+-nperiods = 4				 # total buffering = period_time * nperiods
++# period time in seconds
++period_time = 0.010
++# total buffering = period_time * nperiods
++nperiods = 4
+ verbose = false
+diff --git a/gr-audio/lib/oss/gr-audio-oss.conf b/gr-audio/lib/oss/gr-audio-oss.conf
+index 6ea14d6..730ac0e 100644
+--- a/gr-audio/lib/oss/gr-audio-oss.conf
++++ b/gr-audio/lib/oss/gr-audio-oss.conf
+@@ -6,4 +6,5 @@
+ 
+ default_input_device = /dev/dsp
+ default_output_device = /dev/dsp
+-latency = 0.005                      # in seconds
++#latency in seconds
++latency = 0.005
+-- 
+2.1.4
+

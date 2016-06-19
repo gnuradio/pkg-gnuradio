@@ -1,0 +1,26 @@
+From 27fbbf22e359e8ec4a04399f3dc139f8c25031cb Mon Sep 17 00:00:00 2001
+From: Paul Cercueil <paul.cercueil@analog.com>
+Date: Thu, 18 Feb 2016 16:41:09 +0100
+Subject: [PATCH 36/46] CMake: GRBoost: gnuradio-runtime depends on
+ boost::regex
+
+Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
+---
+ cmake/Modules/GrBoost.cmake | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/cmake/Modules/GrBoost.cmake b/cmake/Modules/GrBoost.cmake
+index fcac5cf..ecf58a9 100644
+--- a/cmake/Modules/GrBoost.cmake
++++ b/cmake/Modules/GrBoost.cmake
+@@ -32,6 +32,7 @@ set(BOOST_REQUIRED_COMPONENTS
+     filesystem
+     system
+     thread
++    regex
+ )
+ 
+ if(UNIX AND NOT BOOST_ROOT AND EXISTS "/usr/lib64")
+-- 
+2.1.4
+
