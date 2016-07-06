@@ -13,7 +13,10 @@ debian/ChangeLogV3_7_7_1
 debian/ChangeLogV3_7_8
 debian/ChangeLogV3_7_8_1
 debian/ChangeLogV3_7_9
+docs/RELEASE-NOTES-3.7.10.md
 docs/RELEASE-NOTES-3.7.9.1.md
+docs/RELEASE-NOTES-3.7.9.2.md
+docs/RELEASE-NOTES-3.7.9.3.md
 gr-fec/python/fec/polar/README.md
 gr-pager/README
 gr-audio/doc/README.audio
@@ -36,9 +39,6 @@ gr-digital/doc/README.digital
 docs/sphinx/README
 docs/sphinx/hieroglyph/README.txt
 docs/doxygen/README.doxyxml
-grc/cpp/README
-grc/freedesktop/README
-grc/grc_gnuradio/README
 gr-blocks/doc/README.blocks
 gr-filter/lib/gen_interpolator_taps/README
 gr-filter/doc/README.filter

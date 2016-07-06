@@ -1,0 +1,32 @@
+--- a/gr-vocoder/python/vocoder/CMakeLists.txt
++++ b/gr-vocoder/python/vocoder/CMakeLists.txt
+@@ -43,21 +43,21 @@
+ 
+   include(GrTest)
+   list(APPEND py_qa_test_files
+-    qa_alaw_vocoder.py
+-    qa_cvsd_vocoder.py
+-    qa_g721_vocoder.py
+-    qa_g723_24_vocoder.py
+-    qa_g723_40_vocoder.py
+-    qa_ulaw_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_alaw_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_cvsd_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_g721_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_g723_24_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_g723_40_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_ulaw_vocoder.py
+     )
+   if(LIBCODEC2_FOUND)
+     list(APPEND py_qa_test_files
+-      qa_codec2_vocoder.py
++      ${CMAKE_CURRENT_SOURCE_DIR}/qa_codec2_vocoder.py
+       )
+   endif()
+   if(LIBGSM_FOUND)
+     list(APPEND py_qa_test_files
+-      qa_gsm_full_rate.py
++      ${CMAKE_CURRENT_SOURCE_DIR}/qa_gsm_full_rate.py
+       )
+   endif()
+   foreach(py_qa_test_file ${py_qa_test_files})
