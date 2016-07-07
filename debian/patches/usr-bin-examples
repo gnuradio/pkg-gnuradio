@@ -31,3 +31,13 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
 +    DESTINATION ${GR_RUNTIME_DIR}
      COMPONENT "uhd_examples"
  )
+--- a/gr-qtgui/examples/c++/CMakeLists.txt
++++ b/gr-qtgui/examples/c++/CMakeLists.txt
+@@ -44,6 +44,6 @@
+ 
+ INSTALL(TARGETS
+   display_qt
+-  DESTINATION ${GR_PKG_QTGUI_EXAMPLES_DIR}
++  DESTINATION ${GR_RUNTIME_DIR}
+   COMPONENT "qtgui_examples"
+ )

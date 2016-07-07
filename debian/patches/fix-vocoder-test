@@ -1,3 +1,9 @@
+From: A. Maitland Bottoms <bottoms@debian.org>
+Subject: fix vocoder test
+
+Replacing file(GLOB... with list(APPEND... needs the
+full path of referenced files.
+
 --- a/gr-vocoder/python/vocoder/CMakeLists.txt
 +++ b/gr-vocoder/python/vocoder/CMakeLists.txt
 @@ -43,21 +43,21 @@

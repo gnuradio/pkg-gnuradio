@@ -11,6 +11,7 @@ debian/gr-ctrlport-monitoro.1
 debian/gr-ctrlport-monitor.1
 debian/gr-ctrlport-monitorxc.1
 debian/gr-ctrlport-monitorxo.1
+debian/display_qt.1
 debian/gr_filter_design.1
 debian/gr_modtool.1
 debian/gr-perf-monitorx.1
