@@ -19,7 +19,7 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
      if(LIBRARY_EXTRAS)
 --- a/cmake/Modules/GrVersion.cmake
 +++ b/cmake/Modules/GrVersion.cmake
-@@ -76,10 +76,12 @@
+@@ -83,10 +83,12 @@
      # VERSION: 3.3.1{.x}
      # DOCVER:  3.3.1{.x}
      # LIBVER:  3.3.1{.x}

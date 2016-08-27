@@ -1,0 +1,25 @@
+From 36b8229c1de61748d6abecde5ef3427573311eaf Mon Sep 17 00:00:00 2001
+From: Josh Blum <josh@joshknows.com>
+Date: Sat, 6 Aug 2016 21:22:33 -0700
+Subject: [PATCH 1/6] add srand/drand48() to msvc/config.h
+
+These functions are used in test_tag_variable_rate_ff_impl.cc
+---
+ cmake/msvc/config.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/cmake/msvc/config.h b/cmake/msvc/config.h
+index 5051510..99a2ea0 100644
+--- a/cmake/msvc/config.h
++++ b/cmake/msvc/config.h
+@@ -62,4 +62,7 @@ static inline float rintf(float x){return (x > 0.0f)? floorf(x + 0.5f) : ceilf(x
+ static inline long int random (void) { return rand(); }
+ static inline void srandom (unsigned int seed) { srand(seed); }
+ 
++#define srand48(seed) srand(seed)
++#define drand48() (double(rand()) / RAND_MAX)
++
+ #endif // _MSC_CONFIG_H_ ]
+-- 
+2.1.4
+

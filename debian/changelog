@@ -1,3 +1,9 @@
+gnuradio (3.7.10.1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sat, 27 Aug 2016 00:06:08 -0400
+
 gnuradio (3.7.10-1) unstable; urgency=medium
 
   * New upstream release

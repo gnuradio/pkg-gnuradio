@@ -1,3 +1,9 @@
+0001-add-srand-drand48-to-msvc-config.h.patch
+0002-fix-copypasta-typo-in-pfb_clock_sync_fff_impl.cc.patch
+0003-add-io.h-include-for-portaudio-source-sink.patch
+0004-fix-temporary-variable-return-in-userconf_path.patch
+0005-move-fec-polar-decoder-D_LLR_FACTOR-into-cpp.patch
+0006-dark.qss-cause-forced-on-data-lines-to-die-in-a-fire.patch
 debian-soname
 usr-bin-examples
 bsd-fcd

@@ -1,0 +1,38 @@
+From 6dade06d39719b0a6d611e02b144998312c6c6da Mon Sep 17 00:00:00 2001
+From: Josh Blum <josh@joshknows.com>
+Date: Sat, 6 Aug 2016 21:32:33 -0700
+Subject: [PATCH 4/6] fix temporary variable return in userconf_path()
+
+This fix provides an internal userconf_path() implementation
+that provides the path as a string. The path is actually stored
+in the real userconf_path() within a static variable making it
+safe to return a char * pointer from this static string.
+---
+ gnuradio-runtime/lib/sys_paths.cc | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/gnuradio-runtime/lib/sys_paths.cc b/gnuradio-runtime/lib/sys_paths.cc
+index 3bf6697..f63d773 100644
+--- a/gnuradio-runtime/lib/sys_paths.cc
++++ b/gnuradio-runtime/lib/sys_paths.cc
+@@ -64,10 +64,16 @@ namespace gr {
+     return tmp_path();
+   }
+ 
+-  const char *userconf_path()
++  std::string __userconf_path()
+   {
+     boost::filesystem::path p(appdata_path());
+     p = p / ".gnuradio";
++    return p.string();
++  }
++
++  const char *userconf_path()
++  {
++    static std::string p(__userconf_path());
+     return p.c_str();
+   }
+ 
+-- 
+2.1.4
+

@@ -1,0 +1,24 @@
+From e27af38dde2f5e4fde888a71d119312ac0089502 Mon Sep 17 00:00:00 2001
+From: Tim O'Shea <tim.oshea753@gmail.com>
+Date: Mon, 22 Aug 2016 23:26:40 -0400
+Subject: [PATCH 6/6] dark.qss: cause forced-on data lines to die in a fire
+
+---
+ gr-qtgui/themes/dark.qss | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/gr-qtgui/themes/dark.qss b/gr-qtgui/themes/dark.qss
+index 5b236fa..575f475 100644
+--- a/gr-qtgui/themes/dark.qss
++++ b/gr-qtgui/themes/dark.qss
+@@ -15,7 +15,6 @@ DisplayPlot {
+     qproperty-line_color1: green;
+     qproperty-line_color2: green;
+     qproperty-line_color3: green;
+-    qproperty-line_style1: SolidLine;
+     qproperty-line_style2: DashLine;
+     qproperty-line_style3: DotLine;
+     qproperty-axes_label_font_size: 18;
+-- 
+2.1.4
+
