@@ -1,0 +1,26 @@
+From 1f168517ca3a24e1d6647eb523d4163a2d425c8c Mon Sep 17 00:00:00 2001
+From: Tobias Blomberg <sm0svx@users.noreply.github.com>
+Date: Fri, 16 Sep 2016 11:32:48 -0600
+Subject: [PATCH 10/20] qtgui: Fix bug in trackerText for Frequency Sink
+
+Next to the cursor in the QT GUI Frequency Sink, the Y axis unit label (usually
+dB) is shown instead of the X axis label (kHz, MHz etc).
+---
+ gr-qtgui/lib/FrequencyDisplayPlot.cc | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/gr-qtgui/lib/FrequencyDisplayPlot.cc b/gr-qtgui/lib/FrequencyDisplayPlot.cc
+index 233c786..2820bae 100644
+--- a/gr-qtgui/lib/FrequencyDisplayPlot.cc
++++ b/gr-qtgui/lib/FrequencyDisplayPlot.cc
+@@ -607,7 +607,6 @@ FrequencyDisplayPlot::setYLabel(const std::string &label,
+   if(unit.length() > 0)
+     l += " (" + unit + ")";
+   setAxisTitle(QwtPlot::yLeft, QString(l.c_str()));
+-  ((FreqDisplayZoomer*)d_zoomer)->setUnitType(unit);
+ }
+ 
+ void
+-- 
+2.1.4
+

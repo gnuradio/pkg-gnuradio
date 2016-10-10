@@ -1,0 +1,79 @@
+From 3dc29e72f6cedb2b55ffff812e17db4fcbb6b63a Mon Sep 17 00:00:00 2001
+From: Tobias Blomberg <sm0svx@users.noreply.github.com>
+Date: Sun, 18 Sep 2016 17:44:20 +0200
+Subject: [PATCH 12/20] qtgui: Fix control panel FFT average slider value sync
+ in frequency sink
+
+The FFT average slider in the control panel was not updated when the FFT
+average value changed in other parts of the Frequency Sink block.
+---
+ gr-qtgui/include/gnuradio/qtgui/freqcontrolpanel.h |  1 +
+ gr-qtgui/lib/freqcontrolpanel.cc                   | 13 ++++++++++++-
+ gr-qtgui/lib/freqdisplayform.cc                    |  3 +++
+ 3 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/gr-qtgui/include/gnuradio/qtgui/freqcontrolpanel.h b/gr-qtgui/include/gnuradio/qtgui/freqcontrolpanel.h
+index 548d693..5fb8f46 100644
+--- a/gr-qtgui/include/gnuradio/qtgui/freqcontrolpanel.h
++++ b/gr-qtgui/include/gnuradio/qtgui/freqcontrolpanel.h
+@@ -44,6 +44,7 @@ public:
+ 
+ public slots:
+   void notifyAvgSlider(int val);
++  void setFFTAverage(float val);
+   void toggleGrid(bool en);
+   void toggleAxisLabels(bool en);
+   void toggleMaxHold(bool en);
+diff --git a/gr-qtgui/lib/freqcontrolpanel.cc b/gr-qtgui/lib/freqcontrolpanel.cc
+index 8babdf0..c0a8ed4 100644
+--- a/gr-qtgui/lib/freqcontrolpanel.cc
++++ b/gr-qtgui/lib/freqcontrolpanel.cc
+@@ -249,12 +249,23 @@ FreqControlPanel::toggleMinHold(bool en)
+ void
+ FreqControlPanel::notifyAvgSlider(int val)
+ {
+-  float fval = static_cast<float>(val) / (d_slider_max - d_slider_min);
++  float fval = static_cast<float>(val) / (d_slider_max - d_slider_min + 1);
+   emit signalAvgSlider(fval);
+   emit signalAvg(true);
+ }
+ 
+ void
++FreqControlPanel::setFFTAverage(float val)
++{
++  int slider_val = static_cast<int>(roundf(val * (d_slider_max - d_slider_min + 1)));
++  if (slider_val > d_slider_max)
++    slider_val = d_slider_max;
++  else if (slider_val < d_slider_min)
++    slider_val = d_slider_min;
++  d_avg_slider->setValue(slider_val);
++}
++
++void
+ FreqControlPanel::toggleFFTSize(int val)
+ {
+   int index = static_cast<int>(round(logf(static_cast<float>(val))/logf(2.0f))) - 5;
+diff --git a/gr-qtgui/lib/freqdisplayform.cc b/gr-qtgui/lib/freqdisplayform.cc
+index 21d4330..6aa4894 100644
+--- a/gr-qtgui/lib/freqdisplayform.cc
++++ b/gr-qtgui/lib/freqdisplayform.cc
+@@ -191,6 +191,8 @@ FreqDisplayForm::setupControlPanel()
+           d_controlpanel, SLOT(toggleMaxHold(bool)));
+   connect(d_minhold_act, SIGNAL(triggered(bool)),
+           d_controlpanel, SLOT(toggleMinHold(bool)));
++  connect(d_avgmenu, SIGNAL(whichTrigger(float)),
++          d_controlpanel, SLOT(setFFTAverage(float)));
+   connect(d_tr_mode_menu, SIGNAL(whichTrigger(gr::qtgui::trigger_mode)),
+ 	  d_controlpanel, SLOT(toggleTriggerMode(gr::qtgui::trigger_mode)));
+   connect(this, SIGNAL(signalTriggerMode(gr::qtgui::trigger_mode)),
+@@ -206,6 +208,7 @@ FreqDisplayForm::setupControlPanel()
+   d_controlpanel->toggleTriggerMode(getTriggerMode());
+   d_controlpanel->toggleMaxHold(d_maxhold_act->isChecked());
+   d_controlpanel->toggleMinHold(d_minhold_act->isChecked());
++  d_controlpanel->setFFTAverage(getFFTAverage());
+ 
+   emit signalFFTSize(getFFTSize());
+   emit signalFFTWindow(getFFTWindowType());
+-- 
+2.1.4
+

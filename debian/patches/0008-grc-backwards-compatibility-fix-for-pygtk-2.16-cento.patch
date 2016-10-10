@@ -1,0 +1,59 @@
+From 3406fb5e2e559875fda527429d4ab8ff9fbf6e90 Mon Sep 17 00:00:00 2001
+From: Michael De Nil <michael@morsemicro.com>
+Date: Fri, 9 Sep 2016 11:09:37 -0700
+Subject: [PATCH 08/20] grc: backwards compatibility fix for pygtk 2.16
+ (centos6)
+
+---
+ grc/gui/MainWindow.py | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/grc/gui/MainWindow.py b/grc/gui/MainWindow.py
+index 1437391..686e73c 100644
+--- a/grc/gui/MainWindow.py
++++ b/grc/gui/MainWindow.py
+@@ -197,26 +197,35 @@ class MainWindow(gtk.Window):
+         #  to be hidden as well.
+ 
+         if panel == self.BLOCKS:
+-            self.btwin.set_visible(visibility)
++            if visibility:
++	        self.btwin.show()
++            else:
++	        self.btwin.hide()
+         elif panel == self.CONSOLE:
+-            self.console_window.set_visible(visibility)
++            if visibility:
++	        self.console_window.show()
++            else:
++	        self.console_window.hide()
+         elif panel == self.VARIABLES:
+-            self.vars.set_visible(visibility)
++            if visibility:
++	        self.vars.show()
++            else:
++	        self.vars.hide()
+         else:
+             return
+ 
+         if self.variable_panel_sidebar:
+             # If both the variable editor and block panels are hidden, hide the right container
+-            if not self.btwin.get_visible() and not self.vars.get_visible():
++            if not (self.btwin.get_property('visible')) and not (self.vars.get_property('visible')):
+                 self.right.hide()
+             else:
+                 self.right.show()
+         else:
+-            if not self.btwin.get_visible():
++            if not (self.btwin.get_property('visible')):
+                 self.right.hide()
+             else:
+                 self.right.show()
+-            if not self.vars.get_visible() and not self.console_window.get_visible():
++            if not (self.vars.get_property('visible')) and not (self.console_window.get_property('visible')):
+                 self.left_subpanel.hide()
+             else:
+                 self.left_subpanel.show()
+-- 
+2.1.4
+

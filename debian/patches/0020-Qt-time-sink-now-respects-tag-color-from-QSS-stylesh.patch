@@ -1,0 +1,39 @@
+From 8d8fffafb20c5d894e478ded9111f1a503131ef1 Mon Sep 17 00:00:00 2001
+From: Johannes Demel <demel@ant.uni-bremen.de>
+Date: Wed, 28 Sep 2016 18:07:39 +0200
+Subject: [PATCH 20/20] Qt time sink now respects tag color from QSS stylesheet
+
+---
+ gr-qtgui/lib/TimeDomainDisplayPlot.cc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gr-qtgui/lib/TimeDomainDisplayPlot.cc b/gr-qtgui/lib/TimeDomainDisplayPlot.cc
+index bc9f630..51a1989 100644
+--- a/gr-qtgui/lib/TimeDomainDisplayPlot.cc
++++ b/gr-qtgui/lib/TimeDomainDisplayPlot.cc
+@@ -343,9 +343,7 @@ TimeDomainDisplayPlot::plotNewData(const std::vector<double*> dataPoints,
+               m->setXValue(sample_offset);
+               m->setYValue(yval);
+ 
+-              QBrush brush;
+-              brush.setColor(QColor(0xC8, 0x2F, 0x1F));
+-              brush.setStyle(Qt::SolidPattern);
++              QBrush brush(getTagBackgroundColor(), getTagBackgroundStyle());
+ 
+               QPen pen;
+               pen.setColor(Qt::black);
+@@ -367,8 +365,10 @@ TimeDomainDisplayPlot::plotNewData(const std::vector<double*> dataPoints,
+ #else
+               m->setSymbol(sym);
+ #endif
++              QwtText tag_label(s.str().c_str());
++              tag_label.setColor(getTagTextColor());
++              m->setLabel(tag_label);
+ 
+-              m->setLabel(QwtText(s.str().c_str()));
+               m->attach(this);
+ 
+               if(!(show && d_tag_markers_en[which])) {
+-- 
+2.1.4
+

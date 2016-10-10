@@ -33,7 +33,7 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
  )
 --- a/gr-qtgui/examples/c++/CMakeLists.txt
 +++ b/gr-qtgui/examples/c++/CMakeLists.txt
-@@ -44,6 +44,6 @@
+@@ -43,6 +43,6 @@
  
  INSTALL(TARGETS
    display_qt

@@ -1,0 +1,59 @@
+From 90c88a94945f889445f79c610a5e7d6fc6221310 Mon Sep 17 00:00:00 2001
+From: Sebastian Koslowski <koslowski@kit.edu>
+Date: Wed, 28 Sep 2016 11:42:31 +0200
+Subject: [PATCH 17/20] qtgui: whitespace fix (gcc warning
+ "misleading-indentation")
+
+---
+ gr-qtgui/lib/VectorDisplayPlot.cc | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/gr-qtgui/lib/VectorDisplayPlot.cc b/gr-qtgui/lib/VectorDisplayPlot.cc
+index 2babfea..54d5c49 100644
+--- a/gr-qtgui/lib/VectorDisplayPlot.cc
++++ b/gr-qtgui/lib/VectorDisplayPlot.cc
+@@ -284,12 +284,12 @@ void VectorDisplayPlot::setYAxisLabel(const QString &label)
+ 
+ void VectorDisplayPlot::setXAxisUnit(const QString &unit)
+ {
+-    ((VectorDisplayZoomer*)d_zoomer)->setXUnits(unit);
++  ((VectorDisplayZoomer*)d_zoomer)->setXUnits(unit);
+ }
+ 
+ void VectorDisplayPlot::setYAxisUnit(const QString &unit)
+ {
+-    ((VectorDisplayZoomer*)d_zoomer)->setYUnits(unit);
++  ((VectorDisplayZoomer*)d_zoomer)->setYUnits(unit);
+ }
+ 
+ void
+@@ -301,17 +301,17 @@ VectorDisplayPlot::setXAxisValues(
+   if((start != d_x_axis_start) || (step != d_x_axis_step))
+     reset = true;
+ 
+-    d_x_axis_start = start;
+-    d_x_axis_step = step;
++  d_x_axis_start = start;
++  d_x_axis_step = step;
+ 
+-    if((axisScaleDraw(QwtPlot::xBottom) != NULL) && (d_zoomer != NULL)) {
+-      setAxisTitle(QwtPlot::xBottom, d_x_axis_label);
+-      if(reset) {
+-        _resetXAxisPoints();
+-        clearMaxData();
+-        clearMinData();
+-      }
++  if((axisScaleDraw(QwtPlot::xBottom) != NULL) && (d_zoomer != NULL)) {
++    setAxisTitle(QwtPlot::xBottom, d_x_axis_label);
++    if(reset) {
++      _resetXAxisPoints();
++      clearMaxData();
++      clearMinData();
+     }
++  }
+ }
+ 
+ void
+-- 
+2.1.4
+
