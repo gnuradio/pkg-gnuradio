@@ -1,0 +1,25 @@
+From d1a5dbf904a4512e6c9c14720a40cd3727650aba Mon Sep 17 00:00:00 2001
+From: rajb245 <rbhattacharjea@gmail.com>
+Date: Wed, 19 Apr 2017 15:25:56 -0400
+Subject: [PATCH 16/58] Fix documentation typo in frequency_modulator_fc
+
+---
+ gr-analog/include/gnuradio/analog/frequency_modulator_fc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-analog/include/gnuradio/analog/frequency_modulator_fc.h b/gr-analog/include/gnuradio/analog/frequency_modulator_fc.h
+index 137b492863..75f4fccb99 100644
+--- a/gr-analog/include/gnuradio/analog/frequency_modulator_fc.h
++++ b/gr-analog/include/gnuradio/analog/frequency_modulator_fc.h
+@@ -49,7 +49,7 @@ namespace gr {
+      * systems and 75 KHz for wideband FM, like audio broadcast FM
+      * stations.
+      *
+-     * In this block, the input argument is \p sensivity, not the
++     * In this block, the input argument is \p sensitivity, not the
+      * frequency deviation.  The sensitivity specifies how much the
+      * phase changes based on the new input sample. Given a maximum
+      * deviation, \f$ f_{\Delta} \f$, and sample rate \f$f_s\f$, the
+-- 
+2.11.0
+

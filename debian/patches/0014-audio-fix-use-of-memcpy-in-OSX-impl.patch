@@ -1,0 +1,25 @@
+From ec50e185010cdb03e755ac8ab102b8eb80bf1ed5 Mon Sep 17 00:00:00 2001
+From: Michael Dickens <michael.dickens@ettus.com>
+Date: Mon, 17 Apr 2017 16:29:21 -0400
+Subject: [PATCH 14/58] audio: fix use of 'memcpy' in OSX impl.
+
+---
+ gr-audio/lib/osx/osx_impl.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-audio/lib/osx/osx_impl.cc b/gr-audio/lib/osx/osx_impl.cc
+index 92a2c24150..aa0320d18a 100644
+--- a/gr-audio/lib/osx/osx_impl.cc
++++ b/gr-audio/lib/osx/osx_impl.cc
+@@ -43,7 +43,7 @@ operator<<
+  const AudioStreamBasicDescription& asbd)
+ {
+   char format_id[sizeof(asbd.mFormatID)+1];
+-  memcpy((void*)(&asbd.mFormatID), format_id, sizeof(asbd.mFormatID));
++  memcpy(format_id, (void*)(&asbd.mFormatID), sizeof(asbd.mFormatID));
+   format_id[sizeof(asbd.mFormatID)] = 0;
+   s << "  Sample Rate      : " << asbd.mSampleRate << std::endl;
+   s << "  Format ID        : " << format_id << std::endl;
+-- 
+2.11.0
+

@@ -1,0 +1,26 @@
+From 20d020f9646b05ced11238bd6d2ba3f0d2e530d2 Mon Sep 17 00:00:00 2001
+From: sugandhagupta <sugandha.gupta@ettus.com>
+Date: Fri, 30 Jun 2017 11:41:22 -0700
+Subject: [PATCH 46/58] uhd: Fixed tx streamer creation in usrp_sink
+
+---
+ gr-uhd/lib/usrp_sink_impl.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/gr-uhd/lib/usrp_sink_impl.cc b/gr-uhd/lib/usrp_sink_impl.cc
+index bd56e992fd..2d347e3823 100644
+--- a/gr-uhd/lib/usrp_sink_impl.cc
++++ b/gr-uhd/lib/usrp_sink_impl.cc
+@@ -580,7 +580,8 @@ namespace gr {
+     usrp_sink_impl::start(void)
+     {
+ #ifdef GR_UHD_USE_STREAM_API
+-      _tx_stream = _dev->get_tx_stream(_stream_args);
++      if (not _tx_stream)
++        _tx_stream = _dev->get_tx_stream(_stream_args);
+ #endif
+ 
+       _metadata.start_of_burst = true;
+-- 
+2.11.0
+

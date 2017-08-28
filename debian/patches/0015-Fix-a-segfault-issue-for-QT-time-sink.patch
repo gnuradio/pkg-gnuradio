@@ -1,0 +1,66 @@
+From 1ae8015cee510fd51e67ddf860f421c9c701c28b Mon Sep 17 00:00:00 2001
+From: Ruben Undheim <ruben.undheim@gmail.com>
+Date: Tue, 11 Apr 2017 22:10:39 +0200
+Subject: [PATCH 15/58] Fix a segfault issue for QT time sink
+
+When running with trigger mode set to "tag", there is
+a corner case where d_start becomes -1, and the flow
+graph crashes.
+---
+ gr-qtgui/lib/time_sink_c_impl.cc | 13 ++++++++-----
+ gr-qtgui/lib/time_sink_f_impl.cc | 13 ++++++++-----
+ 2 files changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
+index d7514aebaa..06d0c78e9c 100644
+--- a/gr-qtgui/lib/time_sink_c_impl.cc
++++ b/gr-qtgui/lib/time_sink_c_impl.cc
+@@ -563,12 +563,15 @@ namespace gr {
+                         nr, nr + nitems + 1,
+                         d_trigger_tag_key);
+       if(tags.size() > 0) {
+-        d_triggered = true;
+         trigger_index = tags[0].offset - nr;
+-        d_start = d_index + trigger_index - d_trigger_delay - 1;
+-        d_end = d_start + d_size;
+-        d_trigger_count = 0;
+-        _adjust_tags(-d_start);
++        int start = d_index + trigger_index - d_trigger_delay - 1;
++        if (start >= 0) {
++            d_triggered = true;
++            d_start = start;
++            d_end = d_start + d_size;
++            d_trigger_count = 0;
++            _adjust_tags(-d_start);
++        }
+       }
+     }
+ 
+diff --git a/gr-qtgui/lib/time_sink_f_impl.cc b/gr-qtgui/lib/time_sink_f_impl.cc
+index b3b1c5909d..dc88a0add0 100644
+--- a/gr-qtgui/lib/time_sink_f_impl.cc
++++ b/gr-qtgui/lib/time_sink_f_impl.cc
+@@ -558,12 +558,15 @@ namespace gr {
+                         nr, nr + nitems + 1,
+                         d_trigger_tag_key);
+       if(tags.size() > 0) {
+-        d_triggered = true;
+         trigger_index = tags[0].offset - nr;
+-        d_start = d_index + trigger_index - d_trigger_delay - 1;
+-        d_end = d_start + d_size;
+-        d_trigger_count = 0;
+-        _adjust_tags(-d_start);
++        int start = d_index + trigger_index - d_trigger_delay - 1;
++        if (start >= 0) {
++            d_triggered = true;
++            d_start = start;
++            d_end = d_start + d_size;
++            d_trigger_count = 0;
++            _adjust_tags(-d_start);
++        }
+       }
+     }
+ 
+-- 
+2.11.0
+

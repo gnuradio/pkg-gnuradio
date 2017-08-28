@@ -1,0 +1,35 @@
+From 58e6bd9d359e0ff1df1b7657d81f28a8c8ba9d93 Mon Sep 17 00:00:00 2001
+From: Paul Cercueil <paul.cercueil@analog.com>
+Date: Tue, 27 Jun 2017 15:52:30 +0200
+Subject: [PATCH 44/58] gr-fft: Fix compilation under MinGW
+
+Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
+---
+ gr-fft/lib/fft.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gr-fft/lib/fft.cc b/gr-fft/lib/fft.cc
+index 3b6d05c383..871ad9bcaa 100644
+--- a/gr-fft/lib/fft.cc
++++ b/gr-fft/lib/fft.cc
+@@ -26,7 +26,7 @@
+ #include <volk/volk.h>
+ #include <fftw3.h>
+ 
+-#ifdef _MSC_VER //http://www.fftw.org/install/windows.html#DLLwisdom
++#ifdef _WIN32 //http://www.fftw.org/install/windows.html#DLLwisdom
+ static void my_fftw_write_char(char c, void *f) { fputc(c, (FILE *) f); }
+ #define fftw_export_wisdom_to_file(f) fftw_export_wisdom(my_fftw_write_char, (void*) (f))
+ #define fftwf_export_wisdom_to_file(f) fftwf_export_wisdom(my_fftw_write_char, (void*) (f))
+@@ -40,7 +40,7 @@ static int my_fftw_read_char(void *f) { return fgetc((FILE *) f); }
+ #include <io.h>
+ #define O_NOCTTY 0
+ #define O_NONBLOCK 0
+-#endif //_MSC_VER
++#endif //_WIN32
+ 
+ #include <stdlib.h>
+ #include <string.h>
+-- 
+2.11.0
+

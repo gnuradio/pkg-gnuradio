@@ -1,0 +1,56 @@
+From 119de4767b62397a25708311d6acf3bbe0dd2dc9 Mon Sep 17 00:00:00 2001
+From: Flamewires <Flamewires@users.noreply.github.com>
+Date: Sat, 15 Jul 2017 06:38:55 -0400
+Subject: [PATCH 53/58] gr-dtv: Fix hardcoded parameter in
+ dvbt_reed_solomon_enc
+
+Removed hardcoded parameter in dtvb_reed_solomon encoder.
+The same value is calculated with the defaults in the block,
+and this will allow the encoder to be used generically.
+---
+ gr-dtv/lib/dvbt/dvbt_reed_solomon_enc_impl.cc | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/gr-dtv/lib/dvbt/dvbt_reed_solomon_enc_impl.cc b/gr-dtv/lib/dvbt/dvbt_reed_solomon_enc_impl.cc
+index 663301d614..9092321462 100644
+--- a/gr-dtv/lib/dvbt/dvbt_reed_solomon_enc_impl.cc
++++ b/gr-dtv/lib/dvbt/dvbt_reed_solomon_enc_impl.cc
+@@ -25,8 +25,6 @@
+ #include <gnuradio/io_signature.h>
+ #include "dvbt_reed_solomon_enc_impl.h"
+ 
+-#define MPEG_TS_PKT_LENGTH 188
+-
+ namespace gr {
+   namespace dtv {
+ 
+@@ -55,7 +53,8 @@ namespace gr {
+         GR_LOG_FATAL(d_logger, "Reed-Solomon Encoder, cannot allocate memory for d_rs.");
+         throw std::bad_alloc();
+       }
+-      d_data = (unsigned char *) malloc(sizeof(unsigned char) * (d_s + MPEG_TS_PKT_LENGTH));
++      // The full input frame size (d_k) (no need to add in d_s, as the block input is the pre-shortedned K)
++      d_data = (unsigned char *) malloc(sizeof(unsigned char) * (d_k));
+       if (d_data == NULL) {
+         GR_LOG_FATAL(d_logger, "Reed-Solomon Encoder, cannot allocate memory for d_data.");
+         free_rs_char(d_rs);
+@@ -83,11 +82,13 @@ namespace gr {
+     {
+       // Shortened Reed-Solomon: prepend zero bytes to message (discarded after encoding)
+       std::memset(d_data, 0, d_s);
+-      std::memcpy(&d_data[d_s], in, MPEG_TS_PKT_LENGTH);
++      // This is the number of data bytes we need from the input stream.
++      int shortened_k = d_k-d_s;
++      std::memcpy(&d_data[d_s], in, shortened_k);
+ 
+       // Copy input message to output then append Reed-Solomon bits
+-      std::memcpy(out, in, MPEG_TS_PKT_LENGTH);
+-      encode_rs_char(d_rs, d_data, &out[MPEG_TS_PKT_LENGTH]);
++      std::memcpy(out, in, shortened_k);
++      encode_rs_char(d_rs, d_data, &out[shortened_k]);
+     }
+ 
+     int
+-- 
+2.11.0
+

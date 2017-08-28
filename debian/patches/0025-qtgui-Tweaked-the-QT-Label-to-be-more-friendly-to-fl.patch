@@ -1,0 +1,36 @@
+From 63c598662e93ddcfa8ca00726a085d155565c28b Mon Sep 17 00:00:00 2001
+From: Bill Clark <saikbc89@gmail.com>
+Date: Thu, 11 May 2017 19:00:03 -0400
+Subject: [PATCH 25/58] qtgui: Tweaked the QT Label to be more friendly to
+ floating point numbers with custom formatter. Previously this failed due to
+ the use of eng_notation.
+
+---
+ gr-qtgui/grc/qtgui_label.xml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gr-qtgui/grc/qtgui_label.xml b/gr-qtgui/grc/qtgui_label.xml
+index 0d844a1ab4..d67f3d7500 100644
+--- a/gr-qtgui/grc/qtgui_label.xml
++++ b/gr-qtgui/grc/qtgui_label.xml
+@@ -21,7 +21,7 @@ $win = Qt.QToolBar(self)
+ if $(formatter):
+   self._$(id)_formatter = $formatter
+ else:
+-  self._$(id)_formatter = lambda x: x
++  self._$(id)_formatter = lambda x: $(type.str)(x)
+ 
+ $(win).addWidget(Qt.QLabel($label+": "))
+ self._$(id)_label = Qt.QLabel(str(self._$(id)_formatter(self.$id)))
+@@ -30,7 +30,7 @@ $(gui_hint()($win))
+   </make>
+ 
+   <callback>self.set_$(id)(self._$(id)_formatter($value))</callback>
+-  <callback>Qt.QMetaObject.invokeMethod(self._$(id)_label, "setText", Qt.Q_ARG("QString", $(type.str)($id)))</callback>
++  <callback>Qt.QMetaObject.invokeMethod(self._$(id)_label, "setText", Qt.Q_ARG("QString", $id))</callback>
+ 
+   <param>
+     <name>Label</name>
+-- 
+2.11.0
+

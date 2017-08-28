@@ -1,0 +1,46 @@
+From 071d27a8b9ce11594fc387be2f3fee58b6813d4d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
+Date: Tue, 27 Jun 2017 21:19:04 +0200
+Subject: [PATCH 42/58] =?UTF-8?q?Fix:=20hazardous=20floating=20point=20sqr?=
+ =?UTF-8?q?t(1.0=20-=20(1.0+-epsilon)=C2=B2)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+https://github.com/gnuradio/gnuradio/issues/1348
+
+sqrt(x<0) yields NaN; to avoid a situation where a variable would be
+close to, but not necessarily exactly +-1, extracted the relevant
+floating point corner cases from the loop.
+---
+ gr-fft/lib/window.cc | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/gr-fft/lib/window.cc b/gr-fft/lib/window.cc
+index 126b28978d..cfbdb93dbd 100644
+--- a/gr-fft/lib/window.cc
++++ b/gr-fft/lib/window.cc
+@@ -261,10 +261,19 @@ namespace gr {
+       double inm1 = 1.0/((double)(ntaps-1));
+       double temp;
+ 
+-      for(int i = 0; i < ntaps; i++) {
++      /* extracting first and last element out of the loop, since
++         sqrt(1.0-temp*temp) might trigger unexpected floating point behaviour
++         if |temp| = 1.0+epsilon, which can happen for i==0 and
++         1/i==1/(ntaps-1)==inm1 ; compare
++         https://github.com/gnuradio/gnuradio/issues/1348 .
++         In any case, the 0. Bessel function of first kind is 1 at point 0.
++       */
++      taps[0] = IBeta;
++      for(int i = 1; i < ntaps-1; i++) {
+         temp = 2*i*inm1 - 1;
+         taps[i] = Izero(beta*sqrt(1.0-temp*temp)) * IBeta;
+       }
++      taps[ntaps-1] = IBeta;
+       return taps;
+     }
+ 
+-- 
+2.11.0
+

@@ -1,0 +1,20 @@
+From: Petter Reinholdtsen <pere@hungry.com>
+Description: rewrite desktop file to ease discovery in menu and GNOME Software catalog
+Date: Sat, 19 Aug 2017 08:14:32 +0200
+
+--- a/grc/scripts/freedesktop/gnuradio-grc.desktop
++++ b/grc/scripts/freedesktop/gnuradio-grc.desktop
+@@ -1,9 +1,11 @@
+ [Desktop Entry]
+ Version=1.0
+ Type=Application
+-Name=GRC
++Name=GNU Radio Companion
+ Exec=gnuradio-companion %F
+-Categories=Development;
++Categories=Development;HamRadio;
++Keywords=SDR;Radio;HAM;RF;
+ MimeType=application/gnuradio-grc;
+ Icon=gnuradio-grc
+ StartupWMClass=gnuradio-companion
++Comment=Software Defined Radio (SDR) GUI for programming the GNU Radio toolkit.

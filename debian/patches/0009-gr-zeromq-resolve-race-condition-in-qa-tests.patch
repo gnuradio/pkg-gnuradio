@@ -1,0 +1,177 @@
+From b163c7e26a61245202e07aa6e5881763ed6acaaf Mon Sep 17 00:00:00 2001
+From: Andrej Rode <mail@andrejro.de>
+Date: Sun, 2 Apr 2017 20:52:20 -0700
+Subject: [PATCH 09/58] gr-zeromq: resolve race condition in qa tests
+
+---
+ gr-zeromq/python/zeromq/probe_manager.py      |  2 +-
+ gr-zeromq/python/zeromq/qa_zeromq_pub.py      |  6 +++++-
+ gr-zeromq/python/zeromq/qa_zeromq_pubsub.py   | 20 +++++++++++++-------
+ gr-zeromq/python/zeromq/qa_zeromq_pushpull.py | 20 +++++++++++++-------
+ gr-zeromq/python/zeromq/qa_zeromq_reqrep.py   | 20 +++++++++++++-------
+ 5 files changed, 45 insertions(+), 23 deletions(-)
+
+diff --git a/gr-zeromq/python/zeromq/probe_manager.py b/gr-zeromq/python/zeromq/probe_manager.py
+index c30e6eaaba..9facb33b2b 100644
+--- a/gr-zeromq/python/zeromq/probe_manager.py
++++ b/gr-zeromq/python/zeromq/probe_manager.py
+@@ -38,7 +38,7 @@ class probe_manager():
+         self.poller.register(socket, zmq.POLLIN)
+ 
+     def watcher(self):
+-        poll = dict(self.poller.poll(0))
++        poll = dict(self.poller.poll(None))
+         for i in self.interfaces:
+             # i = (socket, data_type, callback_func)
+             if poll.get(i[0]) == zmq.POLLIN:
+diff --git a/gr-zeromq/python/zeromq/qa_zeromq_pub.py b/gr-zeromq/python/zeromq/qa_zeromq_pub.py
+index 6f08aa544f..cc856d57cc 100755
+--- a/gr-zeromq/python/zeromq/qa_zeromq_pub.py
++++ b/gr-zeromq/python/zeromq/qa_zeromq_pub.py
+@@ -24,6 +24,7 @@
+ from gnuradio import gr, gr_unittest
+ from gnuradio import blocks, zeromq
+ from gnuradio import eng_notation
++import threading
+ 
+ class qa_zeromq_pub (gr_unittest.TestCase):
+ 
+@@ -42,8 +43,11 @@ class qa_zeromq_pub (gr_unittest.TestCase):
+         self.tb.connect(src, zeromq_pub_sink)
+         self.probe_manager = zeromq.probe_manager()
+         self.probe_manager.add_socket("tcp://127.0.0.1:5555", 'float32', self.recv_data)
++        zmq_pull_t = threading.Thread(target=self.probe_manager.watcher)
++        zmq_pull_t.daemon = True
++        zmq_pull_t.start()
+         self.tb.run()
+-        self.probe_manager.watcher()
++        zmq_pull_t.join()
+         self.assertFloatTuplesAlmostEqual(self.rx_data, src_data)
+ 
+     def recv_data (self, data):
+diff --git a/gr-zeromq/python/zeromq/qa_zeromq_pubsub.py b/gr-zeromq/python/zeromq/qa_zeromq_pubsub.py
+index 2902f9e1dc..bb853d892f 100755
+--- a/gr-zeromq/python/zeromq/qa_zeromq_pubsub.py
++++ b/gr-zeromq/python/zeromq/qa_zeromq_pubsub.py
+@@ -28,10 +28,12 @@ import time
+ class qa_zeromq_pubsub (gr_unittest.TestCase):
+ 
+     def setUp (self):
+-        self.tb = gr.top_block ()
++        self.send_tb = gr.top_block()
++        self.recv_tb = gr.top_block()
+ 
+     def tearDown (self):
+-        self.tb = None
++        self.send_tb = None
++        self.recv_tb = None
+ 
+     def test_001 (self):
+         vlen = 10
+@@ -40,12 +42,16 @@ class qa_zeromq_pubsub (gr_unittest.TestCase):
+         zeromq_pub_sink = zeromq.pub_sink(gr.sizeof_float, vlen, "tcp://127.0.0.1:5556", 0)
+         zeromq_sub_source = zeromq.sub_source(gr.sizeof_float, vlen, "tcp://127.0.0.1:5556", 0)
+         sink = blocks.vector_sink_f(vlen)
+-        self.tb.connect(src, zeromq_pub_sink)
+-        self.tb.connect(zeromq_sub_source, sink)
+-        self.tb.start()
++        self.send_tb.connect(src, zeromq_pub_sink)
++        self.recv_tb.connect(zeromq_sub_source, sink)
++        self.recv_tb.start()
+         time.sleep(0.25)
+-        self.tb.stop()
+-        self.tb.wait()
++        self.send_tb.start()
++        time.sleep(0.25)
++        self.recv_tb.stop()
++        self.send_tb.stop()
++        self.recv_tb.wait()
++        self.send_tb.wait()
+         self.assertFloatTuplesAlmostEqual(sink.data(), src_data)
+ 
+ if __name__ == '__main__':
+diff --git a/gr-zeromq/python/zeromq/qa_zeromq_pushpull.py b/gr-zeromq/python/zeromq/qa_zeromq_pushpull.py
+index d09b92c130..388f7ff9cb 100755
+--- a/gr-zeromq/python/zeromq/qa_zeromq_pushpull.py
++++ b/gr-zeromq/python/zeromq/qa_zeromq_pushpull.py
+@@ -26,10 +26,12 @@ import time
+ class qa_zeromq_pushpull (gr_unittest.TestCase):
+ 
+     def setUp (self):
+-        self.tb = gr.top_block ()
++        self.send_tb = gr.top_block()
++        self.recv_tb = gr.top_block()
+ 
+     def tearDown (self):
+-        self.tb = None
++        self.send_tb = None
++        self.recv_tb = None
+ 
+     def test_001 (self):
+         vlen = 10
+@@ -38,12 +40,16 @@ class qa_zeromq_pushpull (gr_unittest.TestCase):
+         zeromq_push_sink = zeromq.push_sink(gr.sizeof_float, vlen, "tcp://127.0.0.1:5557")
+         zeromq_pull_source = zeromq.pull_source(gr.sizeof_float, vlen, "tcp://127.0.0.1:5557", 0)
+         sink = blocks.vector_sink_f(vlen)
+-        self.tb.connect(src, zeromq_push_sink)
+-        self.tb.connect(zeromq_pull_source, sink)
+-        self.tb.start()
++        self.send_tb.connect(src, zeromq_push_sink)
++        self.recv_tb.connect(zeromq_pull_source, sink)
++        self.recv_tb.start()
+         time.sleep(0.25)
+-        self.tb.stop()
+-        self.tb.wait()
++        self.send_tb.start()
++        time.sleep(0.25)
++        self.recv_tb.stop()
++        self.send_tb.stop()
++        self.recv_tb.wait()
++        self.send_tb.wait()
+         self.assertFloatTuplesAlmostEqual(sink.data(), src_data)
+ 
+ if __name__ == '__main__':
+diff --git a/gr-zeromq/python/zeromq/qa_zeromq_reqrep.py b/gr-zeromq/python/zeromq/qa_zeromq_reqrep.py
+index a50e684ea8..a5a3d33f67 100755
+--- a/gr-zeromq/python/zeromq/qa_zeromq_reqrep.py
++++ b/gr-zeromq/python/zeromq/qa_zeromq_reqrep.py
+@@ -29,10 +29,12 @@ import time
+ class qa_zeromq_reqrep (gr_unittest.TestCase):
+ 
+     def setUp (self):
+-        self.tb = gr.top_block ()
++        self.send_tb = gr.top_block()
++        self.recv_tb = gr.top_block()
+ 
+     def tearDown (self):
+-        self.tb = None
++        self.send_tb = None
++        self.recv_tb = None
+ 
+     def test_001 (self):
+         vlen = 10
+@@ -41,12 +43,16 @@ class qa_zeromq_reqrep (gr_unittest.TestCase):
+         zeromq_rep_sink = zeromq.rep_sink(gr.sizeof_float, vlen, "tcp://127.0.0.1:5558", 0)
+         zeromq_req_source = zeromq.req_source(gr.sizeof_float, vlen, "tcp://127.0.0.1:5558", 0)
+         sink = blocks.vector_sink_f(vlen)
+-        self.tb.connect(src, zeromq_rep_sink)
+-        self.tb.connect(zeromq_req_source, sink)
+-        self.tb.start()
++        self.send_tb.connect(src, zeromq_rep_sink)
++        self.recv_tb.connect(zeromq_req_source, sink)
++        self.recv_tb.start()
+         time.sleep(0.25)
+-        self.tb.stop()
+-        self.tb.wait()
++        self.send_tb.start()
++        time.sleep(0.25)
++        self.recv_tb.stop()
++        self.send_tb.stop()
++        self.recv_tb.wait()
++        self.send_tb.wait()
+         self.assertFloatTuplesAlmostEqual(sink.data(), src_data)
+ 
+ if __name__ == '__main__':
+-- 
+2.11.0
+

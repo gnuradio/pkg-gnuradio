@@ -1,0 +1,35 @@
+From dab1b01a2cbdfc8a27437129f681d0f2dbda0c36 Mon Sep 17 00:00:00 2001
+From: gnieboer <gnieboer@corpcomm.net>
+Date: Fri, 16 Jun 2017 15:50:47 -0400
+Subject: [PATCH 37/58] gr-fec: specify 32bit int output when getting frozen
+ bit indices
+
+---
+ gr-fec/python/fec/polar/channel_construction.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gr-fec/python/fec/polar/channel_construction.py b/gr-fec/python/fec/polar/channel_construction.py
+index a981007b45..b7a3dee3bd 100644
+--- a/gr-fec/python/fec/polar/channel_construction.py
++++ b/gr-fec/python/fec/polar/channel_construction.py
+@@ -37,7 +37,7 @@ Z_PARAM_FIRST_HEADER_LINE = "Bhattacharyya parameters (Z-parameters) for a polar
+ def get_frozen_bit_indices_from_capacities(chan_caps, nfrozen):
+     indexes = np.array([], dtype=int)
+     while indexes.size < nfrozen:
+-        index = np.argmin(chan_caps)
++        index = np.argmin(chan_caps).astype(int)
+         indexes = np.append(indexes, index)
+         chan_caps[index] = 2.0  # make absolutely sure value is out of range!
+     return np.sort(indexes)
+@@ -46,7 +46,7 @@ def get_frozen_bit_indices_from_capacities(chan_caps, nfrozen):
+ def get_frozen_bit_indices_from_z_parameters(z_params, nfrozen):
+     indexes = np.array([], dtype=int)
+     while indexes.size < nfrozen:
+-        index = np.argmax(z_params)
++        index = np.argmax(z_params).astype(int)
+         indexes = np.append(indexes, index)
+         z_params[index] = -1.0
+     return np.sort(indexes)
+-- 
+2.11.0
+

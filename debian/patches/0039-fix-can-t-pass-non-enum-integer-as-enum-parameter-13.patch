@@ -1,0 +1,312 @@
+From 963c376ba23fbcb7c4041b8ce5ff1d30b33af36e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus@hostalia.de>
+Date: Sat, 24 Jun 2017 17:43:22 +0200
+Subject: [PATCH 39/58] fix: can't pass non-enum integer as enum parameter
+ (#1337)
+
+---
+ gnuradio-runtime/include/gnuradio/block.h          | 12 ++++++++----
+ gnuradio-runtime/include/gnuradio/block_gateway.h  |  5 +++--
+ gnuradio-runtime/lib/block_executor.cc             |  4 ++--
+ gr-blocks/grc/blocks_multiply_matrix_xx.xml        |  2 +-
+ .../include/gnuradio/blocks/multiply_matrix_XX.h.t | 22 +++++++++-------------
+ gr-blocks/lib/multiply_matrix_cc_impl.cc           | 16 ++--------------
+ gr-blocks/lib/multiply_matrix_cc_impl.h            |  5 +----
+ gr-blocks/lib/multiply_matrix_ff_impl.cc           | 14 +-------------
+ gr-blocks/lib/multiply_matrix_ff_impl.h            |  5 +----
+ 9 files changed, 28 insertions(+), 57 deletions(-)
+
+diff --git a/gnuradio-runtime/include/gnuradio/block.h b/gnuradio-runtime/include/gnuradio/block.h
+index 10742e0934..3e74dd8c93 100644
+--- a/gnuradio-runtime/include/gnuradio/block.h
++++ b/gnuradio-runtime/include/gnuradio/block.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2004,2007,2009,2010,2013 Free Software Foundation, Inc.
++ * Copyright 2004,2007,2009,2010,2013,2017 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -67,10 +67,14 @@ namespace gr {
+       WORK_DONE = -1
+     };
+ 
++    /*!
++     * \brief enum to represent different tag propagation policies.
++     */
+     enum tag_propagation_policy_t {
+-      TPP_DONT = 0,
+-      TPP_ALL_TO_ALL = 1,
+-      TPP_ONE_TO_ONE = 2
++      TPP_DONT = 0, /*!< Scheduler doesn't propagate tags from in- to output. The block itself is free to insert tags as it wants. */
++      TPP_ALL_TO_ALL = 1, /*!< Propagate tags from all in- to all outputs. The scheduler takes care of that. */
++      TPP_ONE_TO_ONE = 2, /*!< Propagate tags from n. input to n. output. Requires same number of in- and outputs */
++      TPP_CUSTOM = 3 /*!< Like TPP_DONT, but signals the block it should implement application-specific forwarding behaviour. */
+     };
+ 
+     virtual ~block();
+diff --git a/gnuradio-runtime/include/gnuradio/block_gateway.h b/gnuradio-runtime/include/gnuradio/block_gateway.h
+index bc04c0c915..060e525358 100644
+--- a/gnuradio-runtime/include/gnuradio/block_gateway.h
++++ b/gnuradio-runtime/include/gnuradio/block_gateway.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2011-2013 Free Software Foundation, Inc.
++ * Copyright 2011-2013,2017 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -44,7 +44,8 @@ namespace gr {
+   enum tag_propagation_policy_t {
+     TPP_DONT = 0,
+     TPP_ALL_TO_ALL = 1,
+-    TPP_ONE_TO_ONE = 2
++    TPP_ONE_TO_ONE = 2,
++    TPP_CUSTOM = 3
+   };
+ 
+   /*!
+diff --git a/gnuradio-runtime/lib/block_executor.cc b/gnuradio-runtime/lib/block_executor.cc
+index 585e65fc6e..5c23df39a5 100644
+--- a/gnuradio-runtime/lib/block_executor.cc
++++ b/gnuradio-runtime/lib/block_executor.cc
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2004,2008-2010,2013 Free Software Foundation, Inc.
++ * Copyright 2004,2008-2010,2013,2017 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -103,8 +103,8 @@ namespace gr {
+ 
+     switch(policy) {
+     case block::TPP_DONT:
++    case block::TPP_CUSTOM:
+       return true;
+-      break;
+     case block::TPP_ALL_TO_ALL:
+       // every tag on every input propogates to everyone downstream
+       for(int i = 0; i < d->ninputs(); i++) {
+diff --git a/gr-blocks/grc/blocks_multiply_matrix_xx.xml b/gr-blocks/grc/blocks_multiply_matrix_xx.xml
+index 070221446e..bb1d77c0ba 100644
+--- a/gr-blocks/grc/blocks_multiply_matrix_xx.xml
++++ b/gr-blocks/grc/blocks_multiply_matrix_xx.xml
+@@ -44,7 +44,7 @@
+ 	</option>
+ 	<option>
+ 		<name>Matrix-Defined</name>
+-		<key>999</key>
++		<key>gr.TPP_CUSTOM</key>
+ 	</option>
+   </param>
+   <check>len($A) > 0</check>
+diff --git a/gr-blocks/include/gnuradio/blocks/multiply_matrix_XX.h.t b/gr-blocks/include/gnuradio/blocks/multiply_matrix_XX.h.t
+index 20931f1cc7..710f7d343a 100644
+--- a/gr-blocks/include/gnuradio/blocks/multiply_matrix_XX.h.t
++++ b/gr-blocks/include/gnuradio/blocks/multiply_matrix_XX.h.t
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2014 Free Software Foundation, Inc.
++ * Copyright 2014, 2017 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -32,7 +32,7 @@ namespace gr {
+   namespace blocks {
+ 
+     /*!
+-     * \brief Matrix multiplexer/multiplier: y(k) = A * x(k)
++     * \brief Matrix multiplexer/multiplier: y(k) = A x(k)
+      * \ingroup blocks
+      *
+      * This block is similar to gr::blocks::multiply_const_ff, the difference
+@@ -50,8 +50,8 @@ namespace gr {
+      * - Summing up streams with variable coefficients
+      *
+      * This block features a special tag propagation mode: When setting the tag propagation policy
+-     * to gr::blocks::@NAME@::TPP_SELECT_BY_MATRIX, a tag is propagated from input k
+-     * to output l if \f$(A)_{l,k} \neq 0\f$.
++     * to gr::block::TPP_CUSTOM, a tag is propagated from input \f$k\f$
++     * to output \f$l\f$, if \f$(A)_{l,k} \neq 0\f$.
+      *
+      * \section blocks_matrixmult_msgports_@NAME@ Message Ports
+      *
+@@ -72,7 +72,11 @@ namespace gr {
+       /*!
+        * \param A The matrix
+        * \param tag_propagation_policy The tag propagation policy.
+-       *                               Note this can be any gr::block::tag_propagation_policy_t value, or TPP_SELECT_BY_MATRIX.
++       *                               Note this can be any
++       *                               gr::block::tag_propagation_policy_t
++       *                               value. In case of TPP_CUSTOM, tags are
++       *                               only transferred from input \f$k\f$ to
++       *                               output \f$l \iff (A)_{l,k} \neq 0\f$.
+        */
+       static sptr make(
+           std::vector<std::vector<@O_TYPE@> > A,
+@@ -84,14 +88,6 @@ namespace gr {
+       //! Sets the matrix to a new value \p new_A. Returns true if the new matrix was valid and could be changed.
+       virtual bool set_A(const std::vector<std::vector<@O_TYPE@> > &new_A) = 0;
+ 
+-      /*!
+-       * \brief Set the policy by the scheduler to determine how tags are moved downstream.
+-       *
+-       * This will also accept the value TPP_SELECT_BY_MATRIX.
+-       */
+-      virtual void set_tag_propagation_policy(gr::block::tag_propagation_policy_t p) = 0;
+-
+-      static const int TPP_SELECT_BY_MATRIX;
+       static const std::string MSG_PORT_NAME_SET_A;
+     };
+ 
+diff --git a/gr-blocks/lib/multiply_matrix_cc_impl.cc b/gr-blocks/lib/multiply_matrix_cc_impl.cc
+index 7ecf3e95ce..15fc0fc814 100644
+--- a/gr-blocks/lib/multiply_matrix_cc_impl.cc
++++ b/gr-blocks/lib/multiply_matrix_cc_impl.cc
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2014 Free Software Foundation, Inc.
++ * Copyright 2014,2017 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -31,7 +31,6 @@
+ namespace gr {
+   namespace blocks {
+ 
+-    const int multiply_matrix_cc::TPP_SELECT_BY_MATRIX = 999;
+     const std::string multiply_matrix_cc::MSG_PORT_NAME_SET_A = "set_A";
+ 
+     multiply_matrix_cc::sptr
+@@ -85,7 +84,7 @@ namespace gr {
+           }
+         }
+       }
+-      if (d_tag_prop_select) {
++      if (tag_propagation_policy() == TPP_CUSTOM) {
+         propagate_tags_by_A(noutput_items, input_items.size(), output_items.size());
+       }
+       return noutput_items;
+@@ -178,17 +177,6 @@ namespace gr {
+       }
+     }
+ 
+-    void
+-    multiply_matrix_cc_impl::set_tag_propagation_policy(gr::block::tag_propagation_policy_t tpp)
+-    {
+-      if (tpp == TPP_SELECT_BY_MATRIX) {
+-        set_tag_propagation_policy(TPP_DONT);
+-        d_tag_prop_select = true;
+-      } else {
+-        gr::block::set_tag_propagation_policy(tpp);
+-        d_tag_prop_select = false;
+-      }
+-    }
+ 
+   } /* namespace blocks */
+ } /* namespace gr */
+diff --git a/gr-blocks/lib/multiply_matrix_cc_impl.h b/gr-blocks/lib/multiply_matrix_cc_impl.h
+index b357dde2cb..f342817e26 100644
+--- a/gr-blocks/lib/multiply_matrix_cc_impl.h
++++ b/gr-blocks/lib/multiply_matrix_cc_impl.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /* 
+- * Copyright 2014 Free Software Foundation, Inc.
++ * Copyright 2014, 2017 Free Software Foundation, Inc.
+  * 
+  * This file is part of GNU Radio
+  * 
+@@ -32,7 +32,6 @@ namespace gr {
+     {
+      private:
+       std::vector<std::vector<gr_complex> > d_A;
+-      bool d_tag_prop_select; //!< If true, handle the tag propagation ourselves
+ 
+       void propagate_tags_by_A(int noutput_items, size_t ninput_ports, size_t noutput_ports);
+ 
+@@ -45,8 +44,6 @@ namespace gr {
+       const std::vector<std::vector<gr_complex> >& get_A() const { return d_A; };
+       bool set_A(const std::vector<std::vector<gr_complex> > &new_A);
+ 
+-      void set_tag_propagation_policy(gr::block::tag_propagation_policy_t p);
+-
+       int work(int noutput_items,
+                gr_vector_const_void_star &input_items,
+                gr_vector_void_star &output_items);
+diff --git a/gr-blocks/lib/multiply_matrix_ff_impl.cc b/gr-blocks/lib/multiply_matrix_ff_impl.cc
+index c0b3abfe98..a5eae4261e 100644
+--- a/gr-blocks/lib/multiply_matrix_ff_impl.cc
++++ b/gr-blocks/lib/multiply_matrix_ff_impl.cc
+@@ -31,7 +31,6 @@
+ namespace gr {
+   namespace blocks {
+ 
+-    const int multiply_matrix_ff::TPP_SELECT_BY_MATRIX = 999;
+     const std::string multiply_matrix_ff::MSG_PORT_NAME_SET_A = "set_A";
+ 
+     multiply_matrix_ff::sptr
+@@ -85,7 +84,7 @@ namespace gr {
+           }
+         }
+       }
+-      if (d_tag_prop_select) {
++      if (tag_propagation_policy() == TPP_CUSTOM) {
+         propagate_tags_by_A(noutput_items, input_items.size(), output_items.size());
+       }
+       return noutput_items;
+@@ -178,17 +177,6 @@ namespace gr {
+       }
+     }
+ 
+-    void
+-    multiply_matrix_ff_impl::set_tag_propagation_policy(gr::block::tag_propagation_policy_t tpp)
+-    {
+-      if (((int) tpp) == TPP_SELECT_BY_MATRIX) {
+-        set_tag_propagation_policy(TPP_DONT);
+-        d_tag_prop_select = true;
+-      } else {
+-        gr::block::set_tag_propagation_policy(tpp);
+-        d_tag_prop_select = false;
+-      }
+-    }
+ 
+   } /* namespace blocks */
+ } /* namespace gr */
+diff --git a/gr-blocks/lib/multiply_matrix_ff_impl.h b/gr-blocks/lib/multiply_matrix_ff_impl.h
+index c9476bc8d1..93b2bebadd 100644
+--- a/gr-blocks/lib/multiply_matrix_ff_impl.h
++++ b/gr-blocks/lib/multiply_matrix_ff_impl.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /* 
+- * Copyright 2014 Free Software Foundation, Inc.
++ * Copyright 2014, 2017 Free Software Foundation, Inc.
+  * 
+  * This file is part of GNU Radio
+  * 
+@@ -32,7 +32,6 @@ namespace gr {
+     {
+      private:
+       std::vector<std::vector<float> > d_A;
+-      bool d_tag_prop_select; //!< If true, handle the tag propagation ourselves
+ 
+       void propagate_tags_by_A(int noutput_items, size_t ninput_ports, size_t noutput_ports);
+ 
+@@ -45,8 +44,6 @@ namespace gr {
+       const std::vector<std::vector<float> >& get_A() const { return d_A; };
+       bool set_A(const std::vector<std::vector<float> > &new_A);
+ 
+-      void set_tag_propagation_policy(gr::block::tag_propagation_policy_t p);
+-
+       int work(int noutput_items,
+                gr_vector_const_void_star &input_items,
+                gr_vector_void_star &output_items);
+-- 
+2.11.0
+

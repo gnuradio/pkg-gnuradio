@@ -1,0 +1,37 @@
+From eb358e58b16a329d53cb8bc73fabf16c8426374a Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <johnathan@corganlabs.com>
+Date: Wed, 17 May 2017 09:02:53 -0700
+Subject: [PATCH 26/58] runtime: fix missing log4cpp link requirement in
+ pkg-config file
+
+---
+ gnuradio-runtime/CMakeLists.txt         | 1 +
+ gnuradio-runtime/gnuradio-runtime.pc.in | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/gnuradio-runtime/CMakeLists.txt b/gnuradio-runtime/CMakeLists.txt
+index 7660642509..b41fb5889f 100644
+--- a/gnuradio-runtime/CMakeLists.txt
++++ b/gnuradio-runtime/CMakeLists.txt
+@@ -139,6 +139,7 @@ install(FILES
+     DESTINATION ${GR_PREFSDIR}
+     COMPONENT "runtime_runtime"
+ )
++set(PC_ADD_LIBS -llog4cpp)
+ endif(ENABLE_GR_LOG AND HAVE_LOG4CPP)
+ 
+ ########################################################################
+diff --git a/gnuradio-runtime/gnuradio-runtime.pc.in b/gnuradio-runtime/gnuradio-runtime.pc.in
+index d4488896cb..acd052d3c6 100644
+--- a/gnuradio-runtime/gnuradio-runtime.pc.in
++++ b/gnuradio-runtime/gnuradio-runtime.pc.in
+@@ -7,5 +7,5 @@ Name: gnuradio-runtime
+ Description: GNU Radio core runtime infrastructure
+ Requires:
+ Version: @LIBVER@
+-Libs: -L${libdir} -lgnuradio-runtime -lgnuradio-pmt
++Libs: -L${libdir} -lgnuradio-runtime -lgnuradio-pmt @PC_ADD_LIBS@
+ Cflags: -I${includedir}
+-- 
+2.11.0
+

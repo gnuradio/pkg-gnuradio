@@ -1,0 +1,26 @@
+From 134f19834a93ca439d97ae13a001479f7883b95b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus@hostalia.de>
+Date: Sat, 24 Jun 2017 18:08:16 +0200
+Subject: [PATCH 40/58] removed redundant unsigned int < 0 check.
+
+---
+ gr-digital/lib/header_payload_demux_impl.cc | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/gr-digital/lib/header_payload_demux_impl.cc b/gr-digital/lib/header_payload_demux_impl.cc
+index f887ea1eb3..be9e2bf591 100644
+--- a/gr-digital/lib/header_payload_demux_impl.cc
++++ b/gr-digital/lib/header_payload_demux_impl.cc
+@@ -134,9 +134,6 @@ namespace gr {
+       if (d_header_len < 1) {
+         throw std::invalid_argument("Header length must be at least 1 symbol.");
+       }
+-      if (header_padding < 0) {
+-        throw std::invalid_argument("Header padding must be non-negative.");
+-      }
+       if (d_items_per_symbol < 1 || d_gi < 0 || d_itemsize < 1) {
+         throw std::invalid_argument("Items and symbol sizes must be at least 1.");
+       }
+-- 
+2.11.0
+

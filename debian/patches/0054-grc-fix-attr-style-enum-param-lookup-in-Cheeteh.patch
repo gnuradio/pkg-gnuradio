@@ -1,0 +1,31 @@
+From e6d0e8f3d6468a807574b3cf5f480e094048a3f7 Mon Sep 17 00:00:00 2001
+From: Josh Blum <josh@joshknows.com>
+Date: Sun, 30 Jul 2017 14:32:02 +0200
+Subject: [PATCH 54/58] grc: fix attr-style enum param lookup in Cheeteh
+
+---
+ grc/core/Param.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/grc/core/Param.py b/grc/core/Param.py
+index 26f9d2f451..9c26e02d90 100644
+--- a/grc/core/Param.py
++++ b/grc/core/Param.py
+@@ -135,6 +135,14 @@ class TemplateArg(object):
+     def __getitem__(self, item):
+         return str(self._param.get_opt(item)) if self._param.is_enum() else NotImplemented
+ 
++    def __getattr__(self, item):
++        if not self._param.is_enum():
++            raise AttributeError()
++        try:
++            return str(self._param.get_opt(item))
++        except KeyError:
++            raise AttributeError()
++
+     def __str__(self):
+         return str(self._param.to_code())
+ 
+-- 
+2.11.0
+

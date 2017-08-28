@@ -1,0 +1,29 @@
+From e2f7c77855de488b671438be4fbe5d79a64adfa2 Mon Sep 17 00:00:00 2001
+From: Johannes Demel <demel@ant.uni-bremen.de>
+Date: Mon, 13 Mar 2017 10:22:58 +0100
+Subject: [PATCH 07/58] fixed gr::random::random::set_integer_limits
+
+---
+ gnuradio-runtime/lib/math/random.cc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/gnuradio-runtime/lib/math/random.cc b/gnuradio-runtime/lib/math/random.cc
+index 0d37884373..59f2f22bd0 100644
+--- a/gnuradio-runtime/lib/math/random.cc
++++ b/gnuradio-runtime/lib/math/random.cc
+@@ -86,9 +86,10 @@ namespace gr {
+   void
+   random::set_integer_limits(const int minimum, const int maximum){
+     // boost expects integer limits defined as [minimum, maximum] which is unintuitive.
+-    boost::uniform_int<>::param_type dis_params(minimum, maximum - 1);
+-    d_integer_dis->param(dis_params);
++    // use the expected half open interval behavior! [minimum, maximum)!
+     delete d_integer_generator;
++    delete d_integer_dis;
++    d_integer_dis = new boost::uniform_int<>(minimum, maximum - 1);
+     d_integer_generator = new boost::variate_generator<boost::mt19937&, boost::uniform_int<> >(*d_rng, *d_integer_dis);
+   }
+ 
+-- 
+2.11.0
+

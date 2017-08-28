@@ -1,0 +1,28 @@
+From d1eda199e84c2e084b18e831f35858ba4f953dc0 Mon Sep 17 00:00:00 2001
+From: Michael Dickens <michael.dickens@ettus.com>
+Date: Tue, 22 Aug 2017 14:19:57 -0400
+Subject: [PATCH 61/64] runtime: fix logger_ptr to always be a pointer
+
+Addresses issue #1383, where if GR and an OOT are built with logging
+enabled but GR is build using log4cpp and the OOT is build without it,
+then gr_block will be of different size & freeing it can result in
+heap corruption.
+
+This fix mades all of the logger_ptr typedefs an actual pointer, which
+should always be the same size and hence gr_block will always be the
+same size no matter what logging option is selected.
+---
+ gnuradio-runtime/include/gnuradio/logger.h.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/gnuradio-runtime/include/gnuradio/logger.h.in
++++ b/gnuradio-runtime/include/gnuradio/logger.h.in
+@@ -111,7 +111,7 @@
+ 
+ namespace gr {
+   //#warning GR logging Enabled and using std::cout
+-  typedef std::string logger_ptr;
++  typedef void* logger_ptr;
+ } /* namespace gr */
+ 
+ #define GR_LOG_DECLARE_LOGPTR(logger)

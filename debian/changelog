@@ -1,3 +1,14 @@
+gnuradio (3.7.11-1) unstable; urgency=medium
+
+  * New upstream release
+  * update to v3.7.11-100-gec71327d29
+  * improve desktop search metadata (Closes: #847087)
+  * Fix a segfault issue for QT time sink (Closes: #860295)
+  * michaelld - cmake: Fix for CppUnit and C11 (Closes: #862133)
+  * gnuradio depends upon python-numpy (LP: #1471351)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 27 Aug 2017 10:10:44 -0400
+
 gnuradio (3.7.10.1-2) unstable; urgency=medium
 
   * update to v3.7.10.1-24-gea2aeca

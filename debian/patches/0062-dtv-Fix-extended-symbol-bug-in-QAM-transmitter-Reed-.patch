@@ -1,0 +1,26 @@
+From f9e1882b62bc6b2fe3796e0e9f5a45f1a5cd11cf Mon Sep 17 00:00:00 2001
+From: Ron Economos <w6rz@comcast.net>
+Date: Fri, 25 Aug 2017 18:07:55 -0700
+Subject: [PATCH 62/64] dtv: Fix extended symbol bug in QAM transmitter
+ Reed-Solomon encoder.
+
+---
+ gr-dtv/lib/catv/catv_reed_solomon_enc_bb_impl.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-dtv/lib/catv/catv_reed_solomon_enc_bb_impl.cc b/gr-dtv/lib/catv/catv_reed_solomon_enc_bb_impl.cc
+index 06a1f12c3e..b2b529c0a5 100644
+--- a/gr-dtv/lib/catv/catv_reed_solomon_enc_bb_impl.cc
++++ b/gr-dtv/lib/catv/catv_reed_solomon_enc_bb_impl.cc
+@@ -116,7 +116,7 @@ namespace gr {
+         output[i] = message[i];
+       }
+ 
+-      output[127] = gf_poly_eval(output, 128, gf_exp[6]);
++      output[127] = gf_poly_eval(output, 127, gf_exp[6]);
+     }
+ 
+     void
+-- 
+2.11.0
+
