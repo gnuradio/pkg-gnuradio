@@ -14,6 +14,10 @@ override_dh_auto_test:
 	- if case "$(DEB_BUILD_ARCH)" in *"i386"*) false;; *) true;; esac; then HOME=$(CURDIR)/debian/test dh_auto_test -- ARGS+='--timeout 10 -E systematic' ; fi
 	rm -rf debian/test
 
+override_dh_acc:
+	- dh_acc $@
+	- cat logs/gnuradio-dev/*/log.txt
+
 # Doxygen's jquery.js isn't really jquery.js - look for upstream to ship doxygen.js soon instead.
 override_dh_auto_install:
 	dh_auto_install

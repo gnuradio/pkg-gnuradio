@@ -1,7 +1,7 @@
 From 08ab03d781135481f15afc1ef0754c60d4ccad42 Mon Sep 17 00:00:00 2001
 From: Michael Dickens <michael.dickens@ettus.com>
 Date: Tue, 9 May 2017 11:29:06 -0400
-Subject: [PATCH 22/58] runtime: fix logger to work with log4cpp 1.1.2 & prior
+Subject: [PATCH 22/72] runtime: fix logger to work with log4cpp 1.1.2 & prior
  both in tree & OOT.
 
 ---

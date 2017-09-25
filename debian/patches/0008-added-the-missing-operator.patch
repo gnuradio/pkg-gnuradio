@@ -1,7 +1,7 @@
 From edb12325a82b11fc7cc3ab9572dbcab3d8f378a7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
 Date: Tue, 21 Mar 2017 17:52:39 +0100
-Subject: [PATCH 08/58] added the missing == operator.
+Subject: [PATCH 08/72] added the missing == operator.
 
 ---
  gr-uhd/swig/uhd_swig.i | 4 ++++

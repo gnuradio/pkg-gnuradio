@@ -1,7 +1,7 @@
 From 11d59e9f227e3d3f5c388c376ee59e0cfa021dcf Mon Sep 17 00:00:00 2001
 From: Bastian Bloessl <bloessl@ccs-labs.org>
 Date: Tue, 3 Jan 2017 00:51:05 +0100
-Subject: [PATCH 49/58] cmake: remove duplicate swig includes
+Subject: [PATCH 49/72] cmake: remove duplicate swig includes
 
 ---
  cmake/Modules/GrSwig.cmake  | 3 ---

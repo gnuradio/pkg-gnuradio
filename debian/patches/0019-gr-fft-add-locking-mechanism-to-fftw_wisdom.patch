@@ -1,7 +1,7 @@
 From 7864ce317d65f29abddbb3694b26315087654b1d Mon Sep 17 00:00:00 2001
 From: Andrej Rode <mail@andrejro.de>
 Date: Sun, 30 Apr 2017 00:01:58 -0700
-Subject: [PATCH 19/58] gr-fft: add locking mechanism to fftw_wisdom
+Subject: [PATCH 19/72] gr-fft: add locking mechanism to fftw_wisdom
 
 ---
  gr-fft/lib/fft.cc | 32 ++++++++++++++++++++++++++++++++

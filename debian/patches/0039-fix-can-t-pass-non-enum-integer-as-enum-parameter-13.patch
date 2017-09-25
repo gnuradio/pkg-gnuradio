@@ -1,7 +1,7 @@
 From 963c376ba23fbcb7c4041b8ce5ff1d30b33af36e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus@hostalia.de>
 Date: Sat, 24 Jun 2017 17:43:22 +0200
-Subject: [PATCH 39/58] fix: can't pass non-enum integer as enum parameter
+Subject: [PATCH 39/72] fix: can't pass non-enum integer as enum parameter
  (#1337)
 
 ---

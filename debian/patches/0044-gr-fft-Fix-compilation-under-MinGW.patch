@@ -1,7 +1,7 @@
 From 58e6bd9d359e0ff1df1b7657d81f28a8c8ba9d93 Mon Sep 17 00:00:00 2001
 From: Paul Cercueil <paul.cercueil@analog.com>
 Date: Tue, 27 Jun 2017 15:52:30 +0200
-Subject: [PATCH 44/58] gr-fft: Fix compilation under MinGW
+Subject: [PATCH 44/72] gr-fft: Fix compilation under MinGW
 
 Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
 ---

@@ -1,7 +1,7 @@
 From c62ad7565afaed3887cd1161cd79ae60ed4a8383 Mon Sep 17 00:00:00 2001
 From: Sebastian Koslowski <koslowski@kit.edu>
 Date: Wed, 29 Mar 2017 09:15:46 +0200
-Subject: [PATCH 11/58] docs: nitpicky minor fix
+Subject: [PATCH 11/72] docs: nitpicky minor fix
 
 ---
  docs/doxygen/other/pmt.dox | 2 +-

@@ -1,7 +1,7 @@
 From 01c8494929882e4a897fbb5c792b610c9f116776 Mon Sep 17 00:00:00 2001
 From: Andrej Rode <andrej.rode@ettus.com>
 Date: Mon, 10 Apr 2017 12:24:28 -0700
-Subject: [PATCH 12/58] runtime: fix qa_fast_atan2f
+Subject: [PATCH 12/72] runtime: fix qa_fast_atan2f
 
 ---
  gnuradio-runtime/lib/math/qa_fast_atan2f.cc | 10 +++++-----

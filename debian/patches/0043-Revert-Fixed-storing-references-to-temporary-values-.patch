@@ -1,7 +1,7 @@
 From 7cfc186d96883b20e9b32bebe2e84d539e586384 Mon Sep 17 00:00:00 2001
 From: Johnathan Corgan <johnathan@corganlabs.com>
 Date: Tue, 27 Jun 2017 16:21:29 -0700
-Subject: [PATCH 43/58] Revert "Fixed storing references to temporary values in
+Subject: [PATCH 43/72] Revert "Fixed storing references to temporary values in
  RPC infrastructure"
 
 This reverts commit a16ed67b5dae099c6ac1447c000f15765b13422f.

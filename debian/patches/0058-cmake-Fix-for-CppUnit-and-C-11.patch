@@ -1,7 +1,7 @@
 From 296be93db3396bef243c4a6dd54061de07f36079 Mon Sep 17 00:00:00 2001
 From: Michael Dickens <michael.dickens@ettus.com>
 Date: Mon, 14 Aug 2017 15:17:49 -0400
-Subject: [PATCH] cmake: Fix for CppUnit and C++11
+Subject: [PATCH 58/72] cmake: Fix for CppUnit and C++11
 
 If CppUnit version >= 1.14.0, try to switch to C++11. Otherwise, use C++98 as before. Requires that FindCppUnit return the CppUnit version if found.
 ---
@@ -9,9 +9,11 @@ If CppUnit version >= 1.14.0, try to switch to C++11. Otherwise, use C++98 as be
  cmake/Modules/FindCppUnit.cmake |  7 +++++++
  2 files changed, 34 insertions(+), 10 deletions(-)
 
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 650cfe3ac4..6bfb24e3e4 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -60,31 +60,35 @@
+@@ -56,31 +56,35 @@ IF (NOT MSVC)
      SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O2")
  ENDIF()
  
@@ -57,7 +59,7 @@ If CppUnit version >= 1.14.0, try to switch to C++11. Otherwise, use C++98 as be
  # Set cmake policies.
  # This will suppress developer warnings during the cmake process that can occur
  # if a newer cmake version than the minimum is used.
-@@ -314,6 +318,19 @@
+@@ -306,6 +310,19 @@ GR_REGISTER_COMPONENT("testing-support" ENABLE_TESTING
      CPPUNIT_FOUND
  )
  
@@ -77,9 +79,11 @@ If CppUnit version >= 1.14.0, try to switch to C++11. Otherwise, use C++98 as be
  ########################################################################
  # Add optional dlls specified in DLL_PATHS
  ########################################################################
+diff --git a/cmake/Modules/FindCppUnit.cmake b/cmake/Modules/FindCppUnit.cmake
+index f93ade3412..4e9469f9f6 100644
 --- a/cmake/Modules/FindCppUnit.cmake
 +++ b/cmake/Modules/FindCppUnit.cmake
-@@ -37,3 +37,10 @@
+@@ -37,3 +37,10 @@ LIST(APPEND CPPUNIT_LIBRARIES ${CMAKE_DL_LIBS})
  INCLUDE(FindPackageHandleStandardArgs)
  FIND_PACKAGE_HANDLE_STANDARD_ARGS(CPPUNIT DEFAULT_MSG CPPUNIT_LIBRARIES CPPUNIT_INCLUDE_DIRS)
  MARK_AS_ADVANCED(CPPUNIT_LIBRARIES CPPUNIT_INCLUDE_DIRS)
@@ -90,3 +94,6 @@ If CppUnit version >= 1.14.0, try to switch to C++11. Otherwise, use C++98 as be
 +IF(CPPUNIT_FOUND)
 +    set(CPPUNIT_VERSION ${PC_CPPUNIT_VERSION} CACHE INTERNAL "CppUnit Version" FORCE)
 +ENDIF()
+-- 
+2.11.0
+

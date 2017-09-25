@@ -1,7 +1,7 @@
 From a981e0bcd4c7a08f2e25785c5d036f0428417d23 Mon Sep 17 00:00:00 2001
 From: Kevin Gentile <kg168212@ohio.edu>
 Date: Fri, 14 Jul 2017 15:27:34 -0400
-Subject: [PATCH 52/58] gr-blocks: add warning if file will not be fully
+Subject: [PATCH 52/72] gr-blocks: add warning if file will not be fully
  consumed with the passed output type.
 
 ---

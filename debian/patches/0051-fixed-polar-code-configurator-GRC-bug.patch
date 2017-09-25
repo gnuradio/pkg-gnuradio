@@ -1,7 +1,7 @@
 From 580b94a6c66f4f584ded0bb86c59c9d51f04de27 Mon Sep 17 00:00:00 2001
 From: Johannes Demel <demel@ant.uni-bremen.de>
 Date: Mon, 17 Jul 2017 12:48:51 +0200
-Subject: [PATCH 51/58] fixed polar code configurator GRC bug
+Subject: [PATCH 51/72] fixed polar code configurator GRC bug
 
 ---
  gr-fec/grc/variable_polar_code_configurator.xml | 14 +++++++++++---

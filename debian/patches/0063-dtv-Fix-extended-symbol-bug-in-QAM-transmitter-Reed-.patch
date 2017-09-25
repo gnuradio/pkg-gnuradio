@@ -1,7 +1,7 @@
 From f9e1882b62bc6b2fe3796e0e9f5a45f1a5cd11cf Mon Sep 17 00:00:00 2001
 From: Ron Economos <w6rz@comcast.net>
 Date: Fri, 25 Aug 2017 18:07:55 -0700
-Subject: [PATCH 62/64] dtv: Fix extended symbol bug in QAM transmitter
+Subject: [PATCH 63/72] dtv: Fix extended symbol bug in QAM transmitter
  Reed-Solomon encoder.
 
 ---

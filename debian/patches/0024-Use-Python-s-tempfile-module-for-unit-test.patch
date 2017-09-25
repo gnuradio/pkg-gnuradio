@@ -1,7 +1,7 @@
 From c730a54e7f4b7ee15531830593661c5c154f73f2 Mon Sep 17 00:00:00 2001
 From: Ruben Undheim <ruben.undheim@gmail.com>
 Date: Sun, 14 May 2017 09:54:52 +0000
-Subject: [PATCH 24/58] Use Python's tempfile module for unit test
+Subject: [PATCH 24/72] Use Python's tempfile module for unit test
 
 Instead of setting a fixed file name for unit test of file_source,
 rather employ the tempfile module in a with statement.

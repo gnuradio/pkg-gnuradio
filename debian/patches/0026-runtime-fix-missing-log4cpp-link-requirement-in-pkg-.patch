@@ -1,7 +1,7 @@
 From eb358e58b16a329d53cb8bc73fabf16c8426374a Mon Sep 17 00:00:00 2001
 From: Johnathan Corgan <johnathan@corganlabs.com>
 Date: Wed, 17 May 2017 09:02:53 -0700
-Subject: [PATCH 26/58] runtime: fix missing log4cpp link requirement in
+Subject: [PATCH 26/72] runtime: fix missing log4cpp link requirement in
  pkg-config file
 
 ---

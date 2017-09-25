@@ -1,7 +1,7 @@
 From a7b5c88a0e7652d9fb538be71c747a24c601d60b Mon Sep 17 00:00:00 2001
 From: Johnathan Corgan <johnathan@corganlabs.com>
 Date: Tue, 11 Apr 2017 11:16:16 -0700
-Subject: [PATCH 13/58] digital: set rx_ofdm.grc to no_gui mode
+Subject: [PATCH 13/72] digital: set rx_ofdm.grc to no_gui mode
 
 ---
  gr-digital/examples/ofdm/rx_ofdm.grc | 2 +-

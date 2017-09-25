@@ -1,7 +1,7 @@
 From e270ea5ec3fd746dcbc7a310533163619d73d5ad Mon Sep 17 00:00:00 2001
 From: Marc Lichtman <mlichtman@appcomsci.com>
 Date: Wed, 7 Jun 2017 17:49:05 -0400
-Subject: [PATCH 29/58] gr-blocks: fixed the broken example simple_copy.grc
+Subject: [PATCH 29/72] gr-blocks: fixed the broken example simple_copy.grc
  (the msg input port was not exposed without anything connected to it, so the
  example just did not work at all)
 

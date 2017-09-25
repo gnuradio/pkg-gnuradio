@@ -1,7 +1,7 @@
 From d25b1435444cfe28422d903fed6d856ece5d5e9b Mon Sep 17 00:00:00 2001
 From: Paul Cercueil <paul.cercueil@analog.com>
 Date: Mon, 22 May 2017 17:08:37 +0200
-Subject: [PATCH 27/58] blocks: stream_to_tagged_stream: Fix tag offset not
+Subject: [PATCH 27/72] blocks: stream_to_tagged_stream: Fix tag offset not
  reset after unlock()
 
 Fixes #1091.

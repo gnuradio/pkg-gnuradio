@@ -1,7 +1,7 @@
 From 31170ae61a1da7d5dcdedba99c5d3e5cfdd1f806 Mon Sep 17 00:00:00 2001
 From: Kevin Gentile <kg168212@ohio.edu>
 Date: Wed, 12 Jul 2017 12:22:51 -0400
-Subject: [PATCH 48/58] gr-digital: debuf buffer padding to flush packets
+Subject: [PATCH 48/72] gr-digital: debuf buffer padding to flush packets
  containing a payload less than the default payload length.
 
 ---

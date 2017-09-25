@@ -1,7 +1,7 @@
 From 6feaae914075138bd38e558560a55be49295fe93 Mon Sep 17 00:00:00 2001
 From: Josh Blum <josh@joshknows.com>
 Date: Mon, 14 Aug 2017 11:32:40 -0500
-Subject: [PATCH 57/58] cmake: switch cascaded elses to elseifs
+Subject: [PATCH 57/72] cmake: switch cascaded elses to elseifs
 
 After updating to cmake 3.9.1, these particular set of elses caused an
 error. Perhaps cmake was permissive about this in prior versions, but

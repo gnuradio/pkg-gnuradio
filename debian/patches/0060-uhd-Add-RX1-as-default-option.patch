@@ -1,7 +1,7 @@
 From 0961a383a2409c627d5437aed1f71461563567f5 Mon Sep 17 00:00:00 2001
 From: Martin Braun <martin.braun@ettus.com>
 Date: Fri, 18 Aug 2017 18:39:49 -0500
-Subject: [PATCH 59/64] uhd: Add RX1 as default option
+Subject: [PATCH 60/72] uhd: Add RX1 as default option
 
 GRC bindings for the USRP sink and source suggest some antenna names.
 This adds the antenna name RX1 (TwinRX) into the list of antenna name

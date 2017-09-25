@@ -1,7 +1,7 @@
 From 55699e4e2273d21c66a5183b2134780cd24957ab Mon Sep 17 00:00:00 2001
 From: Andrej Rode <mail@andrejro.de>
 Date: Tue, 25 Apr 2017 22:04:46 -0700
-Subject: [PATCH 18/58] cmake: add Coverage target and CMake module to generate
+Subject: [PATCH 18/72] cmake: add Coverage target and CMake module to generate
  coverage data
 
 ---

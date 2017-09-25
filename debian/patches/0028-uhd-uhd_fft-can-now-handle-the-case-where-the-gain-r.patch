@@ -1,7 +1,7 @@
 From 10d23c38f5d95ea8f7f32dd06871bda4838797c5 Mon Sep 17 00:00:00 2001
 From: Martin Braun <martin.braun@ettus.com>
 Date: Tue, 6 Jun 2017 16:02:45 -0700
-Subject: [PATCH 28/58] uhd: uhd_fft can now handle the case where the gain
+Subject: [PATCH 28/72] uhd: uhd_fft can now handle the case where the gain
  range is scalar
 
 ---

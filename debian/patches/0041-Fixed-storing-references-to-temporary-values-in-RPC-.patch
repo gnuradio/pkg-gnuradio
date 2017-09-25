@@ -1,7 +1,7 @@
 From a16ed67b5dae099c6ac1447c000f15765b13422f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus@hostalia.de>
 Date: Sat, 24 Jun 2017 23:30:42 +0200
-Subject: [PATCH 41/58] Fixed storing references to temporary values in RPC
+Subject: [PATCH 41/72] Fixed storing references to temporary values in RPC
  infrastructure
 
 The RPC aggregator and friends were taking callback objects passed by

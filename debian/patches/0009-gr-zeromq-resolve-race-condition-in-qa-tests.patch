@@ -1,7 +1,7 @@
 From b163c7e26a61245202e07aa6e5881763ed6acaaf Mon Sep 17 00:00:00 2001
 From: Andrej Rode <mail@andrejro.de>
 Date: Sun, 2 Apr 2017 20:52:20 -0700
-Subject: [PATCH 09/58] gr-zeromq: resolve race condition in qa tests
+Subject: [PATCH 09/72] gr-zeromq: resolve race condition in qa tests
 
 ---
  gr-zeromq/python/zeromq/probe_manager.py      |  2 +-

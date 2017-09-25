@@ -1,7 +1,7 @@
 From 38a146d4b6238a161ce8567ab62467ced79d0571 Mon Sep 17 00:00:00 2001
 From: gnieboer <gnieboer@corpcomm.net>
 Date: Tue, 13 Jun 2017 21:02:13 -0400
-Subject: [PATCH 33/58] gr-fft: Adds w32 specific headers to fft.cc
+Subject: [PATCH 33/72] gr-fft: Adds w32 specific headers to fft.cc
 
 ---
  gr-fft/lib/fft.cc | 4 ++++

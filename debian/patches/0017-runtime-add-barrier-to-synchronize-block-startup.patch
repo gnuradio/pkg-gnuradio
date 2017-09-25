@@ -1,7 +1,7 @@
 From 10b7f835854f46ac390fdb6954d312a6b0ba30e9 Mon Sep 17 00:00:00 2001
 From: Andrej Rode <mail@andrejro.de>
 Date: Thu, 13 Apr 2017 23:38:12 -0700
-Subject: [PATCH 17/58] runtime: add barrier to synchronize block startup
+Subject: [PATCH 17/72] runtime: add barrier to synchronize block startup
 
 ---
  gnuradio-runtime/include/gnuradio/thread/thread.h |  4 ++++

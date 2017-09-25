@@ -1,7 +1,7 @@
 From e6d0e8f3d6468a807574b3cf5f480e094048a3f7 Mon Sep 17 00:00:00 2001
 From: Josh Blum <josh@joshknows.com>
 Date: Sun, 30 Jul 2017 14:32:02 +0200
-Subject: [PATCH 54/58] grc: fix attr-style enum param lookup in Cheeteh
+Subject: [PATCH 54/72] grc: fix attr-style enum param lookup in Cheeteh
 
 ---
  grc/core/Param.py | 8 ++++++++

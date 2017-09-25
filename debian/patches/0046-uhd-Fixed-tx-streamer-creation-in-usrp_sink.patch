@@ -1,7 +1,7 @@
 From 20d020f9646b05ced11238bd6d2ba3f0d2e530d2 Mon Sep 17 00:00:00 2001
 From: sugandhagupta <sugandha.gupta@ettus.com>
 Date: Fri, 30 Jun 2017 11:41:22 -0700
-Subject: [PATCH 46/58] uhd: Fixed tx streamer creation in usrp_sink
+Subject: [PATCH 46/72] uhd: Fixed tx streamer creation in usrp_sink
 
 ---
  gr-uhd/lib/usrp_sink_impl.cc | 3 ++-

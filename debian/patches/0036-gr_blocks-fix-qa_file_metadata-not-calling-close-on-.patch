@@ -1,7 +1,7 @@
 From 1c7115bdcc56b2114b1f3469e84445d7a6b4e081 Mon Sep 17 00:00:00 2001
 From: gnieboer <gnieboer@corpcomm.net>
 Date: Thu, 15 Jun 2017 21:41:42 -0400
-Subject: [PATCH 36/58] gr_blocks: fix qa_file_metadata not calling close() on
+Subject: [PATCH 36/72] gr_blocks: fix qa_file_metadata not calling close() on
  file source
 
 ---

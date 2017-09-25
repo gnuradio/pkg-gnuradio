@@ -1,7 +1,7 @@
 From bb00e5eb2576a7e57ab6211dd40bcd11a6d3967f Mon Sep 17 00:00:00 2001
 From: "Brandon P. Enochs" <brandon.enochs@nrl.navy.mil>
 Date: Fri, 14 Jul 2017 15:53:32 -0400
-Subject: [PATCH 50/58] fix: fixed a performance bug in
+Subject: [PATCH 50/72] fix: fixed a performance bug in
  buffer::get_tags_in_range.
 
 buffer::get_tags_in_range called v.resize(0) instead of v.clear() to clear out the input vector.  This causes needless memory allocation of the default value for the second argument to resize.  In applications that make heavy use of tags, this can cause significant performance problems as get_tags_in_range performs an extra allocation and deallocation.

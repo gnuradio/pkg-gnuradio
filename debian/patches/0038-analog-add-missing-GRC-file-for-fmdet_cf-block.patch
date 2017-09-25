@@ -1,7 +1,7 @@
 From 3d78f14739995b030b7b8fbfa50172ce610062c3 Mon Sep 17 00:00:00 2001
 From: Sean Nowlan <nowlans@ieee.org>
 Date: Thu, 22 Jun 2017 16:11:33 -0400
-Subject: [PATCH 38/58] analog: add missing GRC file for fmdet_cf block
+Subject: [PATCH 38/72] analog: add missing GRC file for fmdet_cf block
 
 ---
  gr-analog/grc/analog_fmdet_cf.xml | 45 +++++++++++++++++++++++++++++++++++++++

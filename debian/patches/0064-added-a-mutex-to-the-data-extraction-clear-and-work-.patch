@@ -1,7 +1,7 @@
 From b0699f7dc6b7e6ed278749ee03245225db8d2a7a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
 Date: Sun, 27 Aug 2017 18:14:53 +0200
-Subject: [PATCH 63/64] added a mutex to the data extraction, clear and work
+Subject: [PATCH 64/72] added a mutex to the data extraction, clear and work
  methods
 
 ---

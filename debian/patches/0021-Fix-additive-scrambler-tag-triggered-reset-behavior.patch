@@ -1,7 +1,7 @@
 From e3ad82e6d93ea05d3b096673abf609f9e146f578 Mon Sep 17 00:00:00 2001
 From: Brian Orr <brian.orr@gmail.com>
 Date: Tue, 25 Apr 2017 10:06:54 -0700
-Subject: [PATCH 21/58] Fix additive scrambler tag triggered reset behavior
+Subject: [PATCH 21/72] Fix additive scrambler tag triggered reset behavior
 
 Update the additive scrambler to reset its internal LFSR on the
 correct byte when operating in tag triggered mode. The LFSR should be

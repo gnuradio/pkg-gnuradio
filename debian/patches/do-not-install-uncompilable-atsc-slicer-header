@@ -1,0 +1,13 @@
+From: A. Maitland Bottoms <bottoms@debian.org>
+Description: slicer_agc_impl.h is not compilable.
+
+--- a/gr-atsc/include/gnuradio/atsc/CMakeLists.txt
++++ b/gr-atsc/include/gnuradio/atsc/CMakeLists.txt
+@@ -60,7 +60,6 @@
+     rs_decoder.h
+     rs_encoder.h
+     single_viterbi_impl.h
+-    slicer_agc_impl.h
+     sliding_correlator_impl.h
+     sssr_impl.h
+     syminfo_impl.h

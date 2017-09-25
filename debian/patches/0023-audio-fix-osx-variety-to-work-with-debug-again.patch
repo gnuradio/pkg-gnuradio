@@ -1,7 +1,7 @@
 From 0137459ee4cefafaceeb93a57ffb4e1ff912db7c Mon Sep 17 00:00:00 2001
 From: Michael Dickens <michael.dickens@ettus.com>
 Date: Tue, 9 May 2017 11:35:07 -0400
-Subject: [PATCH 23/58] audio: fix osx variety to work with debug (again).
+Subject: [PATCH 23/72] audio: fix osx variety to work with debug (again).
 
 Allow for internal or external specification of _OSX_*_DEBUG_ flags.
 ---

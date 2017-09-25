@@ -1,7 +1,7 @@
 From 00c4fdb0017d9c54c94338a4a3fb49cf00d707ac Mon Sep 17 00:00:00 2001
 From: Marc L <marcll@vt.edu>
 Date: Sun, 27 Aug 2017 09:54:23 -0700
-Subject: [PATCH 64/64] qtgui: raised time sink inputs to 12/24 and added GRC
+Subject: [PATCH 65/72] qtgui: raised time sink inputs to 12/24 and added GRC
  check for 5/10
 
 This commit raises the number of inputs to gr::qtgui:time_sink_c and f

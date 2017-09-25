@@ -1,7 +1,7 @@
 From ec50e185010cdb03e755ac8ab102b8eb80bf1ed5 Mon Sep 17 00:00:00 2001
 From: Michael Dickens <michael.dickens@ettus.com>
 Date: Mon, 17 Apr 2017 16:29:21 -0400
-Subject: [PATCH 14/58] audio: fix use of 'memcpy' in OSX impl.
+Subject: [PATCH 14/72] audio: fix use of 'memcpy' in OSX impl.
 
 ---
  gr-audio/lib/osx/osx_impl.cc | 2 +-

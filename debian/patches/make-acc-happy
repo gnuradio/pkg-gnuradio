@@ -1,4 +1,4 @@
-Description: Make headers cpmilable on their own.
+Description: Make headers compilable on their own.
 Author: A. Maitland Bottoms <bottoms@debian.org>
 
 --- a/gnuradio-runtime/include/gnuradio/sys_pri.h

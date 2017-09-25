@@ -1,7 +1,7 @@
 From 98b8d15c6936074a47ad27ac4cd337ea80e2a1ad Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marcus=20M=C3=BCller?= <mueller@kit.edu>
 Date: Mon, 7 Aug 2017 10:27:30 +0200
-Subject: [PATCH 58/58] logpwrfft did `ref_scale/2`, which led to integer div
+Subject: [PATCH 59/72] logpwrfft did `ref_scale/2`, which led to integer div
  in Py2
 
 That is especially hurt as the GRC template puts defaults to

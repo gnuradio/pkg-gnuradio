@@ -1,7 +1,7 @@
 From 8c5c345f1dd23bac18b31ccc1a804a674c250e89 Mon Sep 17 00:00:00 2001
 From: Ben Hilburn <ben.hilburn@ettus.com>
 Date: Fri, 10 Mar 2017 16:18:01 -0500
-Subject: [PATCH 05/58] Doxygen: Adding actual GNU FDL license file.
+Subject: [PATCH 05/72] Doxygen: Adding actual GNU FDL license file.
 
 ---
  docs/doxygen/Doxyfile.in        |   3 +-

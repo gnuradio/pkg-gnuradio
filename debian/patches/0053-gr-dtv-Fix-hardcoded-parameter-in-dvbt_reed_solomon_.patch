@@ -1,7 +1,7 @@
 From 119de4767b62397a25708311d6acf3bbe0dd2dc9 Mon Sep 17 00:00:00 2001
 From: Flamewires <Flamewires@users.noreply.github.com>
 Date: Sat, 15 Jul 2017 06:38:55 -0400
-Subject: [PATCH 53/58] gr-dtv: Fix hardcoded parameter in
+Subject: [PATCH 53/72] gr-dtv: Fix hardcoded parameter in
  dvbt_reed_solomon_enc
 
 Removed hardcoded parameter in dtvb_reed_solomon encoder.

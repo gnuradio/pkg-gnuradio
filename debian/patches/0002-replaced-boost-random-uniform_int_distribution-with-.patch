@@ -1,7 +1,7 @@
 From c987793229874b7345e939c174b21ef2e509aa8c Mon Sep 17 00:00:00 2001
 From: Johannes Demel <demel@ant.uni-bremen.de>
 Date: Fri, 10 Mar 2017 16:26:50 +0100
-Subject: [PATCH 02/58] replaced boost::random::uniform_int_distribution with
+Subject: [PATCH 02/72] replaced boost::random::uniform_int_distribution with
  boost::uniform_int to resolve issue 1227
 
 ---

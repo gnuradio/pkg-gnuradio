@@ -1,7 +1,7 @@
 From 134f19834a93ca439d97ae13a001479f7883b95b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus@hostalia.de>
 Date: Sat, 24 Jun 2017 18:08:16 +0200
-Subject: [PATCH 40/58] removed redundant unsigned int < 0 check.
+Subject: [PATCH 40/72] removed redundant unsigned int < 0 check.
 
 ---
  gr-digital/lib/header_payload_demux_impl.cc | 3 ---

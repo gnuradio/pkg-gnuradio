@@ -1,7 +1,7 @@
 From e4f0ac65fd785955c15ef222da4c730a658ef41b Mon Sep 17 00:00:00 2001
 From: Marc L <marcll@vt.edu>
 Date: Mon, 31 Jul 2017 19:16:59 -0400
-Subject: [PATCH 55/58] doc: proofed sections: metadata, PMT, handling
+Subject: [PATCH 55/72] doc: proofed sections: metadata, PMT, handling
  flowgraphs, exploring gnuradio
 
 ---

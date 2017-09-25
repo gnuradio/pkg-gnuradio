@@ -1,7 +1,7 @@
 From 5e0791286134c9be1be957b4aa7b2287e1aea7a6 Mon Sep 17 00:00:00 2001
 From: gnieboer <gnieboer@corpcomm.net>
 Date: Thu, 15 Jun 2017 21:42:06 -0400
-Subject: [PATCH 35/58] gr-blocks: fix file_metadata_* not closing files on
+Subject: [PATCH 35/72] gr-blocks: fix file_metadata_* not closing files on
  close()
 
 ---

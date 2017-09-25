@@ -1,7 +1,7 @@
 From fd5d843a18b5e2aa6dfd25923428ee12f64bdbb9 Mon Sep 17 00:00:00 2001
 From: Marc L <marcll@vt.edu>
 Date: Tue, 11 Jul 2017 23:54:55 -0400
-Subject: [PATCH 47/58] doc: proofed/cleaned up qtgui doxygen documentation
+Subject: [PATCH 47/72] doc: proofed/cleaned up qtgui doxygen documentation
 
 ---
  gr-qtgui/doc/qtgui.dox | 23 ++++++++++-------------

@@ -1,7 +1,7 @@
 From 331ae5d59b4615a89f0f9e2b3b56dba9f531d9d0 Mon Sep 17 00:00:00 2001
 From: Ben Hilburn <ben.hilburn@ettus.com>
 Date: Fri, 10 Mar 2017 16:28:26 -0500
-Subject: [PATCH 06/58] Doxygen: Adding GNU FDL header to Doxygen source files
+Subject: [PATCH 06/72] Doxygen: Adding GNU FDL header to Doxygen source files
 
 ---
  docs/doxygen/other/build_guide.dox          |  9 +++++++++

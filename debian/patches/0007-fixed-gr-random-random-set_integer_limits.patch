@@ -1,7 +1,7 @@
 From e2f7c77855de488b671438be4fbe5d79a64adfa2 Mon Sep 17 00:00:00 2001
 From: Johannes Demel <demel@ant.uni-bremen.de>
 Date: Mon, 13 Mar 2017 10:22:58 +0100
-Subject: [PATCH 07/58] fixed gr::random::random::set_integer_limits
+Subject: [PATCH 07/72] fixed gr::random::random::set_integer_limits
 
 ---
  gnuradio-runtime/lib/math/random.cc | 5 +++--

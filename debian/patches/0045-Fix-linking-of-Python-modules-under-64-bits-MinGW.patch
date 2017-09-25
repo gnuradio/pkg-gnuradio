@@ -1,7 +1,7 @@
 From 903ffe18342ea6880dbebc7dff546b429bef40bc Mon Sep 17 00:00:00 2001
 From: Paul Cercueil <paul.cercueil@analog.com>
 Date: Wed, 28 Jun 2017 11:33:38 +0200
-Subject: [PATCH 45/58] Fix linking of Python modules under 64-bits MinGW
+Subject: [PATCH 45/72] Fix linking of Python modules under 64-bits MinGW
 
 https://stackoverflow.com/questions/2842469/python-undefined-reference-to-imp-py-initmodule4
 

@@ -1,7 +1,7 @@
 From 63c598662e93ddcfa8ca00726a085d155565c28b Mon Sep 17 00:00:00 2001
 From: Bill Clark <saikbc89@gmail.com>
 Date: Thu, 11 May 2017 19:00:03 -0400
-Subject: [PATCH 25/58] qtgui: Tweaked the QT Label to be more friendly to
+Subject: [PATCH 25/72] qtgui: Tweaked the QT Label to be more friendly to
  floating point numbers with custom formatter. Previously this failed due to
  the use of eng_notation.
 

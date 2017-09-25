@@ -1,7 +1,7 @@
 From 071d27a8b9ce11594fc387be2f3fee58b6813d4d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
 Date: Tue, 27 Jun 2017 21:19:04 +0200
-Subject: [PATCH 42/58] =?UTF-8?q?Fix:=20hazardous=20floating=20point=20sqr?=
+Subject: [PATCH 42/72] =?UTF-8?q?Fix:=20hazardous=20floating=20point=20sqr?=
  =?UTF-8?q?t(1.0=20-=20(1.0+-epsilon)=C2=B2)?=
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8

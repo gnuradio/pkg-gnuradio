@@ -1,7 +1,7 @@
 From 1ae8015cee510fd51e67ddf860f421c9c701c28b Mon Sep 17 00:00:00 2001
 From: Ruben Undheim <ruben.undheim@gmail.com>
 Date: Tue, 11 Apr 2017 22:10:39 +0200
-Subject: [PATCH 15/58] Fix a segfault issue for QT time sink
+Subject: [PATCH 15/72] Fix a segfault issue for QT time sink
 
 When running with trigger mode set to "tag", there is
 a corner case where d_start becomes -1, and the flow

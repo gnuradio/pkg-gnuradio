@@ -1,7 +1,7 @@
 From f993884dde6c09b12cc5ceb3d9df7b3896196e32 Mon Sep 17 00:00:00 2001
 From: Ben Hilburn <ben.hilburn@ettus.com>
 Date: Fri, 10 Mar 2017 15:34:17 -0500
-Subject: [PATCH 04/58] Doxygen: Fixing license notice on Doxygen-generated
+Subject: [PATCH 04/72] Doxygen: Fixing license notice on Doxygen-generated
  `index.html`.
 
 Also fixed old link to Tom's blog to point to new GNU Radio blog.
