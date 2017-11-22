@@ -3,7 +3,7 @@ Section: comm
 Priority: optional
 Maintainer: A. Maitland Bottoms <bottoms@debian.org>
 Build-Depends: cmake,
-               debhelper (>= 9.0.0~),
+               debhelper (>= 10.0~),
                dh-python,
                doxygen,
                libasound2-dev,
@@ -45,7 +45,7 @@ Build-Depends: cmake,
                python-lxml,
                python-numpy,
                python-opengl,
-	       python-pyqt5,
+	       python-pyqt5 [linux-any],
                python-scipy,
                python-sphinx,
                python-wxgtk3.0,
@@ -54,7 +54,7 @@ Build-Depends: cmake,
 	       qt5-qmake,
                swig (>=1.3.31),
                xmlto
-Standards-Version: 4.1.0
+Standards-Version: 4.1.1
 Homepage: http://gnuradio.org/
 Vcs-Git: https://anonscm.debian.org/git/users/bottoms/pkg-gnuradio.git
 Vcs-Browser: https://anonscm.debian.org/cgit/users/bottoms/pkg-gnuradio.git/
@@ -67,7 +67,6 @@ Depends: libvolk1-bin,
          python-lxml,
 	 python-numpy,
          python-opengl,
-         python-qt5,
          python-sip,
          python-wxgtk3.0,
          python-zmq [!hurd-i386],
@@ -76,7 +75,8 @@ Depends: libvolk1-bin,
          ${shlibs:Depends}
 Recommends: gnuradio-dev,
             python-matplotlib,
-            python-networkx,
+	    python-networkx,
+            python-pyqt5 [linux-any],
             python-qwt-qt5,
             python-scipy,
             python-tk,
