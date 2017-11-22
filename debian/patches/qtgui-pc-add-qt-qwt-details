@@ -1,0 +1,31 @@
+From 02557479c0b4d6e050a644a08a07e5f463ff9448 Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Tue, 21 Nov 2017 20:17:53 -0500
+Subject: [PATCH] qtgui pc add qt qwt details
+
+---
+ gr-qtgui/CMakeLists.txt       | 2 ++
+ gr-qtgui/gnuradio-qtgui.pc.in | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+--- a/gr-qtgui/CMakeLists.txt
++++ b/gr-qtgui/CMakeLists.txt
+@@ -121,6 +121,8 @@
+ ########################################################################
+ # Create Pkg Config File
+ ########################################################################
++set( PC_LIBS "${QWT_LIBRARIES} ${QT_LIBRARIES}" )
++string (REPLACE ";" " " PC_LIBS_STR "${PC_LIBS}")
+ configure_file(
+     ${CMAKE_CURRENT_SOURCE_DIR}/gnuradio-qtgui.pc.in
+     ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-qtgui.pc
+--- a/gr-qtgui/gnuradio-qtgui.pc.in
++++ b/gr-qtgui/gnuradio-qtgui.pc.in
+@@ -7,5 +7,5 @@
+ Description: GNU Radio blocks for QT GUI
+ Requires: gnuradio-runtime
+ Version: @LIBVER@
+-Libs: -L${libdir} -lgnuradio-qtgui
+-Cflags: -I${includedir}
++Libs: -L${libdir} -lgnuradio-qtgui ${PC_LIBS_STR}
++Cflags: -I${includedir} -I${QWT_INCLUDE_DIRS} -I${QT_HEADERS_DIR}

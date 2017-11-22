@@ -1,3 +1,12 @@
+gnuradio (3.7.11-3) unstable; urgency=medium
+
+  * update to v3.7.11-118-g6d22211960
+  * Add Suggests: to gnuradio-dev to help guide OOT users
+    Add Qt and Qwt details from build into gnuradio-qtgui.pc (Closes: #879110)
+  * qt4-qt5 patch - build with with qt5 (Closes: #874893)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Tue, 21 Nov 2017 20:55:34 -0500
+
 gnuradio (3.7.11-2) unstable; urgency=medium
 
   * update to v3.7.11-113-gbbed667ecc
