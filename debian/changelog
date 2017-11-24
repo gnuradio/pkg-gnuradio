@@ -1,3 +1,9 @@
+gnuradio (3.7.11-5) unstable; urgency=medium
+
+  * python-pyqt5 is available on kFreeBSD
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 23 Nov 2017 23:56:41 -0500
+
 gnuradio (3.7.11-4) unstable; urgency=medium
 
   * use installable dependencies
