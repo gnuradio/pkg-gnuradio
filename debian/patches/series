@@ -89,6 +89,10 @@ Convert-tabs-to-spaces
 Get-the-FreeDV-demodulator-working
 improve-desktop-search
 fix-atsc-slicer-agc-impl-h
-qtgui-pc-add-qt-qwt-details
-qt4-qt5
+from-next-runtime-replace-auto_ptr-with-unique_ptr
 doxygen-reproducible
+qtgui-pc-add-qt-qwt-details
+qt5-ctrlport
+qt5-qtgui
+qt5-uhd
+qt5-qtgui-grc

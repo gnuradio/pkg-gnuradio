@@ -1,0 +1,72 @@
+From 834c94457befa1f39c6eefbc9faed3b750f2ce19 Mon Sep 17 00:00:00 2001
+From: Johnathan Corgan <johnathan@corganlabs.com>
+Date: Mon, 17 Apr 2017 08:41:26 -0700
+Subject: [PATCH 144/257] runtime: replace std::auto_ptr usage with
+ std::unique_ptr
+
+---
+ gnuradio-runtime/include/gnuradio/rpcmanager.h         | 4 ++--
+ gnuradio-runtime/lib/controlport/rpcserver_selector.cc | 4 ++--
+ gnuradio-runtime/lib/thread/thread_group.cc            | 2 +-
+ gr-blocks/lib/tcp_server_sink_impl.h                   | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/gnuradio-runtime/include/gnuradio/rpcmanager.h b/gnuradio-runtime/include/gnuradio/rpcmanager.h
+index e7ee4c4942..57682ac251 100644
+--- a/gnuradio-runtime/include/gnuradio/rpcmanager.h
++++ b/gnuradio-runtime/include/gnuradio/rpcmanager.h
+@@ -54,8 +54,8 @@ class GR_RUNTIME_API rpcmanager : public virtual rpcmanager_base
+   static bool booter_registered;
+   static bool aggregator_registered;
+   static void rpcserver_booter_base_sptr_dest(rpcserver_booter_base* b) {;}
+-  static std::auto_ptr<rpcserver_booter_base> boot;
+-  static std::auto_ptr<rpcserver_booter_aggregator> aggregator;
++  static std::unique_ptr<rpcserver_booter_base> boot;
++  static std::unique_ptr<rpcserver_booter_aggregator> aggregator;
+ };
+ 
+ #endif /* RPCMANAGER_H */
+diff --git a/gnuradio-runtime/lib/controlport/rpcserver_selector.cc b/gnuradio-runtime/lib/controlport/rpcserver_selector.cc
+index fcba1ab524..2785513a46 100644
+--- a/gnuradio-runtime/lib/controlport/rpcserver_selector.cc
++++ b/gnuradio-runtime/lib/controlport/rpcserver_selector.cc
+@@ -27,8 +27,8 @@
+ bool rpcmanager::make_aggregator(false);
+ bool rpcmanager::booter_registered(false);
+ bool rpcmanager::aggregator_registered(false);
+-std::auto_ptr<rpcserver_booter_base> rpcmanager::boot(0);
+-std::auto_ptr<rpcserver_booter_aggregator> rpcmanager::aggregator(0);
++std::unique_ptr<rpcserver_booter_base> rpcmanager::boot;
++std::unique_ptr<rpcserver_booter_aggregator> rpcmanager::aggregator;
+ 
+ #ifdef GR_RPCSERVER_ENABLED
+ rpcmanager manager_instance;
+diff --git a/gnuradio-runtime/lib/thread/thread_group.cc b/gnuradio-runtime/lib/thread/thread_group.cc
+index e467dfda5a..637525e19e 100644
+--- a/gnuradio-runtime/lib/thread/thread_group.cc
++++ b/gnuradio-runtime/lib/thread/thread_group.cc
+@@ -37,7 +37,7 @@ namespace gr {
+     {
+       // No scoped_lock required here since the only "shared data" that's
+       // modified here occurs inside add_thread which does scoped_lock.
+-      std::auto_ptr<boost::thread> thrd(new boost::thread(threadfunc));
++      std::unique_ptr<boost::thread> thrd(new boost::thread(threadfunc));
+       add_thread(thrd.get());
+       return thrd.release();
+     }
+diff --git a/gr-blocks/lib/tcp_server_sink_impl.h b/gr-blocks/lib/tcp_server_sink_impl.h
+index d10f3b95b8..ea1aa3e84a 100644
+--- a/gr-blocks/lib/tcp_server_sink_impl.h
++++ b/gr-blocks/lib/tcp_server_sink_impl.h
+@@ -39,7 +39,7 @@ namespace gr {
+       boost::asio::io_service d_io_service;
+       gr::thread::thread d_io_serv_thread;
+       boost::asio::ip::tcp::endpoint d_endpoint;
+-      std::auto_ptr<boost::asio::ip::tcp::socket> d_socket;
++      std::unique_ptr<boost::asio::ip::tcp::socket> d_socket;
+       std::set<boost::asio::ip::tcp::socket *> d_sockets;
+       boost::asio::ip::tcp::acceptor d_acceptor;
+ 
+-- 
+2.11.0
+

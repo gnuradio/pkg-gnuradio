@@ -1,3 +1,10 @@
+gnuradio (3.7.11-6) unstable; urgency=medium
+
+  * grc and apps using qt5
+  * from next branch runtime: replace std::auto_ptr with std::unique_ptr
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 26 Nov 2017 19:42:29 -0500
+
 gnuradio (3.7.11-5) unstable; urgency=medium
 
   * python-pyqt5 is available on kFreeBSD

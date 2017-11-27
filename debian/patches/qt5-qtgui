@@ -1,0 +1,547 @@
+From beeea9f6c073d99affd11608867d6a273a12af1d Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 25 Nov 2017 23:18:54 -0500
+Subject: [PATCH 1/3] gr-qtgui-qt5
+
+---
+ gr-qtgui/apps/gr_constellation_plot      | 4 ++--
+ gr-qtgui/apps/gr_psd_plot_b              | 4 ++--
+ gr-qtgui/apps/gr_psd_plot_c              | 4 ++--
+ gr-qtgui/apps/gr_psd_plot_f              | 4 ++--
+ gr-qtgui/apps/gr_psd_plot_i              | 4 ++--
+ gr-qtgui/apps/gr_psd_plot_s              | 4 ++--
+ gr-qtgui/apps/gr_spectrogram_plot        | 4 ++--
+ gr-qtgui/apps/gr_spectrogram_plot_b      | 4 ++--
+ gr-qtgui/apps/gr_spectrogram_plot_c      | 4 ++--
+ gr-qtgui/apps/gr_spectrogram_plot_f      | 4 ++--
+ gr-qtgui/apps/gr_spectrogram_plot_i      | 4 ++--
+ gr-qtgui/apps/gr_spectrogram_plot_s      | 4 ++--
+ gr-qtgui/apps/gr_time_plot_b             | 4 ++--
+ gr-qtgui/apps/gr_time_plot_c             | 4 ++--
+ gr-qtgui/apps/gr_time_plot_f             | 4 ++--
+ gr-qtgui/apps/gr_time_plot_i             | 4 ++--
+ gr-qtgui/apps/gr_time_plot_s             | 4 ++--
+ gr-qtgui/apps/gr_time_raster_b           | 4 ++--
+ gr-qtgui/apps/gr_time_raster_f           | 4 ++--
+ gr-qtgui/apps/plot_base.py               | 4 ++--
+ gr-qtgui/apps/plot_constellation_form.py | 4 ++--
+ gr-qtgui/apps/plot_form.py               | 4 ++--
+ gr-qtgui/apps/plot_psd_base.py           | 4 ++--
+ gr-qtgui/apps/plot_psd_form.py           | 4 ++--
+ gr-qtgui/apps/plot_spectrogram_base.py   | 4 ++--
+ gr-qtgui/apps/plot_spectrogram_form.py   | 4 ++--
+ gr-qtgui/apps/plot_time_base.py          | 4 ++--
+ gr-qtgui/apps/plot_time_form.py          | 4 ++--
+ gr-qtgui/apps/plot_time_raster_base.py   | 4 ++--
+ gr-qtgui/apps/plot_time_raster_form.py   | 4 ++--
+ gr-qtgui/apps/uhd_display.py             | 6 +++---
+ gr-qtgui/doc/qtgui.dox                   | 4 ++--
+ gr-qtgui/examples/pyqt_waterfall_c.py    | 2 +-
+ gr-qtgui/python/qtgui/range.py.cmakein   | 2 +-
+ 34 files changed, 65 insertions(+), 65 deletions(-)
+
+--- a/gr-qtgui/apps/gr_constellation_plot
++++ b/gr-qtgui/apps/gr_constellation_plot
+@@ -28,10 +28,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/gr_psd_plot_b
++++ b/gr-qtgui/apps/gr_psd_plot_b
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class psd_plot_b(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_psd_plot_c
++++ b/gr-qtgui/apps/gr_psd_plot_c
+@@ -32,10 +32,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class psd_plot_c(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_psd_plot_f
++++ b/gr-qtgui/apps/gr_psd_plot_f
+@@ -32,10 +32,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class psd_plot_f(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_psd_plot_i
++++ b/gr-qtgui/apps/gr_psd_plot_i
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class psd_plot_i(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_psd_plot_s
++++ b/gr-qtgui/apps/gr_psd_plot_s
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class psd_plot_s(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_spectrogram_plot
++++ b/gr-qtgui/apps/gr_spectrogram_plot
+@@ -36,10 +36,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class spectrogram_plot_c(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_spectrogram_plot_b
++++ b/gr-qtgui/apps/gr_spectrogram_plot_b
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class spectrogram_plot_b(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_spectrogram_plot_c
++++ b/gr-qtgui/apps/gr_spectrogram_plot_c
+@@ -32,10 +32,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class spectrogram_plot_c(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_spectrogram_plot_f
++++ b/gr-qtgui/apps/gr_spectrogram_plot_f
+@@ -32,10 +32,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class spectrogram_plot_f(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_spectrogram_plot_i
++++ b/gr-qtgui/apps/gr_spectrogram_plot_i
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class spectrogram_plot_i(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_spectrogram_plot_s
++++ b/gr-qtgui/apps/gr_spectrogram_plot_s
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class spectrogram_plot_s(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_time_plot_b
++++ b/gr-qtgui/apps/gr_time_plot_b
+@@ -30,10 +30,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class plot_time_b(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_time_plot_c
++++ b/gr-qtgui/apps/gr_time_plot_c
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class plot_time_c(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_time_plot_f
++++ b/gr-qtgui/apps/gr_time_plot_f
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class plot_time_f(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_time_plot_i
++++ b/gr-qtgui/apps/gr_time_plot_i
+@@ -30,10 +30,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class plot_time_i(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_time_plot_s
++++ b/gr-qtgui/apps/gr_time_plot_s
+@@ -30,10 +30,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class plot_time_s(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_time_raster_b
++++ b/gr-qtgui/apps/gr_time_raster_b
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class plot_time_raster_b(plot_base.plot_base):
+--- a/gr-qtgui/apps/gr_time_raster_f
++++ b/gr-qtgui/apps/gr_time_raster_f
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ class plot_time_raster_f(plot_base.plot_base):
+--- a/gr-qtgui/apps/plot_base.py
++++ b/gr-qtgui/apps/plot_base.py
+@@ -29,10 +29,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_constellation_form.py
++++ b/gr-qtgui/apps/plot_constellation_form.py
+@@ -24,10 +24,10 @@
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4."
++    print "Error: Program requires PyQt5."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_form.py
++++ b/gr-qtgui/apps/plot_form.py
+@@ -21,10 +21,10 @@
+ #
+ 
+ try:
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4."
++    print "Error: Program requires PyQt5."
+     sys.exit(1)
+ 
+ import numpy
+--- a/gr-qtgui/apps/plot_psd_base.py
++++ b/gr-qtgui/apps/plot_psd_base.py
+@@ -27,10 +27,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_psd_form.py
++++ b/gr-qtgui/apps/plot_psd_form.py
+@@ -24,10 +24,10 @@
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4."
++    print "Error: Program requires PyQt5."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_spectrogram_base.py
++++ b/gr-qtgui/apps/plot_spectrogram_base.py
+@@ -27,10 +27,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_spectrogram_form.py
++++ b/gr-qtgui/apps/plot_spectrogram_form.py
+@@ -24,10 +24,10 @@
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4."
++    print "Error: Program requires PyQt5."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_time_base.py
++++ b/gr-qtgui/apps/plot_time_base.py
+@@ -27,10 +27,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_time_form.py
++++ b/gr-qtgui/apps/plot_time_form.py
+@@ -24,10 +24,10 @@
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4."
++    print "Error: Program requires PyQt5."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_time_raster_base.py
++++ b/gr-qtgui/apps/plot_time_raster_base.py
+@@ -27,10 +27,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/plot_time_raster_form.py
++++ b/gr-qtgui/apps/plot_time_raster_form.py
+@@ -24,10 +24,10 @@
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4."
++    print "Error: Program requires PyQt5."
+     sys.exit(1)
+ 
+ try:
+--- a/gr-qtgui/apps/uhd_display.py
++++ b/gr-qtgui/apps/uhd_display.py
+@@ -31,10 +31,10 @@
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    print "Error: Program requires PyQt4 and gr-qtgui."
++    print "Error: Program requires PyQt5 and gr-qtgui."
+     sys.exit(1)
+ 
+ try:
+@@ -218,7 +218,7 @@
+ 
+         # Get the reference pointer to the SpectrumDisplayForm QWidget
+         # Wrap the pointer as a PyQt SIP object
+-        #     This can now be manipulated as a PyQt4.QtGui.QWidget
++        #     This can now be manipulated as a PyQt5.QtGui.QWidget
+         self.pysink = sip.wrapinstance(self.snk.pyqwidget(), QtGui.QWidget)
+ 
+         self.main_win = main_window(self.pysink, self)
+--- a/gr-qtgui/doc/qtgui.dox
++++ b/gr-qtgui/doc/qtgui.dox
+@@ -129,7 +129,7 @@
+ \li QtCore (version >= 4.4)
+ \li QtGui (version >= 4.4)
+ \li QtOpenGL (version >= 4.4)
+-\li PyQt4 for Qt4 (version >= 4.4)
++\li PyQt5 for Qt5 (version >= 4.4)
+ \li Qwt (version >= 5.2)
+ 
+ \section qtgui_usage Usage
+@@ -148,7 +148,7 @@
+ while the GUI is alive.
+ 
+ \code
+-from PyQt4 import Qt
++from PyQt5 import Qt
+ from gnuradio import qtgui
+ import sys, sip
+ 
+--- a/gr-qtgui/examples/pyqt_waterfall_c.py
++++ b/gr-qtgui/examples/pyqt_waterfall_c.py
+@@ -29,7 +29,7 @@
+     from PyQt4 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    sys.stderr.write("Error: Program requires PyQt4 and gr-qtgui.\n")
++    sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+ 
+ try:
