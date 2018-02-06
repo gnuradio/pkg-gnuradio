@@ -17,10 +17,3 @@ override_dh_auto_test:
 override_dh_acc:
 	- dh_acc $@
 	- cat logs/gnuradio-dev/*/log.txt
-
-# Doxygen's jquery.js isn't really jquery.js - look for upstream to ship doxygen.js soon instead.
-override_dh_auto_install:
-	dh_auto_install
-	# jquery.js is provided in another debian package, do not ship one here too
-	rm debian/tmp/usr/share/doc/gnuradio*/html/jquery.js
-	# chmod +x debian/tmp/usr/lib/python2.7/dist-packages/gnuradio/grc/python/flow_graph.tmpl

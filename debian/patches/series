@@ -69,6 +69,20 @@
 0070-doc-improved-msg-passing-section-of-usage-manual-in-.patch
 0071-cmake-fix-build-issue-with-introduction-with-std-c99.patch
 0072-tuntap_pdu-use-MTU-14-byte-receive-buffer-for-TAP-to.patch
+0073-proofed-and-did-minor-restructuring-of-doxygen-page-.patch
+0074-gr-blocks-improve-moving_average-unit-test.patch
+0075-runtime-Moved-block-by-block-setup_rpc-calls-to-the-.patch
+0076-utils-gr_modtool-template-uses-numpy.float-which-def.patch
+0077-fixed-redmine-Wiki-URL-to-Pybombs-by-removal-added-s.patch
+0078-wiki-URL-fixes-moving-log4cpp-to-mandatory-deps.patch
+0079-Replaced-redmine-URLs.patch
+0080-docs-Add-missing-information-on-usage-of-produce-con.patch
+0081-Use-logf-where-dealing-with-single-precision-floats.patch
+0082-Use-type-generic-or-float-versions-of-cmath-function.patch
+0083-fixup-Use-type-generic-or-float-versions-of-cmath-fu.patch
+0084-fixup-fixup-Use-type-generic-or-float-versions-of-cm.patch
+0085-cmake-run-coverage-on-failed-tests-exclude-swig-gene.patch
+0086-cmake-dont-remove-coverage-fragments.patch
 debian-soname
 usr-bin-examples
 bsd-shm
@@ -96,3 +110,4 @@ qt5-ctrlport
 qt5-qtgui
 qt5-uhd
 qt5-qtgui-grc
+qt5-qtgui-bug886807

@@ -1,0 +1,108 @@
+From 8d0d97a394114db527b0bf7995824804a01408d5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <mueller@kit.edu>
+Date: Fri, 12 Jan 2018 16:07:41 +0100
+Subject: [PATCH 79/86] Replaced redmine URLs.
+
+---
+ README                                         |  6 +++---
+ README.hacking                                 | 16 ++++++++++++++--
+ docs/doxygen/other/volk_guide.dox              |  3 +--
+ gnuradio-runtime/lib/controlport/thrift/README |  2 +-
+ 4 files changed, 19 insertions(+), 8 deletions(-)
+
+diff --git a/README b/README
+index f460dd76ab..ccb6744ede 100644
+--- a/README
++++ b/README
+@@ -27,11 +27,11 @@ and source code viewer.
+ 
+ If you've got questions about GNU Radio, please subscribe to the
+ discuss-gnuradio mailing list and post your questions there.
+-http://gnuradio.org/redmine/projects/gnuradio/wiki/MailingLists
++https://wiki.gnuradio.org/index.php/MailingLists
+ 
+ There is also a "Build Guide" in the wiki that contains OS specific
+ recommendations:
+-http://gnuradio.org/redmine/projects/gnuradio/wiki/BuildGuide
++https://wiki.gnuradio.org/index.php/BuildGuide
+ 
+ 
+ The bleeding edge code can be found in our git repository at
+@@ -41,7 +41,7 @@ this command:
+   $ git clone git://git.gnuradio.org/gnuradio
+ 
+ For information about using Git, please see:
+-http://gnuradio.org/redmine/projects/gnuradio/wiki/DevelopingWithGit
++https://wiki.gnuradio.org/index.php/DevelopingWithGit
+ 
+ 
+ How to Build GNU Radio:
+diff --git a/README.hacking b/README.hacking
+index 2d0a1c395f..ca8efab388 100644
+--- a/README.hacking
++++ b/README.hacking
+@@ -1,6 +1,6 @@
+ # -*- Outline -*-
+ #
+-# Copyright 2004,2007,2008,2009 Free Software Foundation, Inc.
++# Copyright 2004,2007,2008,2009,2018 Free Software Foundation, Inc.
+ #
+ # This file is part of GNU Radio
+ #
+@@ -20,6 +20,17 @@
+ # Boston, MA 02110-1301, USA.
+ #
+ 
++* Getting started with GNU Radio development.
++
++If you're new to developing software with GNU Radio, please refer to
++
++https://tutorials.gnuradio.org/
++
++Heaving read this will be very helpful when you're diving into the GNU Radio
++source code tree.
++
++* About this document
++
+ Random notes on coding conventions, some explanations about why things
+ aren't done differently, etc, etc,
+ 
+@@ -112,7 +123,8 @@ you and later maintainers identify corner cases, regressions and other malfuncti
+ of code.
+ 
+ GNU Radio has integrated versatile, easy to use testing facilities. Please refer to
+-http://gnuradio.org/redmine/projects/gnuradio/wiki/Coding_guide_impl#Unit-testing
++
++https://wiki.gnuradio.org/index.php/Coding_guide_impl#Unit-testing
+ 
+ 
+ * Standard command line options
+diff --git a/docs/doxygen/other/volk_guide.dox b/docs/doxygen/other/volk_guide.dox
+index e5a55c1719..1f8f128e4b 100644
+--- a/docs/doxygen/other/volk_guide.dox
++++ b/docs/doxygen/other/volk_guide.dox
+@@ -51,8 +51,7 @@ all else fails, VOLK can fall back on the generic proto-kernel, which
+ will always work.
+ 
+ See <a
+-href="http://gnuradio.org/redmine/projects/gnuradio/wiki/Volk">VOLK on
+-gnuradio.org</a> for details on the VOLK naming scheme.
++href="http://libvolk.org</a> for details on the VOLK naming scheme.
+ 
+ 
+ \section volk_alignment Setting and Using Memory Alignment Information
+diff --git a/gnuradio-runtime/lib/controlport/thrift/README b/gnuradio-runtime/lib/controlport/thrift/README
+index 5448e512f7..233dda9362 100644
+--- a/gnuradio-runtime/lib/controlport/thrift/README
++++ b/gnuradio-runtime/lib/controlport/thrift/README
+@@ -1,6 +1,6 @@
+ For info on ControlPort and Thrift, see the wiki page:
+ 
+-http://gnuradio.org/redmine/projects/gnuradio/wiki/ControlPort
++https://wiki.gnuradio.org/index.php/ControlPort
+ 
+ This readme is to address the patch file in the repo for Thrift. We
+ believe that there is a bug in Thrift itself that occasionally causes
+-- 
+2.11.0
+

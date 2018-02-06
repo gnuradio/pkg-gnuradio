@@ -1,0 +1,40 @@
+From 9b58fa1a9002a468f6ddcfae0aab7afcf5891945 Mon Sep 17 00:00:00 2001
+From: Andrej Rode <mail@andrejro.de>
+Date: Thu, 1 Feb 2018 14:26:04 +0100
+Subject: [PATCH 85/86] cmake: run coverage on failed tests & exclude swig
+ generated code and qa_*
+
+---
+ CMakeLists.txt                   | 2 +-
+ cmake/Modules/CodeCoverage.cmake | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5691d74176..59e3c886c4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -352,7 +352,7 @@ endif()
+ 
+ if(${CMAKE_BUILD_TYPE} STREQUAL "Coverage")
+   include(CodeCoverage)
+-  setup_target_for_coverage(coverage "ctest" coverage)
++  setup_target_for_coverage(coverage "ctest || exit 0" coverage)
+ endif()
+ 
+ 
+diff --git a/cmake/Modules/CodeCoverage.cmake b/cmake/Modules/CodeCoverage.cmake
+index a0b0ef5269..0659f168d6 100644
+--- a/cmake/Modules/CodeCoverage.cmake
++++ b/cmake/Modules/CodeCoverage.cmake
+@@ -146,7 +146,7 @@ FUNCTION(SETUP_TARGET_FOR_COVERAGE _targetname _testrunner _outputname)
+ 
+ 		# Capturing lcov counters and generating report
+ 		COMMAND ${LCOV_PATH} --directory . --capture --output-file ${coverage_info}
+-		COMMAND ${LCOV_PATH} --remove ${coverage_info} 'tests/*' '/usr/*' --output-file ${coverage_cleaned}
++		COMMAND ${LCOV_PATH} --remove ${coverage_info} 'tests/*' '/usr/*' 'swig/*' '*/swig/*' '*/qa_*' --output-file ${coverage_cleaned}
+ 		COMMAND ${GENHTML_PATH} -o ${_outputname} ${coverage_cleaned}
+ 		COMMAND ${CMAKE_COMMAND} -E remove ${coverage_info} ${coverage_cleaned}
+ 
+-- 
+2.11.0
+

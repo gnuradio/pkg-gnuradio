@@ -1,0 +1,5686 @@
+<!-- kind:binary;verdict:incompatible;affected:0.6;added:0;removed:0;type_problems_high:0;type_problems_medium:3;type_problems_low:3;interface_problems_high:0;interface_problems_medium:0;interface_problems_low:0;changed_constants:0;constant_changes_other:10;tool_version:2.2 -->
+<!-- kind:source;verdict:compatible;affected:0;added:0;removed:0;type_problems_high:0;type_problems_medium:0;type_problems_low:0;interface_problems_high:0;interface_problems_medium:0;interface_problems_low:0;changed_constants:2;interface_changes_other:156;constant_changes_other:28;tool_version:2.2 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="gnuradio-dev, compatibility, API, ABI, report" />
+<meta name="description" content="API/ABI compatibility report for the gnuradio-dev library between 3.7.11-3 and 3.7.11-7 versions" />
+<title>gnuradio-dev: 3.7.11-3 to 3.7.11-7 compatibility report</title>
+<style type="text/css">
+body {
+    font-family:Arial, sans-serif;
+    background-color:White;
+    color:Black;
+}
+hr {
+    color:Black;
+    background-color:Black;
+    height:1px;
+    border:0;
+}
+h1 {
+    margin-bottom:0px;
+    padding-bottom:0px;
+    font-size:1.625em;
+}
+h2 {
+    margin-bottom:0px;
+    padding-bottom:0px;
+    font-size:1.25em;
+    white-space:nowrap;
+}
+span.section {
+    font-weight:bold;
+    cursor:pointer;
+    color:#003E69;
+    white-space:nowrap;
+    margin-left:0.3125em;
+}
+span.new_sign {
+    font-weight:bold;
+    margin-left:1.65em;
+    color:#003E69;
+}
+span.new_sign_lbl {
+    margin-left:3em;
+    font-size:1em;
+    color:Black;
+}
+span:hover.section {
+    color:#336699;
+}
+span.sect_aff {
+    cursor:pointer;
+    padding-left:1.55em;
+    font-size:0.875em;
+    color:#cc3300;
+}
+span.sect_info {
+    cursor:pointer;
+    padding-left:1.55em;
+    font-size:0.875em;
+    color:Black;
+}
+span.ext {
+    font-weight:normal;
+}
+span.h_name {
+    color:#cc3300;
+    font-size:0.875em;
+    font-weight:bold;
+}
+div.h_list, div.lib_list {
+    font-size:0.94em;
+    padding-left:0.4em;
+}
+span.ns {
+    color:#408080;
+    font-size:0.94em;
+}
+span.lib_name {
+    color:Green;
+    font-size:0.875em;
+    font-weight:bold;
+}
+span.iname {
+    font-weight:bold;
+    color:#003E69;
+    margin-left:0.3125em;
+}
+span.iname_b {
+    font-weight:bold;
+}
+span.iname_a {
+    color:#333333;
+    font-weight:bold;
+    font-size:0.94em;
+}
+span.sym_p {
+    font-weight:normal;
+    white-space:normal;
+}
+span.sym_pd {
+    white-space:normal;
+}
+span.sym_p span, span.sym_pd span {
+    white-space:nowrap;
+}
+div.affect {
+    padding-left:1em;
+    padding-bottom:10px;
+    font-size:0.87em;
+    font-style:italic;
+    line-height:0.9em;
+}
+div.affected {
+    padding-left:1.9em;
+    padding-top:10px;
+}
+table.ptable {
+    border-collapse:collapse;
+    border:1px outset black;
+    margin-left:0.95em;
+    margin-top:3px;
+    margin-bottom:3px;
+    width:56.25em;
+}
+table.ptable td {
+    border:1px solid gray;
+    padding:3px;
+    font-size:0.875em;
+    text-align:left;
+    vertical-align:top;
+    max-width:28em;
+    word-wrap:break-word;
+}
+table.ptable th.pn {
+    width:2%;
+}
+table.ptable th.chg {
+    width:47%;
+}
+table.vtable {
+    border-collapse:collapse;
+    border:1px outset black;
+    margin-left:1.9em;
+    margin-top:0.7em;
+}
+table.vtable td {
+    border:1px solid gray;
+    padding:3px;
+    font-size:0.875em;
+    vertical-align:top;
+    max-width:450px;
+    word-wrap:break-word;
+}
+table.ptable th, table.vtable th {
+    background-color:#eeeeee;
+    font-weight:bold;
+    color:#333333;
+    font-family:Verdana, Arial;
+    font-size:0.875em;
+    border:1px solid gray;
+    text-align:center;
+    vertical-align:top;
+    white-space:nowrap;
+    padding:3px;
+}
+table.summary {
+    border-collapse:collapse;
+    border:1px outset black;
+}
+table.summary th {
+    background-color:#eeeeee;
+    font-weight:normal;
+    text-align:left;
+    font-size:0.94em;
+    white-space:nowrap;
+    border:1px inset gray;
+    padding:3px;
+}
+table.summary td {
+    text-align:right;
+    white-space:nowrap;
+    border:1px inset gray;
+    padding:3px 5px 3px 10px;
+}
+span.mngl {
+    padding-left:1em;
+    font-size:0.875em;
+    cursor:text;
+    color:#444444;
+    font-weight:bold;
+}
+span.pleft {
+    padding-left:2.5em;
+}
+span.sym_ver {
+    color:#333333;
+    white-space:nowrap;
+    font-family:"DejaVu Sans Mono", Monospace;
+}
+span.attr {
+    color:#333333;
+    font-weight:normal;
+}
+span.color_p {
+    font-style:italic;
+    color:Brown;
+}
+span.p {
+    font-style:italic;
+}
+span.fp {
+    font-style:italic;
+    background-color:#DCDCDC;
+}
+span.ttype {
+    font-weight:normal;
+}
+span.nowrap {
+    white-space:nowrap;
+}
+span.value {
+    font-weight:bold;
+}
+.passed {
+    background-color:#CCFFCC;
+    font-weight:normal;
+}
+.warning {
+    background-color:#F4F4AF;
+    font-weight:normal;
+}
+.failed {
+    background-color:#FFCCCC;
+    font-weight:normal;
+}
+.new {
+    background-color:#C6DEFF;
+    font-weight:normal;
+}
+.compatible {
+    background-color:#CCFFCC;
+    font-weight:normal;
+}
+.almost_compatible {
+    background-color:#FFDAA3;
+    font-weight:normal;
+}
+.incompatible {
+    background-color:#FFCCCC;
+    font-weight:normal;
+}
+.gray {
+    background-color:#DCDCDC;
+    font-weight:normal;
+}
+.top_ref {
+    font-size:0.69em;
+}
+.footer {
+    font-size:0.75em;
+}
+
+.tabset {
+    float:left;
+}
+a.tab {
+    border:1px solid Black;
+    float:left;
+    margin:0px 5px -1px 0px;
+    padding:3px 5px 3px 5px;
+    position:relative;
+    font-size:0.875em;
+    background-color:#DDD;
+    text-decoration:none;
+    color:Black;
+}
+a.disabled:hover
+{
+    color:Black;
+    background:#EEE;
+}
+a.active:hover
+{
+    color:Black;
+    background:White;
+}
+a.active {
+    border-bottom-color:White;
+    background-color:White;
+}
+div.tab {
+    border-top:1px solid Black;
+    padding:0px;
+    width:100%;
+    clear:both;
+}
+</style>
+<script type="text/javascript" language="JavaScript">
+<!--
+function showContent(header, id)
+{
+    e = document.getElementById(id);
+    if(e.style.display == 'none')
+    {
+        e.style.display = 'block';
+        e.style.visibility = 'visible';
+        header.innerHTML = header.innerHTML.replace(/\[[^0-9 ]\]/gi,"[&minus;]");
+    }
+    else
+    {
+        e.style.display = 'none';
+        e.style.visibility = 'hidden';
+        header.innerHTML = header.innerHTML.replace(/\[[^0-9 ]\]/gi,"[+]");
+    }
+}
+function initTabs()
+{
+    var url = window.location.href;
+    if(url.indexOf('_Source_')!=-1 || url.indexOf('#Source')!=-1)
+    {
+        var tab1 = document.getElementById('BinaryID');
+        var tab2 = document.getElementById('SourceID');
+        tab1.className='tab disabled';
+        tab2.className='tab active';
+    }
+    var sets = document.getElementsByTagName('div');
+    for (var i = 0; i < sets.length; i++)
+    {
+        if (sets[i].className.indexOf('tabset') != -1)
+        {
+            var tabs = [];
+            var links = sets[i].getElementsByTagName('a');
+            for (var j = 0; j < links.length; j++)
+            {
+                if (links[j].className.indexOf('tab') != -1)
+                {
+                    tabs.push(links[j]);
+                    links[j].tabs = tabs;
+                    var tab = document.getElementById(links[j].href.substr(links[j].href.indexOf('#') + 1));
+                    //reset all tabs on start
+                    if (tab)
+                    {
+                        if (links[j].className.indexOf('active')!=-1) {
+                            tab.style.display = 'block';
+                        }
+                        else {
+                            tab.style.display = 'none';
+                        }
+                    }
+                    links[j].onclick = function()
+                    {
+                        var tab = document.getElementById(this.href.substr(this.href.indexOf('#') + 1));
+                        if (tab)
+                        {
+                            //reset all tabs before change
+                            for (var k = 0; k < this.tabs.length; k++)
+                            {
+                                document.getElementById(this.tabs[k].href.substr(this.tabs[k].href.indexOf('#') + 1)).style.display = 'none';
+                                this.tabs[k].className = this.tabs[k].className.replace('active', 'disabled');
+                            }
+                            this.className = 'tab active';
+                            tab.style.display = 'block';
+                            // window.location.hash = this.id.replace('ID', '');
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if(url.indexOf('#')!=-1) {
+        location.href=location.href;
+    }
+}
+if (window.addEventListener) window.addEventListener('load', initTabs, false);
+else if (window.attachEvent) window.attachEvent('onload', initTabs);
+-->
+</script>
+</head>
+<body><a name='Source'></a><a name='Binary'></a><a name='Top'></a><h1>API compatibility report for the <span style='color:Blue;'>gnuradio-dev</span> library between <span style='color:Red;'>3.7.11-3</span> and <span style='color:Red;'>3.7.11-7</span> versions on <span style='color:Blue;'>x86_64</span></h1>
+
+            <br/>
+            <div class='tabset'>
+            <a id='BinaryID' href='#BinaryTab' class='tab active'>Binary<br/>Compatibility</a>
+            <a id='SourceID' href='#SourceTab' style='margin-left:3px' class='tab disabled'>Source<br/>Compatibility</a>
+            </div><div id='BinaryTab' class='tab'>
+<h2>Test Info</h2><hr/>
+<table class='summary'>
+<tr><th>Library Name</th><td>gnuradio-dev</td></tr>
+<tr><th>Version #1</th><td>3.7.11-3</td></tr>
+<tr><th>Version #2</th><td>3.7.11-7</td></tr>
+<tr><th>Arch</th><td>x86_64</td></tr>
+<tr><th>GCC Version</th><td>7</td></tr>
+<tr><th>Subject</th><td width='150px'>Binary Compatibility</td></tr>
+</table>
+<h2>Test Results</h2><hr/>
+<table class='summary'><tr><th>Total Header Files</th><td><a href='#Headers' style='color:Blue;'>830</a></td></tr>
+<tr><th>Total Libraries</th><td><a href='#Libs' style='color:Blue;'>24</a></td></tr>
+<tr><th>Total Symbols / Types</th><td>464 / 189</td></tr>
+<tr><th>Compatibility</th>
+<td class='warning'>99.4%</td>
+</tr>
+</table>
+<h2>Problem Summary</h2><hr/>
+<table class='summary'><tr><th></th><th style='text-align:center;'>Severity</th><th style='text-align:center;'>Count</th></tr><tr><th>Added Symbols</th><td>-</td><td>0</td></tr>
+<tr><th>Removed Symbols</th><td>High</td><td>0</td></tr>
+<tr><th rowspan='3'>Problems with<br/>Data Types</th><td>High</td><td>0</td></tr>
+<tr><td>Medium</td><td class='failed'><a href='#Type_Binary_Problems_Medium' style='color:Blue;'>3</a></td></tr>
+<tr><td>Low</td><td class='warning'><a href='#Type_Binary_Problems_Low' style='color:Blue;'>3</a></td></tr>
+<tr><th rowspan='3'>Problems with<br/>Symbols</th><td>High</td><td>0</td></tr>
+<tr><td>Medium</td><td>0</td></tr>
+<tr><td>Low</td><td>0</td></tr>
+<tr><th>Problems with<br/>Constants</th><td>Low</td><td>0</td></tr>
+<tr><th>Other Changes<br/>in Constants</th><td>-</td><td class='passed'><a href='#Other_Binary_Changes_In_Constants' style='color:Blue;'>10</a></td></tr>
+</table>
+
+<a name='Medium_Risk_Binary_Problems'></a><a name='Type_Binary_Problems_Medium'></a>
+<h2>Problems with Data Types, Medium Severity <span class='failed'>&nbsp;3&nbsp;</span></h2><hr/>
+<span class='h_name'>constellationdisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_1')">
+<span class='ext'>[+]</span> <span class='ttype'>class</span> ConstellationDisplayForm <span class='failed'>&nbsp;1&nbsp;</span></span>
+<br/>
+<div id="c_1" style="display:none;">
+<table class='ptable'><tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th></tr><tr>
+<th>1</th>
+<td>The layout of v-table has been changed for <b>unknown</b> reason.</td>
+<td>Call of any method in this class may result in crash or incorrect behavior of applications.</td>
+</tr>
+</table>
+<span class="sect_info" onclick="javascript:showContent(this, 'c_2')">
+[+] show v-table (old and new)</span>
+<br/>
+<div id="c_2" style="display:none;">
+<table class='vtable'><tr><th>Offset</th><th>Virtual Table (Old) - 68 entries</th><th>Virtual Table (New) - 69 entries</th></tr><tr><th>0</th>
+<td>(int (*)(...))0</td>
+<td>(int (*)(...))0</td></tr>
+<tr><th>8</th>
+<td>(int (*)(...))(&amp; typeinfo)</td>
+<td>(int (*)(...))(&amp; typeinfo)</td></tr>
+<tr><th>16</th>
+<td>ConstellationDisplayForm::metaObject</td>
+<td>ConstellationDisplayForm::metaObject</td></tr>
+<tr><th>24</th>
+<td>ConstellationDisplayForm::qt_metacast</td>
+<td>ConstellationDisplayForm::qt_metacast</td></tr>
+<tr><th>32</th>
+<td>ConstellationDisplayForm::qt_metacall</td>
+<td>ConstellationDisplayForm::qt_metacall</td></tr>
+<tr><th>40</th>
+<td>~ConstellationDisplayForm</td>
+<td>~ConstellationDisplayForm</td></tr>
+<tr><th>48</th>
+<td>~ConstellationDisplayForm</td>
+<td>~ConstellationDisplayForm</td></tr>
+<tr><th>56</th>
+<td>QWidget::event</td>
+<td>QWidget::event</td></tr>
+<tr><th>64</th>
+<td>QObject::eventFilter</td>
+<td>QObject::eventFilter</td></tr>
+<tr><th>72</th>
+<td>QObject::timerEvent</td>
+<td>QObject::timerEvent</td></tr>
+<tr><th>80</th>
+<td>QObject::childEvent</td>
+<td>QObject::childEvent</td></tr>
+<tr><th>88</th>
+<td>ConstellationDisplayForm::customEvent</td>
+<td>ConstellationDisplayForm::customEvent</td></tr>
+<tr><th>96</th>
+<td>QObject::connectNotify</td>
+<td>QObject::connectNotify</td></tr>
+<tr><th>104</th>
+<td>QObject::disconnectNotify</td>
+<td>QObject::disconnectNotify</td></tr>
+<tr><th>112</th>
+<td>QWidget::devType</td>
+<td>QWidget::devType</td></tr>
+<tr><th>120</th>
+<td>QWidget::setVisible</td>
+<td>QWidget::setVisible</td></tr>
+<tr><th>128</th>
+<td>QWidget::sizeHint</td>
+<td>QWidget::sizeHint</td></tr>
+<tr><th>136</th>
+<td>QWidget::minimumSizeHint</td>
+<td>QWidget::minimumSizeHint</td></tr>
+<tr><th>144</th>
+<td>QWidget::heightForWidth</td>
+<td>QWidget::heightForWidth</td></tr>
+<tr><th>152</th>
+<td class='failed'>QWidget::paintEngine</td>
+<td class='failed'>QWidget::hasHeightForWidth</td></tr>
+<tr><th>160</th>
+<td class='failed'>DisplayForm::mousePressEvent</td>
+<td class='failed'>QWidget::paintEngine</td></tr>
+<tr><th>168</th>
+<td class='failed'>QWidget::mouseReleaseEvent</td>
+<td class='failed'>DisplayForm::mousePressEvent</td></tr>
+<tr><th>176</th>
+<td class='failed'>QWidget::mouseDoubleClickEvent</td>
+<td class='failed'>QWidget::mouseReleaseEvent</td></tr>
+<tr><th>184</th>
+<td class='failed'>QWidget::mouseMoveEvent</td>
+<td class='failed'>QWidget::mouseDoubleClickEvent</td></tr>
+<tr><th>192</th>
+<td class='failed'>QWidget::wheelEvent</td>
+<td class='failed'>QWidget::mouseMoveEvent</td></tr>
+<tr><th>200</th>
+<td class='failed'>QWidget::keyPressEvent</td>
+<td class='failed'>QWidget::wheelEvent</td></tr>
+<tr><th>208</th>
+<td class='failed'>QWidget::keyReleaseEvent</td>
+<td class='failed'>QWidget::keyPressEvent</td></tr>
+<tr><th>216</th>
+<td class='failed'>QWidget::focusInEvent</td>
+<td class='failed'>QWidget::keyReleaseEvent</td></tr>
+<tr><th>224</th>
+<td class='failed'>QWidget::focusOutEvent</td>
+<td class='failed'>QWidget::focusInEvent</td></tr>
+<tr><th>232</th>
+<td class='failed'>QWidget::enterEvent</td>
+<td class='failed'>QWidget::focusOutEvent</td></tr>
+<tr><th>240</th>
+<td class='failed'>QWidget::leaveEvent</td>
+<td class='failed'>QWidget::enterEvent</td></tr>
+<tr><th>248</th>
+<td class='failed'>QWidget::paintEvent</td>
+<td class='failed'>QWidget::leaveEvent</td></tr>
+<tr><th>256</th>
+<td class='failed'>QWidget::moveEvent</td>
+<td class='failed'>QWidget::paintEvent</td></tr>
+<tr><th>264</th>
+<td class='failed'>DisplayForm::resizeEvent</td>
+<td class='failed'>QWidget::moveEvent</td></tr>
+<tr><th>272</th>
+<td class='failed'>DisplayForm::closeEvent</td>
+<td class='failed'>DisplayForm::resizeEvent</td></tr>
+<tr><th>280</th>
+<td class='failed'>QWidget::contextMenuEvent</td>
+<td class='failed'>DisplayForm::closeEvent</td></tr>
+<tr><th>288</th>
+<td class='failed'>QWidget::tabletEvent</td>
+<td class='failed'>QWidget::contextMenuEvent</td></tr>
+<tr><th>296</th>
+<td class='failed'>QWidget::actionEvent</td>
+<td class='failed'>QWidget::tabletEvent</td></tr>
+<tr><th>304</th>
+<td class='failed'>QWidget::dragEnterEvent</td>
+<td class='failed'>QWidget::actionEvent</td></tr>
+<tr><th>312</th>
+<td class='failed'>QWidget::dragMoveEvent</td>
+<td class='failed'>QWidget::dragEnterEvent</td></tr>
+<tr><th>320</th>
+<td class='failed'>QWidget::dragLeaveEvent</td>
+<td class='failed'>QWidget::dragMoveEvent</td></tr>
+<tr><th>328</th>
+<td class='failed'>QWidget::dropEvent</td>
+<td class='failed'>QWidget::dragLeaveEvent</td></tr>
+<tr><th>336</th>
+<td class='failed'>QWidget::showEvent</td>
+<td class='failed'>QWidget::dropEvent</td></tr>
+<tr><th>344</th>
+<td class='failed'>QWidget::hideEvent</td>
+<td class='failed'>QWidget::showEvent</td></tr>
+<tr><th>352</th>
+<td class='failed'>QWidget::x11Event</td>
+<td class='failed'>QWidget::hideEvent</td></tr>
+<tr><th>360</th>
+<td class='failed'>QWidget::changeEvent</td>
+<td class='failed'>QWidget::nativeEvent</td></tr>
+<tr><th>368</th>
+<td class='failed'>QWidget::metric</td>
+<td class='failed'>QWidget::changeEvent</td></tr>
+<tr><th>376</th>
+<td class='failed'>QWidget::inputMethodEvent</td>
+<td class='failed'>QWidget::metric</td></tr>
+<tr><th>384</th>
+<td class='failed'>QWidget::inputMethodQuery</td>
+<td class='failed'>QWidget::initPainter</td></tr>
+<tr><th>392</th>
+<td class='failed'>QWidget::focusNextPrevChild</td>
+<td class='failed'>QWidget::redirected</td></tr>
+<tr><th>400</th>
+<td class='failed'>QWidget::styleChange</td>
+<td class='failed'>QWidget::sharedPainter</td></tr>
+<tr><th>408</th>
+<td class='failed'>QWidget::enabledChange</td>
+<td class='failed'>QWidget::inputMethodEvent</td></tr>
+<tr><th>416</th>
+<td class='failed'>QWidget::paletteChange</td>
+<td class='failed'>QWidget::inputMethodQuery</td></tr>
+<tr><th>424</th>
+<td class='failed'>QWidget::fontChange</td>
+<td class='failed'>QWidget::focusNextPrevChild</td></tr>
+<tr><th>432</th>
+<td class='failed'>QWidget::windowActivationChange</td>
+<td class='failed'>ConstellationDisplayForm::getPlot</td></tr>
+<tr><th>440</th>
+<td class='failed'>QWidget::languageChange</td>
+<td class='failed'>ConstellationDisplayForm::setSampleRate</td></tr>
+<tr><th>448</th>
+<td class='failed'>ConstellationDisplayForm::getPlot</td>
+<td class='failed'>ConstellationDisplayForm::newData</td></tr>
+<tr><th>456</th>
+<td class='failed'>ConstellationDisplayForm::setSampleRate</td>
+<td class='failed'>ConstellationDisplayForm::autoScale</td></tr>
+<tr><th>464</th>
+<td class='failed'>ConstellationDisplayForm::newData</td>
+<td class='failed'>DisplayForm::onPlotPointSelected</td></tr>
+<tr><th>472</th>
+<td class='failed'>ConstellationDisplayForm::autoScale</td>
+<td class='failed'>(int (*)(...))-16</td></tr>
+<tr><th>480</th>
+<td class='failed'>DisplayForm::onPlotPointSelected</td>
+<td class='failed'>(int (*)(...))(&amp; typeinfo)</td></tr>
+<tr><th>488</th>
+<td class='failed'>(int (*)(...))-16</td>
+<td class='failed'>non-virtual thunk</td></tr>
+<tr><th>496</th>
+<td class='failed'>(int (*)(...))(&amp; typeinfo)</td>
+<td class='failed'>non-virtual thunk</td></tr>
+<tr><th>504</th>
+<td>non-virtual thunk</td>
+<td>non-virtual thunk</td></tr>
+<tr><th>512</th>
+<td>non-virtual thunk</td>
+<td>non-virtual thunk</td></tr>
+<tr><th>520</th>
+<td>non-virtual thunk</td>
+<td>non-virtual thunk</td></tr>
+<tr><th>528</th>
+<td>non-virtual thunk</td>
+<td>non-virtual thunk</td></tr>
+<tr><th>536</th>
+<td>non-virtual thunk</td>
+<td>non-virtual thunk</td></tr>
+<tr><th>544</th>
+<td></td>
+<td class='warning'>non-virtual thunk</td></tr>
+</table><br/>
+</div>
+<span class="sect_aff" onclick="javascript:showContent(this, 'c_3')">
+[+] affected symbols: 1 (0.2%)</span>
+<div id="c_3" style="display:none;">
+<div class='affected'><span class='iname_a'>ConstellationDisplayForm::~ConstellationDisplayForm&#160;<span class='sym_p'>(&#160;)</span></span><br/>
+<div class='affect'>This destructor is from &#39;ConstellationDisplayForm&#39; class.</div>
+</div>
+</div>
+<br/><br/></div>
+
+<br/>
+<span class='h_name'>displayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_4')">
+<span class='ext'>[+]</span> <span class='ttype'>class</span> DisplayForm <span class='failed'>&nbsp;1&nbsp;</span></span>
+<br/>
+<div id="c_4" style="display:none;">
+<table class='ptable'><tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th></tr><tr>
+<th>1</th>
+<td>The layout of v-table has been changed for <b>unknown</b> reason.</td>
+<td>Call of any method in this class may result in crash or incorrect behavior of applications.</td>
+</tr>
+</table>
+<span class="sect_info" onclick="javascript:showContent(this, 'c_5')">
+[+] show v-table (old and new)</span>
+<br/>
+<div id="c_5" style="display:none;">
+<table class='vtable'><tr><th>Offset</th><th>Virtual Table (Old) - 68 entries</th><th>Virtual Table (New) - 69 entries</th></tr><tr><th>0</th>
+<td>(int (*)(...))0</td>
+<td>(int (*)(...))0</td></tr>
+<tr><th>8</th>
+<td>(int (*)(...))(&amp; typeinfo)</td>
+<td>(int (*)(...))(&amp; typeinfo)</td></tr>
+<tr><th>16</th>
+<td>DisplayForm::metaObject</td>
+<td>DisplayForm::metaObject</td></tr>
+<tr><th>24</th>
+<td>DisplayForm::qt_metacast</td>
+<td>DisplayForm::qt_metacast</td></tr>
+<tr><th>32</th>
+<td>DisplayForm::qt_metacall</td>
+<td>DisplayForm::qt_metacall</td></tr>
+<tr><th>40</th>
+<td>0</td>
+<td>0</td></tr>
+<tr><th>48</th>
+<td>0</td>
+<td>0</td></tr>
+<tr><th>56</th>
+<td>QWidget::event</td>
+<td>QWidget::event</td></tr>
+<tr><th>64</th>
+<td>QObject::eventFilter</td>
+<td>QObject::eventFilter</td></tr>
+<tr><th>72</th>
+<td>QObject::timerEvent</td>
+<td>QObject::timerEvent</td></tr>
+<tr><th>80</th>
+<td>QObject::childEvent</td>
+<td>QObject::childEvent</td></tr>
+<tr><th>88</th>
+<td>__cxa_pure_virtual</td>
+<td>__cxa_pure_virtual</td></tr>
+<tr><th>96</th>
+<td>QObject::connectNotify</td>
+<td>QObject::connectNotify</td></tr>
+<tr><th>104</th>
+<td>QObject::disconnectNotify</td>
+<td>QObject::disconnectNotify</td></tr>
+<tr><th>112</th>
+<td>QWidget::devType</td>
+<td>QWidget::devType</td></tr>
+<tr><th>120</th>
+<td>QWidget::setVisible</td>
+<td>QWidget::setVisible</td></tr>
+<tr><th>128</th>
+<td>QWidget::sizeHint</td>
+<td>QWidget::sizeHint</td></tr>
+<tr><th>136</th>
+<td>QWidget::minimumSizeHint</td>
+<td>QWidget::minimumSizeHint</td></tr>
+<tr><th>144</th>
+<td>QWidget::heightForWidth</td>
+<td>QWidget::heightForWidth</td></tr>
+<tr><th>152</th>
+<td class='failed'>QWidget::paintEngine</td>
+<td class='failed'>QWidget::hasHeightForWidth</td></tr>
+<tr><th>160</th>
+<td class='failed'>DisplayForm::mousePressEvent</td>
+<td class='failed'>QWidget::paintEngine</td></tr>
+<tr><th>168</th>
+<td class='failed'>QWidget::mouseReleaseEvent</td>
+<td class='failed'>DisplayForm::mousePressEvent</td></tr>
+<tr><th>176</th>
+<td class='failed'>QWidget::mouseDoubleClickEvent</td>
+<td class='failed'>QWidget::mouseReleaseEvent</td></tr>
+<tr><th>184</th>
+<td class='failed'>QWidget::mouseMoveEvent</td>
+<td class='failed'>QWidget::mouseDoubleClickEvent</td></tr>
+<tr><th>192</th>
+<td class='failed'>QWidget::wheelEvent</td>
+<td class='failed'>QWidget::mouseMoveEvent</td></tr>
+<tr><th>200</th>
+<td class='failed'>QWidget::keyPressEvent</td>
+<td class='failed'>QWidget::wheelEvent</td></tr>
+<tr><th>208</th>
+<td class='failed'>QWidget::keyReleaseEvent</td>
+<td class='failed'>QWidget::keyPressEvent</td></tr>
+<tr><th>216</th>
+<td class='failed'>QWidget::focusInEvent</td>
+<td class='failed'>QWidget::keyReleaseEvent</td></tr>
+<tr><th>224</th>
+<td class='failed'>QWidget::focusOutEvent</td>
+<td class='failed'>QWidget::focusInEvent</td></tr>
+<tr><th>232</th>
+<td class='failed'>QWidget::enterEvent</td>
+<td class='failed'>QWidget::focusOutEvent</td></tr>
+<tr><th>240</th>
+<td class='failed'>QWidget::leaveEvent</td>
+<td class='failed'>QWidget::enterEvent</td></tr>
+<tr><th>248</th>
+<td class='failed'>QWidget::paintEvent</td>
+<td class='failed'>QWidget::leaveEvent</td></tr>
+<tr><th>256</th>
+<td class='failed'>QWidget::moveEvent</td>
+<td class='failed'>QWidget::paintEvent</td></tr>
+<tr><th>264</th>
+<td class='failed'>DisplayForm::resizeEvent</td>
+<td class='failed'>QWidget::moveEvent</td></tr>
+<tr><th>272</th>
+<td class='failed'>DisplayForm::closeEvent</td>
+<td class='failed'>DisplayForm::resizeEvent</td></tr>
+<tr><th>280</th>
+<td class='failed'>QWidget::contextMenuEvent</td>
+<td class='failed'>DisplayForm::closeEvent</td></tr>
+<tr><th>288</th>
+<td class='failed'>QWidget::tabletEvent</td>
+<td class='failed'>QWidget::contextMenuEvent</td></tr>
+<tr><th>296</th>
+<td class='failed'>QWidget::actionEvent</td>
+<td class='failed'>QWidget::tabletEvent</td></tr>
+<tr><th>304</th>
+<td class='failed'>QWidget::dragEnterEvent</td>
+<td class='failed'>QWidget::actionEvent</td></tr>
+<tr><th>312</th>
+<td class='failed'>QWidget::dragMoveEvent</td>
+<td class='failed'>QWidget::dragEnterEvent</td></tr>
+<tr><th>320</th>
+<td class='failed'>QWidget::dragLeaveEvent</td>
+<td class='failed'>QWidget::dragMoveEvent</td></tr>
+<tr><th>328</th>
+<td class='failed'>QWidget::dropEvent</td>
+<td class='failed'>QWidget::dragLeaveEvent</td></tr>
+<tr><th>336</th>
+<td class='failed'>QWidget::showEvent</td>
+<td class='failed'>QWidget::dropEvent</td></tr>
+<tr><th>344</th>
+<td class='failed'>QWidget::hideEvent</td>
+<td class='failed'>QWidget::showEvent</td></tr>
+<tr><th>352</th>
+<td class='failed'>QWidget::x11Event</td>
+<td class='failed'>QWidget::hideEvent</td></tr>
+<tr><th>360</th>
+<td class='failed'>QWidget::changeEvent</td>
+<td class='failed'>QWidget::nativeEvent</td></tr>
+<tr><th>368</th>
+<td class='failed'>QWidget::metric</td>
+<td class='failed'>QWidget::changeEvent</td></tr>
+<tr><th>376</th>
+<td class='failed'>QWidget::inputMethodEvent</td>
+<td class='failed'>QWidget::metric</td></tr>
+<tr><th>384</th>
+<td class='failed'>QWidget::inputMethodQuery</td>
+<td class='failed'>QWidget::initPainter</td></tr>
+<tr><th>392</th>
+<td class='failed'>QWidget::focusNextPrevChild</td>
+<td class='failed'>QWidget::redirected</td></tr>
+<tr><th>400</th>
+<td class='failed'>QWidget::styleChange</td>
+<td class='failed'>QWidget::sharedPainter</td></tr>
+<tr><th>408</th>
+<td class='failed'>QWidget::enabledChange</td>
+<td class='failed'>QWidget::inputMethodEvent</td></tr>
+<tr><th>416</th>
+<td class='failed'>QWidget::paletteChange</td>
+<td class='failed'>QWidget::inputMethodQuery</td></tr>
+<tr><th>424</th>
+<td class='failed'>QWidget::fontChange</td>
+<td class='failed'>QWidget::focusNextPrevChild</td></tr>
+<tr><th>432</th>
+<td class='failed'>QWidget::windowActivationChange</td>
+<td class='failed'>__cxa_pure_virtual</td></tr>
+<tr><th>440</th>
+<td class='failed'>QWidget::languageChange</td>
+<td class='failed'>DisplayForm::setSampleRate</td></tr>
+<tr><th>448</th>
+<td>__cxa_pure_virtual</td>
+<td>__cxa_pure_virtual</td></tr>
+<tr><th>456</th>
+<td class='failed'>DisplayForm::setSampleRate</td>
+<td class='failed'>__cxa_pure_virtual</td></tr>
+<tr><th>464</th>
+<td class='failed'>__cxa_pure_virtual</td>
+<td class='failed'>DisplayForm::onPlotPointSelected</td></tr>
+<tr><th>472</th>
+<td class='failed'>__cxa_pure_virtual</td>
+<td class='failed'>(int (*)(...))-16</td></tr>
+<tr><th>480</th>
+<td class='failed'>DisplayForm::onPlotPointSelected</td>
+<td class='failed'>(int (*)(...))(&amp; typeinfo)</td></tr>
+<tr><th>488</th>
+<td class='failed'>(int (*)(...))-16</td>
+<td class='failed'>0</td></tr>
+<tr><th>496</th>
+<td class='failed'>(int (*)(...))(&amp; typeinfo)</td>
+<td class='failed'>0</td></tr>
+<tr><th>504</th>
+<td>0</td>
+<td class='warning'>non-virtual thunk</td></tr>
+<tr><th>512</th>
+<td>0</td>
+<td class='warning'>non-virtual thunk</td></tr>
+<tr><th>520</th>
+<td>non-virtual thunk</td>
+<td>non-virtual thunk</td></tr>
+<tr><th>528</th>
+<td>non-virtual thunk</td>
+<td>non-virtual thunk</td></tr>
+<tr><th>536</th>
+<td>non-virtual thunk</td>
+<td>non-virtual thunk</td></tr>
+<tr><th>544</th>
+<td></td>
+<td class='warning'>non-virtual thunk</td></tr>
+</table><br/>
+</div>
+<span class="sect_aff" onclick="javascript:showContent(this, 'c_6')">
+[+] affected symbols: 1 (0.2%)</span>
+<div id="c_6" style="display:none;">
+<div class='affected'><span class='iname_a'>DisplayForm::~DisplayForm&#160;<span class='sym_p'>(&#160;)</span></span><br/>
+<div class='affect'>This destructor is from &#39;DisplayForm&#39; class.</div>
+</div>
+</div>
+<br/><br/></div>
+
+<br/>
+<span class='h_name'>utils.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_7')">
+<span class='ext'>[+]</span> <span class='ttype'>class</span> QwtDblClickPlotPicker <span class='failed'>&nbsp;1&nbsp;</span></span>
+<br/>
+<div id="c_7" style="display:none;">
+<table class='ptable'><tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th></tr><tr>
+<th>1</th>
+<td>The layout of v-table has been changed for <b>unknown</b> reason.</td>
+<td>Call of any method in this class may result in crash or incorrect behavior of applications.</td>
+</tr>
+</table>
+<span class="sect_info" onclick="javascript:showContent(this, 'c_8')">
+[+] show v-table (old and new)</span>
+<br/>
+<div id="c_8" style="display:none;">
+<table class='vtable'><tr><th>Offset</th><th>Virtual Table (Old) - 52 entries</th><th>Virtual Table (New) - 49 entries</th></tr><tr><th>0</th>
+<td>(int (*)(...))0</td>
+<td>(int (*)(...))0</td></tr>
+<tr><th>8</th>
+<td>(int (*)(...))(&amp; typeinfo)</td>
+<td>(int (*)(...))(&amp; typeinfo)</td></tr>
+<tr><th>16</th>
+<td>QwtPlotPicker::metaObject</td>
+<td>QwtPlotPicker::metaObject</td></tr>
+<tr><th>24</th>
+<td>QwtPlotPicker::qt_metacast</td>
+<td>QwtPlotPicker::qt_metacast</td></tr>
+<tr><th>32</th>
+<td>QwtPlotPicker::qt_metacall</td>
+<td>QwtPlotPicker::qt_metacall</td></tr>
+<tr><th>40</th>
+<td>~QwtDblClickPlotPicker</td>
+<td>~QwtDblClickPlotPicker</td></tr>
+<tr><th>48</th>
+<td>~QwtDblClickPlotPicker</td>
+<td>~QwtDblClickPlotPicker</td></tr>
+<tr><th>56</th>
+<td>QObject::event</td>
+<td>QObject::event</td></tr>
+<tr><th>64</th>
+<td>QwtPicker::eventFilter</td>
+<td>QwtPicker::eventFilter</td></tr>
+<tr><th>72</th>
+<td>QObject::timerEvent</td>
+<td>QObject::timerEvent</td></tr>
+<tr><th>80</th>
+<td>QObject::childEvent</td>
+<td>QObject::childEvent</td></tr>
+<tr><th>88</th>
+<td>QObject::customEvent</td>
+<td>QObject::customEvent</td></tr>
+<tr><th>96</th>
+<td>QObject::connectNotify</td>
+<td>QObject::connectNotify</td></tr>
+<tr><th>104</th>
+<td>QObject::disconnectNotify</td>
+<td>QObject::disconnectNotify</td></tr>
+<tr><th>112</th>
+<td class='failed'>QwtPicker::setSelectionFlags</td>
+<td class='failed'>QwtPicker::pickArea</td></tr>
+<tr><th>120</th>
+<td class='failed'>QwtPicker::setRubberBand</td>
+<td class='failed'>QwtPicker::drawRubberBand</td></tr>
+<tr><th>128</th>
+<td class='failed'>QwtPicker::setTrackerMode</td>
+<td class='failed'>QwtPicker::drawTracker</td></tr>
+<tr><th>136</th>
+<td class='failed'>QwtPicker::setResizeMode</td>
+<td class='failed'>QwtPicker::rubberBandMask</td></tr>
+<tr><th>144</th>
+<td class='failed'>QwtPicker::setRubberBandPen</td>
+<td class='failed'>QwtPlotPicker::trackerText</td></tr>
+<tr><th>152</th>
+<td class='failed'>QwtPicker::setTrackerPen</td>
+<td class='failed'>QwtPicker::trackerRect</td></tr>
+<tr><th>160</th>
+<td class='failed'>QwtPicker::setTrackerFont</td>
+<td class='failed'>QwtPicker::adjustedPoints</td></tr>
+<tr><th>168</th>
+<td class='failed'>QwtPicker::setEnabled</td>
+<td class='failed'>QwtPicker::transition</td></tr>
+<tr><th>176</th>
+<td class='failed'>QwtPicker::pickRect</td>
+<td class='failed'>QwtPicker::begin</td></tr>
+<tr><th>184</th>
+<td class='failed'>QwtPicker::drawRubberBand</td>
+<td class='failed'>QwtPlotPicker::append</td></tr>
+<tr><th>192</th>
+<td class='failed'>QwtPicker::drawTracker</td>
+<td class='failed'>QwtPlotPicker::move</td></tr>
+<tr><th>200</th>
+<td class='failed'>QwtPlotPicker::trackerText</td>
+<td class='failed'>QwtPicker::remove</td></tr>
+<tr><th>208</th>
+<td class='failed'>QwtPicker::accept</td>
+<td class='failed'>QwtPlotPicker::end</td></tr>
+<tr><th>216</th>
+<td class='failed'>QwtPicker::transition</td>
+<td class='failed'>QwtPicker::accept</td></tr>
+<tr><th>224</th>
+<td class='failed'>QwtPicker::begin</td>
+<td class='failed'>QwtPicker::reset</td></tr>
+<tr><th>232</th>
+<td class='failed'>QwtPlotPicker::append</td>
+<td class='failed'>QwtPicker::widgetMousePressEvent</td></tr>
+<tr><th>240</th>
+<td class='failed'>QwtPlotPicker::move</td>
+<td class='failed'>QwtPicker::widgetMouseReleaseEvent</td></tr>
+<tr><th>248</th>
+<td class='failed'>QwtPlotPicker::end</td>
+<td class='failed'>QwtPicker::widgetMouseDoubleClickEvent</td></tr>
+<tr><th>256</th>
+<td class='failed'>QwtPicker::reset</td>
+<td class='failed'>QwtPicker::widgetMouseMoveEvent</td></tr>
+<tr><th>264</th>
+<td class='failed'>QwtPicker::widgetMousePressEvent</td>
+<td class='failed'>QwtPicker::widgetWheelEvent</td></tr>
+<tr><th>272</th>
+<td class='failed'>QwtPicker::widgetMouseReleaseEvent</td>
+<td class='failed'>QwtPicker::widgetKeyPressEvent</td></tr>
+<tr><th>280</th>
+<td class='failed'>QwtPicker::widgetMouseDoubleClickEvent</td>
+<td class='failed'>QwtPicker::widgetKeyReleaseEvent</td></tr>
+<tr><th>288</th>
+<td class='failed'>QwtPicker::widgetMouseMoveEvent</td>
+<td class='failed'>QwtPicker::widgetEnterEvent</td></tr>
+<tr><th>296</th>
+<td class='failed'>QwtPicker::widgetWheelEvent</td>
+<td class='failed'>QwtPicker::widgetLeaveEvent</td></tr>
+<tr><th>304</th>
+<td class='failed'>QwtPicker::widgetKeyPressEvent</td>
+<td class='failed'>QwtPicker::stretchSelection</td></tr>
+<tr><th>312</th>
+<td class='failed'>QwtPicker::widgetKeyReleaseEvent</td>
+<td class='failed'>QwtPicker::updateDisplay</td></tr>
+<tr><th>320</th>
+<td class='failed'>QwtPicker::widgetLeaveEvent</td>
+<td class='failed'>QwtPlotPicker::setAxis</td></tr>
+<tr><th>328</th>
+<td class='failed'>QwtPicker::stretchSelection</td>
+<td class='failed'>QwtPlotPicker::trackerTextF</td></tr>
+<tr><th>336</th>
+<td>QwtDblClickPlotPicker::stateMachine</td>
+<td>QwtDblClickPlotPicker::stateMachine</td></tr>
+<tr><th>344</th>
+<td class='failed'>QwtPicker::updateDisplay</td>
+<td class='failed'>(int (*)(...))-16</td></tr>
+<tr><th>352</th>
+<td class='failed'>QwtPlotPicker::setAxis</td>
+<td class='failed'>(int (*)(...))(&amp; typeinfo)</td></tr>
+<tr><th>360</th>
+<td class='failed'>QwtPlotPicker::trackerText</td>
+<td class='failed'>non-virtual thunk</td></tr>
+<tr><th>368</th>
+<td class='failed'>(int (*)(...))-16</td>
+<td class='failed'>non-virtual thunk</td></tr>
+<tr><th>376</th>
+<td class='failed'>(int (*)(...))(&amp; typeinfo)</td>
+<td class='failed'>QwtEventPattern::mouseMatch</td></tr>
+<tr><th>384</th>
+<td class='failed'>non-virtual thunk</td>
+<td class='failed'>QwtEventPattern::keyMatch</td></tr>
+<tr><th>392</th>
+<td class='failed'>non-virtual thunk</td>
+<td class='failed'></td></tr>
+<tr><th>400</th>
+<td class='failed'>QwtEventPattern::mouseMatch</td>
+<td class='failed'></td></tr>
+<tr><th>408</th>
+<td class='failed'>QwtEventPattern::keyMatch</td>
+<td class='failed'></td></tr>
+</table><br/>
+</div>
+<span class="sect_aff" onclick="javascript:showContent(this, 'c_9')">
+[+] affected symbols: 1 (0.2%)</span>
+<div id="c_9" style="display:none;">
+<div class='affected'><span class='iname_a'>QwtDblClickPlotPicker::~QwtDblClickPlotPicker&#160;<span class='sym_p'>(&#160;)</span></span><br/>
+<div class='affect'>This destructor is from &#39;QwtDblClickPlotPicker&#39; class.</div>
+</div>
+</div>
+<br/><br/></div>
+
+<br/>
+<a class='top_ref' href='#Top'>to the top</a><br/>
+<a name='Low_Risk_Binary_Problems'></a><a name='Type_Binary_Problems_Low'></a>
+<h2>Problems with Data Types, Low Severity <span class='warning'>&nbsp;3&nbsp;</span></h2><hr/>
+<span class='h_name'>constellationdisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_10')">
+<span class='ext'>[+]</span> <span class='ttype'>class</span> ConstellationDisplayForm <span class='warning'>&nbsp;1&nbsp;</span></span>
+<br/>
+<div id="c_10" style="display:none;">
+<table class='ptable'><tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th></tr><tr>
+<th>1</th>
+<td>Size of this type has been changed from <b>360</b> bytes to <b>368</b> bytes.</td>
+<td>The fields or parameters of such data type may be incorrectly initialized or accessed by old client applications.</td>
+</tr>
+</table>
+<span class="sect_aff" onclick="javascript:showContent(this, 'c_11')">
+[+] affected symbols: 1 (0.2%)</span>
+<div id="c_11" style="display:none;">
+<div class='affected'><span class='iname_a'>ConstellationDisplayForm::~ConstellationDisplayForm&#160;<span class='sym_p'>(&#160;)</span></span><br/>
+<div class='affect'>This destructor is from &#39;ConstellationDisplayForm&#39; class.</div>
+</div>
+</div>
+<br/><br/></div>
+
+<br/>
+<span class='h_name'>displayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_12')">
+<span class='ext'>[+]</span> <span class='ttype'>class</span> DisplayForm <span class='warning'>&nbsp;1&nbsp;</span></span>
+<br/>
+<div id="c_12" style="display:none;">
+<table class='ptable'><tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th></tr><tr>
+<th>1</th>
+<td>Size of this type has been changed from <b>240</b> bytes to <b>248</b> bytes.</td>
+<td>The fields or parameters of such data type may be incorrectly initialized or accessed by old client applications.</td>
+</tr>
+</table>
+<span class="sect_aff" onclick="javascript:showContent(this, 'c_13')">
+[+] affected symbols: 1 (0.2%)</span>
+<div id="c_13" style="display:none;">
+<div class='affected'><span class='iname_a'>DisplayForm::~DisplayForm&#160;<span class='sym_p'>(&#160;)</span></span><br/>
+<div class='affect'>This destructor is from &#39;DisplayForm&#39; class.</div>
+</div>
+</div>
+<br/><br/></div>
+
+<br/>
+<span class='h_name'>DisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_14')">
+<span class='ext'>[+]</span> <span class='ttype'>class</span> DisplayPlot <span class='warning'>&nbsp;1&nbsp;</span></span>
+<br/>
+<div id="c_14" style="display:none;">
+<table class='ptable'><tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th></tr><tr>
+<th>1</th>
+<td>Size of this type has been changed from <b>184</b> bytes to <b>200</b> bytes.</td>
+<td>The fields or parameters of such data type may be incorrectly initialized or accessed by old client applications.</td>
+</tr>
+</table>
+<span class="sect_aff" onclick="javascript:showContent(this, 'c_15')">
+[+] affected symbols: 1 (0.2%)</span>
+<div id="c_15" style="display:none;">
+<div class='affected'><span class='iname_a'>DisplayForm::~DisplayForm&#160;<span class='sym_p'>(&#160;)</span></span><br/>
+<div class='affect'>Field &#39;this.d_display_plot&#39; in the object of this method has base type &#39;DisplayPlot&#39;.</div>
+</div>
+</div>
+<br/><br/></div>
+
+<br/>
+<a class='top_ref' href='#Top'>to the top</a><br/>
+<a name='Other_Binary_Changes'></a><a name='Other_Binary_Changes_In_Constants'></a>
+<h2>Other Changes in Constants <span class='passed'>&nbsp;10&nbsp;</span></h2><hr/>
+<span class='h_name'>math.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_16')">
+<span class='ext'>[+]</span> __FP_LONG_MAX</span>
+<br/>
+<div id="c_16" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>__FP_LONG_MAX</b> with value <b>0x7fffffffffffffffL</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_17')">
+<span class='ext'>[+]</span> FP_ILOGB0</span>
+<br/>
+<div id="c_17" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_ILOGB0</b> with value <span class='value'>(-2147483647 - 1)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_18')">
+<span class='ext'>[+]</span> FP_ILOGBNAN</span>
+<br/>
+<div id="c_18" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_ILOGBNAN</b> with value <span class='value'>(-2147483647 - 1)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_19')">
+<span class='ext'>[+]</span> FP_INT_DOWNWARD</span>
+<br/>
+<div id="c_19" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_DOWNWARD</b> with value <b>1</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_20')">
+<span class='ext'>[+]</span> FP_INT_TONEAREST</span>
+<br/>
+<div id="c_20" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_TONEAREST</b> with value <b>4</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_21')">
+<span class='ext'>[+]</span> FP_INT_TONEARESTFROMZERO</span>
+<br/>
+<div id="c_21" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_TONEARESTFROMZERO</b> with value <b>3</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_22')">
+<span class='ext'>[+]</span> FP_INT_TOWARDZERO</span>
+<br/>
+<div id="c_22" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_TOWARDZERO</b> with value <b>2</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_23')">
+<span class='ext'>[+]</span> FP_INT_UPWARD</span>
+<br/>
+<div id="c_23" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_UPWARD</b> with value <b>0</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_24')">
+<span class='ext'>[+]</span> FP_LLOGB0</span>
+<br/>
+<div id="c_24" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_LLOGB0</b> with value <span class='value'>(-__FP_LONG_MAX - 1)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_25')">
+<span class='ext'>[+]</span> FP_LLOGBNAN</span>
+<br/>
+<div id="c_25" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_LLOGBNAN</b> with value <span class='value'>(-__FP_LONG_MAX - 1)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<br/>
+<a class='top_ref' href='#Top'>to the top</a><br/>
+<a name='Headers'></a><h2>Header Files <span class='gray'>&nbsp;830&nbsp;</span></h2><hr/>
+<div class='h_list'>
+abs_ff.h<br/>
+abs_ii.h<br/>
+abs_ss.h<br/>
+add_cc.h<br/>
+add_const_bb.h<br/>
+add_const_cc.h<br/>
+add_const_ff.h<br/>
+add_const_ii.h<br/>
+add_const_ss.h<br/>
+add_const_vbb.h<br/>
+add_const_vcc.h<br/>
+add_const_vff.h<br/>
+add_const_vii.h<br/>
+add_const_vss.h<br/>
+add_ff.h<br/>
+add_ii.h<br/>
+add_ss.h<br/>
+additive_scrambler_bb.h<br/>
+agc.h<br/>
+agc2.h<br/>
+agc2_cc.h<br/>
+agc2_ff.h<br/>
+agc3_cc.h<br/>
+agc_cc.h<br/>
+agc_ff.h<br/>
+alaw_decode_bs.h<br/>
+alaw_encode_sb.h<br/>
+alist.h<br/>
+and_bb.h<br/>
+and_const_bb.h<br/>
+and_const_ii.h<br/>
+and_const_ss.h<br/>
+and_ii.h<br/>
+and_ss.h<br/>
+annotator_1to1.h<br/>
+annotator_alltoall.h<br/>
+annotator_raw.h<br/>
+api.h<br/>
+argmax_fs.h<br/>
+argmax_is.h<br/>
+argmax_ss.h<br/>
+async_decoder.h<br/>
+async_encoder.h<br/>
+atsc_consts.h<br/>
+atsc_deinterleaver.h<br/>
+atsc_depad.h<br/>
+atsc_derandomizer.h<br/>
+atsc_equalizer.h<br/>
+atsc_field_sync_mux.h<br/>
+atsc_fpll.h<br/>
+atsc_fs_checker.h<br/>
+atsc_interleaver.h<br/>
+atsc_pad.h<br/>
+atsc_randomizer.h<br/>
+atsc_rs_decoder.h<br/>
+atsc_rs_encoder.h<br/>
+atsc_sync.h<br/>
+atsc_trellis_encoder.h<br/>
+atsc_viterbi_decoder.h<br/>
+attributes.h<br/>
+awgn_bp.h<br/>
+base.h<br/>
+basic_block.h<br/>
+basic_trellis_encoder_impl.h<br/>
+ber_bf.h<br/>
+ber_sink_b.h<br/>
+bin_statistics_f.h<br/>
+binary_slicer_fb.h<br/>
+bit_timing_loop.h<br/>
+block.h<br/>
+block_detail.h<br/>
+block_gateway.h<br/>
+block_registry.h<br/>
+buffer.h<br/>
+burst_shaper_cc.h<br/>
+burst_shaper_ff.h<br/>
+burst_tagger.h<br/>
+calc_metric.h<br/>
+catv_frame_sync_enc_bb.h<br/>
+catv_randomizer_bb.h<br/>
+catv_reed_solomon_enc_bb.h<br/>
+catv_transport_framing_enc_bb.h<br/>
+catv_trellis_enc_bb.h<br/>
+cc_common.h<br/>
+cc_decoder.h<br/>
+cc_encoder.h<br/>
+ccsds_encoder.h<br/>
+channel_model.h<br/>
+channel_model2.h<br/>
+char_to_float.h<br/>
+char_to_short.h<br/>
+check_lfsr_32k_s.h<br/>
+chunks_to_symbols_bc.h<br/>
+chunks_to_symbols_bf.h<br/>
+chunks_to_symbols_ic.h<br/>
+chunks_to_symbols_if.h<br/>
+chunks_to_symbols_sc.h<br/>
+chunks_to_symbols_sf.h<br/>
+cldpc.h<br/>
+clock_recovery_mm_cc.h<br/>
+clock_recovery_mm_ff.h<br/>
+cma_equalizer_cc.h<br/>
+codec2.h<br/>
+codec2_decode_ps.h<br/>
+codec2_encode_sp.h<br/>
+complex_to_arg.h<br/>
+complex_to_float.h<br/>
+complex_to_imag.h<br/>
+complex_to_interleaved_short.h<br/>
+complex_to_mag.h<br/>
+complex_to_mag_squared.h<br/>
+complex_to_magphase.h<br/>
+complex_to_real.h<br/>
+config.h<br/>
+conjugate_cc.h<br/>
+const_sink_c.h<br/>
+constants.h<br/>
+constellation.h<br/>
+constellation_decoder_cb.h<br/>
+constellation_metrics_cf.h<br/>
+constellation_receiver_cb.h<br/>
+constellation_soft_decoder_cf.h<br/>
+constellationdisplayform.h<br/>
+ConstellationDisplayPlot.h<br/>
+consts.h<br/>
+control_loop.h<br/>
+conv_bit_corr_bb.h<br/>
+convolutional_interleaver.h<br/>
+copy.h<br/>
+core_algorithms.h<br/>
+corr_est_cc.h<br/>
+correlate_access_code_bb.h<br/>
+correlate_access_code_bb_ts.h<br/>
+correlate_access_code_ff_ts.h<br/>
+correlate_access_code_tag_bb.h<br/>
+correlate_and_sync_cc.h<br/>
+costas_loop_cc.h<br/>
+count_bits.h<br/>
+cpfsk_bc.h<br/>
+cpm.h<br/>
+cpmmod_bc.h<br/>
+crc32.h<br/>
+crc32_async_bb.h<br/>
+crc32_bb.h<br/>
+create_atsci_equalizer.h<br/>
+create_atsci_fs_checker.h<br/>
+create_atsci_fs_correlator.h<br/>
+ctcss_squelch_ff.h<br/>
+ctrlport_probe2_b.h<br/>
+ctrlport_probe2_c.h<br/>
+ctrlport_probe2_f.h<br/>
+ctrlport_probe2_i.h<br/>
+ctrlport_probe2_s.h<br/>
+ctrlport_probe_c.h<br/>
+ctrlport_probe_psd.h<br/>
+cvsd_decode_bs.h<br/>
+cvsd_encode_sb.h<br/>
+data_interleaver_impl.h<br/>
+dc_blocker_cc.h<br/>
+dc_blocker_ff.h<br/>
+decode_ccsds_27_fb.h<br/>
+decoder.h<br/>
+deinterleave.h<br/>
+deinterleaver.h<br/>
+delay.h<br/>
+depad.h<br/>
+depuncture_bb.h<br/>
+derandomizer.h<br/>
+descrambler_bb.h<br/>
+diag_output_impl.h<br/>
+diff_decoder_bb.h<br/>
+diff_encoder_bb.h<br/>
+diff_phasor_cc.h<br/>
+displayform.h<br/>
+DisplayPlot.h<br/>
+divide_cc.h<br/>
+divide_ff.h<br/>
+divide_ii.h<br/>
+divide_ss.h<br/>
+dpll_bb.h<br/>
+ds_to_softds.h<br/>
+dummy_decoder.h<br/>
+dummy_encoder.h<br/>
+dvb_bbheader_bb.h<br/>
+dvb_bbscrambler_bb.h<br/>
+dvb_bch_bb.h<br/>
+dvb_config.h<br/>
+dvb_ldpc_bb.h<br/>
+dvbs2_config.h<br/>
+dvbs2_interleaver_bb.h<br/>
+dvbs2_modulator_bc.h<br/>
+dvbs2_physical_cc.h<br/>
+dvbt2_cellinterleaver_cc.h<br/>
+dvbt2_config.h<br/>
+dvbt2_framemapper_cc.h<br/>
+dvbt2_freqinterleaver_cc.h<br/>
+dvbt2_interleaver_bb.h<br/>
+dvbt2_miso_cc.h<br/>
+dvbt2_modulator_bc.h<br/>
+dvbt2_p1insertion_cc.h<br/>
+dvbt2_paprtr_cc.h<br/>
+dvbt2_pilotgenerator_cc.h<br/>
+dvbt_bit_inner_deinterleaver.h<br/>
+dvbt_bit_inner_interleaver.h<br/>
+dvbt_config.h<br/>
+dvbt_convolutional_deinterleaver.h<br/>
+dvbt_convolutional_interleaver.h<br/>
+dvbt_demap.h<br/>
+dvbt_demod_reference_signals.h<br/>
+dvbt_energy_descramble.h<br/>
+dvbt_energy_dispersal.h<br/>
+dvbt_inner_coder.h<br/>
+dvbt_map.h<br/>
+dvbt_ofdm_sym_acquisition.h<br/>
+dvbt_reed_solomon_dec.h<br/>
+dvbt_reed_solomon_enc.h<br/>
+dvbt_reference_signals.h<br/>
+dvbt_symbol_inner_interleaver.h<br/>
+dvbt_viterbi_decoder.h<br/>
+edit_box_msg.h<br/>
+encode_ccsds_27_bb.h<br/>
+encoder.h<br/>
+encoder_bb.h<br/>
+encoder_bi.h<br/>
+encoder_bs.h<br/>
+encoder_ii.h<br/>
+encoder_si.h<br/>
+encoder_ss.h<br/>
+endian_swap.h<br/>
+endianness.h<br/>
+equalizer.h<br/>
+equalizer_impl.h<br/>
+equalizer_lms2_impl.h<br/>
+equalizer_lms_impl.h<br/>
+equalizer_nop_impl.h<br/>
+expj.h<br/>
+fading_model.h<br/>
+fake_single_viterbi_impl.h<br/>
+fastnoise_source_c.h<br/>
+fastnoise_source_f.h<br/>
+fastnoise_source_i.h<br/>
+fastnoise_source_s.h<br/>
+fec_mtrx.h<br/>
+feedforward_agc_cc.h<br/>
+feval.h<br/>
+fft.h<br/>
+fft_filter.h<br/>
+fft_filter_ccc.h<br/>
+fft_filter_ccf.h<br/>
+fft_filter_fff.h<br/>
+fft_vcc.h<br/>
+fft_vfc.h<br/>
+field_sync_demux.h<br/>
+field_sync_mux.h<br/>
+file_descriptor_sink.h<br/>
+file_descriptor_source.h<br/>
+file_meta_sink.h<br/>
+file_meta_source.h<br/>
+file_sink.h<br/>
+file_sink_base.h<br/>
+file_source.h<br/>
+filter_delay_fc.h<br/>
+filterbank.h<br/>
+filterbank_vcvcf.h<br/>
+fir_filter.h<br/>
+fir_filter_ccc.h<br/>
+fir_filter_ccf.h<br/>
+fir_filter_fcc.h<br/>
+fir_filter_fff.h<br/>
+fir_filter_fsf.h<br/>
+fir_filter_scc.h<br/>
+fir_filter_with_buffer.h<br/>
+firdes.h<br/>
+flex_deinterleave.h<br/>
+flex_frame.h<br/>
+flex_parse.h<br/>
+flex_sync.h<br/>
+fll_band_edge_cc.h<br/>
+float_to_char.h<br/>
+float_to_complex.h<br/>
+float_to_int.h<br/>
+float_to_short.h<br/>
+float_to_uchar.h<br/>
+flowgraph.h<br/>
+fmdet_cf.h<br/>
+form_menus.h<br/>
+fpll.h<br/>
+fractional_interpolator_cc.h<br/>
+fractional_interpolator_ff.h<br/>
+fractional_resampler_cc.h<br/>
+fractional_resampler_ff.h<br/>
+framer_sink_1.h<br/>
+freedv_api.h<br/>
+freedv_rx_ss.h<br/>
+freedv_tx_ss.h<br/>
+freq_sink_c.h<br/>
+freq_sink_f.h<br/>
+freq_xlating_fir_filter_ccc.h<br/>
+freq_xlating_fir_filter_ccf.h<br/>
+freq_xlating_fir_filter_fcc.h<br/>
+freq_xlating_fir_filter_fcf.h<br/>
+freq_xlating_fir_filter_scc.h<br/>
+freq_xlating_fir_filter_scf.h<br/>
+freqcontrolpanel.h<br/>
+freqdisplayform.h<br/>
+frequency_modulator_fc.h<br/>
+FrequencyDisplayPlot.h<br/>
+fs_checker.h<br/>
+fs_checker_impl.h<br/>
+fs_checker_naive_impl.h<br/>
+fs_correlator_impl.h<br/>
+fs_correlator_naive_impl.h<br/>
+fsm.h<br/>
+fxpt.h<br/>
+fxpt_nco.h<br/>
+fxpt_vco.h<br/>
+g721_decode_bs.h<br/>
+g721_encode_sb.h<br/>
+g723_24_decode_bs.h<br/>
+g723_24_encode_sb.h<br/>
+g723_40_decode_bs.h<br/>
+g723_40_encode_sb.h<br/>
+generic_decoder.h<br/>
+generic_encoder.h<br/>
+gf2mat.h<br/>
+gf2vec.h<br/>
+glfsr.h<br/>
+glfsr_source_b.h<br/>
+glfsr_source_f.h<br/>
+gnuradio_swig_bug_workaround.h<br/>
+goertzel.h<br/>
+goertzel_fc.h<br/>
+gr_complex.h<br/>
+GrAtscSegSymSyncImpl_export.h<br/>
+gsm_fr_decode_ps.h<br/>
+gsm_fr_encode_sp.h<br/>
+hdlc_deframer_bp.h<br/>
+hdlc_framer_pb.h<br/>
+head.h<br/>
+header_buffer.h<br/>
+header_format_base.h<br/>
+header_format_counter.h<br/>
+header_format_crc.h<br/>
+header_format_default.h<br/>
+header_format_ofdm.h<br/>
+header_payload_demux.h<br/>
+hier_block2.h<br/>
+high_res_timer.h<br/>
+hilbert_fc.h<br/>
+histo_sink_f.h<br/>
+histogram_sink_f.h<br/>
+histogramdisplayform.h<br/>
+HistogramDisplayPlot.h<br/>
+hrpt.h<br/>
+hrpt_decoder.h<br/>
+hrpt_deframer.h<br/>
+hrpt_pll_cf.h<br/>
+iir_filter.h<br/>
+iir_filter_ccc.h<br/>
+iir_filter_ccd.h<br/>
+iir_filter_ccf.h<br/>
+iir_filter_ccz.h<br/>
+iir_filter_ffd.h<br/>
+int_to_float.h<br/>
+integrate_cc.h<br/>
+integrate_ff.h<br/>
+integrate_ii.h<br/>
+integrate_ss.h<br/>
+interleave.h<br/>
+interleaved_char_to_complex.h<br/>
+interleaved_short_to_complex.h<br/>
+interleaver.h<br/>
+interleaver_fifo.h<br/>
+interp_fir_filter_ccc.h<br/>
+interp_fir_filter_ccf.h<br/>
+interp_fir_filter_fcc.h<br/>
+interp_fir_filter_fff.h<br/>
+interp_fir_filter_fsf.h<br/>
+interp_fir_filter_scc.h<br/>
+interpolator_taps.h<br/>
+io_signature.h<br/>
+keep_m_in_n.h<br/>
+keep_one_in_n.h<br/>
+kurtotic_equalizer_cc.h<br/>
+ldpc_bit_flip_decoder.h<br/>
+ldpc_decoder.h<br/>
+ldpc_encoder.h<br/>
+ldpc_G_matrix.h<br/>
+ldpc_gen_mtrx_encoder.h<br/>
+ldpc_H_matrix.h<br/>
+ldpc_par_mtrx_encoder.h<br/>
+lfsr.h<br/>
+lfsr_15_1_0.h<br/>
+lfsr_32k.h<br/>
+lfsr_32k_source_s.h<br/>
+lms_dd_equalizer_cc.h<br/>
+log2_const.h<br/>
+logger.h<br/>
+magphase_to_complex.h<br/>
+map_bb.h<br/>
+math.h<br/>
+max_ff.h<br/>
+max_ii.h<br/>
+max_ss.h<br/>
+maxstar.h<br/>
+message.h<br/>
+message_burst_source.h<br/>
+message_debug.h<br/>
+message_sink.h<br/>
+message_source.h<br/>
+message_strobe.h<br/>
+message_strobe_random.h<br/>
+metric_type.h<br/>
+metrics_c.h<br/>
+metrics_f.h<br/>
+metrics_i.h<br/>
+metrics_s.h<br/>
+min_ff.h<br/>
+min_ii.h<br/>
+min_ss.h<br/>
+misc.h<br/>
+mmse_fir_interpolator_cc.h<br/>
+mmse_fir_interpolator_ff.h<br/>
+modulate_vector.h<br/>
+moving_average_cc.h<br/>
+moving_average_ff.h<br/>
+moving_average_ii.h<br/>
+moving_average_ss.h<br/>
+mpsk_receiver_cc.h<br/>
+mpsk_snr_est.h<br/>
+mpsk_snr_est_cc.h<br/>
+msg_accepter.h<br/>
+msg_accepter_msgq.h<br/>
+msg_handler.h<br/>
+msg_passing.h<br/>
+msg_producer.h<br/>
+msg_queue.h<br/>
+msk_timing_recovery_cc.h<br/>
+multiply_by_tag_value_cc.h<br/>
+multiply_cc.h<br/>
+multiply_conjugate_cc.h<br/>
+multiply_const_cc.h<br/>
+multiply_const_ff.h<br/>
+multiply_const_ii.h<br/>
+multiply_const_ss.h<br/>
+multiply_const_vcc.h<br/>
+multiply_const_vff.h<br/>
+multiply_const_vii.h<br/>
+multiply_const_vss.h<br/>
+multiply_ff.h<br/>
+multiply_ii.h<br/>
+multiply_matrix_cc.h<br/>
+multiply_matrix_ff.h<br/>
+multiply_ss.h<br/>
+mute_cc.h<br/>
+mute_ff.h<br/>
+mute_ii.h<br/>
+mute_ss.h<br/>
+nco.h<br/>
+nlog10_ff.h<br/>
+noise_source_c.h<br/>
+noise_source_f.h<br/>
+noise_source_i.h<br/>
+noise_source_s.h<br/>
+noise_type.h<br/>
+nop.h<br/>
+not_bb.h<br/>
+not_ii.h<br/>
+not_ss.h<br/>
+null_sink.h<br/>
+null_source.h<br/>
+number_sink.h<br/>
+numberdisplayform.h<br/>
+ofdm_carrier_allocator_cvc.h<br/>
+ofdm_chanest_vcvc.h<br/>
+ofdm_cyclic_prefixer.h<br/>
+ofdm_equalizer_base.h<br/>
+ofdm_equalizer_simpledfe.h<br/>
+ofdm_equalizer_static.h<br/>
+ofdm_frame_acquisition.h<br/>
+ofdm_frame_equalizer_vcvc.h<br/>
+ofdm_frame_sink.h<br/>
+ofdm_insert_preamble.h<br/>
+ofdm_mapper_bcv.h<br/>
+ofdm_sampler.h<br/>
+ofdm_serializer_vcc.h<br/>
+ofdm_sync_sc_cfb.h<br/>
+or_bb.h<br/>
+or_ii.h<br/>
+or_ss.h<br/>
+oscope_guts.h<br/>
+oscope_sink_f.h<br/>
+oscope_sink_x.h<br/>
+pack_k_bits.h<br/>
+pack_k_bits_bb.h<br/>
+packed_to_unpacked_bb.h<br/>
+packed_to_unpacked_ii.h<br/>
+packed_to_unpacked_ss.h<br/>
+packet_header_default.h<br/>
+packet_header_ofdm.h<br/>
+packet_headergenerator_bb.h<br/>
+packet_headerparser_b.h<br/>
+packet_sink.h<br/>
+pad.h<br/>
+patterned_interleaver.h<br/>
+pccc_decoder_b.h<br/>
+pccc_decoder_combined_cb.h<br/>
+pccc_decoder_combined_ci.h<br/>
+pccc_decoder_combined_cs.h<br/>
+pccc_decoder_combined_fb.h<br/>
+pccc_decoder_combined_fi.h<br/>
+pccc_decoder_combined_fs.h<br/>
+pccc_decoder_i.h<br/>
+pccc_decoder_s.h<br/>
+pccc_encoder_bb.h<br/>
+pccc_encoder_bi.h<br/>
+pccc_encoder_bs.h<br/>
+pccc_encoder_ii.h<br/>
+pccc_encoder_si.h<br/>
+pccc_encoder_ss.h<br/>
+pdu.h<br/>
+pdu_filter.h<br/>
+pdu_remove.h<br/>
+pdu_set.h<br/>
+pdu_to_tagged_stream.h<br/>
+peak_detector2_fb.h<br/>
+peak_detector_fb.h<br/>
+peak_detector_ib.h<br/>
+peak_detector_sb.h<br/>
+permutation.h<br/>
+pfb_arb_resampler.h<br/>
+pfb_arb_resampler_ccc.h<br/>
+pfb_arb_resampler_ccf.h<br/>
+pfb_arb_resampler_fff.h<br/>
+pfb_channelizer_ccf.h<br/>
+pfb_clock_sync_ccf.h<br/>
+pfb_clock_sync_fff.h<br/>
+pfb_decimator_ccf.h<br/>
+pfb_interpolator_ccf.h<br/>
+pfb_synthesizer_ccf.h<br/>
+phase_modulator_fc.h<br/>
+plateau_detector_fb.h<br/>
+pll_carriertracking_cc.h<br/>
+pll_freqdet_cf.h<br/>
+pll_refout_cc.h<br/>
+plot_raster.h<br/>
+plot_waterfall.h<br/>
+pm_remez.h<br/>
+pmt.h<br/>
+pmt_pool.h<br/>
+pmt_serial_tags.h<br/>
+pmt_sugar.h<br/>
+pn_correlator_cc.h<br/>
+pnXXX_impl.h<br/>
+polar_common.h<br/>
+polar_decoder_common.h<br/>
+polar_decoder_sc.h<br/>
+polar_decoder_sc_list.h<br/>
+polar_decoder_sc_systematic.h<br/>
+polar_encoder.h<br/>
+polar_encoder_systematic.h<br/>
+polyphase_filterbank.h<br/>
+prefs.h<br/>
+probe_avg_mag_sqrd_c.h<br/>
+probe_avg_mag_sqrd_cf.h<br/>
+probe_avg_mag_sqrd_f.h<br/>
+probe_density_b.h<br/>
+probe_mpsk_snr_est_c.h<br/>
+probe_rate.h<br/>
+probe_signal_b.h<br/>
+probe_signal_c.h<br/>
+probe_signal_f.h<br/>
+probe_signal_i.h<br/>
+probe_signal_s.h<br/>
+probe_signal_vb.h<br/>
+probe_signal_vc.h<br/>
+probe_signal_vf.h<br/>
+probe_signal_vi.h<br/>
+probe_signal_vs.h<br/>
+protocol_formatter_async.h<br/>
+protocol_formatter_bb.h<br/>
+protocol_parser_b.h<br/>
+pub_msg_sink.h<br/>
+pub_sink.h<br/>
+pull_msg_source.h<br/>
+pull_source.h<br/>
+puncture_bb.h<br/>
+puncture_ff.h<br/>
+push_msg_sink.h<br/>
+push_sink.h<br/>
+pwr_squelch_cc.h<br/>
+pwr_squelch_ff.h<br/>
+py_feval.h<br/>
+pycallback_object.h<br/>
+qtgui_types.h<br/>
+quadrature_demod_cf.h<br/>
+quicksort_index.h<br/>
+rail_ff.h<br/>
+random.h<br/>
+random_pdu.h<br/>
+random_uniform_source_b.h<br/>
+random_uniform_source_i.h<br/>
+random_uniform_source_s.h<br/>
+randomizer.h<br/>
+randomizer_impl.h<br/>
+rational_resampler_base_ccc.h<br/>
+rational_resampler_base_ccf.h<br/>
+rational_resampler_base_fcc.h<br/>
+rational_resampler_base_fff.h<br/>
+rational_resampler_base_fsf.h<br/>
+rational_resampler_base_scc.h<br/>
+realtime.h<br/>
+realtime_impl.h<br/>
+reed_solomon_impl.h<br/>
+regenerate_bb.h<br/>
+rep_msg_sink.h<br/>
+rep_sink.h<br/>
+repack_bits_bb.h<br/>
+repeat.h<br/>
+repetition_decoder.h<br/>
+repetition_encoder.h<br/>
+req_msg_source.h<br/>
+req_source.h<br/>
+rms_cf.h<br/>
+rms_ff.h<br/>
+rotator.h<br/>
+rotator_cc.h<br/>
+rpccallbackregister_base.h<br/>
+rpcmanager.h<br/>
+rpcmanager_base.h<br/>
+rpcregisterhelpers.h<br/>
+rpcserver_aggregator.h<br/>
+rpcserver_base.h<br/>
+rpcserver_booter_aggregator.h<br/>
+rpcserver_booter_base.h<br/>
+rpcserver_selector.h<br/>
+rs.h<br/>
+rs_decoder.h<br/>
+rs_encoder.h<br/>
+runtime_types.h<br/>
+sample_and_hold_bb.h<br/>
+sample_and_hold_ff.h<br/>
+sample_and_hold_ii.h<br/>
+sample_and_hold_ss.h<br/>
+sccc_decoder_b.h<br/>
+sccc_decoder_combined_cb.h<br/>
+sccc_decoder_combined_ci.h<br/>
+sccc_decoder_combined_cs.h<br/>
+sccc_decoder_combined_fb.h<br/>
+sccc_decoder_combined_fi.h<br/>
+sccc_decoder_combined_fs.h<br/>
+sccc_decoder_i.h<br/>
+sccc_decoder_s.h<br/>
+sccc_encoder_bb.h<br/>
+sccc_encoder_bi.h<br/>
+sccc_encoder_bs.h<br/>
+sccc_encoder_ii.h<br/>
+sccc_encoder_si.h<br/>
+sccc_encoder_ss.h<br/>
+scrambler_bb.h<br/>
+selective_fading_model.h<br/>
+short_to_char.h<br/>
+short_to_float.h<br/>
+sig_source_c.h<br/>
+sig_source_f.h<br/>
+sig_source_i.h<br/>
+sig_source_s.h<br/>
+sig_source_waveform.h<br/>
+simple_correlator.h<br/>
+simple_framer.h<br/>
+simple_framer_sync.h<br/>
+simple_squelch_cc.h<br/>
+sincos.h<br/>
+single_pole_iir.h<br/>
+single_pole_iir_filter_cc.h<br/>
+single_pole_iir_filter_ff.h<br/>
+single_viterbi_impl.h<br/>
+sink.h<br/>
+sink_c.h<br/>
+sink_f.h<br/>
+sink_s.h<br/>
+sink_uc.h<br/>
+siso_combined_f.h<br/>
+siso_f.h<br/>
+siso_type.h<br/>
+skiphead.h<br/>
+slicer_fb.h<br/>
+sliding_correlator_impl.h<br/>
+socket_pdu.h<br/>
+source.h<br/>
+source_c.h<br/>
+source_s.h<br/>
+spectrumUpdateEvents.h<br/>
+sptr_magic.h<br/>
+squash_ff.h<br/>
+squelch_base_cc.h<br/>
+squelch_base_ff.h<br/>
+sssr_impl.h<br/>
+stream_mux.h<br/>
+stream_to_streams.h<br/>
+stream_to_tagged_stream.h<br/>
+stream_to_vector.h<br/>
+streams_to_stream.h<br/>
+streams_to_vector.h<br/>
+stretch_ff.h<br/>
+sub_cc.h<br/>
+sub_ff.h<br/>
+sub_ii.h<br/>
+sub_msg_source.h<br/>
+sub_source.h<br/>
+sub_ss.h<br/>
+syminfo_impl.h<br/>
+sync_block.h<br/>
+sync_decimator.h<br/>
+sync_interpolator.h<br/>
+sync_tag_impl.h<br/>
+sys_paths.h<br/>
+sys_pri.h<br/>
+tag_checker.h<br/>
+tag_debug.h<br/>
+tag_gate.h<br/>
+tagged_decoder.h<br/>
+tagged_encoder.h<br/>
+tagged_file_sink.h<br/>
+tagged_stream_align.h<br/>
+tagged_stream_block.h<br/>
+tagged_stream_multiply_length.h<br/>
+tagged_stream_mux.h<br/>
+tagged_stream_to_pdu.h<br/>
+tags.h<br/>
+tags_strobe.h<br/>
+tcp_server_sink.h<br/>
+test_tag_variable_rate_ff.h<br/>
+thread.h<br/>
+thread_body_wrapper.h<br/>
+thread_group.h<br/>
+threshold_ff.h<br/>
+throttle.h<br/>
+time_raster_sink_b.h<br/>
+time_raster_sink_f.h<br/>
+time_sink_c.h<br/>
+time_sink_f.h<br/>
+timecontrolpanel.h<br/>
+timedisplayform.h<br/>
+TimeDomainDisplayPlot.h<br/>
+timerasterdisplayform.h<br/>
+TimeRasterDisplayPlot.h<br/>
+timeRasterGlobalData.h<br/>
+top_block.h<br/>
+tpb_detail.h<br/>
+tpc_common.h<br/>
+tpc_decoder.h<br/>
+tpc_encoder.h<br/>
+transcendental.h<br/>
+trellis_encoder.h<br/>
+trellis_encoder_impl.h<br/>
+trigger_mode.h<br/>
+tsb_vector_sink_b.h<br/>
+tsb_vector_sink_c.h<br/>
+tsb_vector_sink_f.h<br/>
+tsb_vector_sink_i.h<br/>
+tsb_vector_sink_s.h<br/>
+tuntap_pdu.h<br/>
+types.h<br/>
+uchar_to_float.h<br/>
+udp_sink.h<br/>
+udp_source.h<br/>
+ulaw_decode_bs.h<br/>
+ulaw_encode_sb.h<br/>
+unittests.h<br/>
+unpack_k_bits.h<br/>
+unpack_k_bits_bb.h<br/>
+unpacked_to_packed_bb.h<br/>
+unpacked_to_packed_ii.h<br/>
+unpacked_to_packed_ss.h<br/>
+utils.h<br/>
+vco_c.h<br/>
+vco_f.h<br/>
+vector_insert_b.h<br/>
+vector_insert_c.h<br/>
+vector_insert_f.h<br/>
+vector_insert_i.h<br/>
+vector_insert_s.h<br/>
+vector_map.h<br/>
+vector_sink_b.h<br/>
+vector_sink_c.h<br/>
+vector_sink_f.h<br/>
+vector_sink_i.h<br/>
+vector_sink_s.h<br/>
+vector_source_b.h<br/>
+vector_source_c.h<br/>
+vector_source_f.h<br/>
+vector_source_i.h<br/>
+vector_source_s.h<br/>
+vector_to_stream.h<br/>
+vector_to_streams.h<br/>
+vectordisplayform.h<br/>
+VectorDisplayPlot.h<br/>
+viterbi.h<br/>
+viterbi_b.h<br/>
+viterbi_combined_cb.h<br/>
+viterbi_combined_ci.h<br/>
+viterbi_combined_cs.h<br/>
+viterbi_combined_fb.h<br/>
+viterbi_combined_fi.h<br/>
+viterbi_combined_fs.h<br/>
+viterbi_combined_ib.h<br/>
+viterbi_combined_ii.h<br/>
+viterbi_combined_is.h<br/>
+viterbi_combined_sb.h<br/>
+viterbi_combined_si.h<br/>
+viterbi_combined_ss.h<br/>
+viterbi_decoder.h<br/>
+viterbi_decoder_impl.h<br/>
+viterbi_i.h<br/>
+viterbi_s.h<br/>
+waterfall_sink_c.h<br/>
+waterfall_sink_f.h<br/>
+waterfalldisplayform.h<br/>
+WaterfallDisplayPlot.h<br/>
+waterfallGlobalData.h<br/>
+wavelet_ff.h<br/>
+wavfile.h<br/>
+wavfile_sink.h<br/>
+wavfile_source.h<br/>
+window.h<br/>
+wvps_ff.h<br/>
+xor_bb.h<br/>
+xor_ii.h<br/>
+xor_ss.h<br/>
+</div>
+<br/><a class='top_ref' href='#Top'>to the top</a><br/>
+<a name='Libs'></a><h2>Libraries <span class='gray'>&nbsp;24&nbsp;</span></h2><hr/>
+<div class='lib_list'>
+libgnuradio-analog.so.3.7.11<br/>
+libgnuradio-atsc.so.3.7.11<br/>
+libgnuradio-audio.so.3.7.11<br/>
+libgnuradio-blocks.so.3.7.11<br/>
+libgnuradio-channels.so.3.7.11<br/>
+libgnuradio-comedi.so.3.7.11<br/>
+libgnuradio-digital.so.3.7.11<br/>
+libgnuradio-dtv.so.3.7.11<br/>
+libgnuradio-fcd.so.3.7.11<br/>
+libgnuradio-fec.so.3.7.11<br/>
+libgnuradio-fft.so.3.7.11<br/>
+libgnuradio-filter.so.3.7.11<br/>
+libgnuradio-noaa.so.3.7.11<br/>
+libgnuradio-pager.so.3.7.11<br/>
+libgnuradio-pmt.so.3.7.11<br/>
+libgnuradio-qtgui.so.3.7.11<br/>
+libgnuradio-runtime.so.3.7.11<br/>
+libgnuradio-trellis.so.3.7.11<br/>
+libgnuradio-uhd.so.3.7.11<br/>
+libgnuradio-video-sdl.so.3.7.11<br/>
+libgnuradio-vocoder.so.3.7.11<br/>
+libgnuradio-wavelet.so.3.7.11<br/>
+libgnuradio-wxgui.so.3.7.11<br/>
+libgnuradio-zeromq.so.3.7.11<br/>
+</div>
+<br/><a class='top_ref' href='#Top'>to the top</a><br/>
+<br/><br/><br/></div><div id='SourceTab' class='tab'>
+<h2>Test Info</h2><hr/>
+<table class='summary'>
+<tr><th>Library Name</th><td>gnuradio-dev</td></tr>
+<tr><th>Version #1</th><td>3.7.11-3</td></tr>
+<tr><th>Version #2</th><td>3.7.11-7</td></tr>
+<tr><th>Arch</th><td>x86_64</td></tr>
+<tr><th>Subject</th><td width='150px'>Source Compatibility</td></tr>
+</table>
+<h2>Test Results</h2><hr/>
+<table class='summary'><tr><th>Total Header Files</th><td><a href='#Headers' style='color:Blue;'>830</a></td></tr>
+<tr><th>Total Libraries</th><td><a href='#Libs' style='color:Blue;'>24</a></td></tr>
+<tr><th>Total Symbols / Types</th><td>2888 / 1020</td></tr>
+<tr><th>Compatibility</th>
+<td class='compatible'>100%</td>
+</tr>
+</table>
+<h2>Problem Summary</h2><hr/>
+<table class='summary'><tr><th></th><th style='text-align:center;'>Severity</th><th style='text-align:center;'>Count</th></tr><tr><th>Added Symbols</th><td>-</td><td>0</td></tr>
+<tr><th>Removed Symbols</th><td>High</td><td>0</td></tr>
+<tr><th rowspan='3'>Problems with<br/>Data Types</th><td>High</td><td>0</td></tr>
+<tr><td>Medium</td><td>0</td></tr>
+<tr><td>Low</td><td>0</td></tr>
+<tr><th rowspan='3'>Problems with<br/>Symbols</th><td>High</td><td>0</td></tr>
+<tr><td>Medium</td><td>0</td></tr>
+<tr><td>Low</td><td>0</td></tr>
+<tr><th>Problems with<br/>Constants</th><td>Low</td><td class='warning'><a href='#Constant_Source_Problems_Low' style='color:Blue;'>2</a></td></tr>
+<tr><th>Other Changes<br/>in Symbols</th><td>-</td><td class='passed'><a href='#Other_Source_Changes_In_Symbols' style='color:Blue;'>156</a></td></tr>
+<tr><th>Other Changes<br/>in Constants</th><td>-</td><td class='passed'><a href='#Other_Source_Changes_In_Constants' style='color:Blue;'>28</a></td></tr>
+</table>
+
+<a name='Low_Risk_Source_Problems'></a><a name='Constant_Source_Problems_Low'></a>
+<h2>Problems with Constants, Low Severity <span class='warning'>&nbsp;2&nbsp;</span></h2><hr/>
+<span class='h_name'>math.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_26')">
+<span class='ext'>[+]</span> _Mdouble_BEGIN_NAMESPACE</span>
+<br/>
+<div id="c_26" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>_Mdouble_BEGIN_NAMESPACE</b> with value <b>__BEGIN_NAMESPACE_STD</b> has been removed.</td>
+<td>Recompilation of a client program may be broken.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_27')">
+<span class='ext'>[+]</span> _Mdouble_END_NAMESPACE</span>
+<br/>
+<div id="c_27" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>_Mdouble_END_NAMESPACE</b> with value <b>__END_NAMESPACE_STD</b> has been removed.</td>
+<td>Recompilation of a client program may be broken.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<br/>
+<a class='top_ref' href='#Top'>to the top</a><br/>
+<a name='Other_Source_Changes'></a><a name='Other_Source_Changes_In_Symbols'></a><a name='Other_Source_Changes_In_Interfaces'></a>
+<h2>Other Changes in Symbols <span class='passed'>&nbsp;156&nbsp;</span></h2><hr/>
+<span class='h_name'>constellationdisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_28')">
+<span class='ext'>[+]</span> ConstellationDisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_28" style="display:none;">
+
+<span class='mngl pleft'>_ZN24ConstellationDisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_29')">
+<span class='ext'>[+]</span> ConstellationDisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_29" style="display:none;">
+
+<span class='mngl pleft'>_ZN24ConstellationDisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>ConstellationDisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_30')">
+<span class='ext'>[+]</span> ConstellationDisplayPlot::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_30" style="display:none;">
+
+<span class='mngl pleft'>_ZN24ConstellationDisplayPlot2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_31')">
+<span class='ext'>[+]</span> ConstellationDisplayPlot::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_31" style="display:none;">
+
+<span class='mngl pleft'>_ZN24ConstellationDisplayPlot6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>displayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_32')">
+<span class='ext'>[+]</span> DisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_32" style="display:none;">
+
+<span class='mngl pleft'>_ZN11DisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_33')">
+<span class='ext'>[+]</span> DisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_33" style="display:none;">
+
+<span class='mngl pleft'>_ZN11DisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>DisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_34')">
+<span class='ext'>[+]</span> DisplayPlot::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_34" style="display:none;">
+
+<span class='mngl pleft'>_ZN11DisplayPlot2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_35')">
+<span class='ext'>[+]</span> DisplayPlot::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_35" style="display:none;">
+
+<span class='mngl pleft'>_ZN11DisplayPlot6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>form_menus.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_36')">
+<span class='ext'>[+]</span> AverageMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_36" style="display:none;">
+
+<span class='mngl pleft'>_ZN11AverageMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_37')">
+<span class='ext'>[+]</span> AverageMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_37" style="display:none;">
+
+<span class='mngl pleft'>_ZN11AverageMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_38')">
+<span class='ext'>[+]</span> ColorMapMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_38" style="display:none;">
+
+<span class='mngl pleft'>_ZN12ColorMapMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_39')">
+<span class='ext'>[+]</span> ColorMapMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_39" style="display:none;">
+
+<span class='mngl pleft'>_ZN12ColorMapMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_40')">
+<span class='ext'>[+]</span> FFTSizeMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_40" style="display:none;">
+
+<span class='mngl pleft'>_ZN11FFTSizeMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_41')">
+<span class='ext'>[+]</span> FFTSizeMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_41" style="display:none;">
+
+<span class='mngl pleft'>_ZN11FFTSizeMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_42')">
+<span class='ext'>[+]</span> FFTWindowMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_42" style="display:none;">
+
+<span class='mngl pleft'>_ZN13FFTWindowMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_43')">
+<span class='ext'>[+]</span> FFTWindowMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_43" style="display:none;">
+
+<span class='mngl pleft'>_ZN13FFTWindowMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_44')">
+<span class='ext'>[+]</span> ItemFloatAct::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_44" style="display:none;">
+
+<span class='mngl pleft'>_ZN12ItemFloatAct2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_45')">
+<span class='ext'>[+]</span> ItemFloatAct::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_45" style="display:none;">
+
+<span class='mngl pleft'>_ZN12ItemFloatAct6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_46')">
+<span class='ext'>[+]</span> LineColorMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_46" style="display:none;">
+
+<span class='mngl pleft'>_ZN13LineColorMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_47')">
+<span class='ext'>[+]</span> LineColorMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_47" style="display:none;">
+
+<span class='mngl pleft'>_ZN13LineColorMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_48')">
+<span class='ext'>[+]</span> LineMarkerMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_48" style="display:none;">
+
+<span class='mngl pleft'>_ZN14LineMarkerMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_49')">
+<span class='ext'>[+]</span> LineMarkerMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_49" style="display:none;">
+
+<span class='mngl pleft'>_ZN14LineMarkerMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_50')">
+<span class='ext'>[+]</span> LineStyleMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_50" style="display:none;">
+
+<span class='mngl pleft'>_ZN13LineStyleMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_51')">
+<span class='ext'>[+]</span> LineStyleMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_51" style="display:none;">
+
+<span class='mngl pleft'>_ZN13LineStyleMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_52')">
+<span class='ext'>[+]</span> LineTitleAction::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_52" style="display:none;">
+
+<span class='mngl pleft'>_ZN15LineTitleAction2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_53')">
+<span class='ext'>[+]</span> LineTitleAction::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_53" style="display:none;">
+
+<span class='mngl pleft'>_ZN15LineTitleAction6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_54')">
+<span class='ext'>[+]</span> LineWidthMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_54" style="display:none;">
+
+<span class='mngl pleft'>_ZN13LineWidthMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_55')">
+<span class='ext'>[+]</span> LineWidthMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_55" style="display:none;">
+
+<span class='mngl pleft'>_ZN13LineWidthMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_56')">
+<span class='ext'>[+]</span> MarkerAlphaMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_56" style="display:none;">
+
+<span class='mngl pleft'>_ZN15MarkerAlphaMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_57')">
+<span class='ext'>[+]</span> MarkerAlphaMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_57" style="display:none;">
+
+<span class='mngl pleft'>_ZN15MarkerAlphaMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_58')">
+<span class='ext'>[+]</span> NPointsMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_58" style="display:none;">
+
+<span class='mngl pleft'>_ZN11NPointsMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_59')">
+<span class='ext'>[+]</span> NPointsMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_59" style="display:none;">
+
+<span class='mngl pleft'>_ZN11NPointsMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_60')">
+<span class='ext'>[+]</span> NumberColorMapMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_60" style="display:none;">
+
+<span class='mngl pleft'>_ZN18NumberColorMapMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_61')">
+<span class='ext'>[+]</span> NumberColorMapMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_61" style="display:none;">
+
+<span class='mngl pleft'>_ZN18NumberColorMapMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_62')">
+<span class='ext'>[+]</span> NumberLayoutMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_62" style="display:none;">
+
+<span class='mngl pleft'>_ZN16NumberLayoutMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_63')">
+<span class='ext'>[+]</span> NumberLayoutMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_63" style="display:none;">
+
+<span class='mngl pleft'>_ZN16NumberLayoutMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_64')">
+<span class='ext'>[+]</span> OtherAction::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_64" style="display:none;">
+
+<span class='mngl pleft'>_ZN11OtherAction2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_65')">
+<span class='ext'>[+]</span> OtherAction::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_65" style="display:none;">
+
+<span class='mngl pleft'>_ZN11OtherAction6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_66')">
+<span class='ext'>[+]</span> OtherDualAction::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_66" style="display:none;">
+
+<span class='mngl pleft'>_ZN15OtherDualAction2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_67')">
+<span class='ext'>[+]</span> OtherDualAction::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_67" style="display:none;">
+
+<span class='mngl pleft'>_ZN15OtherDualAction6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_68')">
+<span class='ext'>[+]</span> PopupMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_68" style="display:none;">
+
+<span class='mngl pleft'>_ZN9PopupMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_69')">
+<span class='ext'>[+]</span> PopupMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_69" style="display:none;">
+
+<span class='mngl pleft'>_ZN9PopupMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_70')">
+<span class='ext'>[+]</span> TriggerChannelMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_70" style="display:none;">
+
+<span class='mngl pleft'>_ZN18TriggerChannelMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_71')">
+<span class='ext'>[+]</span> TriggerChannelMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_71" style="display:none;">
+
+<span class='mngl pleft'>_ZN18TriggerChannelMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_72')">
+<span class='ext'>[+]</span> TriggerModeMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_72" style="display:none;">
+
+<span class='mngl pleft'>_ZN15TriggerModeMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_73')">
+<span class='ext'>[+]</span> TriggerModeMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_73" style="display:none;">
+
+<span class='mngl pleft'>_ZN15TriggerModeMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_74')">
+<span class='ext'>[+]</span> TriggerSlopeMenu::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_74" style="display:none;">
+
+<span class='mngl pleft'>_ZN16TriggerSlopeMenu2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_75')">
+<span class='ext'>[+]</span> TriggerSlopeMenu::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_75" style="display:none;">
+
+<span class='mngl pleft'>_ZN16TriggerSlopeMenu6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>freqcontrolpanel.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_76')">
+<span class='ext'>[+]</span> FreqControlPanel::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_76" style="display:none;">
+
+<span class='mngl pleft'>_ZN16FreqControlPanel2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_77')">
+<span class='ext'>[+]</span> FreqControlPanel::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_77" style="display:none;">
+
+<span class='mngl pleft'>_ZN16FreqControlPanel6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>freqdisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_78')">
+<span class='ext'>[+]</span> FreqDisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_78" style="display:none;">
+
+<span class='mngl pleft'>_ZN15FreqDisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_79')">
+<span class='ext'>[+]</span> FreqDisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_79" style="display:none;">
+
+<span class='mngl pleft'>_ZN15FreqDisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>FrequencyDisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_80')">
+<span class='ext'>[+]</span> FrequencyDisplayPlot::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_80" style="display:none;">
+
+<span class='mngl pleft'>_ZN20FrequencyDisplayPlot2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_81')">
+<span class='ext'>[+]</span> FrequencyDisplayPlot::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_81" style="display:none;">
+
+<span class='mngl pleft'>_ZN20FrequencyDisplayPlot6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>histogramdisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_82')">
+<span class='ext'>[+]</span> HistogramDisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_82" style="display:none;">
+
+<span class='mngl pleft'>_ZN20HistogramDisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_83')">
+<span class='ext'>[+]</span> HistogramDisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_83" style="display:none;">
+
+<span class='mngl pleft'>_ZN20HistogramDisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>HistogramDisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_84')">
+<span class='ext'>[+]</span> HistogramDisplayPlot::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_84" style="display:none;">
+
+<span class='mngl pleft'>_ZN20HistogramDisplayPlot2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_85')">
+<span class='ext'>[+]</span> HistogramDisplayPlot::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_85" style="display:none;">
+
+<span class='mngl pleft'>_ZN20HistogramDisplayPlot6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>numberdisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_86')">
+<span class='ext'>[+]</span> NumberDisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_86" style="display:none;">
+
+<span class='mngl pleft'>_ZN17NumberDisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_87')">
+<span class='ext'>[+]</span> NumberDisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_87" style="display:none;">
+
+<span class='mngl pleft'>_ZN17NumberDisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>timecontrolpanel.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_88')">
+<span class='ext'>[+]</span> TimeControlPanel::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_88" style="display:none;">
+
+<span class='mngl pleft'>_ZN16TimeControlPanel2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_89')">
+<span class='ext'>[+]</span> TimeControlPanel::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_89" style="display:none;">
+
+<span class='mngl pleft'>_ZN16TimeControlPanel6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>timedisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_90')">
+<span class='ext'>[+]</span> TimeDisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_90" style="display:none;">
+
+<span class='mngl pleft'>_ZN15TimeDisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_91')">
+<span class='ext'>[+]</span> TimeDisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_91" style="display:none;">
+
+<span class='mngl pleft'>_ZN15TimeDisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>TimeDomainDisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_92')">
+<span class='ext'>[+]</span> TimeDomainDisplayPlot::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_92" style="display:none;">
+
+<span class='mngl pleft'>_ZN21TimeDomainDisplayPlot2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_93')">
+<span class='ext'>[+]</span> TimeDomainDisplayPlot::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_93" style="display:none;">
+
+<span class='mngl pleft'>_ZN21TimeDomainDisplayPlot6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>timerasterdisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_94')">
+<span class='ext'>[+]</span> TimeRasterDisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_94" style="display:none;">
+
+<span class='mngl pleft'>_ZN21TimeRasterDisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_95')">
+<span class='ext'>[+]</span> TimeRasterDisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_95" style="display:none;">
+
+<span class='mngl pleft'>_ZN21TimeRasterDisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>TimeRasterDisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_96')">
+<span class='ext'>[+]</span> TimeRasterDisplayPlot::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_96" style="display:none;">
+
+<span class='mngl pleft'>_ZN21TimeRasterDisplayPlot2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_97')">
+<span class='ext'>[+]</span> TimeRasterDisplayPlot::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_97" style="display:none;">
+
+<span class='mngl pleft'>_ZN21TimeRasterDisplayPlot6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>vectordisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_98')">
+<span class='ext'>[+]</span> VectorDisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_98" style="display:none;">
+
+<span class='mngl pleft'>_ZN17VectorDisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_99')">
+<span class='ext'>[+]</span> VectorDisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_99" style="display:none;">
+
+<span class='mngl pleft'>_ZN17VectorDisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>VectorDisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_100')">
+<span class='ext'>[+]</span> VectorDisplayPlot::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_100" style="display:none;">
+
+<span class='mngl pleft'>_ZN17VectorDisplayPlot2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_101')">
+<span class='ext'>[+]</span> VectorDisplayPlot::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_101" style="display:none;">
+
+<span class='mngl pleft'>_ZN17VectorDisplayPlot6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>waterfalldisplayform.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_102')">
+<span class='ext'>[+]</span> WaterfallDisplayForm::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_102" style="display:none;">
+
+<span class='mngl pleft'>_ZN20WaterfallDisplayForm2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_103')">
+<span class='ext'>[+]</span> WaterfallDisplayForm::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_103" style="display:none;">
+
+<span class='mngl pleft'>_ZN20WaterfallDisplayForm6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<span class='h_name'>WaterfallDisplayPlot.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_104')">
+<span class='ext'>[+]</span> WaterfallDisplayPlot::tr&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_104" style="display:none;">
+
+<span class='mngl pleft'>_ZN20WaterfallDisplayPlot2trEPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<span class="section" onclick="javascript:showContent(this, 'c_105')">
+<span class='ext'>[+]</span> WaterfallDisplayPlot::trUtf8&#160;<span class='sym_p'><span>(&#160;char const* <span class='color_p'>s</span></span>, <span>char const* <span class='color_p'>c</span></span>, <span>int <span class='color_p'>n</span></span>&#160;)</span> <span class='attr'>[static]</span> <span class='passed'>&nbsp;2&nbsp;</span></span>
+<br/>
+<div id="c_105" style="display:none;">
+
+<span class='mngl pleft'>_ZN20WaterfallDisplayPlot6trUtf8EPKcS1_i</span><br/>
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The default argument <b>&quot;0&quot;</b> of <b>2nd</b> parameter <b>c</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+<tr>
+<th>2</th>
+<td>The default argument <b>-1</b> of <b>3rd</b> parameter <b>n</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+<br/>
+<a class='top_ref' href='#Top'>to the top</a><br/>
+<a name='Other_Source_Changes_In_Constants'></a>
+<h2>Other Changes in Constants <span class='passed'>&nbsp;28&nbsp;</span></h2><hr/>
+<span class='h_name'>math.h</span><br/>
+<span class="section" onclick="javascript:showContent(this, 'c_106')">
+<span class='ext'>[+]</span> __FP_LONG_MAX</span>
+<br/>
+<div id="c_106" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>__FP_LONG_MAX</b> with value <b>0x7fffffffffffffffL</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_107')">
+<span class='ext'>[+]</span> _Mfloat128_</span>
+<br/>
+<div id="c_107" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>_Mfloat128_</b> with value <b>_Float128</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_108')">
+<span class='ext'>[+]</span> FP_ILOGB0</span>
+<br/>
+<div id="c_108" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_ILOGB0</b> with value <span class='value'>(-2147483647 - 1)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_109')">
+<span class='ext'>[+]</span> FP_ILOGBNAN</span>
+<br/>
+<div id="c_109" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_ILOGBNAN</b> with value <span class='value'>(-2147483647 - 1)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_110')">
+<span class='ext'>[+]</span> FP_INT_DOWNWARD</span>
+<br/>
+<div id="c_110" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_DOWNWARD</b> with value <b>1</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_111')">
+<span class='ext'>[+]</span> FP_INT_TONEAREST</span>
+<br/>
+<div id="c_111" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_TONEAREST</b> with value <b>4</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_112')">
+<span class='ext'>[+]</span> FP_INT_TONEARESTFROMZERO</span>
+<br/>
+<div id="c_112" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_TONEARESTFROMZERO</b> with value <b>3</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_113')">
+<span class='ext'>[+]</span> FP_INT_TOWARDZERO</span>
+<br/>
+<div id="c_113" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_TOWARDZERO</b> with value <b>2</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_114')">
+<span class='ext'>[+]</span> FP_INT_UPWARD</span>
+<br/>
+<div id="c_114" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_INT_UPWARD</b> with value <b>0</b> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_115')">
+<span class='ext'>[+]</span> FP_LLOGB0</span>
+<br/>
+<div id="c_115" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_LLOGB0</b> with value <span class='value'>(-__FP_LONG_MAX - 1)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_116')">
+<span class='ext'>[+]</span> FP_LLOGBNAN</span>
+<br/>
+<div id="c_116" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>FP_LLOGBNAN</b> with value <span class='value'>(-__FP_LONG_MAX - 1)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_117')">
+<span class='ext'>[+]</span> M_1_PIf128</span>
+<br/>
+<div id="c_117" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_1_PIf128</b> with value <span class='value'>__f128 (0.318309886183790671537767526745028724)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_118')">
+<span class='ext'>[+]</span> M_2_PIf128</span>
+<br/>
+<div id="c_118" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_2_PIf128</b> with value <span class='value'>__f128 (0.636619772367581343075535053490057448)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_119')">
+<span class='ext'>[+]</span> M_2_SQRTPIf128</span>
+<br/>
+<div id="c_119" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_2_SQRTPIf128</b> with value <span class='value'>__f128 (1.128379167095512573896158903121545172)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_120')">
+<span class='ext'>[+]</span> M_Ef128</span>
+<br/>
+<div id="c_120" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_Ef128</b> with value <span class='value'>__f128 (2.718281828459045235360287471352662498)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_121')">
+<span class='ext'>[+]</span> M_LN10f128</span>
+<br/>
+<div id="c_121" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_LN10f128</b> with value <span class='value'>__f128 (2.302585092994045684017991454684364208)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_122')">
+<span class='ext'>[+]</span> M_LN2f128</span>
+<br/>
+<div id="c_122" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_LN2f128</b> with value <span class='value'>__f128 (0.693147180559945309417232121458176568)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_123')">
+<span class='ext'>[+]</span> M_LOG10Ef128</span>
+<br/>
+<div id="c_123" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_LOG10Ef128</b> with value <span class='value'>__f128 (0.434294481903251827651128918916605082)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_124')">
+<span class='ext'>[+]</span> M_LOG2Ef128</span>
+<br/>
+<div id="c_124" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_LOG2Ef128</b> with value <span class='value'>__f128 (1.442695040888963407359924681001892137)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_125')">
+<span class='ext'>[+]</span> M_PI_2f128</span>
+<br/>
+<div id="c_125" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_PI_2f128</b> with value <span class='value'>__f128 (1.570796326794896619231321691639751442)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_126')">
+<span class='ext'>[+]</span> M_PI_4f128</span>
+<br/>
+<div id="c_126" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_PI_4f128</b> with value <span class='value'>__f128 (0.785398163397448309615660845819875721)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_127')">
+<span class='ext'>[+]</span> M_PIf128</span>
+<br/>
+<div id="c_127" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_PIf128</b> with value <span class='value'>__f128 (3.141592653589793238462643383279502884)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_128')">
+<span class='ext'>[+]</span> M_SQRT1_2f128</span>
+<br/>
+<div id="c_128" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_SQRT1_2f128</b> with value <span class='value'>__f128 (0.707106781186547524400844362104849039)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_129')">
+<span class='ext'>[+]</span> M_SQRT2f128</span>
+<br/>
+<div id="c_129" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>M_SQRT2f128</b> with value <span class='value'>__f128 (1.414213562373095048801688724209698079)</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_130')">
+<span class='ext'>[+]</span> SNAN</span>
+<br/>
+<div id="c_130" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>SNAN</b> with value <span class='value'>(__builtin_nans (&quot;&quot;))</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_131')">
+<span class='ext'>[+]</span> SNANF</span>
+<br/>
+<div id="c_131" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>SNANF</b> with value <span class='value'>(__builtin_nansf (&quot;&quot;))</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_132')">
+<span class='ext'>[+]</span> SNANF128</span>
+<br/>
+<div id="c_132" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>SNANF128</b> with value <span class='value'>(__builtin_nansf128 (&quot;&quot;))</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<span class="section" onclick="javascript:showContent(this, 'c_133')">
+<span class='ext'>[+]</span> SNANL</span>
+<br/>
+<div id="c_133" style="display:none;">
+<table class='ptable'>
+<tr>
+<th class='pn'></th>
+<th class='chg'>Change</th>
+<th>Effect</th>
+</tr>
+<tr>
+<th>1</th>
+<td>The constant <b>SNANL</b> with value <span class='value'>(__builtin_nansl (&quot;&quot;))</span> has been added.</td>
+<td>No effect.</td>
+</tr>
+</table>
+<br/>
+</div>
+
+<br/>
+<a class='top_ref' href='#Top'>to the top</a><br/>
+<a name='Headers'></a><h2>Header Files <span class='gray'>&nbsp;830&nbsp;</span></h2><hr/>
+<div class='h_list'>
+abs_ff.h<br/>
+abs_ii.h<br/>
+abs_ss.h<br/>
+add_cc.h<br/>
+add_const_bb.h<br/>
+add_const_cc.h<br/>
+add_const_ff.h<br/>
+add_const_ii.h<br/>
+add_const_ss.h<br/>
+add_const_vbb.h<br/>
+add_const_vcc.h<br/>
+add_const_vff.h<br/>
+add_const_vii.h<br/>
+add_const_vss.h<br/>
+add_ff.h<br/>
+add_ii.h<br/>
+add_ss.h<br/>
+additive_scrambler_bb.h<br/>
+agc.h<br/>
+agc2.h<br/>
+agc2_cc.h<br/>
+agc2_ff.h<br/>
+agc3_cc.h<br/>
+agc_cc.h<br/>
+agc_ff.h<br/>
+alaw_decode_bs.h<br/>
+alaw_encode_sb.h<br/>
+alist.h<br/>
+and_bb.h<br/>
+and_const_bb.h<br/>
+and_const_ii.h<br/>
+and_const_ss.h<br/>
+and_ii.h<br/>
+and_ss.h<br/>
+annotator_1to1.h<br/>
+annotator_alltoall.h<br/>
+annotator_raw.h<br/>
+api.h<br/>
+argmax_fs.h<br/>
+argmax_is.h<br/>
+argmax_ss.h<br/>
+async_decoder.h<br/>
+async_encoder.h<br/>
+atsc_consts.h<br/>
+atsc_deinterleaver.h<br/>
+atsc_depad.h<br/>
+atsc_derandomizer.h<br/>
+atsc_equalizer.h<br/>
+atsc_field_sync_mux.h<br/>
+atsc_fpll.h<br/>
+atsc_fs_checker.h<br/>
+atsc_interleaver.h<br/>
+atsc_pad.h<br/>
+atsc_randomizer.h<br/>
+atsc_rs_decoder.h<br/>
+atsc_rs_encoder.h<br/>
+atsc_sync.h<br/>
+atsc_trellis_encoder.h<br/>
+atsc_viterbi_decoder.h<br/>
+attributes.h<br/>
+awgn_bp.h<br/>
+base.h<br/>
+basic_block.h<br/>
+basic_trellis_encoder_impl.h<br/>
+ber_bf.h<br/>
+ber_sink_b.h<br/>
+bin_statistics_f.h<br/>
+binary_slicer_fb.h<br/>
+bit_timing_loop.h<br/>
+block.h<br/>
+block_detail.h<br/>
+block_gateway.h<br/>
+block_registry.h<br/>
+buffer.h<br/>
+burst_shaper_cc.h<br/>
+burst_shaper_ff.h<br/>
+burst_tagger.h<br/>
+calc_metric.h<br/>
+catv_frame_sync_enc_bb.h<br/>
+catv_randomizer_bb.h<br/>
+catv_reed_solomon_enc_bb.h<br/>
+catv_transport_framing_enc_bb.h<br/>
+catv_trellis_enc_bb.h<br/>
+cc_common.h<br/>
+cc_decoder.h<br/>
+cc_encoder.h<br/>
+ccsds_encoder.h<br/>
+channel_model.h<br/>
+channel_model2.h<br/>
+char_to_float.h<br/>
+char_to_short.h<br/>
+check_lfsr_32k_s.h<br/>
+chunks_to_symbols_bc.h<br/>
+chunks_to_symbols_bf.h<br/>
+chunks_to_symbols_ic.h<br/>
+chunks_to_symbols_if.h<br/>
+chunks_to_symbols_sc.h<br/>
+chunks_to_symbols_sf.h<br/>
+cldpc.h<br/>
+clock_recovery_mm_cc.h<br/>
+clock_recovery_mm_ff.h<br/>
+cma_equalizer_cc.h<br/>
+codec2.h<br/>
+codec2_decode_ps.h<br/>
+codec2_encode_sp.h<br/>
+complex_to_arg.h<br/>
+complex_to_float.h<br/>
+complex_to_imag.h<br/>
+complex_to_interleaved_short.h<br/>
+complex_to_mag.h<br/>
+complex_to_mag_squared.h<br/>
+complex_to_magphase.h<br/>
+complex_to_real.h<br/>
+config.h<br/>
+conjugate_cc.h<br/>
+const_sink_c.h<br/>
+constants.h<br/>
+constellation.h<br/>
+constellation_decoder_cb.h<br/>
+constellation_metrics_cf.h<br/>
+constellation_receiver_cb.h<br/>
+constellation_soft_decoder_cf.h<br/>
+constellationdisplayform.h<br/>
+ConstellationDisplayPlot.h<br/>
+consts.h<br/>
+control_loop.h<br/>
+conv_bit_corr_bb.h<br/>
+convolutional_interleaver.h<br/>
+copy.h<br/>
+core_algorithms.h<br/>
+corr_est_cc.h<br/>
+correlate_access_code_bb.h<br/>
+correlate_access_code_bb_ts.h<br/>
+correlate_access_code_ff_ts.h<br/>
+correlate_access_code_tag_bb.h<br/>
+correlate_and_sync_cc.h<br/>
+costas_loop_cc.h<br/>
+count_bits.h<br/>
+cpfsk_bc.h<br/>
+cpm.h<br/>
+cpmmod_bc.h<br/>
+crc32.h<br/>
+crc32_async_bb.h<br/>
+crc32_bb.h<br/>
+create_atsci_equalizer.h<br/>
+create_atsci_fs_checker.h<br/>
+create_atsci_fs_correlator.h<br/>
+ctcss_squelch_ff.h<br/>
+ctrlport_probe2_b.h<br/>
+ctrlport_probe2_c.h<br/>
+ctrlport_probe2_f.h<br/>
+ctrlport_probe2_i.h<br/>
+ctrlport_probe2_s.h<br/>
+ctrlport_probe_c.h<br/>
+ctrlport_probe_psd.h<br/>
+cvsd_decode_bs.h<br/>
+cvsd_encode_sb.h<br/>
+data_interleaver_impl.h<br/>
+dc_blocker_cc.h<br/>
+dc_blocker_ff.h<br/>
+decode_ccsds_27_fb.h<br/>
+decoder.h<br/>
+deinterleave.h<br/>
+deinterleaver.h<br/>
+delay.h<br/>
+depad.h<br/>
+depuncture_bb.h<br/>
+derandomizer.h<br/>
+descrambler_bb.h<br/>
+diag_output_impl.h<br/>
+diff_decoder_bb.h<br/>
+diff_encoder_bb.h<br/>
+diff_phasor_cc.h<br/>
+displayform.h<br/>
+DisplayPlot.h<br/>
+divide_cc.h<br/>
+divide_ff.h<br/>
+divide_ii.h<br/>
+divide_ss.h<br/>
+dpll_bb.h<br/>
+ds_to_softds.h<br/>
+dummy_decoder.h<br/>
+dummy_encoder.h<br/>
+dvb_bbheader_bb.h<br/>
+dvb_bbscrambler_bb.h<br/>
+dvb_bch_bb.h<br/>
+dvb_config.h<br/>
+dvb_ldpc_bb.h<br/>
+dvbs2_config.h<br/>
+dvbs2_interleaver_bb.h<br/>
+dvbs2_modulator_bc.h<br/>
+dvbs2_physical_cc.h<br/>
+dvbt2_cellinterleaver_cc.h<br/>
+dvbt2_config.h<br/>
+dvbt2_framemapper_cc.h<br/>
+dvbt2_freqinterleaver_cc.h<br/>
+dvbt2_interleaver_bb.h<br/>
+dvbt2_miso_cc.h<br/>
+dvbt2_modulator_bc.h<br/>
+dvbt2_p1insertion_cc.h<br/>
+dvbt2_paprtr_cc.h<br/>
+dvbt2_pilotgenerator_cc.h<br/>
+dvbt_bit_inner_deinterleaver.h<br/>
+dvbt_bit_inner_interleaver.h<br/>
+dvbt_config.h<br/>
+dvbt_convolutional_deinterleaver.h<br/>
+dvbt_convolutional_interleaver.h<br/>
+dvbt_demap.h<br/>
+dvbt_demod_reference_signals.h<br/>
+dvbt_energy_descramble.h<br/>
+dvbt_energy_dispersal.h<br/>
+dvbt_inner_coder.h<br/>
+dvbt_map.h<br/>
+dvbt_ofdm_sym_acquisition.h<br/>
+dvbt_reed_solomon_dec.h<br/>
+dvbt_reed_solomon_enc.h<br/>
+dvbt_reference_signals.h<br/>
+dvbt_symbol_inner_interleaver.h<br/>
+dvbt_viterbi_decoder.h<br/>
+edit_box_msg.h<br/>
+encode_ccsds_27_bb.h<br/>
+encoder.h<br/>
+encoder_bb.h<br/>
+encoder_bi.h<br/>
+encoder_bs.h<br/>
+encoder_ii.h<br/>
+encoder_si.h<br/>
+encoder_ss.h<br/>
+endian_swap.h<br/>
+endianness.h<br/>
+equalizer.h<br/>
+equalizer_impl.h<br/>
+equalizer_lms2_impl.h<br/>
+equalizer_lms_impl.h<br/>
+equalizer_nop_impl.h<br/>
+expj.h<br/>
+fading_model.h<br/>
+fake_single_viterbi_impl.h<br/>
+fastnoise_source_c.h<br/>
+fastnoise_source_f.h<br/>
+fastnoise_source_i.h<br/>
+fastnoise_source_s.h<br/>
+fec_mtrx.h<br/>
+feedforward_agc_cc.h<br/>
+feval.h<br/>
+fft.h<br/>
+fft_filter.h<br/>
+fft_filter_ccc.h<br/>
+fft_filter_ccf.h<br/>
+fft_filter_fff.h<br/>
+fft_vcc.h<br/>
+fft_vfc.h<br/>
+field_sync_demux.h<br/>
+field_sync_mux.h<br/>
+file_descriptor_sink.h<br/>
+file_descriptor_source.h<br/>
+file_meta_sink.h<br/>
+file_meta_source.h<br/>
+file_sink.h<br/>
+file_sink_base.h<br/>
+file_source.h<br/>
+filter_delay_fc.h<br/>
+filterbank.h<br/>
+filterbank_vcvcf.h<br/>
+fir_filter.h<br/>
+fir_filter_ccc.h<br/>
+fir_filter_ccf.h<br/>
+fir_filter_fcc.h<br/>
+fir_filter_fff.h<br/>
+fir_filter_fsf.h<br/>
+fir_filter_scc.h<br/>
+fir_filter_with_buffer.h<br/>
+firdes.h<br/>
+flex_deinterleave.h<br/>
+flex_frame.h<br/>
+flex_parse.h<br/>
+flex_sync.h<br/>
+fll_band_edge_cc.h<br/>
+float_to_char.h<br/>
+float_to_complex.h<br/>
+float_to_int.h<br/>
+float_to_short.h<br/>
+float_to_uchar.h<br/>
+flowgraph.h<br/>
+fmdet_cf.h<br/>
+form_menus.h<br/>
+fpll.h<br/>
+fractional_interpolator_cc.h<br/>
+fractional_interpolator_ff.h<br/>
+fractional_resampler_cc.h<br/>
+fractional_resampler_ff.h<br/>
+framer_sink_1.h<br/>
+freedv_api.h<br/>
+freedv_rx_ss.h<br/>
+freedv_tx_ss.h<br/>
+freq_sink_c.h<br/>
+freq_sink_f.h<br/>
+freq_xlating_fir_filter_ccc.h<br/>
+freq_xlating_fir_filter_ccf.h<br/>
+freq_xlating_fir_filter_fcc.h<br/>
+freq_xlating_fir_filter_fcf.h<br/>
+freq_xlating_fir_filter_scc.h<br/>
+freq_xlating_fir_filter_scf.h<br/>
+freqcontrolpanel.h<br/>
+freqdisplayform.h<br/>
+frequency_modulator_fc.h<br/>
+FrequencyDisplayPlot.h<br/>
+fs_checker.h<br/>
+fs_checker_impl.h<br/>
+fs_checker_naive_impl.h<br/>
+fs_correlator_impl.h<br/>
+fs_correlator_naive_impl.h<br/>
+fsm.h<br/>
+fxpt.h<br/>
+fxpt_nco.h<br/>
+fxpt_vco.h<br/>
+g721_decode_bs.h<br/>
+g721_encode_sb.h<br/>
+g723_24_decode_bs.h<br/>
+g723_24_encode_sb.h<br/>
+g723_40_decode_bs.h<br/>
+g723_40_encode_sb.h<br/>
+generic_decoder.h<br/>
+generic_encoder.h<br/>
+gf2mat.h<br/>
+gf2vec.h<br/>
+glfsr.h<br/>
+glfsr_source_b.h<br/>
+glfsr_source_f.h<br/>
+gnuradio_swig_bug_workaround.h<br/>
+goertzel.h<br/>
+goertzel_fc.h<br/>
+gr_complex.h<br/>
+GrAtscSegSymSyncImpl_export.h<br/>
+gsm_fr_decode_ps.h<br/>
+gsm_fr_encode_sp.h<br/>
+hdlc_deframer_bp.h<br/>
+hdlc_framer_pb.h<br/>
+head.h<br/>
+header_buffer.h<br/>
+header_format_base.h<br/>
+header_format_counter.h<br/>
+header_format_crc.h<br/>
+header_format_default.h<br/>
+header_format_ofdm.h<br/>
+header_payload_demux.h<br/>
+hier_block2.h<br/>
+high_res_timer.h<br/>
+hilbert_fc.h<br/>
+histo_sink_f.h<br/>
+histogram_sink_f.h<br/>
+histogramdisplayform.h<br/>
+HistogramDisplayPlot.h<br/>
+hrpt.h<br/>
+hrpt_decoder.h<br/>
+hrpt_deframer.h<br/>
+hrpt_pll_cf.h<br/>
+iir_filter.h<br/>
+iir_filter_ccc.h<br/>
+iir_filter_ccd.h<br/>
+iir_filter_ccf.h<br/>
+iir_filter_ccz.h<br/>
+iir_filter_ffd.h<br/>
+int_to_float.h<br/>
+integrate_cc.h<br/>
+integrate_ff.h<br/>
+integrate_ii.h<br/>
+integrate_ss.h<br/>
+interleave.h<br/>
+interleaved_char_to_complex.h<br/>
+interleaved_short_to_complex.h<br/>
+interleaver.h<br/>
+interleaver_fifo.h<br/>
+interp_fir_filter_ccc.h<br/>
+interp_fir_filter_ccf.h<br/>
+interp_fir_filter_fcc.h<br/>
+interp_fir_filter_fff.h<br/>
+interp_fir_filter_fsf.h<br/>
+interp_fir_filter_scc.h<br/>
+interpolator_taps.h<br/>
+io_signature.h<br/>
+keep_m_in_n.h<br/>
+keep_one_in_n.h<br/>
+kurtotic_equalizer_cc.h<br/>
+ldpc_bit_flip_decoder.h<br/>
+ldpc_decoder.h<br/>
+ldpc_encoder.h<br/>
+ldpc_G_matrix.h<br/>
+ldpc_gen_mtrx_encoder.h<br/>
+ldpc_H_matrix.h<br/>
+ldpc_par_mtrx_encoder.h<br/>
+lfsr.h<br/>
+lfsr_15_1_0.h<br/>
+lfsr_32k.h<br/>
+lfsr_32k_source_s.h<br/>
+lms_dd_equalizer_cc.h<br/>
+log2_const.h<br/>
+logger.h<br/>
+magphase_to_complex.h<br/>
+map_bb.h<br/>
+math.h<br/>
+max_ff.h<br/>
+max_ii.h<br/>
+max_ss.h<br/>
+maxstar.h<br/>
+message.h<br/>
+message_burst_source.h<br/>
+message_debug.h<br/>
+message_sink.h<br/>
+message_source.h<br/>
+message_strobe.h<br/>
+message_strobe_random.h<br/>
+metric_type.h<br/>
+metrics_c.h<br/>
+metrics_f.h<br/>
+metrics_i.h<br/>
+metrics_s.h<br/>
+min_ff.h<br/>
+min_ii.h<br/>
+min_ss.h<br/>
+misc.h<br/>
+mmse_fir_interpolator_cc.h<br/>
+mmse_fir_interpolator_ff.h<br/>
+modulate_vector.h<br/>
+moving_average_cc.h<br/>
+moving_average_ff.h<br/>
+moving_average_ii.h<br/>
+moving_average_ss.h<br/>
+mpsk_receiver_cc.h<br/>
+mpsk_snr_est.h<br/>
+mpsk_snr_est_cc.h<br/>
+msg_accepter.h<br/>
+msg_accepter_msgq.h<br/>
+msg_handler.h<br/>
+msg_passing.h<br/>
+msg_producer.h<br/>
+msg_queue.h<br/>
+msk_timing_recovery_cc.h<br/>
+multiply_by_tag_value_cc.h<br/>
+multiply_cc.h<br/>
+multiply_conjugate_cc.h<br/>
+multiply_const_cc.h<br/>
+multiply_const_ff.h<br/>
+multiply_const_ii.h<br/>
+multiply_const_ss.h<br/>
+multiply_const_vcc.h<br/>
+multiply_const_vff.h<br/>
+multiply_const_vii.h<br/>
+multiply_const_vss.h<br/>
+multiply_ff.h<br/>
+multiply_ii.h<br/>
+multiply_matrix_cc.h<br/>
+multiply_matrix_ff.h<br/>
+multiply_ss.h<br/>
+mute_cc.h<br/>
+mute_ff.h<br/>
+mute_ii.h<br/>
+mute_ss.h<br/>
+nco.h<br/>
+nlog10_ff.h<br/>
+noise_source_c.h<br/>
+noise_source_f.h<br/>
+noise_source_i.h<br/>
+noise_source_s.h<br/>
+noise_type.h<br/>
+nop.h<br/>
+not_bb.h<br/>
+not_ii.h<br/>
+not_ss.h<br/>
+null_sink.h<br/>
+null_source.h<br/>
+number_sink.h<br/>
+numberdisplayform.h<br/>
+ofdm_carrier_allocator_cvc.h<br/>
+ofdm_chanest_vcvc.h<br/>
+ofdm_cyclic_prefixer.h<br/>
+ofdm_equalizer_base.h<br/>
+ofdm_equalizer_simpledfe.h<br/>
+ofdm_equalizer_static.h<br/>
+ofdm_frame_acquisition.h<br/>
+ofdm_frame_equalizer_vcvc.h<br/>
+ofdm_frame_sink.h<br/>
+ofdm_insert_preamble.h<br/>
+ofdm_mapper_bcv.h<br/>
+ofdm_sampler.h<br/>
+ofdm_serializer_vcc.h<br/>
+ofdm_sync_sc_cfb.h<br/>
+or_bb.h<br/>
+or_ii.h<br/>
+or_ss.h<br/>
+oscope_guts.h<br/>
+oscope_sink_f.h<br/>
+oscope_sink_x.h<br/>
+pack_k_bits.h<br/>
+pack_k_bits_bb.h<br/>
+packed_to_unpacked_bb.h<br/>
+packed_to_unpacked_ii.h<br/>
+packed_to_unpacked_ss.h<br/>
+packet_header_default.h<br/>
+packet_header_ofdm.h<br/>
+packet_headergenerator_bb.h<br/>
+packet_headerparser_b.h<br/>
+packet_sink.h<br/>
+pad.h<br/>
+patterned_interleaver.h<br/>
+pccc_decoder_b.h<br/>
+pccc_decoder_combined_cb.h<br/>
+pccc_decoder_combined_ci.h<br/>
+pccc_decoder_combined_cs.h<br/>
+pccc_decoder_combined_fb.h<br/>
+pccc_decoder_combined_fi.h<br/>
+pccc_decoder_combined_fs.h<br/>
+pccc_decoder_i.h<br/>
+pccc_decoder_s.h<br/>
+pccc_encoder_bb.h<br/>
+pccc_encoder_bi.h<br/>
+pccc_encoder_bs.h<br/>
+pccc_encoder_ii.h<br/>
+pccc_encoder_si.h<br/>
+pccc_encoder_ss.h<br/>
+pdu.h<br/>
+pdu_filter.h<br/>
+pdu_remove.h<br/>
+pdu_set.h<br/>
+pdu_to_tagged_stream.h<br/>
+peak_detector2_fb.h<br/>
+peak_detector_fb.h<br/>
+peak_detector_ib.h<br/>
+peak_detector_sb.h<br/>
+permutation.h<br/>
+pfb_arb_resampler.h<br/>
+pfb_arb_resampler_ccc.h<br/>
+pfb_arb_resampler_ccf.h<br/>
+pfb_arb_resampler_fff.h<br/>
+pfb_channelizer_ccf.h<br/>
+pfb_clock_sync_ccf.h<br/>
+pfb_clock_sync_fff.h<br/>
+pfb_decimator_ccf.h<br/>
+pfb_interpolator_ccf.h<br/>
+pfb_synthesizer_ccf.h<br/>
+phase_modulator_fc.h<br/>
+plateau_detector_fb.h<br/>
+pll_carriertracking_cc.h<br/>
+pll_freqdet_cf.h<br/>
+pll_refout_cc.h<br/>
+plot_raster.h<br/>
+plot_waterfall.h<br/>
+pm_remez.h<br/>
+pmt.h<br/>
+pmt_pool.h<br/>
+pmt_serial_tags.h<br/>
+pmt_sugar.h<br/>
+pn_correlator_cc.h<br/>
+pnXXX_impl.h<br/>
+polar_common.h<br/>
+polar_decoder_common.h<br/>
+polar_decoder_sc.h<br/>
+polar_decoder_sc_list.h<br/>
+polar_decoder_sc_systematic.h<br/>
+polar_encoder.h<br/>
+polar_encoder_systematic.h<br/>
+polyphase_filterbank.h<br/>
+prefs.h<br/>
+probe_avg_mag_sqrd_c.h<br/>
+probe_avg_mag_sqrd_cf.h<br/>
+probe_avg_mag_sqrd_f.h<br/>
+probe_density_b.h<br/>
+probe_mpsk_snr_est_c.h<br/>
+probe_rate.h<br/>
+probe_signal_b.h<br/>
+probe_signal_c.h<br/>
+probe_signal_f.h<br/>
+probe_signal_i.h<br/>
+probe_signal_s.h<br/>
+probe_signal_vb.h<br/>
+probe_signal_vc.h<br/>
+probe_signal_vf.h<br/>
+probe_signal_vi.h<br/>
+probe_signal_vs.h<br/>
+protocol_formatter_async.h<br/>
+protocol_formatter_bb.h<br/>
+protocol_parser_b.h<br/>
+pub_msg_sink.h<br/>
+pub_sink.h<br/>
+pull_msg_source.h<br/>
+pull_source.h<br/>
+puncture_bb.h<br/>
+puncture_ff.h<br/>
+push_msg_sink.h<br/>
+push_sink.h<br/>
+pwr_squelch_cc.h<br/>
+pwr_squelch_ff.h<br/>
+py_feval.h<br/>
+pycallback_object.h<br/>
+qtgui_types.h<br/>
+quadrature_demod_cf.h<br/>
+quicksort_index.h<br/>
+rail_ff.h<br/>
+random.h<br/>
+random_pdu.h<br/>
+random_uniform_source_b.h<br/>
+random_uniform_source_i.h<br/>
+random_uniform_source_s.h<br/>
+randomizer.h<br/>
+randomizer_impl.h<br/>
+rational_resampler_base_ccc.h<br/>
+rational_resampler_base_ccf.h<br/>
+rational_resampler_base_fcc.h<br/>
+rational_resampler_base_fff.h<br/>
+rational_resampler_base_fsf.h<br/>
+rational_resampler_base_scc.h<br/>
+realtime.h<br/>
+realtime_impl.h<br/>
+reed_solomon_impl.h<br/>
+regenerate_bb.h<br/>
+rep_msg_sink.h<br/>
+rep_sink.h<br/>
+repack_bits_bb.h<br/>
+repeat.h<br/>
+repetition_decoder.h<br/>
+repetition_encoder.h<br/>
+req_msg_source.h<br/>
+req_source.h<br/>
+rms_cf.h<br/>
+rms_ff.h<br/>
+rotator.h<br/>
+rotator_cc.h<br/>
+rpccallbackregister_base.h<br/>
+rpcmanager.h<br/>
+rpcmanager_base.h<br/>
+rpcregisterhelpers.h<br/>
+rpcserver_aggregator.h<br/>
+rpcserver_base.h<br/>
+rpcserver_booter_aggregator.h<br/>
+rpcserver_booter_base.h<br/>
+rpcserver_selector.h<br/>
+rs.h<br/>
+rs_decoder.h<br/>
+rs_encoder.h<br/>
+runtime_types.h<br/>
+sample_and_hold_bb.h<br/>
+sample_and_hold_ff.h<br/>
+sample_and_hold_ii.h<br/>
+sample_and_hold_ss.h<br/>
+sccc_decoder_b.h<br/>
+sccc_decoder_combined_cb.h<br/>
+sccc_decoder_combined_ci.h<br/>
+sccc_decoder_combined_cs.h<br/>
+sccc_decoder_combined_fb.h<br/>
+sccc_decoder_combined_fi.h<br/>
+sccc_decoder_combined_fs.h<br/>
+sccc_decoder_i.h<br/>
+sccc_decoder_s.h<br/>
+sccc_encoder_bb.h<br/>
+sccc_encoder_bi.h<br/>
+sccc_encoder_bs.h<br/>
+sccc_encoder_ii.h<br/>
+sccc_encoder_si.h<br/>
+sccc_encoder_ss.h<br/>
+scrambler_bb.h<br/>
+selective_fading_model.h<br/>
+short_to_char.h<br/>
+short_to_float.h<br/>
+sig_source_c.h<br/>
+sig_source_f.h<br/>
+sig_source_i.h<br/>
+sig_source_s.h<br/>
+sig_source_waveform.h<br/>
+simple_correlator.h<br/>
+simple_framer.h<br/>
+simple_framer_sync.h<br/>
+simple_squelch_cc.h<br/>
+sincos.h<br/>
+single_pole_iir.h<br/>
+single_pole_iir_filter_cc.h<br/>
+single_pole_iir_filter_ff.h<br/>
+single_viterbi_impl.h<br/>
+sink.h<br/>
+sink_c.h<br/>
+sink_f.h<br/>
+sink_s.h<br/>
+sink_uc.h<br/>
+siso_combined_f.h<br/>
+siso_f.h<br/>
+siso_type.h<br/>
+skiphead.h<br/>
+slicer_fb.h<br/>
+sliding_correlator_impl.h<br/>
+socket_pdu.h<br/>
+source.h<br/>
+source_c.h<br/>
+source_s.h<br/>
+spectrumUpdateEvents.h<br/>
+sptr_magic.h<br/>
+squash_ff.h<br/>
+squelch_base_cc.h<br/>
+squelch_base_ff.h<br/>
+sssr_impl.h<br/>
+stream_mux.h<br/>
+stream_to_streams.h<br/>
+stream_to_tagged_stream.h<br/>
+stream_to_vector.h<br/>
+streams_to_stream.h<br/>
+streams_to_vector.h<br/>
+stretch_ff.h<br/>
+sub_cc.h<br/>
+sub_ff.h<br/>
+sub_ii.h<br/>
+sub_msg_source.h<br/>
+sub_source.h<br/>
+sub_ss.h<br/>
+syminfo_impl.h<br/>
+sync_block.h<br/>
+sync_decimator.h<br/>
+sync_interpolator.h<br/>
+sync_tag_impl.h<br/>
+sys_paths.h<br/>
+sys_pri.h<br/>
+tag_checker.h<br/>
+tag_debug.h<br/>
+tag_gate.h<br/>
+tagged_decoder.h<br/>
+tagged_encoder.h<br/>
+tagged_file_sink.h<br/>
+tagged_stream_align.h<br/>
+tagged_stream_block.h<br/>
+tagged_stream_multiply_length.h<br/>
+tagged_stream_mux.h<br/>
+tagged_stream_to_pdu.h<br/>
+tags.h<br/>
+tags_strobe.h<br/>
+tcp_server_sink.h<br/>
+test_tag_variable_rate_ff.h<br/>
+thread.h<br/>
+thread_body_wrapper.h<br/>
+thread_group.h<br/>
+threshold_ff.h<br/>
+throttle.h<br/>
+time_raster_sink_b.h<br/>
+time_raster_sink_f.h<br/>
+time_sink_c.h<br/>
+time_sink_f.h<br/>
+timecontrolpanel.h<br/>
+timedisplayform.h<br/>
+TimeDomainDisplayPlot.h<br/>
+timerasterdisplayform.h<br/>
+TimeRasterDisplayPlot.h<br/>
+timeRasterGlobalData.h<br/>
+top_block.h<br/>
+tpb_detail.h<br/>
+tpc_common.h<br/>
+tpc_decoder.h<br/>
+tpc_encoder.h<br/>
+transcendental.h<br/>
+trellis_encoder.h<br/>
+trellis_encoder_impl.h<br/>
+trigger_mode.h<br/>
+tsb_vector_sink_b.h<br/>
+tsb_vector_sink_c.h<br/>
+tsb_vector_sink_f.h<br/>
+tsb_vector_sink_i.h<br/>
+tsb_vector_sink_s.h<br/>
+tuntap_pdu.h<br/>
+types.h<br/>
+uchar_to_float.h<br/>
+udp_sink.h<br/>
+udp_source.h<br/>
+ulaw_decode_bs.h<br/>
+ulaw_encode_sb.h<br/>
+unittests.h<br/>
+unpack_k_bits.h<br/>
+unpack_k_bits_bb.h<br/>
+unpacked_to_packed_bb.h<br/>
+unpacked_to_packed_ii.h<br/>
+unpacked_to_packed_ss.h<br/>
+utils.h<br/>
+vco_c.h<br/>
+vco_f.h<br/>
+vector_insert_b.h<br/>
+vector_insert_c.h<br/>
+vector_insert_f.h<br/>
+vector_insert_i.h<br/>
+vector_insert_s.h<br/>
+vector_map.h<br/>
+vector_sink_b.h<br/>
+vector_sink_c.h<br/>
+vector_sink_f.h<br/>
+vector_sink_i.h<br/>
+vector_sink_s.h<br/>
+vector_source_b.h<br/>
+vector_source_c.h<br/>
+vector_source_f.h<br/>
+vector_source_i.h<br/>
+vector_source_s.h<br/>
+vector_to_stream.h<br/>
+vector_to_streams.h<br/>
+vectordisplayform.h<br/>
+VectorDisplayPlot.h<br/>
+viterbi.h<br/>
+viterbi_b.h<br/>
+viterbi_combined_cb.h<br/>
+viterbi_combined_ci.h<br/>
+viterbi_combined_cs.h<br/>
+viterbi_combined_fb.h<br/>
+viterbi_combined_fi.h<br/>
+viterbi_combined_fs.h<br/>
+viterbi_combined_ib.h<br/>
+viterbi_combined_ii.h<br/>
+viterbi_combined_is.h<br/>
+viterbi_combined_sb.h<br/>
+viterbi_combined_si.h<br/>
+viterbi_combined_ss.h<br/>
+viterbi_decoder.h<br/>
+viterbi_decoder_impl.h<br/>
+viterbi_i.h<br/>
+viterbi_s.h<br/>
+waterfall_sink_c.h<br/>
+waterfall_sink_f.h<br/>
+waterfalldisplayform.h<br/>
+WaterfallDisplayPlot.h<br/>
+waterfallGlobalData.h<br/>
+wavelet_ff.h<br/>
+wavfile.h<br/>
+wavfile_sink.h<br/>
+wavfile_source.h<br/>
+window.h<br/>
+wvps_ff.h<br/>
+xor_bb.h<br/>
+xor_ii.h<br/>
+xor_ss.h<br/>
+</div>
+<br/><a class='top_ref' href='#Top'>to the top</a><br/>
+<a name='Libs'></a><h2>Libraries <span class='gray'>&nbsp;24&nbsp;</span></h2><hr/>
+<div class='lib_list'>
+libgnuradio-analog.so.3.7.11<br/>
+libgnuradio-atsc.so.3.7.11<br/>
+libgnuradio-audio.so.3.7.11<br/>
+libgnuradio-blocks.so.3.7.11<br/>
+libgnuradio-channels.so.3.7.11<br/>
+libgnuradio-comedi.so.3.7.11<br/>
+libgnuradio-digital.so.3.7.11<br/>
+libgnuradio-dtv.so.3.7.11<br/>
+libgnuradio-fcd.so.3.7.11<br/>
+libgnuradio-fec.so.3.7.11<br/>
+libgnuradio-fft.so.3.7.11<br/>
+libgnuradio-filter.so.3.7.11<br/>
+libgnuradio-noaa.so.3.7.11<br/>
+libgnuradio-pager.so.3.7.11<br/>
+libgnuradio-pmt.so.3.7.11<br/>
+libgnuradio-qtgui.so.3.7.11<br/>
+libgnuradio-runtime.so.3.7.11<br/>
+libgnuradio-trellis.so.3.7.11<br/>
+libgnuradio-uhd.so.3.7.11<br/>
+libgnuradio-video-sdl.so.3.7.11<br/>
+libgnuradio-vocoder.so.3.7.11<br/>
+libgnuradio-wavelet.so.3.7.11<br/>
+libgnuradio-wxgui.so.3.7.11<br/>
+libgnuradio-zeromq.so.3.7.11<br/>
+</div>
+<br/><a class='top_ref' href='#Top'>to the top</a><br/>
+<br/><br/><br/></div><hr/>
+<div class='footer' align='right'><i>Generated by <a href='https://github.com/lvc/abi-compliance-checker'>ABI Compliance Checker</a> 2.2 &#160;</i>
+</div>
+<br/>
+
+</body></html>

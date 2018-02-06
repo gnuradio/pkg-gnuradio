@@ -1,0 +1,169 @@
+From 5cef50cdb1f8b199ff1a466f509e4f3d7e90d69e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
+Date: Sun, 28 Jan 2018 14:14:54 +0100
+Subject: [PATCH 82/86] Use type-generic or float versions of cmath functions
+ where appropriate.
+
+Complements gnuradio/gnuradio#1563, larger-scope version of
+the issue gnuradio/gnuradio#1561 .
+---
+ gnuradio-runtime/include/gnuradio/fxpt.h    |  5 ++--
+ gnuradio-runtime/lib/math/fxpt.cc           |  1 +
+ gr-analog/include/gnuradio/analog/agc.h     |  4 ++--
+ gr-blocks/include/gnuradio/blocks/rotator.h |  7 +++---
+ gr-digital/lib/kurtotic_equalizer_cc_impl.h | 37 +++++++++++++++--------------
+ 5 files changed, 29 insertions(+), 25 deletions(-)
+
+diff --git a/gnuradio-runtime/include/gnuradio/fxpt.h b/gnuradio-runtime/include/gnuradio/fxpt.h
+index ded32ed36e..abddfc1f52 100644
+--- a/gnuradio-runtime/include/gnuradio/fxpt.h
++++ b/gnuradio-runtime/include/gnuradio/fxpt.h
+@@ -45,6 +45,7 @@ namespace gr {
+     static const int NBITS = 10;
+     static const float s_sine_table[1 << NBITS][2];
+     static const float PI;
++    static const float TAU;
+     static const float TWO_TO_THE_31;
+ 
+   public:
+@@ -52,8 +53,8 @@ namespace gr {
+       float_to_fixed(float x)
+     {
+       // Fold x into -PI to PI.
+-      int d = (int)floor(x/2/PI+0.5);
+-      x -= d*2*PI;
++      int d = (int)floorf(x/TAU+0.5);
++      x -= d*TAU;
+       // And convert to an integer.
+       return (int32_t) ((float) x * TWO_TO_THE_31 / PI);
+     }
+diff --git a/gnuradio-runtime/lib/math/fxpt.cc b/gnuradio-runtime/lib/math/fxpt.cc
+index 23fdda1241..b40b082194 100644
+--- a/gnuradio-runtime/lib/math/fxpt.cc
++++ b/gnuradio-runtime/lib/math/fxpt.cc
+@@ -33,6 +33,7 @@ namespace gr {
+   };
+ 
+   const float fxpt::PI = 3.14159265358979323846;
++  const float fxpt::TAU = 2.0 * 3.14159265358979323846;
+   const float fxpt::TWO_TO_THE_31 = 2147483648.0;
+ 
+ } /* namespace gr */
+diff --git a/gr-analog/include/gnuradio/analog/agc.h b/gr-analog/include/gnuradio/analog/agc.h
+index 44896250d4..1e9759c454 100644
+--- a/gr-analog/include/gnuradio/analog/agc.h
++++ b/gr-analog/include/gnuradio/analog/agc.h
+@@ -25,7 +25,7 @@
+ 
+ #include <gnuradio/analog/api.h>
+ #include <gnuradio/gr_complex.h>
+-#include <math.h>
++#include <cmath>
+ 
+ namespace gr {
+   namespace analog {
+@@ -70,7 +70,7 @@ namespace gr {
+ 	{
+ 	  gr_complex output = input * _gain;
+ 
+-	  _gain +=  _rate * (_reference - sqrt(output.real()*output.real() +
++	  _gain +=  _rate * (_reference - std::sqrt(output.real()*output.real() +
+ 					       output.imag()*output.imag()));
+ 	  if(_max_gain > 0.0 && _gain > _max_gain) {
+ 	    _gain = _max_gain;
+diff --git a/gr-blocks/include/gnuradio/blocks/rotator.h b/gr-blocks/include/gnuradio/blocks/rotator.h
+index 66843fde07..978297716d 100644
+--- a/gr-blocks/include/gnuradio/blocks/rotator.h
++++ b/gr-blocks/include/gnuradio/blocks/rotator.h
+@@ -26,6 +26,7 @@
+ #include <gnuradio/blocks/api.h>
+ #include <gnuradio/gr_complex.h>
+ #include <volk/volk.h>
++#include <cmath>
+ 
+ namespace gr {
+   namespace blocks {
+@@ -41,8 +42,8 @@ namespace gr {
+       rotator() : d_phase(1), d_phase_incr(1), d_counter(0)
+         { }
+ 
+-      void set_phase(gr_complex phase) { d_phase = phase / abs(phase); }
+-      void set_phase_incr(gr_complex incr) { d_phase_incr = incr / abs(incr); }
++      void set_phase(gr_complex phase) { d_phase = phase / std::abs(phase); }
++      void set_phase_incr(gr_complex incr) { d_phase_incr = incr / std::abs(incr); }
+ 
+       gr_complex rotate(gr_complex in)
+       {
+@@ -52,7 +53,7 @@ namespace gr {
+         d_phase *= d_phase_incr;	    // incr our phase (complex mult == add phases)
+ 
+         if((d_counter % 512) == 0)
+-          d_phase /= abs(d_phase);	    // Normalize to ensure multiplication is rotation
++          d_phase /= std::abs(d_phase);	    // Normalize to ensure multiplication is rotation
+ 
+         return z;
+       }
+diff --git a/gr-digital/lib/kurtotic_equalizer_cc_impl.h b/gr-digital/lib/kurtotic_equalizer_cc_impl.h
+index 914eaea578..973b63f453 100644
+--- a/gr-digital/lib/kurtotic_equalizer_cc_impl.h
++++ b/gr-digital/lib/kurtotic_equalizer_cc_impl.h
+@@ -27,6 +27,7 @@
+ #include <gnuradio/filter/fir_filter.h>
+ #include <gnuradio/math.h>
+ #include <stdexcept>
++#include <complex>
+ 
+ namespace gr {
+   namespace digital {
+@@ -51,30 +52,30 @@ namespace gr {
+       }
+ 
+     protected:
+-      virtual gr_complex error(const gr_complex &out) 
++      virtual gr_complex error(const gr_complex &out)
+       {
+ 	// p = E[|z|^2]
+ 	// q = E[z^2]
+ 	// m = E[|z|^4]
+ 	// u = E[kurtosis(z)]
+ 
+-	float nrm = norm(out);
+-	gr_complex cnj = conj(out);
+-	float epsilon_f = 1e-12;
+-	gr_complex epsilon_c = gr_complex(1e-12, 1e-12);
+-    
+-	d_p = (1-d_alpha_p)*d_p + (d_alpha_p)*nrm + epsilon_f;
+-	d_q = (1-d_alpha_q)*d_q + (d_alpha_q)*out*out + epsilon_c;
+-	d_m = (1-d_alpha_m)*d_m + (d_alpha_m)*nrm*nrm + epsilon_f;
+-	d_u = d_m - 2.0f*(d_p*d_p) - d_q*d_q;
+-
+-	gr_complex F = (1.0f / (d_p*d_p*d_p)) *
+-	  (sign(d_u) * (nrm*cnj - 2.0f*d_p*cnj - conj(d_q)*out) -
+-	   abs(d_u)*cnj);
+-
+-	float re = gr::clip(F.real(), 1.0);
+-	float im = gr::clip(F.imag(), 1.0);
+-	return gr_complex(re, im);
++        float nrm = std::norm(out);
++        gr_complex cnj = std::conj(out);
++        float epsilon_f = 1e-12;
++        gr_complex epsilon_c = gr_complex(1e-12, 1e-12);
++
++        d_p = (1-d_alpha_p)*d_p + (d_alpha_p)*nrm + epsilon_f;
++        d_q = (1-d_alpha_q)*d_q + (d_alpha_q)*out*out + epsilon_c;
++        d_m = (1-d_alpha_m)*d_m + (d_alpha_m)*nrm*nrm + epsilon_f;
++        d_u = d_m - 2.0f*(d_p*d_p) - d_q*d_q;
++
++        gr_complex F = (1.0f / (d_p*d_p*d_p)) *
++          (sign(d_u) * (nrm*cnj - 2.0f*d_p*cnj - conj(d_q)*out) -
++           std::abs(d_u)*cnj);
++
++        float re = gr::clip(F.real(), 1.0);
++        float im = gr::clip(F.imag(), 1.0);
++        return gr_complex(re, im);
+       }
+ 
+       virtual void update_tap(gr_complex &tap, const gr_complex &in) 
+-- 
+2.11.0
+

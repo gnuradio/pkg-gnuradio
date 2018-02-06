@@ -1,0 +1,43 @@
+From beff3d708549cce50fd8da14df7992ae37903309 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
+Date: Sun, 28 Jan 2018 16:31:09 +0100
+Subject: [PATCH 84/86] fixup! fixup! Use type-generic or float versions of
+ cmath functions where appropriate.
+
+---
+ gnuradio-runtime/include/gnuradio/fxpt.h     | 2 +-
+ gr-qtgui/include/gnuradio/qtgui/form_menus.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gnuradio-runtime/include/gnuradio/fxpt.h b/gnuradio-runtime/include/gnuradio/fxpt.h
+index abddfc1f52..61c7400d01 100644
+--- a/gnuradio-runtime/include/gnuradio/fxpt.h
++++ b/gnuradio-runtime/include/gnuradio/fxpt.h
+@@ -53,7 +53,7 @@ namespace gr {
+       float_to_fixed(float x)
+     {
+       // Fold x into -PI to PI.
+-      int d = (int)floorf(x/TAU+0.5);
++      int d = (int)std::floor(x/TAU+0.5);
+       x -= d*TAU;
+       // And convert to an integer.
+       return (int32_t) ((float) x * TWO_TO_THE_31 / PI);
+diff --git a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnuradio/qtgui/form_menus.h
+index cb9b775e8b..5c77f825d8 100644
+--- a/gr-qtgui/include/gnuradio/qtgui/form_menus.h
++++ b/gr-qtgui/include/gnuradio/qtgui/form_menus.h
+@@ -698,9 +698,9 @@ public:
+   QAction * getActionFromSize(int size)
+   {
+     float ipt;
+-    float which = logf(static_cast<float>(size))/logf(2.0) - 5;
++    float which = std::log(static_cast<float>(size))/std::log(2.0f) - 5;
+     // If we're a predefined value
+-    if(modff(which,&ipt) == 0) {
++    if(std::modf(which,&ipt) == 0) {
+       if(which < d_act.size()-1)
+         return d_act[static_cast<int>(which)];
+       else
+-- 
+2.11.0
+

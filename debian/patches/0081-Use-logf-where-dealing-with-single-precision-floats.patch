@@ -1,0 +1,57 @@
+From a5589c6b85468cf3bf743033f6099665afbfe3a9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
+Date: Sat, 27 Jan 2018 22:20:23 +0100
+Subject: [PATCH 81/86] Use logf where dealing with single precision floats
+
+Fixes gnuradio/gnuradio#1561
+---
+ gnuradio-runtime/lib/math/random.cc | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/gnuradio-runtime/lib/math/random.cc b/gnuradio-runtime/lib/math/random.cc
+index 59f2f22bd0..401ba89735 100644
+--- a/gnuradio-runtime/lib/math/random.cc
++++ b/gnuradio-runtime/lib/math/random.cc
+@@ -130,8 +130,8 @@ namespace gr {
+               s = x*x+y*y;
+           }while(s >= 1.0f || s == 0.0f);
+           d_gauss_stored = true;
+-          d_gauss_value = x*sqrt(-2.0*log(s)/s);
+-          return y*sqrt(-2.0*log(s)/s);
++          d_gauss_value = x*sqrtf(-2.0*logf(s)/s);
++          return y*sqrtf(-2.0*logf(s)/s);
+       }
+   }
+ 
+@@ -139,8 +139,8 @@ namespace gr {
+   random::laplacian()
+   {
+     float z = ran1()-0.5;
+-    if(z>0) return -log(1-2*z);
+-    else return log(1+2*z);
++    if(z>0) return -logf(1-2*z);
++    else return logf(1+2*z);
+   }
+ 
+   /*
+@@ -151,7 +151,7 @@ namespace gr {
+   float
+   random::impulse(float factor = 5)
+   {
+-    float z = -M_SQRT2 * log(ran1());
++    float z = -M_SQRT2 * logf(ran1());
+     if(fabsf(z) <= factor)
+       return 0.0;
+     else
+@@ -167,7 +167,7 @@ namespace gr {
+   float
+   random::rayleigh()
+   {
+-    return sqrt(-2.0 * log(ran1()));
++    return sqrtf(-2.0 * logf(ran1()));
+   }
+ 
+ } /* namespace gr */
+-- 
+2.11.0
+

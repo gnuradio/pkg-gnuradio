@@ -1,0 +1,42 @@
+From 517bab8c75716c01b0cb3ab01b846947a4fd861f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <mueller@kit.edu>
+Date: Fri, 12 Jan 2018 15:43:57 +0100
+Subject: [PATCH 77/86] fixed redmine Wiki URL to Pybombs (by removal); added
+ strong suggestion to update if boost < 1.35 on your distro
+
+---
+ README.building-boost | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/README.building-boost b/README.building-boost
+index 5b5f5f7c70..9a739dff2e 100644
+--- a/README.building-boost
++++ b/README.building-boost
+@@ -6,14 +6,20 @@ If running a distribution that requires boost 1.35 (or later) be built
+ from scratch, these instructions explain how to do so, and in a way
+ that allows it to peacefully coexist with earlier versions of boost.
+ 
+-There are two recommended methods:
+-Installing boost using the PyBOMBS utility, or building it from a source
+-tarball.
++Notice that this is **not** the usual case. If you're using a Linux distribution
++shipping a boost version prior to 1.35, you should very strongly consider just
++updating to a more recent version. Even CentOS / RedHat 6.9 ship sufficiently
++recent versions. Distributions older than that are generally considered to be
++end-of-life.
++
++There are two recommended methods (aside from the far more recommended method of
++upgrading your system): Installing boost using the PyBOMBS utility, or building
++it from a source tarball.
+ 
+ 1. Installing Boost using PyBOMBS
+ ---------------------------------
+ 
+-Following http://gnuradio.org/redmine/projects/pybombs/wiki/Using you can
++You can
+ install a recent boost by downloading and executing the PyBOMBS utility:
+ 
+ # go to a directory you have write access to
+-- 
+2.11.0
+

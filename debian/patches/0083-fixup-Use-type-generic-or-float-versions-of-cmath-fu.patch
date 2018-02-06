@@ -1,0 +1,26 @@
+From 127e4a4d569bbeab5417134389e2d642c20f807a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus.mueller@ettus.com>
+Date: Sun, 28 Jan 2018 16:20:04 +0100
+Subject: [PATCH 83/86] fixup! Use type-generic or float versions of cmath
+ functions where appropriate.
+
+---
+ gr-digital/lib/kurtotic_equalizer_cc_impl.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-digital/lib/kurtotic_equalizer_cc_impl.h b/gr-digital/lib/kurtotic_equalizer_cc_impl.h
+index 973b63f453..672624981e 100644
+--- a/gr-digital/lib/kurtotic_equalizer_cc_impl.h
++++ b/gr-digital/lib/kurtotic_equalizer_cc_impl.h
+@@ -70,7 +70,7 @@ namespace gr {
+         d_u = d_m - 2.0f*(d_p*d_p) - d_q*d_q;
+ 
+         gr_complex F = (1.0f / (d_p*d_p*d_p)) *
+-          (sign(d_u) * (nrm*cnj - 2.0f*d_p*cnj - conj(d_q)*out) -
++          (sign(d_u) * (nrm*cnj - 2.0f*d_p*cnj - std::conj(d_q)*out) -
+            std::abs(d_u)*cnj);
+ 
+         float re = gr::clip(F.real(), 1.0);
+-- 
+2.11.0
+

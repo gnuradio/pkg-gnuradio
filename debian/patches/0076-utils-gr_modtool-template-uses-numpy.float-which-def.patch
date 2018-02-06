@@ -1,0 +1,33 @@
+From 229d15df738a80941f97afc3b8a5e1c966eb676b Mon Sep 17 00:00:00 2001
+From: Jacob Gilbert <mrjacobagilbert@gmail.com>
+Date: Thu, 12 Oct 2017 17:57:31 -0700
+Subject: [PATCH 76/86] utils: gr_modtool template uses 'numpy.float' which
+ defaults to double-precision floating point instead of 'numpy.float32' which
+ is single precision and what GR expects
+
+---
+ gr-utils/python/modtool/templates.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gr-utils/python/modtool/templates.py b/gr-utils/python/modtool/templates.py
+index 2804224892..c88d3d7ea6 100644
+--- a/gr-utils/python/modtool/templates.py
++++ b/gr-utils/python/modtool/templates.py
+@@ -349,12 +349,12 @@ import numpy
+ #if $blocktype == 'source'
+ #set $inputsig = 'None'
+ #else
+-#set $inputsig = '[<+numpy.float+>]'
++#set $inputsig = '[<+numpy.float32+>]'
+ #end if
+ #if $blocktype == 'sink'
+ #set $outputsig = 'None'
+ #else
+-#set $outputsig = '[<+numpy.float+>]'
++#set $outputsig = '[<+numpy.float32+>]'
+ #end if
+ #else
+ #if $blocktype == 'source'
+-- 
+2.11.0
+
