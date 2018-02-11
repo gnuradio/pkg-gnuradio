@@ -1,16 +1,18 @@
-From 02557479c0b4d6e050a644a08a07e5f463ff9448 Mon Sep 17 00:00:00 2001
+From 0850ebc6d798ad3919e3faee542fce81cd363102 Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
 Date: Tue, 21 Nov 2017 20:17:53 -0500
-Subject: [PATCH] qtgui pc add qt qwt details
+Subject: [PATCH 22/27] qtgui pc add qt qwt details
 
 ---
  gr-qtgui/CMakeLists.txt       | 2 ++
  gr-qtgui/gnuradio-qtgui.pc.in | 4 ++--
  2 files changed, 4 insertions(+), 2 deletions(-)
 
+diff --git a/gr-qtgui/CMakeLists.txt b/gr-qtgui/CMakeLists.txt
+index ad10363c1e..9306a3eb50 100644
 --- a/gr-qtgui/CMakeLists.txt
 +++ b/gr-qtgui/CMakeLists.txt
-@@ -121,6 +121,8 @@
+@@ -121,6 +121,8 @@ endif(ENABLE_PYTHON)
  ########################################################################
  # Create Pkg Config File
  ########################################################################
@@ -19,9 +21,11 @@ Subject: [PATCH] qtgui pc add qt qwt details
  configure_file(
      ${CMAKE_CURRENT_SOURCE_DIR}/gnuradio-qtgui.pc.in
      ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-qtgui.pc
+diff --git a/gr-qtgui/gnuradio-qtgui.pc.in b/gr-qtgui/gnuradio-qtgui.pc.in
+index 8f0dcd53f7..2489caf214 100644
 --- a/gr-qtgui/gnuradio-qtgui.pc.in
 +++ b/gr-qtgui/gnuradio-qtgui.pc.in
-@@ -7,5 +7,5 @@
+@@ -7,5 +7,5 @@ Name: gnuradio-qtgui
  Description: GNU Radio blocks for QT GUI
  Requires: gnuradio-runtime
  Version: @LIBVER@
@@ -29,3 +33,6 @@ Subject: [PATCH] qtgui pc add qt qwt details
 -Cflags: -I${includedir}
 +Libs: -L${libdir} -lgnuradio-qtgui ${PC_LIBS_STR}
 +Cflags: -I${includedir} -I${QWT_INCLUDE_DIRS} -I${QT_HEADERS_DIR}
+-- 
+2.11.0
+

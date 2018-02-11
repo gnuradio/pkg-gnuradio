@@ -1,7 +1,7 @@
-From f6ef696a75aff56247e7864e6cbccd17524d0981 Mon Sep 17 00:00:00 2001
+From fe2fc9dfed36d350640de07055c6232c857dccd9 Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
 Date: Tue, 21 Nov 2017 22:37:27 -0500
-Subject: [PATCH] doxygen reproducible settings
+Subject: [PATCH 21/27] doxygen reproducible settings
 
 ---
  docs/doxygen/Doxyfile.in                                            | 2 +-

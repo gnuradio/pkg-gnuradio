@@ -1,7 +1,7 @@
-From be020503f4e368c741bac824d10d5fa3b697ced6 Mon Sep 17 00:00:00 2001
+From 0cfb52b05cdc5d61c6834856400b94a287d54c31 Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
 Date: Sat, 25 Nov 2017 23:26:07 -0500
-Subject: [PATCH 3/3] gnuradio-runtime-ctrlport-qt5
+Subject: [PATCH 23/27] gnuradio-runtime-ctrlport-qt5
 
 ---
  gnuradio-runtime/python/gnuradio/ctrlport/GrDataPlotter.py    | 4 ++--

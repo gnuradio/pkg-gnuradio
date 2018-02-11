@@ -1,14 +1,14 @@
-From 1e775399dde09e0e1496679327221b6667de266f Mon Sep 17 00:00:00 2001
+From cd37ba280f9c0815aadfdb85f120a8ef906fbbc7 Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
 Date: Sun, 24 Sep 2017 22:37:53 -0400
-Subject: [PATCH] fix declaration of dc so that header file compiles
+Subject: [PATCH 19/27] fix declaration of dc so that header file compiles
 
 ---
  gr-atsc/include/gnuradio/atsc/slicer_agc_impl.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/gr-atsc/include/gnuradio/atsc/slicer_agc_impl.h b/gr-atsc/include/gnuradio/atsc/slicer_agc_impl.h
-index d55e744fe..78050af3f 100644
+index d55e744fea..78050af3f3 100644
 --- a/gr-atsc/include/gnuradio/atsc/slicer_agc_impl.h
 +++ b/gr-atsc/include/gnuradio/atsc/slicer_agc_impl.h
 @@ -63,7 +63,7 @@ class ATSC_API atsci_slicer_agc {

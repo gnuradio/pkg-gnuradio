@@ -1,6 +1,28 @@
-Description: Make headers compilable on their own.
-Author: A. Maitland Bottoms <bottoms@debian.org>
+From ec345f1f7bc4454dea08a29413c855225ae573b8 Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 10 Feb 2018 20:29:24 -0500
+Subject: [PATCH 09/27] make acc happy
 
+Header files need to be compilable using abi-compliance-checker.
+---
+ gnuradio-runtime/include/gnuradio/py_feval.h |  1 +
+ gnuradio-runtime/include/gnuradio/sys_pri.h  | 10 +++++-----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/gnuradio-runtime/include/gnuradio/py_feval.h b/gnuradio-runtime/include/gnuradio/py_feval.h
+index cef168c8f0..89491af0b4 100644
+--- a/gnuradio-runtime/include/gnuradio/py_feval.h
++++ b/gnuradio-runtime/include/gnuradio/py_feval.h
+@@ -23,6 +23,7 @@
+ #ifndef INCLUDED_GR_PY_FEVAL_H
+ #define INCLUDED_GR_PY_FEVAL_H
+ 
++#include <Python.h>
+ #include <pmt/pmt.h>
+ #include <gnuradio/feval.h>
+ 
+diff --git a/gnuradio-runtime/include/gnuradio/sys_pri.h b/gnuradio-runtime/include/gnuradio/sys_pri.h
+index adceb91b9d..d251455a11 100644
 --- a/gnuradio-runtime/include/gnuradio/sys_pri.h
 +++ b/gnuradio-runtime/include/gnuradio/sys_pri.h
 @@ -23,7 +23,7 @@
@@ -27,13 +49,6 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
    };
  
  } /* namespace gr */
---- a/gnuradio-runtime/include/gnuradio/py_feval.h
-+++ b/gnuradio-runtime/include/gnuradio/py_feval.h
-@@ -23,6 +23,7 @@
- #ifndef INCLUDED_GR_PY_FEVAL_H
- #define INCLUDED_GR_PY_FEVAL_H
- 
-+#include <Python.h>
- #include <pmt/pmt.h>
- #include <gnuradio/feval.h>
- 
+-- 
+2.11.0
+

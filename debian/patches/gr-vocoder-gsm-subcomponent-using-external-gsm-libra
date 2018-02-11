@@ -1,7 +1,7 @@
-From d2afb9f9698a34bdd6f6dc43298a4521fcd30da1 Mon Sep 17 00:00:00 2001
+From 66300b7abfb32dda70cd7bba3b96f60c2080bcdd Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
 Date: Sat, 25 Jun 2016 18:08:44 -0400
-Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
+Subject: [PATCH 12/27] gr-vocoder: gsm subcomponent using external gsm library
 
 ---
  cmake/Modules/FindGSM.cmake                        | 52 ++++++++++++++
@@ -18,6 +18,9 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  11 files changed, 127 insertions(+), 95 deletions(-)
  create mode 100644 cmake/Modules/FindGSM.cmake
 
+diff --git a/cmake/Modules/FindGSM.cmake b/cmake/Modules/FindGSM.cmake
+new file mode 100644
+index 0000000000..7db2adae18
 --- /dev/null
 +++ b/cmake/Modules/FindGSM.cmake
 @@ -0,0 +1,52 @@
@@ -73,6 +76,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
 +
 +FIND_PACKAGE_HANDLE_STANDARD_ARGS(LIBGSM DEFAULT_MSG LIBGSM_LIBRARIES LIBGSM_INCLUDE_DIRS)
 +mark_as_advanced(LIBGSM_INCLUDE_DIR LIBGSM_LIBRARIES)
+diff --git a/gr-vocoder/CMakeLists.txt b/gr-vocoder/CMakeLists.txt
+index ddf3684479..56ba2a9639 100644
 --- a/gr-vocoder/CMakeLists.txt
 +++ b/gr-vocoder/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -81,7 +86,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  #
  # This file is part of GNU Radio
  #
-@@ -104,6 +104,14 @@
+@@ -104,6 +104,14 @@ if(LIBCODEC2_FOUND)
  endif(LIBCODEC2_FOUND)
  
  ########################################################################
@@ -96,6 +101,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  # Add subdirectories
  ########################################################################
  add_subdirectory(include/gnuradio/vocoder)
+diff --git a/gr-vocoder/examples/CMakeLists.txt b/gr-vocoder/examples/CMakeLists.txt
+index 86cba6d01f..0957d81eb6 100644
 --- a/gr-vocoder/examples/CMakeLists.txt
 +++ b/gr-vocoder/examples/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -104,7 +111,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  #
  # This file is part of GNU Radio
  #
-@@ -29,7 +29,6 @@
+@@ -29,7 +29,6 @@ GR_PYTHON_INSTALL(
      g721_audio_loopback.py
      g723_24_audio_loopback.py
      g723_40_audio_loopback.py
@@ -112,7 +119,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
      ulaw_audio_loopback.py
      DESTINATION ${GR_PKG_VOCODER_EXAMPLES_DIR}
      COMPONENT "vocoder_examples"
-@@ -42,3 +41,11 @@
+@@ -42,3 +41,11 @@ if(LIBCODEC2_FOUND)
      COMPONENT "vocoder_examples"
      )
  endif(LIBCODEC2_FOUND)
@@ -124,6 +131,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
 +    COMPONENT "vocoder_examples"
 +    )
 +endif(LIBGSM_FOUND)
+diff --git a/gr-vocoder/grc/CMakeLists.txt b/gr-vocoder/grc/CMakeLists.txt
+index 35a585a754..e6c8115dbe 100644
 --- a/gr-vocoder/grc/CMakeLists.txt
 +++ b/gr-vocoder/grc/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -132,7 +141,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  #
  # This file is part of GNU Radio
  #
-@@ -31,8 +31,6 @@
+@@ -31,8 +31,6 @@ install(FILES
      vocoder_g723_24_encode_sb.xml
      vocoder_g723_40_decode_bs.xml
      vocoder_g723_40_encode_sb.xml
@@ -141,7 +150,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
      vocoder_ulaw_decode_bs.xml
      vocoder_ulaw_encode_sb.xml
      DESTINATION ${GRC_BLOCKS_DIR}
-@@ -47,3 +45,12 @@
+@@ -47,3 +45,12 @@ if(LIBCODEC2_FOUND)
      COMPONENT "vocoder_python"
      )
  endif(LIBCODEC2_FOUND)
@@ -154,6 +163,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
 +    COMPONENT "vocoder_python"
 +    )
 +endif(LIBGSM_FOUND)
+diff --git a/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt b/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
+index 6d9bbe8310..13efea7add 100644
 --- a/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
 +++ b/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -162,7 +173,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  #
  # This file is part of GNU Radio
  #
-@@ -32,14 +32,11 @@
+@@ -32,14 +32,11 @@ install(FILES
      g723_24_encode_sb.h
      g723_40_decode_bs.h
      g723_40_encode_sb.h
@@ -177,7 +188,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  if(LIBCODEC2_FOUND)
  install(FILES
      codec2.h
-@@ -49,3 +46,11 @@
+@@ -49,3 +46,11 @@ install(FILES
      COMPONENT "vocoder_devel"
  )
  endif(LIBCODEC2_FOUND)
@@ -189,6 +200,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
 +    COMPONENT "vocoder_devel"
 +)
 +endif(LIBGSM_FOUND)
+diff --git a/gr-vocoder/lib/CMakeLists.txt b/gr-vocoder/lib/CMakeLists.txt
+index 67939c53d2..a8fc874d31 100644
 --- a/gr-vocoder/lib/CMakeLists.txt
 +++ b/gr-vocoder/lib/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -268,7 +281,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  # Setup the include and linker paths
  ########################################################################
  include_directories(
-@@ -115,8 +51,6 @@
+@@ -115,8 +51,6 @@ list(APPEND gr_vocoder_sources
      g723_24_encode_sb_impl.cc
      g723_40_decode_bs_impl.cc
      g723_40_encode_sb_impl.cc
@@ -277,7 +290,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
      ulaw_decode_bs_impl.cc
      ulaw_encode_sb_impl.cc
  )
-@@ -127,6 +61,12 @@
+@@ -127,6 +61,12 @@ if(LIBCODEC2_FOUND)
      codec2_encode_sp_impl.cc
      )
  endif(LIBCODEC2_FOUND)
@@ -290,7 +303,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  
  #Add Windows DLL resource file if using MSVC
  if(MSVC)
-@@ -147,10 +87,6 @@
+@@ -147,10 +87,6 @@ endif(MSVC)
  ########################################################################
  GR_INCLUDE_SUBDIRECTORY(g7xx)
  
@@ -301,7 +314,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  list(APPEND vocoder_libs
      gnuradio-runtime
      ${Boost_LIBRARIES}
-@@ -161,9 +97,9 @@
+@@ -161,9 +97,9 @@ if(LIBCODEC2_LIBRARIES)
    list(APPEND vocoder_libs ${LIBCODEC2_LIBRARIES})
  endif(LIBCODEC2_LIBRARIES)
  
@@ -313,6 +326,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  
  add_library(gnuradio-vocoder SHARED ${gr_vocoder_sources})
  target_link_libraries(gnuradio-vocoder ${vocoder_libs})
+diff --git a/gr-vocoder/lib/gsm_fr_decode_ps_impl.cc b/gr-vocoder/lib/gsm_fr_decode_ps_impl.cc
+index 97fbc1b9b0..4bf85ac9e7 100644
 --- a/gr-vocoder/lib/gsm_fr_decode_ps_impl.cc
 +++ b/gr-vocoder/lib/gsm_fr_decode_ps_impl.cc
 @@ -1,6 +1,6 @@
@@ -331,6 +346,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  #include "gsm_fr_decode_ps_impl.h"
  #include <gnuradio/io_signature.h>
  #include <stdexcept>
+diff --git a/gr-vocoder/lib/gsm_fr_encode_sp_impl.cc b/gr-vocoder/lib/gsm_fr_encode_sp_impl.cc
+index 0c3afe8f59..9cbd4da679 100644
 --- a/gr-vocoder/lib/gsm_fr_encode_sp_impl.cc
 +++ b/gr-vocoder/lib/gsm_fr_encode_sp_impl.cc
 @@ -1,6 +1,6 @@
@@ -349,6 +366,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  #include "gsm_fr_encode_sp_impl.h"
  #include <gnuradio/io_signature.h>
  #include <stdexcept>
+diff --git a/gr-vocoder/python/vocoder/CMakeLists.txt b/gr-vocoder/python/vocoder/CMakeLists.txt
+index 1626df1868..02a4320ec5 100644
 --- a/gr-vocoder/python/vocoder/CMakeLists.txt
 +++ b/gr-vocoder/python/vocoder/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -357,7 +376,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  #
  # This file is part of GNU Radio
  #
-@@ -48,7 +48,6 @@
+@@ -48,7 +48,6 @@ if(ENABLE_TESTING)
      qa_g721_vocoder.py
      qa_g723_24_vocoder.py
      qa_g723_40_vocoder.py
@@ -365,7 +384,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
      qa_ulaw_vocoder.py
      )
    if(LIBCODEC2_FOUND)
-@@ -56,6 +55,11 @@
+@@ -56,6 +55,11 @@ if(ENABLE_TESTING)
        qa_codec2_vocoder.py
        )
    endif()
@@ -377,6 +396,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
    foreach(py_qa_test_file ${py_qa_test_files})
      get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
      GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} ${PYTHON_DASH_B} ${py_qa_test_file})
+diff --git a/gr-vocoder/swig/CMakeLists.txt b/gr-vocoder/swig/CMakeLists.txt
+index 6ba29516f7..3eb7a83f31 100644
 --- a/gr-vocoder/swig/CMakeLists.txt
 +++ b/gr-vocoder/swig/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -385,7 +406,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  #
  # This file is part of GNU Radio
  #
-@@ -37,6 +37,10 @@
+@@ -37,6 +37,10 @@ if(LIBCODEC2_FOUND)
    list(APPEND GR_SWIG_FLAGS "-DLIBCODEC2_FOUND")
  endif(LIBCODEC2_FOUND)
  
@@ -396,6 +417,8 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  set(GR_SWIG_DOC_FILE ${CMAKE_CURRENT_BINARY_DIR}/vocoder_swig_doc.i)
  set(GR_SWIG_DOC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../include/gnuradio/vocoder)
  set(GR_SWIG_DOCS_TARGET_DEPS runtime_swig_swig_doc)
+diff --git a/gr-vocoder/swig/vocoder_swig.i b/gr-vocoder/swig/vocoder_swig.i
+index 22aad98e08..43d0d1f79b 100644
 --- a/gr-vocoder/swig/vocoder_swig.i
 +++ b/gr-vocoder/swig/vocoder_swig.i
 @@ -1,6 +1,6 @@
@@ -424,7 +447,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  %include "gnuradio/vocoder/ulaw_decode_bs.h"
  %include "gnuradio/vocoder/ulaw_encode_sb.h"
  
-@@ -69,8 +65,6 @@
+@@ -69,8 +65,6 @@ GR_SWIG_BLOCK_MAGIC2(vocoder, g723_24_decode_bs);
  GR_SWIG_BLOCK_MAGIC2(vocoder, g723_24_encode_sb);
  GR_SWIG_BLOCK_MAGIC2(vocoder, g723_40_decode_bs);
  GR_SWIG_BLOCK_MAGIC2(vocoder, g723_40_encode_sb);
@@ -433,7 +456,7 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
  GR_SWIG_BLOCK_MAGIC2(vocoder, ulaw_decode_bs);
  GR_SWIG_BLOCK_MAGIC2(vocoder, ulaw_encode_sb);
  
-@@ -90,3 +84,16 @@
+@@ -90,3 +84,16 @@ GR_SWIG_BLOCK_MAGIC2(vocoder, ulaw_encode_sb);
  GR_SWIG_BLOCK_MAGIC2(vocoder, codec2_decode_ps);
  GR_SWIG_BLOCK_MAGIC2(vocoder, codec2_encode_sp);
  #endif
@@ -450,3 +473,6 @@ Subject: [PATCH 3/4] gr-vocoder: gsm subcomponent using external gsm library
 +GR_SWIG_BLOCK_MAGIC2(vocoder, gsm_fr_decode_ps);
 +GR_SWIG_BLOCK_MAGIC2(vocoder, gsm_fr_encode_sp);
 +#endif
+-- 
+2.11.0
+

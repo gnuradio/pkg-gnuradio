@@ -1,9 +1,19 @@
-Description: Allow building gr-fcd on non-Linux systems.
-Author: A. Maitland Bottoms <bottoms@debian.org>
+From 7f42009717f38f7c14f7fd400929ca7fb594793c Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 10 Feb 2018 20:05:48 -0500
+Subject: [PATCH 05/27] gr fcd needs usb
 
+Build gnuradio FunCube Dongle support on non-Linux kernels.
+Debian has libusb userspace support.
+---
+ gr-fcd/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-fcd/CMakeLists.txt b/gr-fcd/CMakeLists.txt
+index 76972ef6e0..fa1107438d 100644
 --- a/gr-fcd/CMakeLists.txt
 +++ b/gr-fcd/CMakeLists.txt
-@@ -31,7 +31,7 @@
+@@ -31,7 +31,7 @@ endif()
  include(GrComponent)
  
  # FIXME make better conditionalization
@@ -12,3 +22,6 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
      GR_REGISTER_COMPONENT("gr-fcd" ENABLE_GR_FCD
          Boost_FOUND
          ENABLE_GNURADIO_RUNTIME
+-- 
+2.11.0
+

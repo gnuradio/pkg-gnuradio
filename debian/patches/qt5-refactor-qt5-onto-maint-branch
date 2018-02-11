@@ -1,7 +1,7 @@
-From 380552530f430a977e5b048894ba8d0e5079ca75 Mon Sep 17 00:00:00 2001
+From b697cc7111d654dcfcf7c3dfba93de35ec329f31 Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
 Date: Sun, 26 Nov 2017 18:57:28 -0500
-Subject: [PATCH] qt5 refactor qt5 onto maint branch
+Subject: [PATCH 26/27] qt5 refactor qt5 onto maint branch
 
 ---
  cmake/Modules/FindQwt.cmake                        |   15 +-
@@ -96,6 +96,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  mode change 100755 => 100644
  rename gr-qtgui/python/qtgui/{util.py => util.py.cmakein} (94%)
 
+diff --git a/cmake/Modules/FindQwt.cmake b/cmake/Modules/FindQwt.cmake
+index da8bbe9049..a16896aa43 100644
 --- a/cmake/Modules/FindQwt.cmake
 +++ b/cmake/Modules/FindQwt.cmake
 @@ -5,17 +5,24 @@
@@ -125,7 +127,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    /usr/include/qwt5
    /opt/local/include/qwt
    /sw/include/qwt
-@@ -23,11 +30,11 @@
+@@ -23,11 +30,11 @@ find_path(QWT_INCLUDE_DIRS
  )
  
  find_library (QWT_LIBRARIES
@@ -139,6 +141,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    PATHS
    /usr/local/lib
    /usr/lib
+diff --git a/gr-qtgui/CMakeLists.txt b/gr-qtgui/CMakeLists.txt
+index 9306a3eb50..57e9f75032 100644
 --- a/gr-qtgui/CMakeLists.txt
 +++ b/gr-qtgui/CMakeLists.txt
 @@ -22,14 +22,27 @@
@@ -174,7 +178,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
  ########################################################################
  # Register component
-@@ -37,13 +50,13 @@
+@@ -37,13 +50,13 @@ GR_PYTHON_CHECK_MODULE("PyQt4" PyQt4 True PYQT4_FOUND)
  include(GrComponent)
  if(NOT CMAKE_CROSSCOMPILING)
      set(qt_gui_python_deps
@@ -190,7 +194,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      QWT_FOUND
      ENABLE_VOLK
      ENABLE_GNURADIO_RUNTIME
-@@ -66,43 +79,6 @@
+@@ -66,43 +79,6 @@ SET(GR_PKG_QTGUI_EXAMPLES_DIR ${GR_PKG_DATA_DIR}/examples/qt-gui)
  ########################################################################
  if(ENABLE_GR_QTGUI)
  
@@ -234,7 +238,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  ########################################################################
  # Add subdirectories
  ########################################################################
-@@ -131,7 +107,6 @@
+@@ -131,7 +107,6 @@ configure_file(
  install(
      FILES ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-qtgui.pc
      DESTINATION ${GR_LIBRARY_DIR}/pkgconfig
@@ -242,7 +246,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  )
  
  ########################################################################
-@@ -140,7 +115,6 @@
+@@ -140,7 +115,6 @@ install(
  install(
      FILES ${CMAKE_CURRENT_SOURCE_DIR}/gr-qtgui.conf
      DESTINATION ${GR_PREFSDIR}
@@ -250,7 +254,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  )
  
  
-@@ -154,7 +128,6 @@
+@@ -154,7 +128,6 @@ install(
      themes/alt.qss
      themes/projector.qss
      DESTINATION ${GR_THEMES_DIR}
@@ -258,9 +262,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  )
  
  endif(ENABLE_GR_QTGUI)
+diff --git a/gr-qtgui/apps/CMakeLists.txt b/gr-qtgui/apps/CMakeLists.txt
+index 3c64cb6e0a..6a8e6c51aa 100644
 --- a/gr-qtgui/apps/CMakeLists.txt
 +++ b/gr-qtgui/apps/CMakeLists.txt
-@@ -33,7 +33,6 @@
+@@ -33,7 +33,6 @@ GR_PYTHON_INSTALL(
      plot_time_form.py
      plot_time_raster_form.py
      DESTINATION ${GR_PYTHON_DIR}/gnuradio/qtgui
@@ -268,12 +274,14 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  )
  
  GR_PYTHON_INSTALL(
-@@ -58,5 +57,4 @@
+@@ -58,5 +57,4 @@ GR_PYTHON_INSTALL(
      gr_spectrogram_plot
      gr_constellation_plot
      DESTINATION ${GR_RUNTIME_DIR}
 -    COMPONENT "qtgui_python"
  )
+diff --git a/gr-qtgui/apps/gr_constellation_plot b/gr-qtgui/apps/gr_constellation_plot
+index 10f6954fb8..469908b7d4 100755
 --- a/gr-qtgui/apps/gr_constellation_plot
 +++ b/gr-qtgui/apps/gr_constellation_plot
 @@ -22,8 +22,8 @@
@@ -287,7 +295,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  import os, sys
  
  try:
-@@ -143,32 +143,27 @@
+@@ -143,32 +143,27 @@ class my_top_block(gr.top_block):
  
  def main():
      description = "Plots the constellations of a list of files."
@@ -299,10 +307,6 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 -    parser.add_option("-S", "--start", type="int", default=0,
 -                      help="Starting sample number [default=%default]")
 -    (options, args) = parser.parse_args()
--
--    if(len(args) < 1):
--        parser.print_help()
--        sys.exit(0)
 +    parser.add_argument("-N", "--nsamples", type=int, default=1000000,
 +                      help="Set the number of samples to display [default=%(default)r]")
 +    parser.add_argument("-S", "--start", type=int, default=0,
@@ -310,6 +314,10 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    parser.add_argument("files", nargs="+", metavar='FILE')
 +    args = parser.parse_args()
  
+-    if(len(args) < 1):
+-        parser.print_help()
+-        sys.exit(0)
+-
 -    filelist = list(args)
 -
 -    nsamples = options.nsamples
@@ -331,9 +339,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_constellation_form(tb, 'GNU Radio Constellation Plot', 10000.0)
      for n in xrange(tb._nsigs):
+diff --git a/gr-qtgui/apps/gr_psd_plot_b b/gr-qtgui/apps/gr_psd_plot_b
+index a5a2e3f21e..10ce7e2256 100755
 --- a/gr-qtgui/apps/gr_psd_plot_b
 +++ b/gr-qtgui/apps/gr_psd_plot_b
-@@ -54,16 +54,15 @@
+@@ -54,16 +54,15 @@ class psd_plot_b(plot_base.plot_base):
  
  def main():
      description = "Plots the PSDs of a list of files. Files are a binary list of bytes."
@@ -357,9 +367,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_psd_form(tb, 'GNU Radio PSD Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_psd_plot_c b/gr-qtgui/apps/gr_psd_plot_c
+index e8b83c33f5..afc024ee53 100755
 --- a/gr-qtgui/apps/gr_psd_plot_c
 +++ b/gr-qtgui/apps/gr_psd_plot_c
-@@ -55,16 +55,15 @@
+@@ -55,16 +55,15 @@ class psd_plot_c(plot_base.plot_base):
  
  def main():
      description = "Plots the PSDs of a list of files. Files are a binary list of complex floats."
@@ -383,9 +395,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_psd_form(tb, 'GNU Radio PSD Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_psd_plot_f b/gr-qtgui/apps/gr_psd_plot_f
+index 8ad5a283bc..b1f0f0f34f 100755
 --- a/gr-qtgui/apps/gr_psd_plot_f
 +++ b/gr-qtgui/apps/gr_psd_plot_f
-@@ -55,16 +55,15 @@
+@@ -55,16 +55,15 @@ class psd_plot_f(plot_base.plot_base):
  
  def main():
      description = "Plots the PSDs of a list of files. Files are a binary list of floats."
@@ -409,9 +423,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_psd_form(tb, 'GNU Radio PSD Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_psd_plot_i b/gr-qtgui/apps/gr_psd_plot_i
+index fda69cfbca..b52e9afb00 100755
 --- a/gr-qtgui/apps/gr_psd_plot_i
 +++ b/gr-qtgui/apps/gr_psd_plot_i
-@@ -54,16 +54,15 @@
+@@ -54,16 +54,15 @@ class psd_plot_i(plot_base.plot_base):
  
  def main():
      description = "Plots the PSDs of a list of files. Files are a binary list of integers."
@@ -435,9 +451,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_psd_form(tb, 'GNU Radio PSD Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_psd_plot_s b/gr-qtgui/apps/gr_psd_plot_s
+index 02fe777dda..d62a59fd2f 100755
 --- a/gr-qtgui/apps/gr_psd_plot_s
 +++ b/gr-qtgui/apps/gr_psd_plot_s
-@@ -54,16 +54,15 @@
+@@ -54,16 +54,15 @@ class psd_plot_s(plot_base.plot_base):
  
  def main():
      description = "Plots the PSDs of a list of files. Files are a binary list of shorts."
@@ -461,9 +479,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_psd_form(tb, 'GNU Radio PSD Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot b/gr-qtgui/apps/gr_spectrogram_plot
+index 6fb25651ac..31131078b6 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot
 +++ b/gr-qtgui/apps/gr_spectrogram_plot
-@@ -142,55 +142,54 @@
+@@ -142,55 +142,54 @@ def read_header(filelist):
  def main():
     description = 'Plots the spectrogram (waterfall) of a file with detached header.'
     description += ' Assumes header is <input_filename>.hdr'
@@ -547,9 +567,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
        else:
          sys.stderr.write("Real File Type " + info["type"] + " not supported\n")
     main_box = plot_base.plot_spectrogram_form(tb, 'GNU Radio Spectrogram Plot')
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_b b/gr-qtgui/apps/gr_spectrogram_plot_b
+index 917fc4e9e9..bb3fb0deff 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_b
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_b
-@@ -54,16 +54,15 @@
+@@ -54,16 +54,15 @@ class spectrogram_plot_b(plot_base.plot_base):
  
  def main():
      description = "Plots the spectrogram (waterfall) of a list of files. Files are a binary list of chars."
@@ -573,9 +595,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_spectrogram_form(tb, 'GNU Radio Time Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_c b/gr-qtgui/apps/gr_spectrogram_plot_c
+index e6d7455920..822ffbdd8f 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_c
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_c
-@@ -55,16 +55,15 @@
+@@ -55,16 +55,15 @@ class spectrogram_plot_c(plot_base.plot_base):
  
  def main():
      description = "Plots the spectrogram (waterfall) of a list of files. Files are a binary list of complex floats."
@@ -599,9 +623,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_spectrogram_form(tb, 'GNU Radio Spectrogram Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_f b/gr-qtgui/apps/gr_spectrogram_plot_f
+index 91eb48b5e5..114bb6d378 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_f
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_f
-@@ -55,16 +55,15 @@
+@@ -55,16 +55,15 @@ class spectrogram_plot_f(plot_base.plot_base):
  
  def main():
      description = "Plots the spectrogram (waterfall) of a list of files. Files are a binary list of floats."
@@ -625,9 +651,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_spectrogram_form(tb, 'GNU Radio Time Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_i b/gr-qtgui/apps/gr_spectrogram_plot_i
+index 4e66585811..4c09042104 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_i
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_i
-@@ -54,16 +54,15 @@
+@@ -54,16 +54,15 @@ class spectrogram_plot_i(plot_base.plot_base):
  
  def main():
      description = "Plots the spectrogram (waterfall) of a list of files. Files are a binary list of ints."
@@ -651,9 +679,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_spectrogram_form(tb, 'GNU Radio Time Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_s b/gr-qtgui/apps/gr_spectrogram_plot_s
+index 014663f20f..2fb19b956e 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_s
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_s
-@@ -54,16 +54,15 @@
+@@ -54,16 +54,15 @@ class spectrogram_plot_s(plot_base.plot_base):
  
  def main():
      description = "Plots the spectrogram (waterfall) of a list of files. Files are a binary list of shorts."
@@ -677,9 +707,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_spectrogram_form(tb, 'GNU Radio Time Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_time_plot_b b/gr-qtgui/apps/gr_time_plot_b
+index 4a5ef3e8a8..ff94fd3f84 100755
 --- a/gr-qtgui/apps/gr_time_plot_b
 +++ b/gr-qtgui/apps/gr_time_plot_b
-@@ -52,14 +52,13 @@
+@@ -52,14 +52,13 @@ class plot_time_b(plot_base.plot_base):
  
  def main():
      description = "Plots a list of files on a scope plot. Files are a binary list of chars."
@@ -699,9 +731,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_time_form(tb, 'GNU Radio Time Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_time_plot_c b/gr-qtgui/apps/gr_time_plot_c
+index 307cf9b534..db914a49b4 100755
 --- a/gr-qtgui/apps/gr_time_plot_c
 +++ b/gr-qtgui/apps/gr_time_plot_c
-@@ -54,14 +54,13 @@
+@@ -54,14 +54,13 @@ class plot_time_c(plot_base.plot_base):
  
  def main():
      description = "Plots a list of files on a scope plot. Files are a binary list of complex floats."
@@ -721,9 +755,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_time_form(tb, 'GNU Radio Time Plot', 10000.0)
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_time_plot_f b/gr-qtgui/apps/gr_time_plot_f
+index 95d3a8a46e..354ccc6e08 100755
 --- a/gr-qtgui/apps/gr_time_plot_f
 +++ b/gr-qtgui/apps/gr_time_plot_f
-@@ -53,14 +53,13 @@
+@@ -53,14 +53,13 @@ class plot_time_f(plot_base.plot_base):
  
  def main():
      description = "Plots a list of files on a scope plot. Files are a binary list of floats."
@@ -743,9 +779,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_time_form(tb, 'GNU Radio Time Plot', 10000.0)
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_time_plot_i b/gr-qtgui/apps/gr_time_plot_i
+index 1d70098ee3..34af6efe6f 100755
 --- a/gr-qtgui/apps/gr_time_plot_i
 +++ b/gr-qtgui/apps/gr_time_plot_i
-@@ -52,14 +52,13 @@
+@@ -52,14 +52,13 @@ class plot_time_i(plot_base.plot_base):
  
  def main():
      description = "Plots a list of files on a scope plot. Files are a binary list of integers."
@@ -765,9 +803,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_time_form(tb, 'GNU Radio Time Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_time_plot_s b/gr-qtgui/apps/gr_time_plot_s
+index 50643e0ae2..0702362659 100755
 --- a/gr-qtgui/apps/gr_time_plot_s
 +++ b/gr-qtgui/apps/gr_time_plot_s
-@@ -52,14 +52,13 @@
+@@ -52,14 +52,13 @@ class plot_time_s(plot_base.plot_base):
  
  def main():
      description = "Plots a list of files on a scope plot. Files are a binary list of shorts."
@@ -787,9 +827,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_time_form(tb, 'GNU Radio Time Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_time_raster_b b/gr-qtgui/apps/gr_time_raster_b
+index 370008a2ab..be1d8adbe6 100755
 --- a/gr-qtgui/apps/gr_time_raster_b
 +++ b/gr-qtgui/apps/gr_time_raster_b
-@@ -56,15 +56,14 @@
+@@ -56,15 +56,14 @@ class plot_time_raster_b(plot_base.plot_base):
  
  def main():
      description = "Plots a list of files on a scope plot. Files are a binary list of chars."
@@ -811,9 +853,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_time_raster_form(tb, 'GNU Radio Time Plot')
      main_box.show()
+diff --git a/gr-qtgui/apps/gr_time_raster_f b/gr-qtgui/apps/gr_time_raster_f
+index 7512348e86..768313601b 100755
 --- a/gr-qtgui/apps/gr_time_raster_f
 +++ b/gr-qtgui/apps/gr_time_raster_f
-@@ -56,15 +56,14 @@
+@@ -56,15 +56,14 @@ class plot_time_raster_f(plot_base.plot_base):
  
  def main():
      description = "Plots a list of files on a scope plot. Files are a binary list of floats."
@@ -835,6 +879,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      main_box = plot_base.plot_time_raster_form(tb, 'GNU Radio Time Plot', 10000.0)
      main_box.show()
+diff --git a/gr-qtgui/apps/plot_base.py b/gr-qtgui/apps/plot_base.py
+index 4b57291e06..306c06ff47 100644
 --- a/gr-qtgui/apps/plot_base.py
 +++ b/gr-qtgui/apps/plot_base.py
 @@ -21,8 +21,6 @@
@@ -846,6 +892,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  import os, sys
  
  os.environ['GR_CONF_CONTROLPORT_ON'] = 'False'
+diff --git a/gr-qtgui/apps/plot_psd_base.py b/gr-qtgui/apps/plot_psd_base.py
+index 0990e439bb..c0ba7c9fba 100644
 --- a/gr-qtgui/apps/plot_psd_base.py
 +++ b/gr-qtgui/apps/plot_psd_base.py
 @@ -21,8 +21,8 @@
@@ -859,7 +907,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  import os, sys
  
  try:
-@@ -141,23 +141,21 @@
+@@ -141,23 +141,21 @@ class plot_base(gr.top_block):
          self.start()
  
  def setup_options(desc):
@@ -900,6 +948,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    args = parser.parse_args()
 +
 +    return args
+diff --git a/gr-qtgui/apps/plot_spectrogram_base.py b/gr-qtgui/apps/plot_spectrogram_base.py
+index 3fae5c252a..5021be8f82 100644
 --- a/gr-qtgui/apps/plot_spectrogram_base.py
 +++ b/gr-qtgui/apps/plot_spectrogram_base.py
 @@ -21,8 +21,8 @@
@@ -913,7 +963,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  import os, sys
  
  try:
-@@ -146,25 +146,22 @@
+@@ -146,25 +146,22 @@ class plot_base(gr.top_block):
          self.start()
  
  def setup_options(desc):
@@ -936,6 +986,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 -    if(len(args) < 1):
 -        parser.print_help()
 -        sys.exit(0)
+-
+-    return (options, args)
 +    parser = ArgumentParser(description=desc, conflict_handler="resolve")
 +    parser.add_argument("-N", "--nsamples", type=int, default=1000000,
 +                      help="Set the number of samples to display [default=%(default)r]")
@@ -952,10 +1004,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    parser.add_argument('files', nargs='+', metavar='FILE',
 +                      help="File with complex samples")
 +    args = parser.parse_args()
- 
--    return (options, args)
++
 +    return args
  
+diff --git a/gr-qtgui/apps/plot_time_base.py b/gr-qtgui/apps/plot_time_base.py
+index 31c96ab804..03b0338b0e 100644
 --- a/gr-qtgui/apps/plot_time_base.py
 +++ b/gr-qtgui/apps/plot_time_base.py
 @@ -21,8 +21,8 @@
@@ -969,7 +1022,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  import os, sys
  
  try:
-@@ -166,19 +166,18 @@
+@@ -166,19 +166,18 @@ class plot_base(gr.top_block):
              self._auto_scale = False
  
  def setup_options(desc):
@@ -1003,6 +1056,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +
 +    return args
  
+diff --git a/gr-qtgui/apps/plot_time_raster_base.py b/gr-qtgui/apps/plot_time_raster_base.py
+index 252f4154e8..97fdd61c82 100644
 --- a/gr-qtgui/apps/plot_time_raster_base.py
 +++ b/gr-qtgui/apps/plot_time_raster_base.py
 @@ -21,8 +21,8 @@
@@ -1016,7 +1071,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  import os, sys
  
  try:
-@@ -161,23 +161,22 @@
+@@ -161,23 +161,22 @@ class plot_base(gr.top_block):
              self._auto_scale = False
  
  def setup_options(desc):
@@ -1058,9 +1113,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +
 +    return args
  
+diff --git a/gr-qtgui/apps/qt_digital.py b/gr-qtgui/apps/qt_digital.py
+index fef4f448b4..92c81c312d 100755
 --- a/gr-qtgui/apps/qt_digital.py
 +++ b/gr-qtgui/apps/qt_digital.py
-@@ -29,10 +29,10 @@
+@@ -29,10 +29,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -1073,7 +1130,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -45,7 +45,7 @@
+@@ -45,7 +45,7 @@ try:
      from qt_digital_window import Ui_DigitalWindow
  except ImportError:
      print "Error: could not find qt_digital_window.py:"
@@ -1082,6 +1139,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  class dialog_box(QtGui.QMainWindow):
+diff --git a/gr-qtgui/apps/qt_digital_window.py b/gr-qtgui/apps/qt_digital_window.py
+index 50dd53a923..04ecfe1030 100644
 --- a/gr-qtgui/apps/qt_digital_window.py
 +++ b/gr-qtgui/apps/qt_digital_window.py
 @@ -2,36 +2,35 @@
@@ -1133,7 +1192,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          sizePolicy.setHorizontalStretch(0)
          sizePolicy.setVerticalStretch(0)
          sizePolicy.setHeightForWidth(self.sysBox.sizePolicy().hasHeightForWidth())
-@@ -40,74 +39,74 @@
+@@ -40,74 +39,74 @@ class Ui_DigitalWindow(object):
          self.sysBox.setMaximumSize(QtCore.QSize(16777215, 120))
          self.sysBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
          self.sysBox.setObjectName("sysBox")
@@ -1231,7 +1290,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          sizePolicy.setHorizontalStretch(0)
          sizePolicy.setVerticalStretch(0)
          sizePolicy.setHeightForWidth(self.pauseButton.sizePolicy().hasHeightForWidth())
-@@ -115,47 +114,48 @@
+@@ -115,47 +114,48 @@ class Ui_DigitalWindow(object):
          self.pauseButton.setMaximumSize(QtCore.QSize(80, 16777215))
          self.pauseButton.setObjectName("pauseButton")
          self.verticalLayout_2.addWidget(self.pauseButton)
@@ -1301,6 +1360,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +        self.menuFile.setTitle(_translate("DigitalWindow", "&File"))
 +        self.actionExit.setText(_translate("DigitalWindow", "E&xit"))
  
+diff --git a/gr-qtgui/apps/usrp_display_qtgui.py b/gr-qtgui/apps/usrp_display_qtgui.py
+index 4c9de3a53c..8f8af003d8 100644
 --- a/gr-qtgui/apps/usrp_display_qtgui.py
 +++ b/gr-qtgui/apps/usrp_display_qtgui.py
 @@ -2,25 +2,24 @@
@@ -1336,7 +1397,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          sizePolicy.setHorizontalStretch(0)
          sizePolicy.setVerticalStretch(0)
          sizePolicy.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
-@@ -28,101 +27,103 @@
+@@ -28,101 +27,103 @@ class Ui_MainWindow(object):
          self.groupBox.setMinimumSize(QtCore.QSize(240, 150))
          self.groupBox.setMaximumSize(QtCore.QSize(240, 16777215))
          self.groupBox.setObjectName("groupBox")
@@ -1479,7 +1540,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          sizePolicy.setHorizontalStretch(0)
          sizePolicy.setVerticalStretch(0)
          sizePolicy.setHeightForWidth(self.closeButton.sizePolicy().hasHeightForWidth())
-@@ -132,60 +133,61 @@
+@@ -132,60 +133,61 @@ class Ui_MainWindow(object):
          self.verticalLayout.addWidget(self.closeButton)
          self.horizontalLayout_2.addLayout(self.verticalLayout)
          self.gridLayout_2.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
@@ -1568,9 +1629,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +        self.actionExit.setText(_translate("MainWindow", "E&xit"))
 +        self.actionSaveData.setText(_translate("MainWindow", "&Save Data"))
  
+diff --git a/gr-qtgui/examples/CMakeLists.txt b/gr-qtgui/examples/CMakeLists.txt
+index 5662dfa9c8..a91e374772 100644
 --- a/gr-qtgui/examples/CMakeLists.txt
 +++ b/gr-qtgui/examples/CMakeLists.txt
-@@ -33,7 +33,6 @@
+@@ -33,7 +33,6 @@ GR_PYTHON_INSTALL(PROGRAMS
    pyqt_waterfall_c.py
    pyqt_waterfall_f.py
    DESTINATION ${GR_PKG_QTGUI_EXAMPLES_DIR}
@@ -1578,15 +1641,17 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  )
  
  install(
-@@ -43,5 +42,4 @@
+@@ -43,5 +42,4 @@ install(
      qtgui_message_inputs.grc
      test_qtgui_msg.grc
      DESTINATION ${GR_PKG_QTGUI_EXAMPLES_DIR}
 -    COMPONENT "qtgui_python"
  )
+diff --git a/gr-qtgui/examples/c++/CMakeLists.txt b/gr-qtgui/examples/c++/CMakeLists.txt
+index 49c41a0c64..dacd782e1b 100644
 --- a/gr-qtgui/examples/c++/CMakeLists.txt
 +++ b/gr-qtgui/examples/c++/CMakeLists.txt
-@@ -35,9 +35,15 @@
+@@ -35,9 +35,15 @@ list(APPEND QTGUI_LIBRARIES
    gnuradio-blocks
    gnuradio-fft
    gnuradio-runtime
@@ -1603,6 +1668,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  add_executable(display_qt display_qt.cc ${qtgui_moc_sources})
  target_link_libraries(display_qt ${QTGUI_LIBRARIES})
  
+diff --git a/gr-qtgui/examples/pyqt_const_c.py b/gr-qtgui/examples/pyqt_const_c.py
+index 3a43bf9a92..0bb6c20d59 100755
 --- a/gr-qtgui/examples/pyqt_const_c.py
 +++ b/gr-qtgui/examples/pyqt_const_c.py
 @@ -1,6 +1,6 @@
@@ -1613,7 +1680,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -1626,7 +1693,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -44,71 +44,65 @@
+@@ -44,71 +44,65 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-channels.\n")
      sys.exit(1)
  
@@ -1719,7 +1786,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -150,7 +144,7 @@
+@@ -150,7 +144,7 @@ class my_top_block(gr.top_block):
  
          npts = 2048
  
@@ -1728,7 +1795,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          src1 = analog.sig_source_c(Rs, analog.GR_SIN_WAVE, f1, 0.5, 0)
          src2 = analog.sig_source_c(Rs, analog.GR_SIN_WAVE, f2, 0.5, 0)
-@@ -158,6 +152,7 @@
+@@ -158,6 +152,7 @@ class my_top_block(gr.top_block):
          channel = channels.channel_model(0.001)
          thr = blocks.throttle(gr.sizeof_gr_complex, 100*npts)
          self.snk1 = qtgui.const_sink_c(npts, "Constellation Example", 1)
@@ -1736,7 +1803,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.connect(src1, (src,0))
          self.connect(src2, (src,1))
-@@ -171,8 +166,8 @@
+@@ -171,8 +166,8 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -1747,11 +1814,13 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.main_box = dialog_box(pyWin, self.ctrl_win)
          self.main_box.show()
-@@ -182,4 +177,3 @@
+@@ -182,4 +177,3 @@ if __name__ == "__main__":
      tb.start()
      tb.qapp.exec_()
      tb.stop()
 -
+diff --git a/gr-qtgui/examples/pyqt_example_c.py b/gr-qtgui/examples/pyqt_example_c.py
+index 1bf61d949d..89ca7b2820 100755
 --- a/gr-qtgui/examples/pyqt_example_c.py
 +++ b/gr-qtgui/examples/pyqt_example_c.py
 @@ -1,6 +1,6 @@
@@ -1762,7 +1831,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -1775,7 +1844,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -44,71 +44,66 @@
+@@ -44,71 +44,66 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-channels.\n")
      sys.exit(1)
  
@@ -1868,7 +1937,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -150,7 +145,7 @@
+@@ -150,7 +145,7 @@ class my_top_block(gr.top_block):
  
          fftsize = 2048
  
@@ -1877,7 +1946,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          ss = open(gr.prefix() + '/share/gnuradio/themes/dark.qss')
          sstext = ss.read()
          ss.close()
-@@ -178,8 +173,8 @@
+@@ -178,8 +173,8 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -1888,6 +1957,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.main_box = dialog_box(pyWin, self.ctrl_win)
  
+diff --git a/gr-qtgui/examples/pyqt_example_f.py b/gr-qtgui/examples/pyqt_example_f.py
+index 5bd582d1e1..77a7478aa2 100755
 --- a/gr-qtgui/examples/pyqt_example_f.py
 +++ b/gr-qtgui/examples/pyqt_example_f.py
 @@ -1,6 +1,6 @@
@@ -1898,7 +1969,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -1911,7 +1982,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -38,71 +38,66 @@
+@@ -38,71 +38,66 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-analog.\n")
      sys.exit(1)
  
@@ -2004,7 +2075,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -144,7 +139,7 @@
+@@ -144,7 +139,7 @@ class my_top_block(gr.top_block):
  
          fftsize = 2048
  
@@ -2013,7 +2084,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          src1 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f1, 0.1, 0)
          src2 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f2, 0.1, 0)
-@@ -171,8 +166,8 @@
+@@ -171,8 +166,8 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -2024,6 +2095,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.main_box = dialog_box(pyWin, self.ctrl_win)
  
+diff --git a/gr-qtgui/examples/pyqt_freq_c.py b/gr-qtgui/examples/pyqt_freq_c.py
+index c53feb93d4..954a078df8 100755
 --- a/gr-qtgui/examples/pyqt_freq_c.py
 +++ b/gr-qtgui/examples/pyqt_freq_c.py
 @@ -1,6 +1,6 @@
@@ -2034,7 +2107,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -2047,7 +2120,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -44,71 +44,66 @@
+@@ -44,71 +44,66 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-channels.\n")
      sys.exit(1)
  
@@ -2140,7 +2213,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -150,7 +145,7 @@
+@@ -150,7 +145,7 @@ class my_top_block(gr.top_block):
  
          npts = 2048
  
@@ -2149,7 +2222,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          ss = open(gr.prefix() + '/share/gnuradio/themes/dark.qss')
          sstext = ss.read()
          ss.close()
-@@ -179,8 +174,8 @@
+@@ -179,8 +174,8 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -2160,6 +2233,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          #pyWin.show()
          self.main_box = dialog_box(pyWin, self.ctrl_win)
+diff --git a/gr-qtgui/examples/pyqt_freq_f.py b/gr-qtgui/examples/pyqt_freq_f.py
+index 668b54d249..d7d389b736 100755
 --- a/gr-qtgui/examples/pyqt_freq_f.py
 +++ b/gr-qtgui/examples/pyqt_freq_f.py
 @@ -1,6 +1,6 @@
@@ -2170,7 +2245,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -2183,7 +2258,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -39,71 +39,66 @@
+@@ -39,71 +39,66 @@ except ImportError:
      sys.exit(1)
  
  
@@ -2276,7 +2351,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -145,7 +140,7 @@
+@@ -145,7 +140,7 @@ class my_top_block(gr.top_block):
  
          npts = 2048
  
@@ -2285,7 +2360,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          src1 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f1, 0.1, 0)
          src2 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f2, 0.1, 0)
-@@ -169,8 +164,8 @@
+@@ -169,8 +164,8 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -2296,11 +2371,13 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          #pyWin.show()
          self.main_box = dialog_box(pyWin, self.ctrl_win)
-@@ -181,4 +176,3 @@
+@@ -181,4 +176,3 @@ if __name__ == "__main__":
      tb.start()
      tb.qapp.exec_()
      tb.stop()
 -
+diff --git a/gr-qtgui/examples/pyqt_histogram_f.py b/gr-qtgui/examples/pyqt_histogram_f.py
+index a960275f41..81f7b9d40b 100755
 --- a/gr-qtgui/examples/pyqt_histogram_f.py
 +++ b/gr-qtgui/examples/pyqt_histogram_f.py
 @@ -1,6 +1,6 @@
@@ -2311,7 +2388,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -2324,7 +2401,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -38,87 +38,80 @@
+@@ -38,87 +38,80 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-analog.\n")
      sys.exit(1)
  
@@ -2438,7 +2515,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -164,7 +157,7 @@
+@@ -164,7 +157,7 @@ class my_top_block(gr.top_block):
  
          npts = 2048
  
@@ -2447,7 +2524,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          src1 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f1, 0, 0)
          src2 = analog.noise_source_f(analog.GR_GAUSSIAN, 1)
-@@ -172,6 +165,7 @@
+@@ -172,6 +165,7 @@ class my_top_block(gr.top_block):
          thr = blocks.throttle(gr.sizeof_float, 100*npts)
          self.snk1 = qtgui.histogram_sink_f(npts, 200, -5, 5,
                                             "Histogram")
@@ -2455,7 +2532,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.connect(src1, (src,0))
          self.connect(src2, (src,1))
-@@ -185,8 +179,8 @@
+@@ -185,8 +179,8 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -2466,11 +2543,13 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          #pyWin.show()
          self.main_box = dialog_box(pyWin, self.ctrl_win)
-@@ -197,4 +191,3 @@
+@@ -197,4 +191,3 @@ if __name__ == "__main__":
      tb.start()
      tb.qapp.exec_()
      tb.stop()
 -
+diff --git a/gr-qtgui/examples/pyqt_time_c.py b/gr-qtgui/examples/pyqt_time_c.py
+index 0162bb6ffc..b595c8ff85 100755
 --- a/gr-qtgui/examples/pyqt_time_c.py
 +++ b/gr-qtgui/examples/pyqt_time_c.py
 @@ -1,6 +1,6 @@
@@ -2481,7 +2560,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -2494,7 +2573,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -44,71 +44,66 @@
+@@ -44,71 +44,66 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-channels.\n")
      sys.exit(1)
  
@@ -2587,7 +2666,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -150,7 +145,7 @@
+@@ -150,7 +145,7 @@ class my_top_block(gr.top_block):
  
          npts = 2048
  
@@ -2596,7 +2675,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          ss = open(gr.prefix() + '/share/gnuradio/themes/dark.qss')
          sstext = ss.read()
          ss.close()
-@@ -178,13 +173,14 @@
+@@ -178,13 +173,14 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -2616,6 +2695,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          self.snk1.set_line_label(1, "Im{Sum}")
          #self.snk1.set_line_label(2, "Re{src1}")
          #self.snk1.set_line_label(3, "Im{src1}")
+diff --git a/gr-qtgui/examples/pyqt_time_f.py b/gr-qtgui/examples/pyqt_time_f.py
+index b733a5a809..3689ebff54 100755
 --- a/gr-qtgui/examples/pyqt_time_f.py
 +++ b/gr-qtgui/examples/pyqt_time_f.py
 @@ -1,6 +1,6 @@
@@ -2626,7 +2707,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -2639,7 +2720,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -38,71 +38,66 @@
+@@ -38,71 +38,66 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-analog.\n")
      sys.exit(1)
  
@@ -2732,7 +2813,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -144,7 +139,7 @@
+@@ -144,7 +139,7 @@ class my_top_block(gr.top_block):
  
          npts = 2048
  
@@ -2741,7 +2822,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          src1 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f1, 0.1, 0)
          src2 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f2, 0.1, 0)
-@@ -171,13 +166,14 @@
+@@ -171,13 +166,14 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -2761,11 +2842,13 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          self.snk1.set_line_label(1, "src1")
          self.snk1.set_line_label(2, "src2")
  
-@@ -193,4 +189,3 @@
+@@ -193,4 +189,3 @@ if __name__ == "__main__":
      tb.start()
      tb.qapp.exec_()
      tb.stop()
 -
+diff --git a/gr-qtgui/examples/pyqt_time_raster_b.py b/gr-qtgui/examples/pyqt_time_raster_b.py
+index 4cad9de601..7a94400283 100755
 --- a/gr-qtgui/examples/pyqt_time_raster_b.py
 +++ b/gr-qtgui/examples/pyqt_time_raster_b.py
 @@ -1,6 +1,6 @@
@@ -2776,7 +2859,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -27,18 +27,18 @@
+@@ -27,18 +27,18 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -2800,7 +2883,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          self.boxlayout.addWidget(display, 1)
  
          self.resize(800, 500)
-@@ -47,7 +47,7 @@
+@@ -47,7 +47,7 @@ class my_top_block(gr.top_block):
      def __init__(self):
          gr.top_block.__init__(self)
  
@@ -2809,7 +2892,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          data0  = 10*[0,] + 40*[1,0] + 10*[0,]
          data0 += 10*[0,] + 40*[0,1] + 10*[0,]
-@@ -73,8 +73,8 @@
+@@ -73,8 +73,8 @@ class my_top_block(gr.top_block):
          pyQt = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -2820,11 +2903,13 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.main_box = dialog_box(pyWin)
          self.main_box.show()
-@@ -84,4 +84,3 @@
+@@ -84,4 +84,3 @@ if __name__ == "__main__":
      tb.start()
      tb.qapp.exec_()
      tb.stop()
 -
+diff --git a/gr-qtgui/examples/pyqt_time_raster_f.py b/gr-qtgui/examples/pyqt_time_raster_f.py
+index c5261520db..0f9de94bcb 100755
 --- a/gr-qtgui/examples/pyqt_time_raster_f.py
 +++ b/gr-qtgui/examples/pyqt_time_raster_f.py
 @@ -1,6 +1,6 @@
@@ -2835,7 +2920,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,18 +26,18 @@
+@@ -26,18 +26,18 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -2859,7 +2944,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          self.boxlayout.addWidget(display, 1)
  
          self.resize(800, 500)
-@@ -46,7 +46,7 @@
+@@ -46,7 +46,7 @@ class my_top_block(gr.top_block):
      def __init__(self):
          gr.top_block.__init__(self)
  
@@ -2868,7 +2953,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          data0  = 10*[0,] + 40*[1,0] + 10*[0,]
          data0 += 10*[0,] + 40*[0,1] + 10*[0,]
-@@ -72,8 +72,8 @@
+@@ -72,8 +72,8 @@ class my_top_block(gr.top_block):
          pyQt = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -2879,11 +2964,13 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.main_box = dialog_box(pyWin)
          self.main_box.show()
-@@ -83,4 +83,3 @@
+@@ -83,4 +83,3 @@ if __name__ == "__main__":
      tb.start()
      tb.qapp.exec_()
      tb.stop()
 -
+diff --git a/gr-qtgui/examples/pyqt_waterfall_c.py b/gr-qtgui/examples/pyqt_waterfall_c.py
+index b17ff56c2f..96402041e8 100755
 --- a/gr-qtgui/examples/pyqt_waterfall_c.py
 +++ b/gr-qtgui/examples/pyqt_waterfall_c.py
 @@ -1,6 +1,6 @@
@@ -2894,7 +2981,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,7 +26,7 @@
+@@ -26,7 +26,7 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -2903,7 +2990,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      import sip
  except ImportError:
      sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
-@@ -44,71 +44,66 @@
+@@ -44,71 +44,66 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-channels.\n")
      sys.exit(1)
  
@@ -2996,7 +3083,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -152,7 +147,7 @@
+@@ -152,7 +147,7 @@ class my_top_block(gr.top_block):
  
          taps = filter.firdes.complex_band_pass_2(1, Rs, 1500, 2500, 100, 60)
  
@@ -3005,7 +3092,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          ss = open(gr.prefix() + '/share/gnuradio/themes/dark.qss')
          sstext = ss.read()
          ss.close()
-@@ -167,6 +162,8 @@
+@@ -167,6 +162,8 @@ class my_top_block(gr.top_block):
          self.snk1 = qtgui.waterfall_sink_c(npts, filter.firdes.WIN_BLACKMAN_hARRIS,
                                             0, Rs,
                                             "Complex Waterfall Example", 2)
@@ -3014,7 +3101,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.connect(src1, (src,0))
          self.connect(src2, (src,1))
-@@ -181,8 +178,8 @@
+@@ -181,8 +178,8 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -3025,6 +3112,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          #pyWin.show()
          self.main_box = dialog_box(pyWin, self.ctrl_win)
+diff --git a/gr-qtgui/examples/pyqt_waterfall_f.py b/gr-qtgui/examples/pyqt_waterfall_f.py
+index f9680c28cf..71c72afad6 100755
 --- a/gr-qtgui/examples/pyqt_waterfall_f.py
 +++ b/gr-qtgui/examples/pyqt_waterfall_f.py
 @@ -1,6 +1,6 @@
@@ -3035,7 +3124,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #
  # This file is part of GNU Radio
  #
-@@ -26,10 +26,10 @@
+@@ -26,10 +26,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -3048,7 +3137,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      sys.exit(1)
  
  try:
-@@ -38,71 +38,66 @@
+@@ -38,71 +38,66 @@ except ImportError:
      sys.stderr.write("Error: Program requires gr-analog.\n")
      sys.exit(1)
  
@@ -3141,7 +3230,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
      def freq1EditText(self):
          try:
-@@ -144,7 +139,7 @@
+@@ -144,7 +139,7 @@ class my_top_block(gr.top_block):
  
          npts = 2048
  
@@ -3150,7 +3239,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          src1 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f1, 0.1, 0)
          src2 = analog.sig_source_f(Rs, analog.GR_SIN_WAVE, f2, 0.1, 0)
-@@ -153,6 +148,8 @@
+@@ -153,6 +148,8 @@ class my_top_block(gr.top_block):
          self.snk1 = qtgui.waterfall_sink_f(npts, filter.firdes.WIN_BLACKMAN_hARRIS,
                                             0, Rs,
                                             "Real Waterfall Example", 2)
@@ -3159,7 +3248,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          self.connect(src1, (src,0))
          self.connect(src2, (src,1))
-@@ -167,8 +164,8 @@
+@@ -167,8 +164,8 @@ class my_top_block(gr.top_block):
          pyQt  = self.snk1.pyqwidget()
  
          # Wrap the pointer as a PyQt SIP object
@@ -3170,11 +3259,13 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
          #pyWin.show()
          self.main_box = dialog_box(pyWin, self.ctrl_win)
-@@ -179,4 +176,3 @@
+@@ -179,4 +176,3 @@ if __name__ == "__main__":
      tb.start()
      tb.qapp.exec_()
      tb.stop()
 -
+diff --git a/gr-qtgui/examples/qtgui_tags_viewing.grc b/gr-qtgui/examples/qtgui_tags_viewing.grc
+index 4c6454537a..635b1e43fa 100644
 --- a/gr-qtgui/examples/qtgui_tags_viewing.grc
 +++ b/gr-qtgui/examples/qtgui_tags_viewing.grc
 @@ -1,22 +1,23 @@
@@ -3209,7 +3300,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
        <value></value>
      </param>
      <param>
-@@ -24,16 +25,40 @@
+@@ -24,241 +25,260 @@
        <value></value>
      </param>
      <param>
@@ -3217,78 +3308,109 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 -      <value>1280, 1024</value>
 +      <key>_enabled</key>
 +      <value>True</value>
-+    </param>
-+    <param>
-+      <key>_coordinate</key>
-+      <value>(10, 10)</value>
-+    </param>
-+    <param>
-+      <key>_rotation</key>
-+      <value>0</value>
      </param>
      <param>
-       <key>generate_options</key>
-       <value>qt_gui</value>
+-      <key>generate_options</key>
+-      <value>qt_gui</value>
++      <key>_coordinate</key>
++      <value>(10, 10)</value>
      </param>
      <param>
 -      <key>category</key>
 -      <value>Custom</value>
++      <key>_rotation</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>run_options</key>
+-      <value>run</value>
++      <key>generate_options</key>
++      <value>qt_gui</value>
+     </param>
+     <param>
+-      <key>run</key>
+-      <value>True</value>
 +      <key>id</key>
 +      <value>qtgui_tags_viewing</value>
-+    </param>
-+    <param>
-+      <key>max_nouts</key>
-+      <value>0</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+       <key>max_nouts</key>
+       <value>0</value>
+     </param>
+     <param>
+-      <key>realtime_scheduling</key>
 +      <key>qt_qss_theme</key>
-+      <value></value>
-+    </param>
-+    <param>
+       <value></value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(10, 10)</value>
 +      <key>realtime_scheduling</key>
 +      <value></value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
 +      <key>run_command</key>
 +      <value>{python} -u {filename}</value>
      </param>
+-  </block>
+-  <block>
+-    <key>variable</key>
      <param>
-       <key>run_options</key>
-@@ -44,147 +69,349 @@
+-      <key>id</key>
+-      <value>samp_rate</value>
++      <key>run_options</key>
++      <value>run</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
++      <key>run</key>
        <value>True</value>
      </param>
      <param>
--      <key>max_nouts</key>
--      <value>0</value>
+-      <key>value</key>
+-      <value>32000</value>
+-    </param>
+-    <param>
+-      <key>_coordinate</key>
+-      <value>(172, 10)</value>
 +      <key>thread_safe_setters</key>
 +      <value></value>
      </param>
      <param>
--      <key>realtime_scheduling</key>
+-      <key>_rotation</key>
+-      <value>0</value>
 +      <key>title</key>
 +      <value></value>
-+    </param>
-+  </block>
-+  <block>
-+    <key>variable_qtgui_range</key>
-+    <param>
-+      <key>comment</key>
-       <value></value>
      </param>
+   </block>
+   <block>
+-    <key>import</key>
++    <key>variable_qtgui_range</key>
      <param>
+-      <key>id</key>
+-      <value>import_1</value>
++      <key>comment</key>
++      <value></value>
++    </param>
++    <param>
 +      <key>value</key>
 +      <value>300</value>
-+    </param>
-+    <param>
-+      <key>_enabled</key>
-+      <value>True</value>
-+    </param>
-+    <param>
-       <key>_coordinate</key>
--      <value>(10, 10)</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+       <value>True</value>
+     </param>
+     <param>
+-      <key>import</key>
+-      <value>from gnuradio.digital.utils import tagged_streams</value>
++      <key>_coordinate</key>
 +      <value>(814, 390)</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(99, 72)</value>
 +      <key>gui_hint</key>
 +      <value></value>
      </param>
@@ -3296,26 +3418,37 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
        <key>_rotation</key>
        <value>0</value>
      </param>
-+    <param>
-+      <key>id</key>
+-  </block>
+-  <block>
+-    <key>import</key>
+     <param>
+       <key>id</key>
+-      <value>import_0</value>
 +      <value>delay</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
 +      <key>label</key>
 +      <value>Delay</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>import</key>
+-      <value>import scipy</value>
 +      <key>min_len</key>
 +      <value>200</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(9, 71)</value>
 +      <key>orient</key>
 +      <value>Qt.Horizontal</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_rotation</key>
 +      <key>start</key>
-+      <value>0</value>
-+    </param>
+       <value>0</value>
+     </param>
 +    <param>
 +      <key>step</key>
 +      <value>1</value>
@@ -3334,11 +3467,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    </param>
    </block>
    <block>
--    <key>variable</key>
+-    <key>import</key>
 +    <key>variable_qtgui_range</key>
      <param>
 -      <key>id</key>
--      <value>samp_rate</value>
+-      <value>import_2</value>
 +      <key>comment</key>
 +      <value></value>
 +    </param>
@@ -3351,14 +3484,14 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
        <value>True</value>
      </param>
      <param>
--      <key>value</key>
--      <value>32000</value>
+-      <key>import</key>
+-      <value>import time</value>
 +      <key>_coordinate</key>
 +      <value>(936, 392)</value>
      </param>
      <param>
 -      <key>_coordinate</key>
--      <value>(172, 10)</value>
+-      <value>(253, 71)</value>
 +      <key>gui_hint</key>
 +      <value></value>
      </param>
@@ -3366,49 +3499,71 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
        <key>_rotation</key>
        <value>0</value>
      </param>
-+    <param>
-+      <key>id</key>
+-  </block>
+-  <block>
+-    <key>blocks_delay</key>
+     <param>
+       <key>id</key>
+-      <value>blocks_delay_0</value>
 +      <value>ntaps</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
 +      <key>label</key>
 +      <value>Num Taps</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>complex</value>
 +      <key>min_len</key>
 +      <value>200</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>delay</key>
+-      <value>1000</value>
 +      <key>orient</key>
 +      <value>Qt.Horizontal</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>num_ports</key>
 +      <key>start</key>
-+      <value>1</value>
-+    </param>
-+    <param>
+       <value>1</value>
+     </param>
+     <param>
+-      <key>vlen</key>
 +      <key>step</key>
-+      <value>1</value>
-+    </param>
-+    <param>
+       <value>1</value>
+     </param>
+     <param>
+-      <key>affinity</key>
+-      <value></value>
+-    </param>
+-    <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
 +      <key>stop</key>
 +      <value>100</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(300, 240)</value>
 +      <key>rangeType</key>
 +      <value>float</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
 +      <key>widget</key>
 +      <value>counter_slider</value>
-+    </param>
+     </param>
    </block>
    <block>
--    <key>import</key>
+-    <key>blocks_tags_strobe</key>
 +    <key>variable</key>
      <param>
 -      <key>id</key>
--      <value>import_1</value>
+-      <value>blocks_tags_strobe_0</value>
 +      <key>comment</key>
 +      <value></value>
      </param>
@@ -3417,177 +3572,10 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
        <value>True</value>
      </param>
      <param>
--      <key>import</key>
--      <value>from gnuradio.digital.utils import tagged_streams</value>
--    </param>
--    <param>
-       <key>_coordinate</key>
--      <value>(99, 72)</value>
-+      <value>(172, 10)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
-+    <param>
-+      <key>id</key>
-+      <value>samp_rate</value>
-+    </param>
-+    <param>
-+      <key>value</key>
-+      <value>32000</value>
-+    </param>
-   </block>
-   <block>
--    <key>import</key>
-+    <key>analog_fastnoise_source_x</key>
-     <param>
--      <key>id</key>
--      <value>import_0</value>
-+      <key>amp</key>
-+      <value>0.004</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>True</value>
-+      <key>alias</key>
-+      <value></value>
-     </param>
-     <param>
--      <key>import</key>
--      <value>import scipy</value>
-+      <key>comment</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>affinity</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>_enabled</key>
-+      <value>True</value>
-     </param>
-     <param>
-       <key>_coordinate</key>
--      <value>(9, 71)</value>
-+      <value>(350, 39)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
-+    <param>
-+      <key>id</key>
-+      <value>analog_fastnoise_source_x_0</value>
-+    </param>
-+    <param>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>minoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>noise_type</key>
-+      <value>analog.GR_GAUSSIAN</value>
-+    </param>
-+    <param>
-+      <key>type</key>
-+      <value>complex</value>
-+    </param>
-+    <param>
-+      <key>seed</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>samples</key>
-+      <value>8192</value>
-+    </param>
-   </block>
-   <block>
--    <key>import</key>
-+    <key>blocks_add_xx</key>
-     <param>
--      <key>id</key>
--      <value>import_2</value>
-+      <key>alias</key>
-+      <value></value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>True</value>
-+      <key>comment</key>
-+      <value></value>
-     </param>
-     <param>
--      <key>import</key>
--      <value>import time</value>
-+      <key>affinity</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>_enabled</key>
-+      <value>True</value>
-     </param>
-     <param>
-       <key>_coordinate</key>
--      <value>(253, 71)</value>
-+      <value>(482, 193)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
-+    <param>
-+      <key>id</key>
-+      <value>blocks_add_xx_0</value>
-+    </param>
-+    <param>
-+      <key>type</key>
-+      <value>complex</value>
-+    </param>
-+    <param>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>minoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>num_inputs</key>
-+      <value>2</value>
-+    </param>
-+    <param>
-+      <key>vlen</key>
-+      <value>1</value>
-+    </param>
-   </block>
-   <block>
--    <key>blocks_delay</key>
-+    <key>blocks_add_xx</key>
-     <param>
--      <key>id</key>
--      <value>blocks_delay_0</value>
-+      <key>alias</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>comment</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>affinity</key>
-+      <value></value>
-     </param>
-     <param>
-       <key>_enabled</key>
-       <value>True</value>
-     </param>
-     <param>
+-      <key>type</key>
+-      <value>complex</value>
 +      <key>_coordinate</key>
-+      <value>(707, 176)</value>
++      <value>(172, 10)</value>
 +    </param>
 +    <param>
 +      <key>_rotation</key>
@@ -3595,29 +3583,214 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    </param>
 +    <param>
 +      <key>id</key>
-+      <value>blocks_add_xx_1</value>
-+    </param>
-+    <param>
-       <key>type</key>
-       <value>complex</value>
++      <value>samp_rate</value>
      </param>
      <param>
--      <key>delay</key>
--      <value>1000</value>
+       <key>value</key>
+-      <value>pmt.intern("TEST")</value>
++      <value>32000</value>
+     </param>
++  </block>
++  <block>
++    <key>analog_fastnoise_source_x</key>
+     <param>
+-      <key>nsamps</key>
+-      <value>10000</value>
++      <key>amp</key>
++      <value>0.004</value>
+     </param>
+     <param>
+-      <key>vlen</key>
+-      <value>1</value>
++      <key>alias</key>
++      <value></value>
++    </param>
++    <param>
++      <key>comment</key>
++      <value></value>
+     </param>
+     <param>
+       <key>affinity</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
++      <key>_enabled</key>
++      <value>True</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(16, 232)</value>
++      <value>(350, 39)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+       <value>0</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>analog_fastnoise_source_x</key>
+     <param>
+       <key>id</key>
+       <value>analog_fastnoise_source_x_0</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
 +      <key>maxoutbuf</key>
 +      <value>0</value>
      </param>
      <param>
--      <key>num_ports</key>
--      <value>1</value>
+-      <key>type</key>
+-      <value>complex</value>
 +      <key>minoutbuf</key>
 +      <value>0</value>
+     </param>
+     <param>
+       <key>noise_type</key>
+       <value>analog.GR_GAUSSIAN</value>
+     </param>
+     <param>
+-      <key>amp</key>
+-      <value>0.004</value>
++      <key>type</key>
++      <value>complex</value>
+     </param>
+     <param>
+       <key>seed</key>
+@@ -268,85 +288,101 @@
+       <key>samples</key>
+       <value>8192</value>
+     </param>
++  </block>
++  <block>
++    <key>blocks_add_xx</key>
++    <param>
++      <key>alias</key>
++      <value></value>
 +    </param>
 +    <param>
++      <key>comment</key>
++      <value></value>
++    </param>
+     <param>
+       <key>affinity</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
++      <key>_enabled</key>
++      <value>True</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(350, 39)</value>
++      <value>(482, 193)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+       <value>0</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_vector_source_x</key>
+     <param>
+       <key>id</key>
+-      <value>blocks_vector_source_x_0</value>
+-    </param>
+-    <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <value>blocks_add_xx_0</value>
+     </param>
+     <param>
+       <key>type</key>
+       <value>complex</value>
+     </param>
+     <param>
+-      <key>vector</key>
+-      <value>[0.85+0.5j, 0.85, 0.85, 0.85+0.5j] + (10000-4)*[0,]</value>
++      <key>maxoutbuf</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>tags</key>
+-      <value>tagged_streams.make_lengthtags((1024,), (0,), "testing tags 0")</value>
++      <key>minoutbuf</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>repeat</key>
+-      <value>True</value>
 +      <key>num_inputs</key>
 +      <value>2</value>
      </param>
      <param>
+       <key>vlen</key>
+       <value>1</value>
+     </param>
++  </block>
++  <block>
++    <key>blocks_add_xx</key>
+     <param>
+-      <key>affinity</key>
++      <key>alias</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
++      <key>comment</key>
++      <value></value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>True</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(13, 132)</value>
++      <value>(707, 176)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+       <value>0</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_add_xx</key>
+     <param>
+       <key>id</key>
+-      <value>blocks_add_xx_0</value>
+-    </param>
+-    <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <value>blocks_add_xx_1</value>
+     </param>
+     <param>
+       <key>type</key>
+       <value>complex</value>
+     </param>
+     <param>
++      <key>maxoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
+       <key>num_inputs</key>
+       <value>2</value>
+     </param>
+@@ -354,439 +390,1691 @@
        <key>vlen</key>
        <value>1</value>
      </param>
@@ -3648,41 +3821,51 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      </param>
      <param>
        <key>_coordinate</key>
-@@ -194,40 +421,103 @@
+-      <value>(482, 193)</value>
++      <value>(300, 240)</value>
+     </param>
+     <param>
        <key>_rotation</key>
        <value>0</value>
      </param>
-+    <param>
-+      <key>id</key>
+-  </block>
+-  <block>
+-    <key>blocks_add_xx</key>
+     <param>
+       <key>id</key>
+-      <value>blocks_add_xx_1</value>
 +      <value>blocks_delay_0</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
 +      <key>maxoutbuf</key>
 +      <value>0</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>complex</value>
 +      <key>minoutbuf</key>
 +      <value>0</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>num_inputs</key>
+-      <value>2</value>
 +      <key>num_ports</key>
 +      <value>1</value>
 +    </param>
 +    <param>
 +      <key>type</key>
 +      <value>complex</value>
-+    </param>
-+    <param>
-+      <key>vlen</key>
-+      <value>1</value>
-+    </param>
-   </block>
-   <block>
--    <key>blocks_tags_strobe</key>
-+    <key>blocks_delay</key>
+     </param>
      <param>
--      <key>id</key>
--      <value>blocks_tags_strobe_0</value>
+       <key>vlen</key>
+       <value>1</value>
+     </param>
++  </block>
++  <block>
++    <key>blocks_delay</key>
++    <param>
 +      <key>alias</key>
 +      <value></value>
 +    </param>
@@ -3690,45 +3873,52 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +      <key>comment</key>
 +      <value></value>
 +    </param>
-+    <param>
-+      <key>affinity</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>delay</key>
-+      <value>int(delay)</value>
+     <param>
+       <key>affinity</key>
+       <value></value>
      </param>
      <param>
-       <key>_enabled</key>
-       <value>True</value>
+-      <key>minoutbuf</key>
+-      <value>0</value>
++      <key>delay</key>
++      <value>int(delay)</value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>True</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(707, 176)</value>
++      <value>(890, 44)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+       <value>0</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_throttle</key>
+     <param>
+       <key>id</key>
+-      <value>blocks_throttle_0</value>
++      <value>blocks_delay_0_0</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <key>maxoutbuf</key>
++      <value>0</value>
      </param>
      <param>
 -      <key>type</key>
 -      <value>complex</value>
-+      <key>_coordinate</key>
-+      <value>(890, 44)</value>
-     </param>
-     <param>
--      <key>value</key>
--      <value>pmt.intern("TEST")</value>
-+      <key>_rotation</key>
-+      <value>0</value>
-     </param>
-     <param>
--      <key>nsamps</key>
--      <value>10000</value>
-+      <key>id</key>
-+      <value>blocks_delay_0_0</value>
-+    </param>
-+    <param>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
 +      <key>minoutbuf</key>
 +      <value>0</value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>samples_per_second</key>
+-      <value>50e3</value>
 +      <key>num_ports</key>
 +      <value>1</value>
 +    </param>
@@ -3763,359 +3953,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      </param>
      <param>
        <key>_coordinate</key>
-@@ -237,426 +527,836 @@
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
--  </block>
--  <block>
--    <key>analog_fastnoise_source_x</key>
-     <param>
-       <key>id</key>
--      <value>analog_fastnoise_source_x_0</value>
-+      <value>blocks_tags_strobe_0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>True</value>
-+      <key>key</key>
-+      <value>pmt.intern("strobe")</value>
-+    </param>
-+    <param>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>minoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>nsamps</key>
-+      <value>10000</value>
-     </param>
-     <param>
-       <key>type</key>
-       <value>complex</value>
-     </param>
-     <param>
--      <key>noise_type</key>
--      <value>analog.GR_GAUSSIAN</value>
-+      <key>value</key>
-+      <value>pmt.intern("TEST")</value>
-     </param>
-     <param>
--      <key>amp</key>
--      <value>0.004</value>
-+      <key>vlen</key>
-+      <value>1</value>
-     </param>
-+  </block>
-+  <block>
-+    <key>blocks_throttle</key>
-     <param>
--      <key>seed</key>
--      <value>0</value>
-+      <key>alias</key>
-+      <value></value>
-     </param>
-     <param>
--      <key>samples</key>
--      <value>8192</value>
-+      <key>comment</key>
-+      <value></value>
-     </param>
-     <param>
-       <key>affinity</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
-+      <key>_enabled</key>
-+      <value>True</value>
-     </param>
-     <param>
-       <key>_coordinate</key>
--      <value>(350, 39)</value>
-+      <value>(266, 149)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
--  </block>
--  <block>
--    <key>blocks_vector_source_x</key>
-     <param>
-       <key>id</key>
--      <value>blocks_vector_source_x_0</value>
-+      <value>blocks_throttle_0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
-+      <key>ignoretag</key>
-       <value>True</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>complex</value>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
-     </param>
-     <param>
--      <key>vector</key>
--      <value>[0.85+0.5j, 0.85, 0.85, 0.85+0.5j] + (10000-4)*[0,]</value>
-+      <key>minoutbuf</key>
-+      <value>0</value>
-     </param>
-     <param>
--      <key>tags</key>
--      <value>tagged_streams.make_lengthtags((1024,), (0,), "testing tags 0")</value>
-+      <key>samples_per_second</key>
-+      <value>50e3</value>
-     </param>
-     <param>
--      <key>repeat</key>
--      <value>True</value>
-+      <key>type</key>
-+      <value>complex</value>
-     </param>
-     <param>
-       <key>vlen</key>
-       <value>1</value>
-     </param>
-+  </block>
-+  <block>
-+    <key>blocks_throttle</key>
-+    <param>
-+      <key>alias</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>comment</key>
-+      <value></value>
-+    </param>
-     <param>
-       <key>affinity</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
-+      <key>_enabled</key>
-+      <value>False</value>
-     </param>
-     <param>
-       <key>_coordinate</key>
--      <value>(13, 132)</value>
-+      <value>(267, 414)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
--  </block>
--  <block>
--    <key>blocks_add_xx</key>
-     <param>
-       <key>id</key>
--      <value>blocks_add_xx_0</value>
-+      <value>blocks_throttle_0_0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
-+      <key>ignoretag</key>
-       <value>True</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>complex</value>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
-     </param>
-     <param>
--      <key>num_inputs</key>
--      <value>2</value>
-+      <key>minoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>samples_per_second</key>
-+      <value>samp_rate</value>
-+    </param>
-+    <param>
-+      <key>type</key>
-+      <value>float</value>
-     </param>
-     <param>
-       <key>vlen</key>
-       <value>1</value>
-     </param>
-+  </block>
-+  <block>
-+    <key>blocks_vector_source_x</key>
-+    <param>
-+      <key>alias</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>comment</key>
-+      <value></value>
-+    </param>
-     <param>
-       <key>affinity</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
-+      <key>_enabled</key>
-+      <value>True</value>
-     </param>
-     <param>
-       <key>_coordinate</key>
--      <value>(482, 193)</value>
-+      <value>(13, 132)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
--  </block>
--  <block>
--    <key>blocks_add_xx</key>
-     <param>
-       <key>id</key>
--      <value>blocks_add_xx_1</value>
-+      <value>blocks_vector_source_x_0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>True</value>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>minoutbuf</key>
-+      <value>0</value>
-     </param>
-     <param>
-       <key>type</key>
-       <value>complex</value>
-     </param>
-     <param>
--      <key>num_inputs</key>
--      <value>2</value>
-+      <key>repeat</key>
-+      <value>True</value>
-+    </param>
-+    <param>
-+      <key>tags</key>
-+      <value>tagged_streams.make_lengthtags((1024,), (0,), "testing tags 0")</value>
-     </param>
-     <param>
-       <key>vlen</key>
-       <value>1</value>
-     </param>
-     <param>
-+      <key>vector</key>
-+      <value>[0.85+0.5j, 0.85, 0.85, 0.85+0.5j] + (10000-4)*[0,]</value>
-+    </param>
-+  </block>
-+  <block>
-+    <key>blocks_vector_source_x</key>
-+    <param>
-+      <key>alias</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>comment</key>
-+      <value></value>
-+    </param>
-+    <param>
-       <key>affinity</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
-+      <key>_enabled</key>
-+      <value>True</value>
-     </param>
-     <param>
-       <key>_coordinate</key>
--      <value>(707, 176)</value>
-+      <value>(15, 315)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
--  </block>
--  <block>
--    <key>blocks_throttle</key>
-     <param>
-       <key>id</key>
--      <value>blocks_throttle_0</value>
-+      <value>blocks_vector_source_x_0_0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>True</value>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>minoutbuf</key>
-+      <value>0</value>
-     </param>
-     <param>
-       <key>type</key>
-       <value>complex</value>
-     </param>
-     <param>
--      <key>samples_per_second</key>
--      <value>50e3</value>
-+      <key>repeat</key>
-+      <value>True</value>
-+    </param>
-+    <param>
-+      <key>tags</key>
-+      <value>tagged_streams.make_lengthtags((128,), (1500,), "second stream")</value>
-     </param>
-     <param>
-       <key>vlen</key>
-       <value>1</value>
-     </param>
-     <param>
-+      <key>vector</key>
-+      <value>1500*[0,] + [0.25+0j,] + (10000-1500-1)*[0,]</value>
-+    </param>
-+  </block>
-+  <block>
-+    <key>blocks_vector_source_x</key>
-+    <param>
-+      <key>alias</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>comment</key>
-+      <value></value>
-+    </param>
-+    <param>
-       <key>affinity</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
-+      <key>_enabled</key>
-+      <value>False</value>
-     </param>
-     <param>
-       <key>_coordinate</key>
 -      <value>(266, 149)</value>
-+      <value>(15, 489)</value>
++      <value>(16, 232)</value>
      </param>
      <param>
        <key>_rotation</key>
@@ -4127,52 +3966,53 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      <param>
        <key>id</key>
 -      <value>ntaps</value>
-+      <value>blocks_vector_source_x_0_0_0</value>
++      <value>blocks_tags_strobe_0</value>
      </param>
      <param>
 -      <key>_enabled</key>
 -      <value>True</value>
-+      <key>maxoutbuf</key>
-+      <value>0</value>
++      <key>key</key>
++      <value>pmt.intern("strobe")</value>
      </param>
      <param>
 -      <key>label</key>
 -      <value>Num Taps</value>
-+      <key>minoutbuf</key>
++      <key>maxoutbuf</key>
 +      <value>0</value>
      </param>
      <param>
 -      <key>value</key>
 -      <value>30</value>
-+      <key>type</key>
-+      <value>float</value>
++      <key>minoutbuf</key>
++      <value>0</value>
      </param>
      <param>
 -      <key>start</key>
 -      <value>1</value>
-+      <key>repeat</key>
-+      <value>True</value>
++      <key>nsamps</key>
++      <value>10000</value>
      </param>
      <param>
 -      <key>stop</key>
 -      <value>100</value>
-+      <key>tags</key>
-+      <value>tagged_streams.make_lengthtags((128,), (110,), "second stream")</value>
++      <key>type</key>
++      <value>complex</value>
      </param>
      <param>
 -      <key>step</key>
-+      <key>vlen</key>
-       <value>1</value>
+-      <value>1</value>
++      <key>value</key>
++      <value>pmt.intern("TEST")</value>
      </param>
      <param>
 -      <key>widget</key>
 -      <value>counter_slider</value>
-+      <key>vector</key>
-+      <value>10*[0,] + [0.5,] + (100-10-1)*[0,]</value>
++      <key>vlen</key>
++      <value>1</value>
      </param>
 +  </block>
 +  <block>
-+    <key>blocks_vector_source_x</key>
++    <key>blocks_throttle</key>
      <param>
 -      <key>orient</key>
 -      <value>Qt.Horizontal</value>
@@ -4192,12 +4032,12 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      </param>
      <param>
 +      <key>_enabled</key>
-+      <value>False</value>
++      <value>True</value>
 +    </param>
 +    <param>
        <key>_coordinate</key>
 -      <value>(936, 392)</value>
-+      <value>(15, 398)</value>
++      <value>(266, 149)</value>
      </param>
      <param>
        <key>_rotation</key>
@@ -4209,58 +4049,362 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      <param>
        <key>id</key>
 -      <value>qtgui_time_sink_x_0_1_0</value>
-+      <value>blocks_vector_source_x_0_1</value>
++      <value>blocks_throttle_0</value>
      </param>
      <param>
 -      <key>_enabled</key>
--      <value>True</value>
++      <key>ignoretag</key>
+       <value>True</value>
+     </param>
+     <param>
 +      <key>maxoutbuf</key>
 +      <value>0</value>
 +    </param>
 +    <param>
 +      <key>minoutbuf</key>
 +      <value>0</value>
-     </param>
-     <param>
++    </param>
++    <param>
++      <key>samples_per_second</key>
++      <value>50e3</value>
++    </param>
++    <param>
        <key>type</key>
--      <value>complex</value>
-+      <value>float</value>
+       <value>complex</value>
      </param>
      <param>
 -      <key>name</key>
--      <value></value>
-+      <key>repeat</key>
-+      <value>True</value>
++      <key>vlen</key>
++      <value>1</value>
++    </param>
++  </block>
++  <block>
++    <key>blocks_throttle</key>
++    <param>
++      <key>alias</key>
+       <value></value>
      </param>
      <param>
 -      <key>size</key>
 -      <value>5100</value>
-+      <key>tags</key>
-+      <value>tagged_streams.make_lengthtags((1024,), (0,), "testing tags")</value>
++      <key>comment</key>
++      <value></value>
      </param>
      <param>
 -      <key>srate</key>
 -      <value>samp_rate</value>
-+      <key>vlen</key>
-+      <value>1</value>
++      <key>affinity</key>
++      <value></value>
      </param>
      <param>
 -      <key>ymin</key>
 -      <value>-0.1</value>
-+      <key>vector</key>
-+      <value>[-0.85,] + (100-1)*[0,]</value>
++      <key>_enabled</key>
++      <value>False</value>
      </param>
-+  </block>
-+  <block>
-+    <key>fir_filter_xxx</key>
      <param>
 -      <key>ymax</key>
 -      <value>1.5</value>
++      <key>_coordinate</key>
++      <value>(267, 414)</value>
+     </param>
+     <param>
+-      <key>nconnections</key>
+-      <value>1</value>
++      <key>_rotation</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>update_time</key>
+-      <value>0.001</value>
++      <key>id</key>
++      <value>blocks_throttle_0_0</value>
+     </param>
+     <param>
+-      <key>tr_mode</key>
+-      <value>qtgui.TRIG_MODE_TAG</value>
++      <key>ignoretag</key>
++      <value>True</value>
+     </param>
+     <param>
+-      <key>tr_slope</key>
+-      <value>qtgui.TRIG_SLOPE_POS</value>
++      <key>maxoutbuf</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>tr_level</key>
+-      <value>.5</value>
++      <key>minoutbuf</key>
++      <value>0</value>
+     </param>
+     <param>
+-      <key>tr_delay</key>
+-      <value>0.06</value>
++      <key>samples_per_second</key>
++      <value>samp_rate</value>
+     </param>
+     <param>
+-      <key>tr_chan</key>
+-      <value>0</value>
++      <key>type</key>
++      <value>float</value>
+     </param>
+     <param>
+-      <key>tr_tag</key>
+-      <value>strobe</value>
++      <key>vlen</key>
++      <value>1</value>
+     </param>
++  </block>
++  <block>
++    <key>blocks_vector_source_x</key>
+     <param>
+-      <key>entags</key>
+-      <value>True</value>
 +      <key>alias</key>
 +      <value></value>
      </param>
      <param>
--      <key>nconnections</key>
+-      <key>gui_hint</key>
+-      <value>1,1,1,1</value>
++      <key>comment</key>
++      <value></value>
+     </param>
+     <param>
+       <key>affinity</key>
+       <value></value>
+     </param>
+     <param>
++      <key>_enabled</key>
++      <value>True</value>
++    </param>
++    <param>
+       <key>_coordinate</key>
+-      <value>(857, 173)</value>
++      <value>(13, 132)</value>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>id</key>
++      <value>blocks_vector_source_x_0</value>
++    </param>
++    <param>
++      <key>maxoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>type</key>
++      <value>complex</value>
++    </param>
++    <param>
++      <key>repeat</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>tags</key>
++      <value>tagged_streams.make_lengthtags((1024,), (0,), "testing tags 0")</value>
++    </param>
++    <param>
++      <key>vlen</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>vector</key>
++      <value>[0.85+0.5j, 0.85, 0.85, 0.85+0.5j] + (10000-4)*[0,]</value>
++    </param>
++  </block>
++  <block>
++    <key>blocks_vector_source_x</key>
++    <param>
++      <key>alias</key>
++      <value></value>
++    </param>
++    <param>
++      <key>comment</key>
++      <value></value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>_coordinate</key>
++      <value>(15, 315)</value>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>id</key>
++      <value>blocks_vector_source_x_0_0</value>
++    </param>
++    <param>
++      <key>maxoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>type</key>
++      <value>complex</value>
++    </param>
++    <param>
++      <key>repeat</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>tags</key>
++      <value>tagged_streams.make_lengthtags((128,), (1500,), "second stream")</value>
++    </param>
++    <param>
++      <key>vlen</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>vector</key>
++      <value>1500*[0,] + [0.25+0j,] + (10000-1500-1)*[0,]</value>
++    </param>
++  </block>
++  <block>
++    <key>blocks_vector_source_x</key>
++    <param>
++      <key>alias</key>
++      <value></value>
++    </param>
++    <param>
++      <key>comment</key>
++      <value></value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>_coordinate</key>
++      <value>(15, 489)</value>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>id</key>
++      <value>blocks_vector_source_x_0_0_0</value>
++    </param>
++    <param>
++      <key>maxoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>type</key>
++      <value>float</value>
++    </param>
++    <param>
++      <key>repeat</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>tags</key>
++      <value>tagged_streams.make_lengthtags((128,), (110,), "second stream")</value>
++    </param>
++    <param>
++      <key>vlen</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>vector</key>
++      <value>10*[0,] + [0.5,] + (100-10-1)*[0,]</value>
++    </param>
++  </block>
++  <block>
++    <key>blocks_vector_source_x</key>
++    <param>
++      <key>alias</key>
++      <value></value>
++    </param>
++    <param>
++      <key>comment</key>
++      <value></value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>_coordinate</key>
++      <value>(15, 398)</value>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>id</key>
++      <value>blocks_vector_source_x_0_1</value>
++    </param>
++    <param>
++      <key>maxoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>minoutbuf</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>type</key>
++      <value>float</value>
++    </param>
++    <param>
++      <key>repeat</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>tags</key>
++      <value>tagged_streams.make_lengthtags((1024,), (0,), "testing tags")</value>
++    </param>
++    <param>
++      <key>vlen</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>vector</key>
++      <value>[-0.85,] + (100-1)*[0,]</value>
++    </param>
++  </block>
++  <block>
++    <key>fir_filter_xxx</key>
++    <param>
++      <key>alias</key>
++      <value></value>
++    </param>
++    <param>
 +      <key>comment</key>
 +      <value></value>
 +    </param>
@@ -4270,70 +4414,52 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    </param>
 +    <param>
 +      <key>decim</key>
-       <value>1</value>
-     </param>
-     <param>
--      <key>update_time</key>
--      <value>0.001</value>
++      <value>1</value>
++    </param>
++    <param>
 +      <key>_enabled</key>
 +      <value>True</value>
-     </param>
-     <param>
--      <key>tr_mode</key>
--      <value>qtgui.TRIG_MODE_TAG</value>
++    </param>
++    <param>
 +      <key>_coordinate</key>
 +      <value>(660, 76)</value>
-     </param>
-     <param>
--      <key>tr_slope</key>
--      <value>qtgui.TRIG_SLOPE_POS</value>
++    </param>
++    <param>
 +      <key>_rotation</key>
 +      <value>0</value>
-     </param>
-     <param>
--      <key>tr_level</key>
--      <value>.5</value>
++    </param>
++    <param>
 +      <key>id</key>
 +      <value>fir_filter_xxx_0</value>
-     </param>
-     <param>
--      <key>tr_delay</key>
--      <value>0.06</value>
++    </param>
++    <param>
 +      <key>maxoutbuf</key>
 +      <value>0</value>
-     </param>
-     <param>
--      <key>tr_chan</key>
++    </param>
++    <param>
 +      <key>minoutbuf</key>
-       <value>0</value>
-     </param>
-     <param>
--      <key>tr_tag</key>
--      <value>strobe</value>
++      <value>0</value>
++    </param>
++    <param>
 +      <key>samp_delay</key>
 +      <value>int(ntaps)</value>
-     </param>
-     <param>
--      <key>entags</key>
--      <value>True</value>
++    </param>
++    <param>
 +      <key>taps</key>
 +      <value>int(ntaps)*[1,]+[1,]</value>
-     </param>
-     <param>
--      <key>gui_hint</key>
--      <value>1,1,1,1</value>
++    </param>
++    <param>
 +      <key>type</key>
 +      <value>ccc</value>
-     </param>
++    </param>
 +  </block>
 +  <block>
 +    <key>import</key>
-     <param>
--      <key>affinity</key>
++    <param>
 +      <key>alias</key>
-       <value></value>
-     </param>
-     <param>
++      <value></value>
++    </param>
++    <param>
 +      <key>comment</key>
 +      <value></value>
 +    </param>
@@ -4342,14 +4468,13 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +      <value>True</value>
 +    </param>
 +    <param>
-       <key>_coordinate</key>
--      <value>(857, 173)</value>
++      <key>_coordinate</key>
 +      <value>(9, 71)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
 +    <param>
 +      <key>id</key>
 +      <value>import_0</value>
@@ -4358,77 +4483,60 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +      <key>import</key>
 +      <value>import scipy</value>
 +    </param>
-   </block>
-   <block>
--    <key>blocks_vector_source_x</key>
++  </block>
++  <block>
 +    <key>import</key>
-     <param>
--      <key>id</key>
--      <value>blocks_vector_source_x_0_0</value>
++    <param>
 +      <key>alias</key>
 +      <value></value>
 +    </param>
 +    <param>
 +      <key>comment</key>
 +      <value></value>
-     </param>
-     <param>
-       <key>_enabled</key>
-       <value>True</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>complex</value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>True</value>
++    </param>
++    <param>
 +      <key>_coordinate</key>
 +      <value>(99, 72)</value>
-     </param>
-     <param>
--      <key>vector</key>
--      <value>1500*[0,] + [0.25+0j,] + (10000-1500-1)*[0,]</value>
++    </param>
++    <param>
 +      <key>_rotation</key>
 +      <value>0</value>
-     </param>
-     <param>
--      <key>tags</key>
--      <value>tagged_streams.make_lengthtags((128,), (1500,), "second stream")</value>
++    </param>
++    <param>
 +      <key>id</key>
 +      <value>import_1</value>
-     </param>
-     <param>
--      <key>repeat</key>
--      <value>True</value>
++    </param>
++    <param>
 +      <key>import</key>
 +      <value>from gnuradio.digital.utils import tagged_streams</value>
-     </param>
++    </param>
 +  </block>
 +  <block>
 +    <key>import</key>
-     <param>
--      <key>vlen</key>
--      <value>1</value>
++    <param>
 +      <key>alias</key>
 +      <value></value>
-     </param>
-     <param>
--      <key>affinity</key>
++    </param>
++    <param>
 +      <key>comment</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
++      <value></value>
++    </param>
++    <param>
 +      <key>_enabled</key>
 +      <value>True</value>
-     </param>
-     <param>
-       <key>_coordinate</key>
--      <value>(15, 315)</value>
++    </param>
++    <param>
++      <key>_coordinate</key>
 +      <value>(253, 71)</value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
 +    <param>
 +      <key>id</key>
 +      <value>import_2</value>
@@ -4437,10 +4545,10 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +      <key>import</key>
 +      <value>import time</value>
 +    </param>
-   </block>
-   <block>
-     <key>qtgui_time_sink_x</key>
-     <param>
++  </block>
++  <block>
++    <key>qtgui_time_sink_x</key>
++    <param>
 +      <key>autoscale</key>
 +      <value>False</value>
 +    </param>
@@ -4485,17 +4593,14 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +      <value>False</value>
 +    </param>
 +    <param>
-       <key>id</key>
-       <value>qtgui_time_sink_x_0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
++      <key>id</key>
++      <value>qtgui_time_sink_x_0</value>
++    </param>
++    <param>
 +      <key>legend</key>
-       <value>True</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>complex</value>
++      <value>True</value>
++    </param>
++    <param>
 +      <key>alpha1</key>
 +      <value>1.0</value>
 +    </param>
@@ -4720,6 +4825,825 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +      <value>"dark green"</value>
 +    </param>
 +    <param>
++      <key>label9</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker9</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style9</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width9</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>name</key>
++      <value></value>
++    </param>
++    <param>
++      <key>nconnections</key>
++      <value>2</value>
++    </param>
++    <param>
++      <key>size</key>
++      <value>18000</value>
++    </param>
++    <param>
++      <key>srate</key>
++      <value>samp_rate</value>
++    </param>
++    <param>
++      <key>tr_chan</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>tr_delay</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>tr_level</key>
++      <value>0.1</value>
++    </param>
++    <param>
++      <key>tr_mode</key>
++      <value>qtgui.TRIG_MODE_NORM</value>
++    </param>
++    <param>
++      <key>tr_slope</key>
++      <value>qtgui.TRIG_SLOPE_POS</value>
++    </param>
++    <param>
++      <key>tr_tag</key>
++      <value>""</value>
++    </param>
++    <param>
++      <key>type</key>
++      <value>complex</value>
++    </param>
++    <param>
++      <key>update_time</key>
++      <value>0.10</value>
++    </param>
++    <param>
++      <key>ylabel</key>
++      <value>Amplitude</value>
++    </param>
++    <param>
++      <key>yunit</key>
++      <value>""</value>
++    </param>
++    <param>
++      <key>ymax</key>
++      <value>1.5</value>
++    </param>
++    <param>
++      <key>ymin</key>
++      <value>-0.1</value>
++    </param>
++  </block>
++  <block>
++    <key>qtgui_time_sink_x</key>
++    <param>
++      <key>autoscale</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>alias</key>
++      <value></value>
++    </param>
++    <param>
++      <key>comment</key>
++      <value></value>
++    </param>
++    <param>
++      <key>ctrlpanel</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>entags</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>_coordinate</key>
++      <value>(475, 444)</value>
++    </param>
++    <param>
++      <key>gui_hint</key>
++      <value></value>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>grid</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>id</key>
++      <value>qtgui_time_sink_x_0_0</value>
++    </param>
++    <param>
++      <key>legend</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>alpha1</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color1</key>
++      <value>"blue"</value>
++    </param>
++    <param>
++      <key>label1</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker1</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style1</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width1</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha10</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color10</key>
++      <value>"blue"</value>
++    </param>
++    <param>
++      <key>label10</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker10</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style10</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width10</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha2</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color2</key>
++      <value>"red"</value>
++    </param>
++    <param>
++      <key>label2</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker2</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style2</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width2</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha3</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color3</key>
++      <value>"green"</value>
++    </param>
++    <param>
++      <key>label3</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker3</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style3</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width3</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha4</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color4</key>
++      <value>"black"</value>
++    </param>
++    <param>
++      <key>label4</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker4</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style4</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width4</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha5</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color5</key>
++      <value>"cyan"</value>
++    </param>
++    <param>
++      <key>label5</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker5</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style5</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width5</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha6</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color6</key>
++      <value>"magenta"</value>
++    </param>
++    <param>
++      <key>label6</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker6</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style6</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width6</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha7</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color7</key>
++      <value>"yellow"</value>
++    </param>
++    <param>
++      <key>label7</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker7</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style7</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width7</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha8</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color8</key>
++      <value>"dark red"</value>
++    </param>
++    <param>
++      <key>label8</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker8</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style8</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width8</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha9</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color9</key>
++      <value>"dark green"</value>
++    </param>
++    <param>
++      <key>label9</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker9</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style9</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width9</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>name</key>
++      <value></value>
++    </param>
++    <param>
++      <key>nconnections</key>
++      <value>2</value>
++    </param>
++    <param>
++      <key>size</key>
++      <value>1024</value>
++    </param>
++    <param>
++      <key>srate</key>
++      <value>samp_rate</value>
++    </param>
++    <param>
++      <key>tr_chan</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>tr_delay</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>tr_level</key>
++      <value>0.0</value>
++    </param>
++    <param>
++      <key>tr_mode</key>
++      <value>qtgui.TRIG_MODE_TAG</value>
++    </param>
++    <param>
++      <key>tr_slope</key>
++      <value>qtgui.TRIG_SLOPE_POS</value>
++    </param>
++    <param>
++      <key>tr_tag</key>
++      <value>second stream</value>
++    </param>
++    <param>
++      <key>type</key>
++      <value>float</value>
++    </param>
++    <param>
++      <key>update_time</key>
++      <value>0.10</value>
++    </param>
++    <param>
++      <key>ylabel</key>
++      <value>Amplitude</value>
++    </param>
++    <param>
++      <key>yunit</key>
++      <value>""</value>
++    </param>
++    <param>
++      <key>ymax</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>ymin</key>
++      <value>-1</value>
++    </param>
++  </block>
++  <block>
++    <key>qtgui_time_sink_x</key>
++    <param>
++      <key>autoscale</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>alias</key>
++      <value></value>
++    </param>
++    <param>
++      <key>comment</key>
++      <value></value>
++    </param>
++    <param>
++      <key>ctrlpanel</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>affinity</key>
++      <value></value>
++    </param>
++    <param>
++      <key>entags</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>_enabled</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>_coordinate</key>
++      <value>(1072, 77)</value>
++    </param>
++    <param>
++      <key>gui_hint</key>
++      <value>1,0,1,1</value>
++    </param>
++    <param>
++      <key>_rotation</key>
++      <value>0</value>
++    </param>
++    <param>
++      <key>grid</key>
++      <value>False</value>
++    </param>
++    <param>
++      <key>id</key>
++      <value>qtgui_time_sink_x_0_1</value>
++    </param>
++    <param>
++      <key>legend</key>
++      <value>True</value>
++    </param>
++    <param>
++      <key>alpha1</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color1</key>
++      <value>"blue"</value>
++    </param>
++    <param>
++      <key>label1</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker1</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style1</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width1</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha10</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color10</key>
++      <value>"blue"</value>
++    </param>
++    <param>
++      <key>label10</key>
++      <value></value>
++    </param>
++    <param>
++      <key>marker10</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style10</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>width10</key>
++      <value>1</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_vector_source_x</key>
+     <param>
+-      <key>id</key>
+-      <value>blocks_vector_source_x_0_0</value>
++      <key>alpha2</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <key>color2</key>
++      <value>"red"</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>complex</value>
++      <key>label2</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>vector</key>
+-      <value>1500*[0,] + [0.25+0j,] + (10000-1500-1)*[0,]</value>
++      <key>marker2</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>tags</key>
+-      <value>tagged_streams.make_lengthtags((128,), (1500,), "second stream")</value>
++      <key>style2</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>repeat</key>
+-      <value>True</value>
++      <key>width2</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>vlen</key>
+-      <value>1</value>
++      <key>alpha3</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>affinity</key>
+-      <value></value>
++      <key>color3</key>
++      <value>"green"</value>
+     </param>
+     <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
++      <key>label3</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(15, 315)</value>
++      <key>marker3</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>style3</key>
++      <value>1</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>qtgui_time_sink_x</key>
+     <param>
+-      <key>id</key>
+-      <value>qtgui_time_sink_x_0</value>
++      <key>width3</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <key>alpha4</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>complex</value>
++      <key>color4</key>
++      <value>"black"</value>
+     </param>
+     <param>
+-      <key>name</key>
++      <key>label4</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>size</key>
+-      <value>18000</value>
++      <key>marker4</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>srate</key>
+-      <value>samp_rate</value>
++      <key>style4</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>ymin</key>
+-      <value>-0.1</value>
++      <key>width4</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>ymax</key>
+-      <value>1.5</value>
++      <key>alpha5</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>nconnections</key>
+-      <value>2</value>
++      <key>color5</key>
++      <value>"cyan"</value>
+     </param>
+     <param>
+-      <key>update_time</key>
+-      <value>0.10</value>
++      <key>label5</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>tr_mode</key>
+-      <value>qtgui.TRIG_MODE_NORM</value>
++      <key>marker5</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>tr_slope</key>
+-      <value>qtgui.TRIG_SLOPE_POS</value>
++      <key>style5</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>tr_level</key>
+-      <value>0.1</value>
++      <key>width5</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>tr_delay</key>
+-      <value>0</value>
++      <key>alpha6</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>tr_chan</key>
+-      <value>0</value>
++      <key>color6</key>
++      <value>"magenta"</value>
+     </param>
+     <param>
+-      <key>tr_tag</key>
+-      <value>""</value>
++      <key>label6</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>entags</key>
+-      <value>True</value>
++      <key>marker6</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>gui_hint</key>
+-      <value></value>
++      <key>style6</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>affinity</key>
+-      <value></value>
++      <key>width6</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(860, 298)</value>
++      <key>alpha7</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>color7</key>
++      <value>"yellow"</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>fir_filter_xxx</key>
+     <param>
+-      <key>id</key>
+-      <value>fir_filter_xxx_0</value>
++      <key>label7</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <key>marker7</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>ccc</value>
++      <key>style7</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>decim</key>
++      <key>width7</key>
+       <value>1</value>
+     </param>
+     <param>
+-      <key>taps</key>
+-      <value>int(ntaps)*[1,]+[1,]</value>
++      <key>alpha8</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>samp_delay</key>
+-      <value>int(ntaps)</value>
++      <key>color8</key>
++      <value>"dark red"</value>
+     </param>
+     <param>
+-      <key>affinity</key>
++      <key>label8</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
++      <key>marker8</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(660, 76)</value>
++      <key>style8</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>width8</key>
++      <value>1</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>qtgui_time_sink_x</key>
+     <param>
+-      <key>id</key>
+-      <value>qtgui_time_sink_x_0_1</value>
++      <key>alpha9</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <key>color9</key>
++      <value>"dark green"</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>complex</value>
 +      <key>label9</key>
 +      <value></value>
 +    </param>
@@ -4745,9 +5669,9 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    </param>
 +    <param>
        <key>size</key>
-       <value>18000</value>
+       <value>1000</value>
      </param>
-@@ -665,20 +1365,16 @@
+@@ -795,20 +2083,16 @@
        <value>samp_rate</value>
      </param>
      <param>
@@ -4756,7 +5680,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 -    </param>
 -    <param>
 -      <key>ymax</key>
--      <value>1.5</value>
+-      <value>4.5</value>
 +      <key>tr_chan</key>
 +      <value>0</value>
      </param>
@@ -4764,440 +5688,30 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 -      <key>nconnections</key>
 -      <value>2</value>
 +      <key>tr_delay</key>
-+      <value>0</value>
++      <value>0.015</value>
      </param>
      <param>
 -      <key>update_time</key>
 -      <value>0.10</value>
 +      <key>tr_level</key>
-+      <value>0.1</value>
++      <value>.1</value>
      </param>
      <param>
        <key>tr_mode</key>
-@@ -689,509 +1385,1112 @@
-       <value>qtgui.TRIG_SLOPE_POS</value>
-     </param>
-     <param>
--      <key>tr_level</key>
--      <value>0.1</value>
-+      <key>tr_tag</key>
-+      <value>""</value>
-     </param>
-     <param>
--      <key>tr_delay</key>
--      <value>0</value>
-+      <key>type</key>
-+      <value>complex</value>
-     </param>
-     <param>
--      <key>tr_chan</key>
--      <value>0</value>
-+      <key>update_time</key>
-+      <value>0.10</value>
-     </param>
-     <param>
--      <key>tr_tag</key>
-+      <key>ylabel</key>
-+      <value>Amplitude</value>
-+    </param>
-+    <param>
-+      <key>yunit</key>
-       <value>""</value>
-     </param>
-     <param>
--      <key>entags</key>
--      <value>True</value>
-+      <key>ymax</key>
-+      <value>1.5</value>
-     </param>
-     <param>
--      <key>gui_hint</key>
-+      <key>ymin</key>
-+      <value>-0.1</value>
-+    </param>
-+  </block>
-+  <block>
-+    <key>qtgui_time_sink_x</key>
-+    <param>
-+      <key>autoscale</key>
-+      <value>False</value>
-+    </param>
-+    <param>
-+      <key>alias</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>comment</key>
-       <value></value>
-     </param>
-     <param>
-+      <key>ctrlpanel</key>
-+      <value>False</value>
-+    </param>
-+    <param>
-       <key>affinity</key>
-       <value></value>
-     </param>
-     <param>
-+      <key>entags</key>
-+      <value>True</value>
-+    </param>
-+    <param>
-+      <key>_enabled</key>
-+      <value>False</value>
-+    </param>
-+    <param>
-       <key>_coordinate</key>
--      <value>(860, 298)</value>
-+      <value>(475, 444)</value>
-+    </param>
-+    <param>
-+      <key>gui_hint</key>
-+      <value></value>
-     </param>
-     <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
--  </block>
--  <block>
--    <key>fir_filter_xxx</key>
-+    <param>
-+      <key>grid</key>
-+      <value>False</value>
-+    </param>
-     <param>
-       <key>id</key>
--      <value>fir_filter_xxx_0</value>
-+      <value>qtgui_time_sink_x_0_0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
-+      <key>legend</key>
-       <value>True</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>ccc</value>
-+      <key>alpha1</key>
-+      <value>1.0</value>
-     </param>
-     <param>
--      <key>decim</key>
-+      <key>color1</key>
-+      <value>"blue"</value>
-+    </param>
-+    <param>
-+      <key>label1</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker1</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style1</key>
-       <value>1</value>
-     </param>
-     <param>
--      <key>taps</key>
--      <value>int(ntaps)*[1,]+[1,]</value>
-+      <key>width1</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>samp_delay</key>
--      <value>int(ntaps)</value>
-+      <key>alpha10</key>
-+      <value>1.0</value>
-     </param>
-     <param>
--      <key>affinity</key>
-+      <key>color10</key>
-+      <value>"blue"</value>
-+    </param>
-+    <param>
-+      <key>label10</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
-+      <key>marker10</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>_coordinate</key>
--      <value>(660, 76)</value>
-+      <key>style10</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>_rotation</key>
--      <value>0</value>
-+      <key>width10</key>
-+      <value>1</value>
-     </param>
--  </block>
--  <block>
--    <key>qtgui_time_sink_x</key>
-     <param>
--      <key>id</key>
--      <value>qtgui_time_sink_x_0_1</value>
-+      <key>alpha2</key>
-+      <value>1.0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>True</value>
-+      <key>color2</key>
-+      <value>"red"</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>complex</value>
-+      <key>label2</key>
-+      <value></value>
-     </param>
-     <param>
--      <key>name</key>
-+      <key>marker2</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style2</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width2</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha3</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color3</key>
-+      <value>"green"</value>
-+    </param>
-+    <param>
-+      <key>label3</key>
-       <value></value>
-     </param>
-     <param>
--      <key>size</key>
--      <value>1000</value>
-+      <key>marker3</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>srate</key>
--      <value>samp_rate</value>
-+      <key>style3</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>ymin</key>
--      <value>-0.1</value>
-+      <key>width3</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>ymax</key>
--      <value>4.5</value>
-+      <key>alpha4</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color4</key>
-+      <value>"black"</value>
-+    </param>
-+    <param>
-+      <key>label4</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker4</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style4</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width4</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha5</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color5</key>
-+      <value>"cyan"</value>
-+    </param>
-+    <param>
-+      <key>label5</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker5</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style5</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width5</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha6</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color6</key>
-+      <value>"magenta"</value>
-+    </param>
-+    <param>
-+      <key>label6</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker6</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style6</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width6</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha7</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color7</key>
-+      <value>"yellow"</value>
-+    </param>
-+    <param>
-+      <key>label7</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker7</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style7</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width7</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha8</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color8</key>
-+      <value>"dark red"</value>
-+    </param>
-+    <param>
-+      <key>label8</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker8</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style8</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width8</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha9</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color9</key>
-+      <value>"dark green"</value>
-+    </param>
-+    <param>
-+      <key>label9</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker9</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style9</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width9</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>name</key>
-+      <value></value>
-     </param>
-     <param>
-       <key>nconnections</key>
-       <value>2</value>
-     </param>
-     <param>
--      <key>update_time</key>
--      <value>0.10</value>
-+      <key>size</key>
-+      <value>1024</value>
-+    </param>
-+    <param>
-+      <key>srate</key>
-+      <value>samp_rate</value>
-+    </param>
-+    <param>
-+      <key>tr_chan</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>tr_delay</key>
-+      <value>0</value>
-+    </param>
-+    <param>
-+      <key>tr_level</key>
-+      <value>0.0</value>
-     </param>
-     <param>
-       <key>tr_mode</key>
--      <value>qtgui.TRIG_MODE_NORM</value>
-+      <value>qtgui.TRIG_MODE_TAG</value>
-     </param>
-     <param>
-       <key>tr_slope</key>
+@@ -819,379 +2103,394 @@
        <value>qtgui.TRIG_SLOPE_POS</value>
      </param>
      <param>
 -      <key>tr_level</key>
 -      <value>.1</value>
 +      <key>tr_tag</key>
-+      <value>second stream</value>
++      <value>""</value>
      </param>
      <param>
 -      <key>tr_delay</key>
 -      <value>0.015</value>
 +      <key>type</key>
-+      <value>float</value>
++      <value>complex</value>
      </param>
      <param>
 -      <key>tr_chan</key>
@@ -5218,465 +5732,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 -      <key>entags</key>
 -      <value>True</value>
 +      <key>ymax</key>
-+      <value>1</value>
++      <value>4.5</value>
      </param>
      <param>
 -      <key>gui_hint</key>
 -      <value>1,0,1,1</value>
-+      <key>ymin</key>
-+      <value>-1</value>
-+    </param>
-+  </block>
-+  <block>
-+    <key>qtgui_time_sink_x</key>
-+    <param>
-+      <key>autoscale</key>
-+      <value>False</value>
-+    </param>
-+    <param>
-+      <key>alias</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>comment</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>ctrlpanel</key>
-+      <value>False</value>
-     </param>
-     <param>
-       <key>affinity</key>
-       <value></value>
-     </param>
-     <param>
-+      <key>entags</key>
-+      <value>True</value>
-+    </param>
-+    <param>
-+      <key>_enabled</key>
-+      <value>True</value>
-+    </param>
-+    <param>
-       <key>_coordinate</key>
-       <value>(1072, 77)</value>
-     </param>
-     <param>
-+      <key>gui_hint</key>
-+      <value>1,0,1,1</value>
-+    </param>
-+    <param>
-       <key>_rotation</key>
-       <value>0</value>
-     </param>
--  </block>
--  <block>
--    <key>qtgui_time_sink_x</key>
-+    <param>
-+      <key>grid</key>
-+      <value>False</value>
-+    </param>
-     <param>
-       <key>id</key>
--      <value>qtgui_time_sink_x_0_0</value>
-+      <value>qtgui_time_sink_x_0_1</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>False</value>
-+      <key>legend</key>
-+      <value>True</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>float</value>
-+      <key>alpha1</key>
-+      <value>1.0</value>
-     </param>
-     <param>
--      <key>name</key>
-+      <key>color1</key>
-+      <value>"blue"</value>
-+    </param>
-+    <param>
-+      <key>label1</key>
-       <value></value>
-     </param>
-     <param>
--      <key>size</key>
--      <value>1024</value>
-+      <key>marker1</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>srate</key>
--      <value>samp_rate</value>
-+      <key>style1</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>ymin</key>
-+      <key>width1</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha10</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color10</key>
-+      <value>"blue"</value>
-+    </param>
-+    <param>
-+      <key>label10</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker10</key>
-       <value>-1</value>
-     </param>
-     <param>
--      <key>ymax</key>
-+      <key>style10</key>
-       <value>1</value>
-     </param>
-     <param>
--      <key>nconnections</key>
--      <value>2</value>
-+      <key>width10</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>update_time</key>
--      <value>0.10</value>
-+      <key>alpha2</key>
-+      <value>1.0</value>
-     </param>
-     <param>
--      <key>tr_mode</key>
--      <value>qtgui.TRIG_MODE_TAG</value>
-+      <key>color2</key>
-+      <value>"red"</value>
-     </param>
-     <param>
--      <key>tr_slope</key>
--      <value>qtgui.TRIG_SLOPE_POS</value>
-+      <key>label2</key>
-+      <value></value>
-     </param>
-     <param>
--      <key>tr_level</key>
--      <value>0.0</value>
-+      <key>marker2</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>tr_delay</key>
--      <value>0</value>
-+      <key>style2</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>tr_chan</key>
-+      <key>width2</key>
-       <value>1</value>
-     </param>
-     <param>
--      <key>tr_tag</key>
--      <value>second stream</value>
-+      <key>alpha3</key>
-+      <value>1.0</value>
-     </param>
-     <param>
--      <key>entags</key>
--      <value>True</value>
-+      <key>color3</key>
-+      <value>"green"</value>
-     </param>
-     <param>
--      <key>gui_hint</key>
-+      <key>label3</key>
-       <value></value>
-     </param>
-     <param>
--      <key>affinity</key>
-+      <key>marker3</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style3</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width3</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha4</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color4</key>
-+      <value>"black"</value>
-+    </param>
-+    <param>
-+      <key>label4</key>
-       <value></value>
-     </param>
-     <param>
--      <key>_coordinate</key>
--      <value>(475, 444)</value>
-+      <key>marker4</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>_rotation</key>
--      <value>0</value>
-+      <key>style4</key>
-+      <value>1</value>
-     </param>
--  </block>
--  <block>
--    <key>blocks_vector_source_x</key>
-     <param>
--      <key>id</key>
--      <value>blocks_vector_source_x_0_0_0</value>
-+      <key>width4</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>False</value>
-+      <key>alpha5</key>
-+      <value>1.0</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>float</value>
-+      <key>color5</key>
-+      <value>"cyan"</value>
-     </param>
-     <param>
--      <key>vector</key>
--      <value>10*[0,] + [0.5,] + (100-10-1)*[0,]</value>
-+      <key>label5</key>
-+      <value></value>
-     </param>
-     <param>
--      <key>tags</key>
--      <value>tagged_streams.make_lengthtags((128,), (110,), "second stream")</value>
-+      <key>marker5</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>repeat</key>
--      <value>True</value>
-+      <key>style5</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>vlen</key>
-+      <key>width5</key>
-       <value>1</value>
-     </param>
-     <param>
--      <key>affinity</key>
-+      <key>alpha6</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color6</key>
-+      <value>"magenta"</value>
-+    </param>
-+    <param>
-+      <key>label6</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
-+      <key>marker6</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>_coordinate</key>
--      <value>(15, 489)</value>
-+      <key>style6</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>_rotation</key>
--      <value>0</value>
-+      <key>width6</key>
-+      <value>1</value>
-     </param>
--  </block>
--  <block>
--    <key>blocks_vector_source_x</key>
-     <param>
--      <key>id</key>
--      <value>blocks_vector_source_x_0_1</value>
-+      <key>alpha7</key>
-+      <value>1.0</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>False</value>
-+      <key>color7</key>
-+      <value>"yellow"</value>
-     </param>
-     <param>
--      <key>type</key>
--      <value>float</value>
-+      <key>label7</key>
-+      <value></value>
-     </param>
-     <param>
--      <key>vector</key>
--      <value>[-0.85,] + (100-1)*[0,]</value>
-+      <key>marker7</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>tags</key>
--      <value>tagged_streams.make_lengthtags((1024,), (0,), "testing tags")</value>
-+      <key>style7</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>repeat</key>
--      <value>True</value>
-+      <key>width7</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>vlen</key>
-+      <key>alpha8</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color8</key>
-+      <value>"dark red"</value>
-+    </param>
-+    <param>
-+      <key>label8</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker8</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style8</key>
-       <value>1</value>
-     </param>
-     <param>
--      <key>affinity</key>
-+      <key>width8</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha9</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color9</key>
-+      <value>"dark green"</value>
-+    </param>
-+    <param>
-+      <key>label9</key>
-       <value></value>
-     </param>
-     <param>
--      <key>minoutbuf</key>
--      <value>0</value>
-+      <key>marker9</key>
-+      <value>-1</value>
-     </param>
-     <param>
--      <key>_coordinate</key>
--      <value>(15, 398)</value>
-+      <key>style9</key>
-+      <value>1</value>
-     </param>
-     <param>
--      <key>_rotation</key>
-+      <key>width9</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>name</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>nconnections</key>
-+      <value>2</value>
-+    </param>
-+    <param>
-+      <key>size</key>
-+      <value>1000</value>
-+    </param>
-+    <param>
-+      <key>srate</key>
-+      <value>samp_rate</value>
-+    </param>
-+    <param>
-+      <key>tr_chan</key>
-       <value>0</value>
-     </param>
--  </block>
--  <block>
--    <key>blocks_throttle</key>
-     <param>
--      <key>id</key>
--      <value>blocks_throttle_0_0</value>
-+      <key>tr_delay</key>
-+      <value>0.015</value>
-     </param>
-     <param>
--      <key>_enabled</key>
--      <value>False</value>
-+      <key>tr_level</key>
-+      <value>.1</value>
-+    </param>
-+    <param>
-+      <key>tr_mode</key>
-+      <value>qtgui.TRIG_MODE_NORM</value>
-+    </param>
-+    <param>
-+      <key>tr_slope</key>
-+      <value>qtgui.TRIG_SLOPE_POS</value>
-+    </param>
-+    <param>
-+      <key>tr_tag</key>
-+      <value>""</value>
-     </param>
-     <param>
-       <key>type</key>
--      <value>float</value>
-+      <value>complex</value>
-     </param>
-     <param>
--      <key>samples_per_second</key>
--      <value>samp_rate</value>
-+      <key>update_time</key>
-+      <value>0.10</value>
-     </param>
-     <param>
--      <key>vlen</key>
--      <value>1</value>
-+      <key>ylabel</key>
-+      <value>Amplitude</value>
-+    </param>
-+    <param>
-+      <key>yunit</key>
-+      <value>""</value>
-+    </param>
-+    <param>
-+      <key>ymax</key>
-+      <value>4.5</value>
-+    </param>
-+    <param>
 +      <key>ymin</key>
 +      <value>-0.1</value>
 +    </param>
@@ -5704,18 +5764,16 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
        <value></value>
      </param>
      <param>
--      <key>minoutbuf</key>
--      <value>0</value>
 +      <key>entags</key>
 +      <value>True</value>
 +    </param>
 +    <param>
 +      <key>_enabled</key>
 +      <value>True</value>
-     </param>
-     <param>
++    </param>
++    <param>
        <key>_coordinate</key>
--      <value>(267, 414)</value>
+-      <value>(1072, 77)</value>
 +      <value>(857, 173)</value>
 +    </param>
 +    <param>
@@ -5728,81 +5786,398 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      </param>
 -  </block>
 -  <block>
--    <key>blocks_delay</key>
-+    <param>
+-    <key>qtgui_time_sink_x</key>
+     <param>
+-      <key>id</key>
+-      <value>qtgui_time_sink_x_0_0</value>
 +      <key>grid</key>
 +      <value>False</value>
-+    </param>
-     <param>
-       <key>id</key>
--      <value>blocks_delay_0_0</value>
-+      <value>qtgui_time_sink_x_0_1_0</value>
      </param>
      <param>
 -      <key>_enabled</key>
-+      <key>legend</key>
-       <value>True</value>
+-      <value>False</value>
++      <key>id</key>
++      <value>qtgui_time_sink_x_0_1_0</value>
      </param>
      <param>
 -      <key>type</key>
--      <value>complex</value>
+-      <value>float</value>
++      <key>legend</key>
++      <value>True</value>
+     </param>
+     <param>
+-      <key>name</key>
+-      <value></value>
 +      <key>alpha1</key>
 +      <value>1.0</value>
      </param>
      <param>
--      <key>delay</key>
--      <value>int(delay)</value>
+-      <key>size</key>
+-      <value>1024</value>
 +      <key>color1</key>
 +      <value>"blue"</value>
      </param>
      <param>
--      <key>num_ports</key>
+-      <key>srate</key>
+-      <value>samp_rate</value>
 +      <key>label1</key>
 +      <value></value>
-+    </param>
-+    <param>
+     </param>
+     <param>
+-      <key>ymin</key>
 +      <key>marker1</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
+       <value>-1</value>
+     </param>
+     <param>
+-      <key>ymax</key>
 +      <key>style1</key>
        <value>1</value>
      </param>
      <param>
--      <key>vlen</key>
+-      <key>nconnections</key>
+-      <value>2</value>
 +      <key>width1</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>update_time</key>
+-      <value>0.10</value>
++      <key>alpha10</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>tr_mode</key>
+-      <value>qtgui.TRIG_MODE_TAG</value>
++      <key>color10</key>
++      <value>"blue"</value>
+     </param>
+     <param>
+-      <key>tr_slope</key>
+-      <value>qtgui.TRIG_SLOPE_POS</value>
++      <key>label10</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>tr_level</key>
+-      <value>0.0</value>
++      <key>marker10</key>
++      <value>-1</value>
++    </param>
++    <param>
++      <key>style10</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>width10</key>
++      <value>1</value>
++    </param>
++    <param>
++      <key>alpha2</key>
++      <value>1.0</value>
++    </param>
++    <param>
++      <key>color2</key>
++      <value>"red"</value>
++    </param>
++    <param>
++      <key>label2</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>tr_delay</key>
+-      <value>0</value>
++      <key>marker2</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>tr_chan</key>
++      <key>style2</key>
+       <value>1</value>
+     </param>
+     <param>
+-      <key>tr_tag</key>
+-      <value>second stream</value>
++      <key>width2</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>entags</key>
+-      <value>True</value>
++      <key>alpha3</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>gui_hint</key>
+-      <value></value>
++      <key>color3</key>
++      <value>"green"</value>
+     </param>
+     <param>
+-      <key>affinity</key>
++      <key>label3</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(475, 444)</value>
++      <key>marker3</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>style3</key>
++      <value>1</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_vector_source_x</key>
+     <param>
+-      <key>id</key>
+-      <value>blocks_vector_source_x_0_0_0</value>
++      <key>width3</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>False</value>
++      <key>alpha4</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>float</value>
++      <key>color4</key>
++      <value>"black"</value>
+     </param>
+     <param>
+-      <key>vector</key>
+-      <value>10*[0,] + [0.5,] + (100-10-1)*[0,]</value>
++      <key>label4</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>tags</key>
+-      <value>tagged_streams.make_lengthtags((128,), (110,), "second stream")</value>
++      <key>marker4</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>repeat</key>
+-      <value>True</value>
++      <key>style4</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>vlen</key>
++      <key>width4</key>
        <value>1</value>
      </param>
      <param>
 -      <key>affinity</key>
-+      <key>alpha10</key>
+-      <value></value>
++      <key>alpha5</key>
 +      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color10</key>
-+      <value>"blue"</value>
-+    </param>
-+    <param>
-+      <key>label10</key>
+     </param>
+     <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
++      <key>color5</key>
++      <value>"cyan"</value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(15, 489)</value>
++      <key>label5</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>marker5</key>
++      <value>-1</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_vector_source_x</key>
+     <param>
+-      <key>id</key>
+-      <value>blocks_vector_source_x_0_1</value>
++      <key>style5</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>False</value>
++      <key>width5</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>float</value>
++      <key>alpha6</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>vector</key>
+-      <value>[-0.85,] + (100-1)*[0,]</value>
++      <key>color6</key>
++      <value>"magenta"</value>
+     </param>
+     <param>
+-      <key>tags</key>
+-      <value>tagged_streams.make_lengthtags((1024,), (0,), "testing tags")</value>
++      <key>label6</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>repeat</key>
+-      <value>True</value>
++      <key>marker6</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>vlen</key>
++      <key>style6</key>
+       <value>1</value>
+     </param>
+     <param>
+-      <key>affinity</key>
+-      <value></value>
++      <key>width6</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
++      <key>alpha7</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>_coordinate</key>
+-      <value>(15, 398)</value>
++      <key>color7</key>
++      <value>"yellow"</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>label7</key>
++      <value></value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_throttle</key>
+     <param>
+-      <key>id</key>
+-      <value>blocks_throttle_0_0</value>
++      <key>marker7</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>False</value>
++      <key>style7</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>float</value>
++      <key>width7</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>samples_per_second</key>
+-      <value>samp_rate</value>
++      <key>alpha8</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>vlen</key>
+-      <value>1</value>
++      <key>color8</key>
++      <value>"dark red"</value>
+     </param>
+     <param>
+-      <key>affinity</key>
++      <key>label8</key>
        <value></value>
      </param>
      <param>
 -      <key>minoutbuf</key>
 -      <value>0</value>
-+      <key>marker10</key>
++      <key>marker8</key>
 +      <value>-1</value>
      </param>
      <param>
 -      <key>_coordinate</key>
--      <value>(890, 44)</value>
-+      <key>style10</key>
+-      <value>(267, 414)</value>
++      <key>style8</key>
 +      <value>1</value>
      </param>
      <param>
 -      <key>_rotation</key>
 -      <value>0</value>
-+      <key>width10</key>
++      <key>width8</key>
 +      <value>1</value>
+     </param>
+-  </block>
+-  <block>
+-    <key>blocks_delay</key>
+     <param>
+-      <key>id</key>
+-      <value>blocks_delay_0_0</value>
++      <key>alpha9</key>
++      <value>1.0</value>
+     </param>
+     <param>
+-      <key>_enabled</key>
+-      <value>True</value>
++      <key>color9</key>
++      <value>"dark green"</value>
+     </param>
+     <param>
+-      <key>type</key>
+-      <value>complex</value>
++      <key>label9</key>
++      <value></value>
+     </param>
+     <param>
+-      <key>delay</key>
+-      <value>int(delay)</value>
++      <key>marker9</key>
++      <value>-1</value>
+     </param>
+     <param>
+-      <key>num_ports</key>
++      <key>style9</key>
+       <value>1</value>
+     </param>
+     <param>
+-      <key>vlen</key>
++      <key>width9</key>
+       <value>1</value>
+     </param>
+     <param>
+-      <key>affinity</key>
++      <key>name</key>
+       <value></value>
+     </param>
+     <param>
+-      <key>minoutbuf</key>
+-      <value>0</value>
+-    </param>
+-    <param>
+-      <key>_coordinate</key>
+-      <value>(890, 44)</value>
++      <key>nconnections</key>
++      <value>1</value>
+     </param>
+     <param>
+-      <key>_rotation</key>
+-      <value>0</value>
++      <key>size</key>
++      <value>5100</value>
      </param>
 -  </block>
 -  <block>
@@ -5810,282 +6185,81 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      <param>
 -      <key>id</key>
 -      <value>delay</value>
-+      <key>alpha2</key>
-+      <value>1.0</value>
++      <key>srate</key>
++      <value>samp_rate</value>
      </param>
      <param>
 -      <key>_enabled</key>
 -      <value>True</value>
-+      <key>color2</key>
-+      <value>"red"</value>
++      <key>tr_chan</key>
++      <value>0</value>
      </param>
      <param>
 -      <key>label</key>
 -      <value>Delay</value>
-+      <key>label2</key>
-+      <value></value>
++      <key>tr_delay</key>
++      <value>0.06</value>
      </param>
      <param>
 -      <key>value</key>
 -      <value>300</value>
-+      <key>marker2</key>
-+      <value>-1</value>
++      <key>tr_level</key>
++      <value>.5</value>
      </param>
      <param>
 -      <key>start</key>
 -      <value>0</value>
-+      <key>style2</key>
-+      <value>1</value>
++      <key>tr_mode</key>
++      <value>qtgui.TRIG_MODE_TAG</value>
      </param>
      <param>
 -      <key>stop</key>
 -      <value>1000</value>
-+      <key>width2</key>
-+      <value>1</value>
++      <key>tr_slope</key>
++      <value>qtgui.TRIG_SLOPE_POS</value>
      </param>
      <param>
 -      <key>step</key>
-+      <key>alpha3</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color3</key>
-+      <value>"green"</value>
-+    </param>
-+    <param>
-+      <key>label3</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker3</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style3</key>
-       <value>1</value>
+-      <value>1</value>
++      <key>tr_tag</key>
++      <value>strobe</value>
      </param>
      <param>
 -      <key>widget</key>
 -      <value>counter_slider</value>
-+      <key>width3</key>
-+      <value>1</value>
++      <key>type</key>
++      <value>complex</value>
      </param>
      <param>
 -      <key>orient</key>
 -      <value>Qt.Horizontal</value>
-+      <key>alpha4</key>
-+      <value>1.0</value>
++      <key>update_time</key>
++      <value>0.001</value>
      </param>
      <param>
 -      <key>min_len</key>
 -      <value>200</value>
-+      <key>color4</key>
-+      <value>"black"</value>
++      <key>ylabel</key>
++      <value>Amplitude</value>
      </param>
      <param>
 -      <key>gui_hint</key>
-+      <key>label4</key>
-       <value></value>
+-      <value></value>
++      <key>yunit</key>
++      <value>""</value>
      </param>
      <param>
 -      <key>_coordinate</key>
 -      <value>(814, 390)</value>
-+      <key>marker4</key>
-+      <value>-1</value>
++      <key>ymax</key>
++      <value>1.5</value>
      </param>
      <param>
 -      <key>_rotation</key>
-+      <key>style4</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width4</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha5</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color5</key>
-+      <value>"cyan"</value>
-+    </param>
-+    <param>
-+      <key>label5</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker5</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style5</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width5</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha6</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color6</key>
-+      <value>"magenta"</value>
-+    </param>
-+    <param>
-+      <key>label6</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker6</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style6</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width6</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha7</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color7</key>
-+      <value>"yellow"</value>
-+    </param>
-+    <param>
-+      <key>label7</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker7</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style7</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width7</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha8</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color8</key>
-+      <value>"dark red"</value>
-+    </param>
-+    <param>
-+      <key>label8</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker8</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style8</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width8</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>alpha9</key>
-+      <value>1.0</value>
-+    </param>
-+    <param>
-+      <key>color9</key>
-+      <value>"dark green"</value>
-+    </param>
-+    <param>
-+      <key>label9</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>marker9</key>
-+      <value>-1</value>
-+    </param>
-+    <param>
-+      <key>style9</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>width9</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>name</key>
-+      <value></value>
-+    </param>
-+    <param>
-+      <key>nconnections</key>
-+      <value>1</value>
-+    </param>
-+    <param>
-+      <key>size</key>
-+      <value>5100</value>
-+    </param>
-+    <param>
-+      <key>srate</key>
-+      <value>samp_rate</value>
-+    </param>
-+    <param>
-+      <key>tr_chan</key>
-       <value>0</value>
-     </param>
-+    <param>
-+      <key>tr_delay</key>
-+      <value>0.06</value>
-+    </param>
-+    <param>
-+      <key>tr_level</key>
-+      <value>.5</value>
-+    </param>
-+    <param>
-+      <key>tr_mode</key>
-+      <value>qtgui.TRIG_MODE_TAG</value>
-+    </param>
-+    <param>
-+      <key>tr_slope</key>
-+      <value>qtgui.TRIG_SLOPE_POS</value>
-+    </param>
-+    <param>
-+      <key>tr_tag</key>
-+      <value>strobe</value>
-+    </param>
-+    <param>
-+      <key>type</key>
-+      <value>complex</value>
-+    </param>
-+    <param>
-+      <key>update_time</key>
-+      <value>0.001</value>
-+    </param>
-+    <param>
-+      <key>ylabel</key>
-+      <value>Amplitude</value>
-+    </param>
-+    <param>
-+      <key>yunit</key>
-+      <value>""</value>
-+    </param>
-+    <param>
-+      <key>ymax</key>
-+      <value>1.5</value>
-+    </param>
-+    <param>
+-      <value>0</value>
 +      <key>ymin</key>
 +      <value>-0.1</value>
-+    </param>
+     </param>
    </block>
    <connection>
 -    <source_block_id>blocks_vector_source_x_0</source_block_id>
@@ -6207,6 +6381,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    <sink_key>1</sink_key>
 +  </connection>
  </flow_graph>
+diff --git a/gr-qtgui/grc/CMakeLists.txt b/gr-qtgui/grc/CMakeLists.txt
+index d56158ac70..74e6958639 100644
 --- a/gr-qtgui/grc/CMakeLists.txt
 +++ b/gr-qtgui/grc/CMakeLists.txt
 @@ -19,4 +19,29 @@
@@ -6240,6 +6416,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    FILES ${xml_files} ${generated_xml_files}
 +    DESTINATION "${GRC_BLOCKS_DIR}"
 +)
+diff --git a/gr-qtgui/grc/qtgui_ber_sink_b.xml b/gr-qtgui/grc/qtgui_ber_sink_b.xml
+index da3fc6ebf8..05a36dfbc0 100644
 --- a/gr-qtgui/grc/qtgui_ber_sink_b.xml
 +++ b/gr-qtgui/grc/qtgui_ber_sink_b.xml
 @@ -7,7 +7,7 @@
@@ -6251,6 +6429,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>import sip</import>
    <import>import numpy</import>
+diff --git a/gr-qtgui/grc/qtgui_check_box.xml b/gr-qtgui/grc/qtgui_check_box.xml
+index 67c8848a22..ccee59dd92 100644
 --- a/gr-qtgui/grc/qtgui_check_box.xml
 +++ b/gr-qtgui/grc/qtgui_check_box.xml
 @@ -8,7 +8,7 @@
@@ -6262,6 +6442,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  	<var_make>self.$(id) = $(id) = $value</var_make>
  	<make>#set $win = '_%s_check_box'%$id
  #if not $label()
+diff --git a/gr-qtgui/grc/qtgui_chooser.xml b/gr-qtgui/grc/qtgui_chooser.xml
+index f018354dd4..f79bb8ccb3 100644
 --- a/gr-qtgui/grc/qtgui_chooser.xml
 +++ b/gr-qtgui/grc/qtgui_chooser.xml
 @@ -8,8 +8,8 @@
@@ -6275,6 +6457,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  	<var_make>self.$(id) = $(id) = $value</var_make>
  	<make>#slurp
  #set $all_options = [$option0, $option1, $option2, $option3, $option4][:int($num_opts())]
+diff --git a/gr-qtgui/grc/qtgui_const_sink_x.xml b/gr-qtgui/grc/qtgui_const_sink_x.xml
+index 755f12f964..10f82cce82 100644
 --- a/gr-qtgui/grc/qtgui_const_sink_x.xml
 +++ b/gr-qtgui/grc/qtgui_const_sink_x.xml
 @@ -7,7 +7,7 @@
@@ -6286,6 +6470,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>import sip</import>
    <make>#set $win = 'self._%s_win'%$id
+diff --git a/gr-qtgui/grc/qtgui_edit_box_msg.xml b/gr-qtgui/grc/qtgui_edit_box_msg.xml
+index c7c758a612..d77a4b3e1b 100644
 --- a/gr-qtgui/grc/qtgui_edit_box_msg.xml
 +++ b/gr-qtgui/grc/qtgui_edit_box_msg.xml
 @@ -7,7 +7,7 @@
@@ -6297,6 +6483,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>import sip</import>
    <make>#set $win = 'self._%s_win'%$id
+diff --git a/gr-qtgui/grc/qtgui_entry.xml b/gr-qtgui/grc/qtgui_entry.xml
+index cce2edb4b2..fc0f4089d1 100644
 --- a/gr-qtgui/grc/qtgui_entry.xml
 +++ b/gr-qtgui/grc/qtgui_entry.xml
 @@ -8,7 +8,7 @@
@@ -6308,6 +6496,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  	<import>from gnuradio import eng_notation</import>
  	<var_make>self.$(id) = $(id) = $value</var_make>
  	<make>#set $win = 'self._%s_tool_bar'%$id
+diff --git a/gr-qtgui/grc/qtgui_freq_sink_x.xml b/gr-qtgui/grc/qtgui_freq_sink_x.xml
+index 009a184327..ed39db7781 100644
 --- a/gr-qtgui/grc/qtgui_freq_sink_x.xml
 +++ b/gr-qtgui/grc/qtgui_freq_sink_x.xml
 @@ -7,7 +7,7 @@
@@ -6319,6 +6509,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>from gnuradio.filter import firdes</import>
    <import>import sip</import>
+diff --git a/gr-qtgui/grc/qtgui_histogram_sink_x.xml b/gr-qtgui/grc/qtgui_histogram_sink_x.xml
+index a789d2e4fa..9e3dcb104f 100644
 --- a/gr-qtgui/grc/qtgui_histogram_sink_x.xml
 +++ b/gr-qtgui/grc/qtgui_histogram_sink_x.xml
 @@ -7,7 +7,7 @@
@@ -6330,6 +6522,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>import sip</import>
    <make>#set $win = 'self._%s_win'%$id
+diff --git a/gr-qtgui/grc/qtgui_label.xml b/gr-qtgui/grc/qtgui_label.xml
+index d67f3d7500..946cee36ab 100644
 --- a/gr-qtgui/grc/qtgui_label.xml
 +++ b/gr-qtgui/grc/qtgui_label.xml
 @@ -9,7 +9,7 @@
@@ -6341,6 +6535,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import eng_notation</import>
    <var_make>self.$(id) = $(id) = $value</var_make>
    <make>#set $win = 'self._%s_tool_bar'%$id
+diff --git a/gr-qtgui/grc/qtgui_number_sink.xml b/gr-qtgui/grc/qtgui_number_sink.xml
+index d10b7325c0..06837493c3 100644
 --- a/gr-qtgui/grc/qtgui_number_sink.xml
 +++ b/gr-qtgui/grc/qtgui_number_sink.xml
 @@ -7,7 +7,7 @@
@@ -6352,6 +6548,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>import sip</import>
    <make>#set $win = 'self._%s_win'%$id
+diff --git a/gr-qtgui/grc/qtgui_push_button.xml b/gr-qtgui/grc/qtgui_push_button.xml
+index a535bb6473..49c2e9d6f0 100644
 --- a/gr-qtgui/grc/qtgui_push_button.xml
 +++ b/gr-qtgui/grc/qtgui_push_button.xml
 @@ -8,7 +8,7 @@
@@ -6363,6 +6561,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  	<var_make>self.$(id) = $(id) = $value</var_make>
  	<make>#set $win = '_%s_push_button'%$id
  #if not $label()
+diff --git a/gr-qtgui/grc/qtgui_sink_x.xml b/gr-qtgui/grc/qtgui_sink_x.xml
+index 7488ea59d8..a9bc469cd2 100644
 --- a/gr-qtgui/grc/qtgui_sink_x.xml
 +++ b/gr-qtgui/grc/qtgui_sink_x.xml
 @@ -7,7 +7,7 @@
@@ -6374,6 +6574,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>from gnuradio.filter import firdes</import>
    <import>import sip</import>
+diff --git a/gr-qtgui/grc/qtgui_tab_widget.xml b/gr-qtgui/grc/qtgui_tab_widget.xml
+index 1bbadc8e51..805542cc8b 100644
 --- a/gr-qtgui/grc/qtgui_tab_widget.xml
 +++ b/gr-qtgui/grc/qtgui_tab_widget.xml
 @@ -7,7 +7,7 @@
@@ -6385,6 +6587,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  	<make>#set $win = 'self.%s'%$id
  Qt.QTabWidget()
  #set $all_labels = [$label0, $label1, $label2, $label3, $label4,
+diff --git a/gr-qtgui/grc/qtgui_time_raster_x.xml b/gr-qtgui/grc/qtgui_time_raster_x.xml
+index 0359dc3b71..d458f67eb9 100644
 --- a/gr-qtgui/grc/qtgui_time_raster_x.xml
 +++ b/gr-qtgui/grc/qtgui_time_raster_x.xml
 @@ -7,7 +7,7 @@
@@ -6396,6 +6600,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>import sip</import>
    <make>#set $win = 'self._%s_win'%$id
+diff --git a/gr-qtgui/grc/qtgui_time_sink_x.xml b/gr-qtgui/grc/qtgui_time_sink_x.xml
+index 144cba60eb..d4347950ea 100644
 --- a/gr-qtgui/grc/qtgui_time_sink_x.xml
 +++ b/gr-qtgui/grc/qtgui_time_sink_x.xml
 @@ -7,7 +7,7 @@
@@ -6407,6 +6613,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>from gnuradio.filter import firdes</import>
    <import>import sip</import>
+diff --git a/gr-qtgui/grc/qtgui_vector_sink_f.xml b/gr-qtgui/grc/qtgui_vector_sink_f.xml
+index 9f40d57729..0f456323bf 100644
 --- a/gr-qtgui/grc/qtgui_vector_sink_f.xml
 +++ b/gr-qtgui/grc/qtgui_vector_sink_f.xml
 @@ -7,7 +7,7 @@
@@ -6418,6 +6626,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>import sip</import>
    <make>#set $win = 'self._%s_win'%$id
+diff --git a/gr-qtgui/grc/qtgui_waterfall_sink_x.xml b/gr-qtgui/grc/qtgui_waterfall_sink_x.xml
+index cdecd5cce1..a684492246 100644
 --- a/gr-qtgui/grc/qtgui_waterfall_sink_x.xml
 +++ b/gr-qtgui/grc/qtgui_waterfall_sink_x.xml
 @@ -7,7 +7,7 @@
@@ -6429,14 +6639,18 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
    <import>from gnuradio import qtgui</import>
    <import>from gnuradio.filter import firdes</import>
    <import>import sip</import>
+diff --git a/gr-qtgui/include/gnuradio/qtgui/CMakeLists.txt b/gr-qtgui/include/gnuradio/qtgui/CMakeLists.txt
+index 991c7583a8..92ffef9ee7 100644
 --- a/gr-qtgui/include/gnuradio/qtgui/CMakeLists.txt
 +++ b/gr-qtgui/include/gnuradio/qtgui/CMakeLists.txt
-@@ -68,5 +68,4 @@
+@@ -68,5 +68,4 @@ install(FILES
    VectorDisplayPlot.h
    vector_sink_f.h
    DESTINATION ${GR_INCLUDE_DIR}/gnuradio/qtgui
 -  COMPONENT "qtgui_devel"
  )
+diff --git a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnuradio/qtgui/form_menus.h
+index 5c77f825d8..26c63c2d75 100644
 --- a/gr-qtgui/include/gnuradio/qtgui/form_menus.h
 +++ b/gr-qtgui/include/gnuradio/qtgui/form_menus.h
 @@ -28,6 +28,11 @@
@@ -6451,9 +6665,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #include <qwt_symbol.h>
  #include <gnuradio/filter/firdes.h>
  #include <gnuradio/qtgui/qtgui_types.h>
+diff --git a/gr-qtgui/lib/CMakeLists.txt b/gr-qtgui/lib/CMakeLists.txt
+index b1ee580398..52d1770053 100644
 --- a/gr-qtgui/lib/CMakeLists.txt
 +++ b/gr-qtgui/lib/CMakeLists.txt
-@@ -45,8 +45,14 @@
+@@ -45,8 +45,14 @@ set(qtgui_moc_hdrs
      ${qtgui_mod_includedir}/VectorDisplayPlot.h
      edit_box_msg_impl.h
  )
@@ -6470,7 +6686,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
  #FIXME the sources expect <foo>.ui.h, but the macros generate ui_foo.h
  #avoid changing the sources by generating the header with the include
-@@ -129,7 +135,6 @@
+@@ -129,7 +135,6 @@ include_directories(
      ${QWT_INCLUDE_DIRS}
      ${QT_INCLUDE_DIRS}
      ${FFTW3F_INCLUDE_DIRS}
@@ -6478,7 +6694,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      ${Boost_INCLUDE_DIRS}
      ${PYTHON_INCLUDE_DIRS}
  )
-@@ -137,7 +142,6 @@
+@@ -137,7 +142,6 @@ include_directories(
  link_directories(
      ${QWT_LIBRARY_DIRS}
      ${FFTW3F_LIBRARY_DIRS}
@@ -6486,7 +6702,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      ${Boost_LIBRARY_DIRS}
  )
  
-@@ -158,7 +162,6 @@
+@@ -158,7 +162,6 @@ list(APPEND qtgui_libs
      ${QWT_LIBRARIES}
      ${QT_LIBRARIES}
      ${FFTW3F_LIBRARIES}
@@ -6494,7 +6710,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  )
  if (WIN32)
    list(APPEND qtgui_libs
-@@ -177,7 +180,7 @@
+@@ -177,7 +180,7 @@ endif(ENABLE_PYTHON)
  add_definitions(-DQWT_DLL) #setup QWT library linkage
  add_library(gnuradio-qtgui SHARED ${qtgui_sources})
  target_link_libraries(gnuradio-qtgui ${qtgui_libs})
@@ -6503,7 +6719,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  
  if(ENABLE_STATIC_LIBS)
    if(ENABLE_GR_CTRLPORT)
-@@ -199,6 +202,6 @@
+@@ -199,6 +202,6 @@ if(ENABLE_STATIC_LIBS)
    endif(NOT WIN32)
  
    install(TARGETS gnuradio-qtgui_static
@@ -6511,6 +6727,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
 +    ARCHIVE DESTINATION lib${LIB_SUFFIX} # .lib file
      )
  endif(ENABLE_STATIC_LIBS)
+diff --git a/gr-qtgui/lib/SpectrumGUIClass.cc b/gr-qtgui/lib/SpectrumGUIClass.cc
+index cf7c728251..fe1973fc75 100644
 --- a/gr-qtgui/lib/SpectrumGUIClass.cc
 +++ b/gr-qtgui/lib/SpectrumGUIClass.cc
 @@ -26,7 +26,6 @@
@@ -6521,9 +6739,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  #include <volk/volk.h>
  
  const long SpectrumGUIClass::MAX_FFT_SIZE = 32768;
+diff --git a/gr-qtgui/lib/const_sink_c_impl.cc b/gr-qtgui/lib/const_sink_c_impl.cc
+index 7d9a3941c8..3f3bbf4405 100644
 --- a/gr-qtgui/lib/const_sink_c_impl.cc
 +++ b/gr-qtgui/lib/const_sink_c_impl.cc
-@@ -127,7 +127,7 @@
+@@ -127,7 +127,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6532,9 +6752,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/edit_box_msg_impl.cc b/gr-qtgui/lib/edit_box_msg_impl.cc
+index 084e2d4f34..0dee1fa18b 100644
 --- a/gr-qtgui/lib/edit_box_msg_impl.cc
 +++ b/gr-qtgui/lib/edit_box_msg_impl.cc
-@@ -65,10 +65,6 @@
+@@ -65,10 +65,6 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6545,9 +6767,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  	d_qApplication = new QApplication(d_argc, &d_argv);
        }
  
+diff --git a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
+index ffa4e3017c..c697e8c269 100644
 --- a/gr-qtgui/lib/freq_sink_c_impl.cc
 +++ b/gr-qtgui/lib/freq_sink_c_impl.cc
-@@ -154,7 +154,7 @@
+@@ -154,7 +154,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6556,9 +6780,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/freq_sink_f_impl.cc b/gr-qtgui/lib/freq_sink_f_impl.cc
+index 3fe2572eb0..046414ffaf 100644
 --- a/gr-qtgui/lib/freq_sink_f_impl.cc
 +++ b/gr-qtgui/lib/freq_sink_f_impl.cc
-@@ -153,7 +153,7 @@
+@@ -153,7 +153,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6567,9 +6793,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/histogram_sink_f_impl.cc b/gr-qtgui/lib/histogram_sink_f_impl.cc
+index cd48de8666..13e50b217c 100644
 --- a/gr-qtgui/lib/histogram_sink_f_impl.cc
 +++ b/gr-qtgui/lib/histogram_sink_f_impl.cc
-@@ -115,7 +115,7 @@
+@@ -115,7 +115,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6578,9 +6806,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/sink_c_impl.cc b/gr-qtgui/lib/sink_c_impl.cc
+index ba34eaaa32..ba1be4b7c3 100644
 --- a/gr-qtgui/lib/sink_c_impl.cc
 +++ b/gr-qtgui/lib/sink_c_impl.cc
-@@ -130,7 +130,7 @@
+@@ -130,7 +130,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6589,9 +6819,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/sink_f_impl.cc b/gr-qtgui/lib/sink_f_impl.cc
+index 17a4f78db4..73b6fcad83 100644
 --- a/gr-qtgui/lib/sink_f_impl.cc
 +++ b/gr-qtgui/lib/sink_f_impl.cc
-@@ -130,7 +130,7 @@
+@@ -130,7 +130,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6600,9 +6832,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/time_raster_sink_b_impl.cc b/gr-qtgui/lib/time_raster_sink_b_impl.cc
+index cc13faf49a..1e2fe360b1 100644
 --- a/gr-qtgui/lib/time_raster_sink_b_impl.cc
 +++ b/gr-qtgui/lib/time_raster_sink_b_impl.cc
-@@ -130,7 +130,7 @@
+@@ -130,7 +130,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6611,9 +6845,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/time_raster_sink_f_impl.cc b/gr-qtgui/lib/time_raster_sink_f_impl.cc
+index 873bd68555..e4cbb0d38f 100644
 --- a/gr-qtgui/lib/time_raster_sink_f_impl.cc
 +++ b/gr-qtgui/lib/time_raster_sink_f_impl.cc
-@@ -128,7 +128,7 @@
+@@ -128,7 +128,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6622,9 +6858,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
+index 6fe06b74a0..b23a5468fc 100644
 --- a/gr-qtgui/lib/time_sink_c_impl.cc
 +++ b/gr-qtgui/lib/time_sink_c_impl.cc
-@@ -132,7 +132,7 @@
+@@ -132,7 +132,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6633,9 +6871,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/time_sink_f_impl.cc b/gr-qtgui/lib/time_sink_f_impl.cc
+index 1298c6c422..2b39b5536c 100644
 --- a/gr-qtgui/lib/time_sink_f_impl.cc
 +++ b/gr-qtgui/lib/time_sink_f_impl.cc
-@@ -129,7 +129,7 @@
+@@ -129,7 +129,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6644,9 +6884,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/vector_sink_f_impl.cc b/gr-qtgui/lib/vector_sink_f_impl.cc
+index 6197da4949..fedef9654d 100644
 --- a/gr-qtgui/lib/vector_sink_f_impl.cc
 +++ b/gr-qtgui/lib/vector_sink_f_impl.cc
-@@ -139,7 +139,7 @@
+@@ -139,7 +139,7 @@ namespace gr {
          d_qApplication = qApp;
        }
        else {
@@ -6655,9 +6897,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink_c_impl.cc
+index fbc655afba..4306b97d71 100644
 --- a/gr-qtgui/lib/waterfall_sink_c_impl.cc
 +++ b/gr-qtgui/lib/waterfall_sink_c_impl.cc
-@@ -154,7 +154,7 @@
+@@ -154,7 +154,7 @@ namespace gr {
  	d_qApplication = qApp;
        }
        else {
@@ -6666,9 +6910,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/lib/waterfall_sink_f_impl.cc b/gr-qtgui/lib/waterfall_sink_f_impl.cc
+index fdb8fde686..9789c2cf6d 100644
 --- a/gr-qtgui/lib/waterfall_sink_f_impl.cc
 +++ b/gr-qtgui/lib/waterfall_sink_f_impl.cc
-@@ -154,7 +154,7 @@
+@@ -154,7 +154,7 @@ namespace gr {
   	d_qApplication = qApp;
        }
        else {
@@ -6677,6 +6923,8 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          std::string style = prefs::singleton()->get_string("qtgui", "style", "raster");
          QApplication::setGraphicsSystem(QString(style.c_str()));
  #endif
+diff --git a/gr-qtgui/python/qtgui/CMakeLists.txt b/gr-qtgui/python/qtgui/CMakeLists.txt
+index 1c20033db2..5df3a7d91b 100644
 --- a/gr-qtgui/python/qtgui/CMakeLists.txt
 +++ b/gr-qtgui/python/qtgui/CMakeLists.txt
 @@ -20,12 +20,20 @@
@@ -6703,610 +6951,138 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  )
  
  ########################################################################
+diff --git a/gr-qtgui/python/qtgui/range.py b/gr-qtgui/python/qtgui/range.py.cmakein
+old mode 100755
+new mode 100644
+similarity index 93%
+rename from gr-qtgui/python/qtgui/range.py
+rename to gr-qtgui/python/qtgui/range.py.cmakein
+index f60d6919bf..22d09254bf
 --- a/gr-qtgui/python/qtgui/range.py
-+++ /dev/null
-@@ -1,260 +0,0 @@
--#!/usr/bin/env python
--# -*- coding: utf-8 -*-
--#
--# Copyright 2015 Free Software Foundation, Inc.
--#
--# This file is part of GNU Radio
--#
--# GNU Radio is free software; you can redistribute it and/or modify
--# it under the terms of the GNU General Public License as published by
--# the Free Software Foundation; either version 3, or (at your option)
--# any later version.
--#
--# GNU Radio is distributed in the hope that it will be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--# GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with GNU Radio; see the file COPYING.  If not, write to
--# the Free Software Foundation, Inc., 51 Franklin Street,
--# Boston, MA 02110-1301, USA.
--#
--
--from PyQt4 import Qt, QtCore, QtGui
--import util
--
--class Range(object):
--    def __init__(self, minv, maxv, step, default, min_length):
--        self.min = float(minv)
--        self.max = float(maxv)
--        self.step = float(step)
--        self.default = float(default)
--        self.min_length = min_length
--        self.find_precision()
--        self.find_nsteps()
--        util.check_set_qss()
--
--    def find_precision(self):
--        # Get the decimal part of the step
--        temp = str(float(self.step) - int(self.step))[2:]
--        precision = len(temp) if temp is not '0' else 0
--        precision = min(precision, 13)
--
--        if precision == 0 and self.max < 100:
--            self.precision = 1  # Always have a decimal in this case
--        else:
--            self.precision = (precision + 2) if precision > 0 else 0
--
--    def find_nsteps(self):
--        self.nsteps = (self.max + self.step - self.min)/self.step
--
--    def demap_range(self, val):
--        if val > self.max:
--            val = self.max
--        if val < self.min:
--            val = self.min
--        return ((val-self.min)/self.step)
--
--    def map_range(self, val):
--        if val > self.nsteps:
--            val = self.max
--        if val < 0:
--            val = 0
--        return (val*self.step+self.min)
--
--
--class RangeWidget(QtGui.QWidget):
--    def __init__(self, ranges, slot, label, style, rangeType=float):
--        """ Creates the QT Range widget """
--        QtGui.QWidget.__init__(self)
--
--        self.range = ranges
--        self.style = style
--
--        # rangeType tells the block how to return the value as a standard
--        self.rangeType = rangeType
--
--        # Top-block function to call when any value changes
--        # Some widgets call this directly when their value changes.
--        # Others have intermediate functions to map the value into the right range.
--        self.notifyChanged = slot
--
--        layout = Qt.QHBoxLayout()
--        label = Qt.QLabel(label)
--        layout.addWidget(label)
--
--        if style == "dial":
--            self.d_widget = self.Dial(self, self.range, self.notifyChanged, rangeType)
--        elif style == "slider":
--            self.d_widget = self.Slider(self, self.range, self.notifyChanged, rangeType)
--        elif style == "counter":
--            # The counter widget can be directly wired to the notifyChanged slot
--            self.d_widget = self.Counter(self, self.range, self.notifyChanged, rangeType)
--        else:
--            # The CounterSlider needs its own internal handlers before calling notifyChanged
--            self.d_widget = self.CounterSlider(self, self.range, self.notifyChanged, rangeType)
--
--        layout.addWidget(self.d_widget)
--        self.setLayout(layout)
--
--    class Dial(QtGui.QDial):
--        """ Creates the range using a dial """
--        def __init__(self, parent, ranges, slot, rangeType=float):
--            QtGui.QDial.__init__(self, parent)
--
--            self.rangeType = rangeType
--
--            # Setup the dial
--            self.setRange(0, ranges.nsteps-1)
--            self.setSingleStep(1)
--            self.setNotchesVisible(True)
--            self.range = ranges
--
--            # Round the initial value to the closest tick
--            temp = int(round(ranges.demap_range(ranges.default), 0))
--            self.setValue(temp)
--
--            # Setup the slots
--            self.valueChanged.connect(self.changed)
--            self.notifyChanged = slot
--
--        def changed(self, value):
--            """ Handles maping the value to the right range before calling the slot. """
--            val = self.range.map_range(value)
--            self.notifyChanged(self.rangeType(val))
--
--    class Slider(QtGui.QSlider):
--        """ Creates the range using a slider """
--        def __init__(self, parent, ranges, slot, rangeType=float):
--            QtGui.QSlider.__init__(self, QtCore.Qt.Horizontal, parent)
--
--            self.rangeType = rangeType
--
--            # Setup the slider
--            #self.setFocusPolicy(QtCore.Qt.NoFocus)
--            self.setRange(0, ranges.nsteps - 1)
--            self.setTickPosition(2)
--            self.setSingleStep(1)
--            self.range = ranges
--
--            # Round the initial value to the closest tick
--            temp = int(round(ranges.demap_range(ranges.default), 0))
--            self.setValue(temp)
--
--            if ranges.nsteps > ranges.min_length:
--                interval = int(ranges.nsteps/ranges.min_length)
--                self.setTickInterval(interval)
--                self.setPageStep(interval)
--            else:
--                self.setTickInterval(1)
--                self.setPageStep(1)
--
--            # Setup the handler function
--            self.valueChanged.connect(self.changed)
--            self.notifyChanged = slot
--
--        def changed(self, value):
--            """ Handle the valueChanged signal and map the value into the correct range """
--            val = self.range.map_range(value)
--            self.notifyChanged(self.rangeType(val))
--
--        def mousePressEvent(self, event):
--            if((event.button() == QtCore.Qt.LeftButton)):
--                new = self.minimum() + ((self.maximum()-self.minimum()) * event.x()) / self.width()
--                self.setValue(new)
--                event.accept()
--            # Use repaint rather than calling the super mousePressEvent.
--            # Calling super causes issue where slider jumps to wrong value.
--            QtGui.QSlider.repaint(self)
--
--        def mouseMoveEvent(self, event):
--            new = self.minimum() + ((self.maximum()-self.minimum()) * event.x()) / self.width()
--            self.setValue(new)
--            event.accept()
--            QtGui.QSlider.repaint(self)
--
--    class Counter(QtGui.QDoubleSpinBox):
--        """ Creates the range using a counter """
--        def __init__(self, parent, ranges, slot, rangeType=float):
--            QtGui.QDoubleSpinBox.__init__(self, parent)
--
--            self.rangeType = rangeType
--
--            # Setup the counter
--            self.setDecimals(ranges.precision)
--            self.setRange(ranges.min, ranges.max)
--            self.setValue(ranges.default)
--            self.setSingleStep(ranges.step)
--            self.setKeyboardTracking(False)
--
--            # The counter already handles floats and can be connected directly.
--            self.valueChanged.connect(self.changed)
--            self.notifyChanged = slot
--
--        def changed(self, value):
--            """ Handle the valueChanged signal by converting to the right type """
--            self.notifyChanged(self.rangeType(value))
--
--    class CounterSlider(QtGui.QWidget):
--        """ Creates the range using a counter and slider """
--        def __init__(self, parent, ranges, slot, rangeType=float):
--            QtGui.QWidget.__init__(self, parent)
--
--            self.rangeType = rangeType
--
--            # Slot to call in the parent
--            self.notifyChanged = slot
--
--            self.slider = RangeWidget.Slider(parent, ranges, self.sliderChanged, rangeType)
--            self.counter = RangeWidget.Counter(parent, ranges, self.counterChanged, rangeType)
--
--            # Need another horizontal layout to wrap the other widgets.
--            layout = Qt.QHBoxLayout()
--            layout.addWidget(self.slider)
--            layout.addWidget(self.counter)
--            self.setLayout(layout)
--
--            # Flag to ignore the slider event caused by a change to the counter.
--            self.ignoreSlider = False
--            self.range = ranges
--
--        def sliderChanged(self, value):
--            """ Handles changing the counter when the slider is updated """
--            # If the counter was changed, ignore any of these events
--            if not self.ignoreSlider:
--                # Value is already float. Just set the counter
--                self.counter.setValue(self.rangeType(value))
--                self.notifyChanged(self.rangeType(value))
--            self.ignoreSlider = False
--
--        def counterChanged(self, value):
--            """ Handles changing the slider when the counter is updated """
--            # Get the current slider value and check to see if the new value changes it
--            current = self.slider.value()
--            new = int(round(self.range.demap_range(value), 0))
--
--            # If it needs to change, ignore the slider event
--            # Otherwise, the slider will cause the counter to round to the nearest tick
--            if current != new:
--                self.ignoreSlider = True
--                self.slider.setValue(new)
--
--            self.notifyChanged(self.rangeType(value))
--
--
--if __name__ == "__main__":
--    from PyQt4 import Qt
--    import sys
--
--    def valueChanged(frequency):
--        print("Value updated - " + str(frequency))
--
--    app = Qt.QApplication(sys.argv)
--    widget = RangeWidget(Range(0, 100, 10, 1, 100), valueChanged, "Test", "counter_slider", int)
--
--    widget.show()
--    widget.setWindowTitle("Test Qt Range")
--    app.exec_()
--
--    widget = None
---- /dev/null
 +++ b/gr-qtgui/python/qtgui/range.py.cmakein
-@@ -0,0 +1,260 @@
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
-+#
-+# Copyright 2015 Free Software Foundation, Inc.
-+#
-+# This file is part of GNU Radio
-+#
-+# GNU Radio is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 3, or (at your option)
-+# any later version.
-+#
-+# GNU Radio is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with GNU Radio; see the file COPYING.  If not, write to
-+# the Free Software Foundation, Inc., 51 Franklin Street,
-+# Boston, MA 02110-1301, USA.
-+#
-+
-+@PY_QT_IMPORT@
-+import util
-+
-+class Range(object):
-+    def __init__(self, minv, maxv, step, default, min_length):
-+        self.min = float(minv)
-+        self.max = float(maxv)
-+        self.step = float(step)
-+        self.default = float(default)
-+        self.min_length = min_length
-+        self.find_precision()
-+        self.find_nsteps()
-+        util.check_set_qss()
-+
-+    def find_precision(self):
-+        # Get the decimal part of the step
-+        temp = str(float(self.step) - int(self.step))[2:]
-+        precision = len(temp) if temp is not '0' else 0
-+        precision = min(precision, 13)
-+
-+        if precision == 0 and self.max < 100:
-+            self.precision = 1  # Always have a decimal in this case
-+        else:
-+            self.precision = (precision + 2) if precision > 0 else 0
-+
-+    def find_nsteps(self):
-+        self.nsteps = (self.max + self.step - self.min)/self.step
-+
-+    def demap_range(self, val):
-+        if val > self.max:
-+            val = self.max
-+        if val < self.min:
-+            val = self.min
-+        return ((val-self.min)/self.step)
-+
-+    def map_range(self, val):
-+        if val > self.nsteps:
-+            val = self.max
-+        if val < 0:
-+            val = 0
-+        return (val*self.step+self.min)
-+
-+
-+class RangeWidget(QtWidgets.QWidget):
-+    def __init__(self, ranges, slot, label, style, rangeType=float):
-+        """ Creates the QT Range widget """
-+        QtWidgets.QWidget.__init__(self)
-+
-+        self.range = ranges
-+        self.style = style
-+
-+        # rangeType tells the block how to return the value as a standard
-+        self.rangeType = rangeType
-+
-+        # Top-block function to call when any value changes
-+        # Some widgets call this directly when their value changes.
-+        # Others have intermediate functions to map the value into the right range.
-+        self.notifyChanged = slot
-+
-+        layout = Qt.QHBoxLayout()
-+        label = Qt.QLabel(label)
-+        layout.addWidget(label)
-+
-+        if style == "dial":
-+            self.d_widget = self.Dial(self, self.range, self.notifyChanged, rangeType)
-+        elif style == "slider":
-+            self.d_widget = self.Slider(self, self.range, self.notifyChanged, rangeType)
-+        elif style == "counter":
-+            # The counter widget can be directly wired to the notifyChanged slot
-+            self.d_widget = self.Counter(self, self.range, self.notifyChanged, rangeType)
-+        else:
-+            # The CounterSlider needs its own internal handlers before calling notifyChanged
-+            self.d_widget = self.CounterSlider(self, self.range, self.notifyChanged, rangeType)
-+
-+        layout.addWidget(self.d_widget)
-+        self.setLayout(layout)
-+
-+    class Dial(QtWidgets.QDial):
-+        """ Creates the range using a dial """
-+        def __init__(self, parent, ranges, slot, rangeType=float):
-+            QtWidgets.QDial.__init__(self, parent)
-+
-+            self.rangeType = rangeType
-+
-+            # Setup the dial
-+            self.setRange(0, ranges.nsteps-1)
-+            self.setSingleStep(1)
-+            self.setNotchesVisible(True)
-+            self.range = ranges
-+
-+            # Round the initial value to the closest tick
-+            temp = int(round(ranges.demap_range(ranges.default), 0))
-+            self.setValue(temp)
-+
-+            # Setup the slots
-+            self.valueChanged.connect(self.changed)
-+            self.notifyChanged = slot
-+
-+        def changed(self, value):
-+            """ Handles maping the value to the right range before calling the slot. """
-+            val = self.range.map_range(value)
-+            self.notifyChanged(self.rangeType(val))
-+
-+    class Slider(QtWidgets.QSlider):
-+        """ Creates the range using a slider """
-+        def __init__(self, parent, ranges, slot, rangeType=float):
-+            QtWidgets.QSlider.__init__(self, QtCore.Qt.Horizontal, parent)
-+
-+            self.rangeType = rangeType
-+
-+            # Setup the slider
-+            #self.setFocusPolicy(QtCore.Qt.NoFocus)
-+            self.setRange(0, ranges.nsteps - 1)
-+            self.setTickPosition(2)
-+            self.setSingleStep(1)
-+            self.range = ranges
-+
-+            # Round the initial value to the closest tick
-+            temp = int(round(ranges.demap_range(ranges.default), 0))
-+            self.setValue(temp)
-+
-+            if ranges.nsteps > ranges.min_length:
-+                interval = int(ranges.nsteps/ranges.min_length)
-+                self.setTickInterval(interval)
-+                self.setPageStep(interval)
-+            else:
-+                self.setTickInterval(1)
-+                self.setPageStep(1)
-+
-+            # Setup the handler function
-+            self.valueChanged.connect(self.changed)
-+            self.notifyChanged = slot
-+
-+        def changed(self, value):
-+            """ Handle the valueChanged signal and map the value into the correct range """
-+            val = self.range.map_range(value)
-+            self.notifyChanged(self.rangeType(val))
-+
-+        def mousePressEvent(self, event):
-+            if((event.button() == QtCore.Qt.LeftButton)):
-+                new = self.minimum() + ((self.maximum()-self.minimum()) * event.x()) / self.width()
-+                self.setValue(new)
-+                event.accept()
-+            # Use repaint rather than calling the super mousePressEvent.
-+            # Calling super causes issue where slider jumps to wrong value.
-+            QtWidgets.QSlider.repaint(self)
-+
-+        def mouseMoveEvent(self, event):
-+            new = self.minimum() + ((self.maximum()-self.minimum()) * event.x()) / self.width()
-+            self.setValue(new)
-+            event.accept()
-+            QtWidgets.QSlider.repaint(self)
-+
-+    class Counter(QtWidgets.QDoubleSpinBox):
-+        """ Creates the range using a counter """
-+        def __init__(self, parent, ranges, slot, rangeType=float):
-+            QtWidgets.QDoubleSpinBox.__init__(self, parent)
-+
-+            self.rangeType = rangeType
-+
-+            # Setup the counter
-+            self.setDecimals(ranges.precision)
-+            self.setRange(ranges.min, ranges.max)
-+            self.setValue(ranges.default)
-+            self.setSingleStep(ranges.step)
-+            self.setKeyboardTracking(False)
-+
-+            # The counter already handles floats and can be connected directly.
-+            self.valueChanged.connect(self.changed)
-+            self.notifyChanged = slot
-+
-+        def changed(self, value):
-+            """ Handle the valueChanged signal by converting to the right type """
-+            self.notifyChanged(self.rangeType(value))
-+
-+    class CounterSlider(QtWidgets.QWidget):
-+        """ Creates the range using a counter and slider """
-+        def __init__(self, parent, ranges, slot, rangeType=float):
-+            QtWidgets.QWidget.__init__(self, parent)
-+
-+            self.rangeType = rangeType
-+
-+            # Slot to call in the parent
-+            self.notifyChanged = slot
-+
-+            self.slider = RangeWidget.Slider(parent, ranges, self.sliderChanged, rangeType)
-+            self.counter = RangeWidget.Counter(parent, ranges, self.counterChanged, rangeType)
-+
-+            # Need another horizontal layout to wrap the other widgets.
-+            layout = Qt.QHBoxLayout()
-+            layout.addWidget(self.slider)
-+            layout.addWidget(self.counter)
-+            self.setLayout(layout)
-+
-+            # Flag to ignore the slider event caused by a change to the counter.
-+            self.ignoreSlider = False
-+            self.range = ranges
-+
-+        def sliderChanged(self, value):
-+            """ Handles changing the counter when the slider is updated """
-+            # If the counter was changed, ignore any of these events
-+            if not self.ignoreSlider:
-+                # Value is already float. Just set the counter
-+                self.counter.setValue(self.rangeType(value))
-+                self.notifyChanged(self.rangeType(value))
-+            self.ignoreSlider = False
-+
-+        def counterChanged(self, value):
-+            """ Handles changing the slider when the counter is updated """
-+            # Get the current slider value and check to see if the new value changes it
-+            current = self.slider.value()
-+            new = int(round(self.range.demap_range(value), 0))
-+
-+            # If it needs to change, ignore the slider event
-+            # Otherwise, the slider will cause the counter to round to the nearest tick
-+            if current != new:
-+                self.ignoreSlider = True
-+                self.slider.setValue(new)
-+
-+            self.notifyChanged(self.rangeType(value))
-+
-+
-+if __name__ == "__main__":
-+    from PyQt5 import Qt
-+    import sys
-+
-+    def valueChanged(frequency):
-+        print("Value updated - " + str(frequency))
-+
-+    app = Qt.QApplication(sys.argv)
-+    widget = RangeWidget(Range(0, 100, 10, 1, 100), valueChanged, "Test", "counter_slider", int)
-+
-+    widget.show()
-+    widget.setWindowTitle("Test Qt Range")
-+    app.exec_()
-+
-+    widget = None
---- a/gr-qtgui/python/qtgui/util.py
-+++ /dev/null
-@@ -1,35 +0,0 @@
--#!/usr/bin/env python
--# -*- coding: utf-8 -*-
--#
--# Copyright 2016 Free Software Foundation, Inc.
--#
--# This file is part of GNU Radio
--#
--# GNU Radio is free software; you can redistribute it and/or modify
--# it under the terms of the GNU General Public License as published by
--# the Free Software Foundation; either version 3, or (at your option)
--# any later version.
--#
--# GNU Radio is distributed in the hope that it will be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--# GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with GNU Radio; see the file COPYING.  If not, write to
--# the Free Software Foundation, Inc., 51 Franklin Street,
--# Boston, MA 02110-1301, USA.
--#
--
+@@ -21,7 +21,7 @@
+ # Boston, MA 02110-1301, USA.
+ #
+ 
 -from PyQt4 import Qt, QtCore, QtGui
--from gnuradio import gr
--
--def check_set_qss():
--    app = QtGui.qApp
--    qssfile = gr.prefs().get_string("qtgui","qss","")
--    if(len(qssfile)>0):
--        try:
--            app.setStyleSheet(open(qssfile).read())
--        except:
--            print "WARNING: bad QSS file, %s"%(qssfile)
--
---- /dev/null
-+++ b/gr-qtgui/python/qtgui/util.py.cmakein
-@@ -0,0 +1,34 @@
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
-+#
-+# Copyright 2016 Free Software Foundation, Inc.
-+#
-+# This file is part of GNU Radio
-+#
-+# GNU Radio is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 3, or (at your option)
-+# any later version.
-+#
-+# GNU Radio is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with GNU Radio; see the file COPYING.  If not, write to
-+# the Free Software Foundation, Inc., 51 Franklin Street,
-+# Boston, MA 02110-1301, USA.
-+#
-+
 +@PY_QT_IMPORT@
-+from gnuradio import gr
-+
-+def check_set_qss():
+ import util
+ 
+ class Range(object):
+@@ -64,10 +64,10 @@ class Range(object):
+         return (val*self.step+self.min)
+ 
+ 
+-class RangeWidget(QtGui.QWidget):
++class RangeWidget(QtWidgets.QWidget):
+     def __init__(self, ranges, slot, label, style, rangeType=float):
+         """ Creates the QT Range widget """
+-        QtGui.QWidget.__init__(self)
++        QtWidgets.QWidget.__init__(self)
+ 
+         self.range = ranges
+         self.style = style
+@@ -98,10 +98,10 @@ class RangeWidget(QtGui.QWidget):
+         layout.addWidget(self.d_widget)
+         self.setLayout(layout)
+ 
+-    class Dial(QtGui.QDial):
++    class Dial(QtWidgets.QDial):
+         """ Creates the range using a dial """
+         def __init__(self, parent, ranges, slot, rangeType=float):
+-            QtGui.QDial.__init__(self, parent)
++            QtWidgets.QDial.__init__(self, parent)
+ 
+             self.rangeType = rangeType
+ 
+@@ -124,10 +124,10 @@ class RangeWidget(QtGui.QWidget):
+             val = self.range.map_range(value)
+             self.notifyChanged(self.rangeType(val))
+ 
+-    class Slider(QtGui.QSlider):
++    class Slider(QtWidgets.QSlider):
+         """ Creates the range using a slider """
+         def __init__(self, parent, ranges, slot, rangeType=float):
+-            QtGui.QSlider.__init__(self, QtCore.Qt.Horizontal, parent)
++            QtWidgets.QSlider.__init__(self, QtCore.Qt.Horizontal, parent)
+ 
+             self.rangeType = rangeType
+ 
+@@ -166,18 +166,18 @@ class RangeWidget(QtGui.QWidget):
+                 event.accept()
+             # Use repaint rather than calling the super mousePressEvent.
+             # Calling super causes issue where slider jumps to wrong value.
+-            QtGui.QSlider.repaint(self)
++            QtWidgets.QSlider.repaint(self)
+ 
+         def mouseMoveEvent(self, event):
+             new = self.minimum() + ((self.maximum()-self.minimum()) * event.x()) / self.width()
+             self.setValue(new)
+             event.accept()
+-            QtGui.QSlider.repaint(self)
++            QtWidgets.QSlider.repaint(self)
+ 
+-    class Counter(QtGui.QDoubleSpinBox):
++    class Counter(QtWidgets.QDoubleSpinBox):
+         """ Creates the range using a counter """
+         def __init__(self, parent, ranges, slot, rangeType=float):
+-            QtGui.QDoubleSpinBox.__init__(self, parent)
++            QtWidgets.QDoubleSpinBox.__init__(self, parent)
+ 
+             self.rangeType = rangeType
+ 
+@@ -196,10 +196,10 @@ class RangeWidget(QtGui.QWidget):
+             """ Handle the valueChanged signal by converting to the right type """
+             self.notifyChanged(self.rangeType(value))
+ 
+-    class CounterSlider(QtGui.QWidget):
++    class CounterSlider(QtWidgets.QWidget):
+         """ Creates the range using a counter and slider """
+         def __init__(self, parent, ranges, slot, rangeType=float):
+-            QtGui.QWidget.__init__(self, parent)
++            QtWidgets.QWidget.__init__(self, parent)
+ 
+             self.rangeType = rangeType
+ 
+@@ -244,7 +244,7 @@ class RangeWidget(QtGui.QWidget):
+ 
+ 
+ if __name__ == "__main__":
+-    from PyQt4 import Qt
++    from PyQt5 import Qt
+     import sys
+ 
+     def valueChanged(frequency):
+diff --git a/gr-qtgui/python/qtgui/util.py b/gr-qtgui/python/qtgui/util.py.cmakein
+similarity index 94%
+rename from gr-qtgui/python/qtgui/util.py
+rename to gr-qtgui/python/qtgui/util.py.cmakein
+index d2e9495ac6..ec654d9ba2 100644
+--- a/gr-qtgui/python/qtgui/util.py
++++ b/gr-qtgui/python/qtgui/util.py.cmakein
+@@ -21,15 +21,14 @@
+ # Boston, MA 02110-1301, USA.
+ #
+ 
+-from PyQt4 import Qt, QtCore, QtGui
++@PY_QT_IMPORT@
+ from gnuradio import gr
+ 
+ def check_set_qss():
+-    app = QtGui.qApp
 +    app = QtWidgets.qApp
-+    qssfile = gr.prefs().get_string("qtgui","qss","")
-+    if(len(qssfile)>0):
-+        try:
-+            app.setStyleSheet(open(qssfile).read())
-+        except:
-+            print "WARNING: bad QSS file, %s"%(qssfile)
+     qssfile = gr.prefs().get_string("qtgui","qss","")
+     if(len(qssfile)>0):
+         try:
+             app.setStyleSheet(open(qssfile).read())
+         except:
+             print "WARNING: bad QSS file, %s"%(qssfile)
+-
+diff --git a/gr-qtgui/swig/CMakeLists.txt b/gr-qtgui/swig/CMakeLists.txt
+index 44b5c2fbd4..2990ac9086 100644
 --- a/gr-qtgui/swig/CMakeLists.txt
 +++ b/gr-qtgui/swig/CMakeLists.txt
-@@ -51,12 +51,10 @@
+@@ -51,12 +51,10 @@ GR_SWIG_MAKE(qtgui_swig qtgui_swig.i)
  GR_SWIG_INSTALL(
      TARGETS qtgui_swig
      DESTINATION ${GR_PYTHON_DIR}/gnuradio/qtgui
@@ -7319,9 +7095,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
      DESTINATION ${GR_INCLUDE_DIR}/gnuradio/swig
 -    COMPONENT "qtgui_swig"
  )
+diff --git a/grc/blocks/options.xml b/grc/blocks/options.xml
+index 1dee986c5c..1ef1e9df5d 100644
 --- a/grc/blocks/options.xml
 +++ b/grc/blocks/options.xml
-@@ -16,7 +16,7 @@
+@@ -16,7 +16,7 @@ from grc_gnuradio import wxgui as grc_wxgui
  import wx
  #end if
  #if $generate_options() == 'qt_gui'
@@ -7330,9 +7108,11 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
  import sys
  #end if
  #if not $generate_options().startswith('hb')
+diff --git a/grc/core/generator/flow_graph.tmpl b/grc/core/generator/flow_graph.tmpl
+index 1ef251c46b..9fdc1fbb63 100644
 --- a/grc/core/generator/flow_graph.tmpl
 +++ b/grc/core/generator/flow_graph.tmpl
-@@ -380,7 +380,7 @@
+@@ -380,7 +380,7 @@ def main(top_block_cls=$(class_name), options=None):
          #end if
      #elif $generate_options == 'qt_gui'
      from distutils.version import StrictVersion
@@ -7341,7 +7121,7 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          style = gr.prefs().get_string('qtgui', 'style', 'raster')
          Qt.QApplication.setGraphicsSystem(style)
      qapp = Qt.QApplication(sys.argv)
-@@ -401,7 +401,7 @@
+@@ -401,7 +401,7 @@ def main(top_block_cls=$(class_name), options=None):
      def quitting():
          tb.stop()
          tb.wait()
@@ -7350,3 +7130,6 @@ Subject: [PATCH] qt5 refactor qt5 onto maint branch
          #for $m in $monitors
      if $m.has_param('en'):
          if $m.get_param('en').get_value():
+-- 
+2.11.0
+

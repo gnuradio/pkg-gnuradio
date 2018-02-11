@@ -1,9 +1,20 @@
-Description: Quiet Debian build logs by setting cmake policies.
-Authr: A. Maitland Bottoms <bottoms@debian.org>
+From 58bcce43faf09f8070a7c9d3ad5556a6a8c56de7 Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 10 Feb 2018 20:16:50 -0500
+Subject: [PATCH 08/27] cmake policies
 
+use cmake_policy to silence warnings without updating code.
+Reduces compilation log size on systems with recent CMake versions
+without bumping cmake_minimum_required() for the project.
+---
+ CMakeLists.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 59e3c886c4..f006c06bc3 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -26,6 +26,10 @@
+@@ -26,6 +26,10 @@ endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
  # Project setup
  ########################################################################
  cmake_minimum_required(VERSION 2.6)
@@ -14,3 +25,6 @@ Authr: A. Maitland Bottoms <bottoms@debian.org>
  project(gnuradio CXX C)
  enable_testing()
  
+-- 
+2.11.0
+

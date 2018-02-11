@@ -1,14 +1,14 @@
-From 71962d82886b0635e0654ea1db6967894c24f4f5 Mon Sep 17 00:00:00 2001
+From 8a6e11ce8081058888eccfa1f419fefa41ba3024 Mon Sep 17 00:00:00 2001
 From: Clayton Smith <argilo@gmail.com>
 Date: Fri, 16 Sep 2016 14:33:46 -0600
-Subject: [PATCH 3/3] Get the FreeDV demodulator working.
+Subject: [PATCH 17/27] Get the FreeDV demodulator working.
 
 ---
  gr-vocoder/lib/freedv_rx_ss_impl.cc | 31 +++++++++++--------------------
  1 file changed, 11 insertions(+), 20 deletions(-)
 
 diff --git a/gr-vocoder/lib/freedv_rx_ss_impl.cc b/gr-vocoder/lib/freedv_rx_ss_impl.cc
-index 06a8967..748a5c1 100644
+index 06a896733d..748a5c10aa 100644
 --- a/gr-vocoder/lib/freedv_rx_ss_impl.cc
 +++ b/gr-vocoder/lib/freedv_rx_ss_impl.cc
 @@ -67,7 +67,7 @@ namespace gr {
@@ -72,5 +72,5 @@ index 06a8967..748a5c1 100644
  
      void put_next_rx_proto(void *callback_state,char *proto_bits) {
 -- 
-2.1.4
+2.11.0
 

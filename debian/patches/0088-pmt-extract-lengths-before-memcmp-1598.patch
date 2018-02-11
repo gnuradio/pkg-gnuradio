@@ -1,0 +1,29 @@
+From 0ea72a56b03b326ece46c0cc7cb86633c88ed727 Mon Sep 17 00:00:00 2001
+From: Andrej Rode <mail@andrejro.de>
+Date: Thu, 8 Feb 2018 11:53:17 +0100
+Subject: [PATCH 88/89] pmt: extract lengths before memcmp #1598
+
+---
+ gnuradio-runtime/lib/pmt/pmt.cc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gnuradio-runtime/lib/pmt/pmt.cc b/gnuradio-runtime/lib/pmt/pmt.cc
+index 6c37fa9fd2..0fe4dbde8e 100644
+--- a/gnuradio-runtime/lib/pmt/pmt.cc
++++ b/gnuradio-runtime/lib/pmt/pmt.cc
+@@ -1158,9 +1158,9 @@ equal(const pmt_t& x, const pmt_t& y)
+       return false;
+ 
+     size_t len_x, len_y;
+-    if (memcmp(xv->uniform_elements(len_x),
+-	       yv->uniform_elements(len_y),
+-	       len_x) == 0)
++    const void *x_m = xv->uniform_elements(len_x);
++    const void *y_m = yv->uniform_elements(len_y);
++    if (memcmp(x_m, y_m, len_x) == 0)
+       return true;
+ 
+     return false;
+-- 
+2.11.0
+

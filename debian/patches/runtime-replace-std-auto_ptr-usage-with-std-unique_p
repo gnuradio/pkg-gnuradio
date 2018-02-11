@@ -1,7 +1,7 @@
-From 834c94457befa1f39c6eefbc9faed3b750f2ce19 Mon Sep 17 00:00:00 2001
+From f62c0a314d68ea3d3358e8b53b361067e67f8e1a Mon Sep 17 00:00:00 2001
 From: Johnathan Corgan <johnathan@corganlabs.com>
 Date: Mon, 17 Apr 2017 08:41:26 -0700
-Subject: [PATCH 144/257] runtime: replace std::auto_ptr usage with
+Subject: [PATCH 20/27] runtime: replace std::auto_ptr usage with
  std::unique_ptr
 
 ---

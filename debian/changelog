@@ -1,3 +1,10 @@
+gnuradio (3.7.11-8) unstable; urgency=medium
+
+  * update to v3.7.11-132-g72e085515b
+  * 'git am'-able debian/patches
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sat, 10 Feb 2018 19:06:32 -0500
+
 gnuradio (3.7.11-7) unstable; urgency=medium
 
   * update to v3.7.11-129-g7365f030cd

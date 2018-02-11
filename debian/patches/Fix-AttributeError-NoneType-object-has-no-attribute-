@@ -1,7 +1,7 @@
-From 80997947ce9278b1be5caf1f17afed164e32af85 Mon Sep 17 00:00:00 2001
+From b65bf73bc174183d6aec476c2fb161a4911c2351 Mon Sep 17 00:00:00 2001
 From: Vasil Velichkov <vvvelichkov@gmail.com>
 Date: Thu, 11 Jan 2018 00:32:37 +0000
-Subject: [PATCH] Fix AttributeError: 'NoneType' object has no attribute
+Subject: [PATCH 27/27] Fix AttributeError: 'NoneType' object has no attribute
  'toByteArray'
 
 Debian Bug #886807
@@ -13,7 +13,7 @@ Debian Bug #886807
  4 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
-index 44bd270..fc944de 100755
+index 44bd270b97..fc944ded56 100755
 --- a/gr-uhd/apps/uhd_fft
 +++ b/gr-uhd/apps/uhd_fft
 @@ -40,7 +40,7 @@ import sip
@@ -44,7 +44,7 @@ index 44bd270..fc944de 100755
          ##################################################
          # Parameters
 diff --git a/gr-uhd/apps/uhd_siggen_gui b/gr-uhd/apps/uhd_siggen_gui
-index 52c0182..16f472f 100755
+index 52c0182c54..16f472fe86 100755
 --- a/gr-uhd/apps/uhd_siggen_gui
 +++ b/gr-uhd/apps/uhd_siggen_gui
 @@ -39,7 +39,7 @@ import threading
@@ -66,7 +66,7 @@ index 52c0182..16f472f 100755
          ##################################################
          # Widgets + Controls
 diff --git a/grc/blocks/options.xml b/grc/blocks/options.xml
-index 1ef1e9d..414a167 100644
+index 1ef1e9df5d..414a16783f 100644
 --- a/grc/blocks/options.xml
 +++ b/grc/blocks/options.xml
 @@ -16,7 +16,7 @@ from grc_gnuradio import wxgui as grc_wxgui
@@ -79,7 +79,7 @@ index 1ef1e9d..414a167 100644
  #end if
  #if not $generate_options().startswith('hb')
 diff --git a/grc/core/generator/flow_graph.tmpl b/grc/core/generator/flow_graph.tmpl
-index 9fdc1fb..8b18184 100644
+index 9fdc1fbb63..8b181849a2 100644
 --- a/grc/core/generator/flow_graph.tmpl
 +++ b/grc/core/generator/flow_graph.tmpl
 @@ -118,7 +118,7 @@ class $(class_name)(gr.top_block, Qt.QWidget):
@@ -92,5 +92,5 @@ index 9fdc1fb..8b18184 100644
  
  
 -- 
-2.15.1
+2.11.0
 

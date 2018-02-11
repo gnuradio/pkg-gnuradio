@@ -1,7 +1,7 @@
-From 4f7241de0cfa4ae5d2468a01d1a46fe446c43a80 Mon Sep 17 00:00:00 2001
+From d56f5f4285e4313b012fb03549289144bb424493 Mon Sep 17 00:00:00 2001
 From: Clayton Smith <argilo@gmail.com>
 Date: Fri, 16 Sep 2016 12:00:16 -0600
-Subject: [PATCH 2/3] Convert tabs to spaces.
+Subject: [PATCH 16/27] Convert tabs to spaces.
 
 ---
  gr-vocoder/include/gnuradio/vocoder/freedv_api.h | 12 +++----
@@ -12,7 +12,7 @@ Subject: [PATCH 2/3] Convert tabs to spaces.
  5 files changed, 39 insertions(+), 39 deletions(-)
 
 diff --git a/gr-vocoder/include/gnuradio/vocoder/freedv_api.h b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
-index 52fbc63..230da4e 100644
+index 52fbc63492..230da4e108 100644
 --- a/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
 +++ b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
 @@ -39,22 +39,22 @@ namespace gr {
@@ -45,7 +45,7 @@ index 52fbc63..230da4e 100644
        };
  
 diff --git a/gr-vocoder/lib/freedv_rx_ss_impl.cc b/gr-vocoder/lib/freedv_rx_ss_impl.cc
-index 6cb52ef..06a8967 100644
+index 6cb52effa2..06a896733d 100644
 --- a/gr-vocoder/lib/freedv_rx_ss_impl.cc
 +++ b/gr-vocoder/lib/freedv_rx_ss_impl.cc
 @@ -50,17 +50,17 @@ namespace gr {
@@ -127,7 +127,7 @@ index 6cb52ef..06a8967 100644
  
        freedv_get_modem_stats(d_freedv, &d_sync, &d_snr_est);
 diff --git a/gr-vocoder/lib/freedv_rx_ss_impl.h b/gr-vocoder/lib/freedv_rx_ss_impl.h
-index 911355b..acc49d9 100644
+index 911355b038..acc49d9d82 100644
 --- a/gr-vocoder/lib/freedv_rx_ss_impl.h
 +++ b/gr-vocoder/lib/freedv_rx_ss_impl.h
 @@ -70,9 +70,9 @@ namespace gr {
@@ -144,7 +144,7 @@ index 911355b..acc49d9 100644
  
    } /* namespace vocoder */
 diff --git a/gr-vocoder/lib/freedv_tx_ss_impl.cc b/gr-vocoder/lib/freedv_tx_ss_impl.cc
-index d8cf04d..a375510 100644
+index d8cf04df43..a375510050 100644
 --- a/gr-vocoder/lib/freedv_tx_ss_impl.cc
 +++ b/gr-vocoder/lib/freedv_tx_ss_impl.cc
 @@ -57,17 +57,17 @@ namespace gr {
@@ -190,7 +190,7 @@ index d8cf04d..a375510 100644
      }
  
 diff --git a/gr-vocoder/lib/freedv_tx_ss_impl.h b/gr-vocoder/lib/freedv_tx_ss_impl.h
-index 4a24d3b..a023b67 100644
+index 4a24d3b281..a023b67f5b 100644
 --- a/gr-vocoder/lib/freedv_tx_ss_impl.h
 +++ b/gr-vocoder/lib/freedv_tx_ss_impl.h
 @@ -62,8 +62,8 @@ namespace gr {
@@ -205,5 +205,5 @@ index 4a24d3b..a023b67 100644
  
    } /* namespace vocoder */
 -- 
-2.1.4
+2.11.0
 

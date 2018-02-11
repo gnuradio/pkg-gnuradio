@@ -1,7 +1,7 @@
-From beeea9f6c073d99affd11608867d6a273a12af1d Mon Sep 17 00:00:00 2001
+From 824de56f5107943c5ddaf95871cd32820b533a72 Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
 Date: Sat, 25 Nov 2017 23:18:54 -0500
-Subject: [PATCH 1/3] gr-qtgui-qt5
+Subject: [PATCH 24/27] gr-qtgui-qt5
 
 ---
  gr-qtgui/apps/gr_constellation_plot      | 4 ++--
@@ -37,12 +37,13 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
  gr-qtgui/apps/uhd_display.py             | 6 +++---
  gr-qtgui/doc/qtgui.dox                   | 4 ++--
  gr-qtgui/examples/pyqt_waterfall_c.py    | 2 +-
- gr-qtgui/python/qtgui/range.py.cmakein   | 2 +-
- 34 files changed, 65 insertions(+), 65 deletions(-)
+ 33 files changed, 66 insertions(+), 66 deletions(-)
 
+diff --git a/gr-qtgui/apps/gr_constellation_plot b/gr-qtgui/apps/gr_constellation_plot
+index 528bb97e5a..10f6954fb8 100755
 --- a/gr-qtgui/apps/gr_constellation_plot
 +++ b/gr-qtgui/apps/gr_constellation_plot
-@@ -28,10 +28,10 @@
+@@ -28,10 +28,10 @@ import os, sys
  
  try:
      from gnuradio import qtgui
@@ -55,9 +56,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/gr_psd_plot_b b/gr-qtgui/apps/gr_psd_plot_b
+index 606311af48..a5a2e3f21e 100755
 --- a/gr-qtgui/apps/gr_psd_plot_b
 +++ b/gr-qtgui/apps/gr_psd_plot_b
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -70,9 +73,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class psd_plot_b(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_psd_plot_c b/gr-qtgui/apps/gr_psd_plot_c
+index 6df9fae190..e8b83c33f5 100755
 --- a/gr-qtgui/apps/gr_psd_plot_c
 +++ b/gr-qtgui/apps/gr_psd_plot_c
-@@ -32,10 +32,10 @@
+@@ -32,10 +32,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -85,9 +90,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class psd_plot_c(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_psd_plot_f b/gr-qtgui/apps/gr_psd_plot_f
+index f07e3e8b50..8ad5a283bc 100755
 --- a/gr-qtgui/apps/gr_psd_plot_f
 +++ b/gr-qtgui/apps/gr_psd_plot_f
-@@ -32,10 +32,10 @@
+@@ -32,10 +32,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -100,9 +107,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class psd_plot_f(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_psd_plot_i b/gr-qtgui/apps/gr_psd_plot_i
+index 1852345823..fda69cfbca 100755
 --- a/gr-qtgui/apps/gr_psd_plot_i
 +++ b/gr-qtgui/apps/gr_psd_plot_i
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -115,9 +124,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class psd_plot_i(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_psd_plot_s b/gr-qtgui/apps/gr_psd_plot_s
+index c06076f1f9..02fe777dda 100755
 --- a/gr-qtgui/apps/gr_psd_plot_s
 +++ b/gr-qtgui/apps/gr_psd_plot_s
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -130,9 +141,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class psd_plot_s(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot b/gr-qtgui/apps/gr_spectrogram_plot
+index db79f9dbad..6fb25651ac 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot
 +++ b/gr-qtgui/apps/gr_spectrogram_plot
-@@ -36,10 +36,10 @@
+@@ -36,10 +36,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -145,9 +158,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class spectrogram_plot_c(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_b b/gr-qtgui/apps/gr_spectrogram_plot_b
+index 0d7a16ea6e..917fc4e9e9 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_b
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_b
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -160,9 +175,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class spectrogram_plot_b(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_c b/gr-qtgui/apps/gr_spectrogram_plot_c
+index 52b0d4dff7..e6d7455920 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_c
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_c
-@@ -32,10 +32,10 @@
+@@ -32,10 +32,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -175,9 +192,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class spectrogram_plot_c(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_f b/gr-qtgui/apps/gr_spectrogram_plot_f
+index 6ea5afc4ef..91eb48b5e5 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_f
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_f
-@@ -32,10 +32,10 @@
+@@ -32,10 +32,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -190,9 +209,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class spectrogram_plot_f(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_i b/gr-qtgui/apps/gr_spectrogram_plot_i
+index 893df2a234..4e66585811 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_i
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_i
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -205,9 +226,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class spectrogram_plot_i(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_spectrogram_plot_s b/gr-qtgui/apps/gr_spectrogram_plot_s
+index 82a22f740d..014663f20f 100755
 --- a/gr-qtgui/apps/gr_spectrogram_plot_s
 +++ b/gr-qtgui/apps/gr_spectrogram_plot_s
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -220,9 +243,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class spectrogram_plot_s(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_time_plot_b b/gr-qtgui/apps/gr_time_plot_b
+index d822557f1b..4a5ef3e8a8 100755
 --- a/gr-qtgui/apps/gr_time_plot_b
 +++ b/gr-qtgui/apps/gr_time_plot_b
-@@ -30,10 +30,10 @@
+@@ -30,10 +30,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -235,9 +260,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class plot_time_b(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_time_plot_c b/gr-qtgui/apps/gr_time_plot_c
+index 202e0f88f4..307cf9b534 100755
 --- a/gr-qtgui/apps/gr_time_plot_c
 +++ b/gr-qtgui/apps/gr_time_plot_c
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -250,9 +277,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class plot_time_c(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_time_plot_f b/gr-qtgui/apps/gr_time_plot_f
+index 8f5ad9f60d..95d3a8a46e 100755
 --- a/gr-qtgui/apps/gr_time_plot_f
 +++ b/gr-qtgui/apps/gr_time_plot_f
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -265,9 +294,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class plot_time_f(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_time_plot_i b/gr-qtgui/apps/gr_time_plot_i
+index 8a7888b451..1d70098ee3 100755
 --- a/gr-qtgui/apps/gr_time_plot_i
 +++ b/gr-qtgui/apps/gr_time_plot_i
-@@ -30,10 +30,10 @@
+@@ -30,10 +30,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -280,9 +311,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class plot_time_i(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_time_plot_s b/gr-qtgui/apps/gr_time_plot_s
+index 7cee262379..50643e0ae2 100755
 --- a/gr-qtgui/apps/gr_time_plot_s
 +++ b/gr-qtgui/apps/gr_time_plot_s
-@@ -30,10 +30,10 @@
+@@ -30,10 +30,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -295,9 +328,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class plot_time_s(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_time_raster_b b/gr-qtgui/apps/gr_time_raster_b
+index ad8691489c..370008a2ab 100755
 --- a/gr-qtgui/apps/gr_time_raster_b
 +++ b/gr-qtgui/apps/gr_time_raster_b
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -310,9 +345,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class plot_time_raster_b(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/gr_time_raster_f b/gr-qtgui/apps/gr_time_raster_f
+index 5d6a8389cf..7512348e86 100755
 --- a/gr-qtgui/apps/gr_time_raster_f
 +++ b/gr-qtgui/apps/gr_time_raster_f
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ except ImportError:
  
  try:
      from gnuradio import qtgui
@@ -325,9 +362,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  class plot_time_raster_f(plot_base.plot_base):
+diff --git a/gr-qtgui/apps/plot_base.py b/gr-qtgui/apps/plot_base.py
+index eaab7599c7..4b57291e06 100644
 --- a/gr-qtgui/apps/plot_base.py
 +++ b/gr-qtgui/apps/plot_base.py
-@@ -29,10 +29,10 @@
+@@ -29,10 +29,10 @@ os.environ['GR_CONF_CONTROLPORT_ON'] = 'False'
  
  try:
      from gnuradio import qtgui
@@ -340,9 +379,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_constellation_form.py b/gr-qtgui/apps/plot_constellation_form.py
+index 01c6ed1865..b81b990eda 100644
 --- a/gr-qtgui/apps/plot_constellation_form.py
 +++ b/gr-qtgui/apps/plot_constellation_form.py
-@@ -24,10 +24,10 @@
+@@ -24,10 +24,10 @@ import sys
  from gnuradio import filter
  
  try:
@@ -355,6 +396,8 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_form.py b/gr-qtgui/apps/plot_form.py
+index 931565bd3e..1c7939b93c 100644
 --- a/gr-qtgui/apps/plot_form.py
 +++ b/gr-qtgui/apps/plot_form.py
 @@ -21,10 +21,10 @@
@@ -370,9 +413,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  import numpy
+diff --git a/gr-qtgui/apps/plot_psd_base.py b/gr-qtgui/apps/plot_psd_base.py
+index 46f903e1b5..0990e439bb 100644
 --- a/gr-qtgui/apps/plot_psd_base.py
 +++ b/gr-qtgui/apps/plot_psd_base.py
-@@ -27,10 +27,10 @@
+@@ -27,10 +27,10 @@ import os, sys
  
  try:
      from gnuradio import qtgui
@@ -385,9 +430,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_psd_form.py b/gr-qtgui/apps/plot_psd_form.py
+index 2d1fcd10bc..bf01af4a5c 100644
 --- a/gr-qtgui/apps/plot_psd_form.py
 +++ b/gr-qtgui/apps/plot_psd_form.py
-@@ -24,10 +24,10 @@
+@@ -24,10 +24,10 @@ import sys
  from gnuradio import filter
  
  try:
@@ -400,9 +447,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_spectrogram_base.py b/gr-qtgui/apps/plot_spectrogram_base.py
+index b252bb8863..3fae5c252a 100644
 --- a/gr-qtgui/apps/plot_spectrogram_base.py
 +++ b/gr-qtgui/apps/plot_spectrogram_base.py
-@@ -27,10 +27,10 @@
+@@ -27,10 +27,10 @@ import os, sys
  
  try:
      from gnuradio import qtgui
@@ -415,9 +464,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_spectrogram_form.py b/gr-qtgui/apps/plot_spectrogram_form.py
+index 17cb0335bd..d4b1c0dae2 100644
 --- a/gr-qtgui/apps/plot_spectrogram_form.py
 +++ b/gr-qtgui/apps/plot_spectrogram_form.py
-@@ -24,10 +24,10 @@
+@@ -24,10 +24,10 @@ import sys
  from gnuradio import filter
  
  try:
@@ -430,9 +481,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_time_base.py b/gr-qtgui/apps/plot_time_base.py
+index 007c94d044..31c96ab804 100644
 --- a/gr-qtgui/apps/plot_time_base.py
 +++ b/gr-qtgui/apps/plot_time_base.py
-@@ -27,10 +27,10 @@
+@@ -27,10 +27,10 @@ import os, sys
  
  try:
      from gnuradio import qtgui
@@ -445,9 +498,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_time_form.py b/gr-qtgui/apps/plot_time_form.py
+index 0ab94e6cfe..66c1efc895 100644
 --- a/gr-qtgui/apps/plot_time_form.py
 +++ b/gr-qtgui/apps/plot_time_form.py
-@@ -24,10 +24,10 @@
+@@ -24,10 +24,10 @@ import sys
  from gnuradio import filter
  
  try:
@@ -460,9 +515,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_time_raster_base.py b/gr-qtgui/apps/plot_time_raster_base.py
+index 856c8c8945..252f4154e8 100644
 --- a/gr-qtgui/apps/plot_time_raster_base.py
 +++ b/gr-qtgui/apps/plot_time_raster_base.py
-@@ -27,10 +27,10 @@
+@@ -27,10 +27,10 @@ import os, sys
  
  try:
      from gnuradio import qtgui
@@ -475,9 +532,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/plot_time_raster_form.py b/gr-qtgui/apps/plot_time_raster_form.py
+index 32fbba0765..4b7a03e51d 100644
 --- a/gr-qtgui/apps/plot_time_raster_form.py
 +++ b/gr-qtgui/apps/plot_time_raster_form.py
-@@ -24,10 +24,10 @@
+@@ -24,10 +24,10 @@ import sys, math
  from gnuradio import filter
  
  try:
@@ -490,9 +549,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+diff --git a/gr-qtgui/apps/uhd_display.py b/gr-qtgui/apps/uhd_display.py
+index 0e0c8a177d..8cb2324de6 100755
 --- a/gr-qtgui/apps/uhd_display.py
 +++ b/gr-qtgui/apps/uhd_display.py
-@@ -31,10 +31,10 @@
+@@ -31,10 +31,10 @@ import sys
  
  try:
      from gnuradio import qtgui
@@ -505,7 +566,7 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
-@@ -218,7 +218,7 @@
+@@ -218,7 +218,7 @@ class my_top_block(gr.top_block):
  
          # Get the reference pointer to the SpectrumDisplayForm QWidget
          # Wrap the pointer as a PyQt SIP object
@@ -514,9 +575,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
          self.pysink = sip.wrapinstance(self.snk.pyqwidget(), QtGui.QWidget)
  
          self.main_win = main_window(self.pysink, self)
+diff --git a/gr-qtgui/doc/qtgui.dox b/gr-qtgui/doc/qtgui.dox
+index 8cbbd7367a..7c955d0527 100644
 --- a/gr-qtgui/doc/qtgui.dox
 +++ b/gr-qtgui/doc/qtgui.dox
-@@ -129,7 +129,7 @@
+@@ -129,7 +129,7 @@ The QT GUI blocks require the following dependencies.
  \li QtCore (version >= 4.4)
  \li QtGui (version >= 4.4)
  \li QtOpenGL (version >= 4.4)
@@ -525,7 +588,7 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
  \li Qwt (version >= 5.2)
  
  \section qtgui_usage Usage
-@@ -148,7 +148,7 @@
+@@ -148,7 +148,7 @@ qapp's "exec_()" function is called. This function is a blocking call
  while the GUI is alive.
  
  \code
@@ -534,9 +597,11 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
  from gnuradio import qtgui
  import sys, sip
  
+diff --git a/gr-qtgui/examples/pyqt_waterfall_c.py b/gr-qtgui/examples/pyqt_waterfall_c.py
+index 8ec62fc1e2..b17ff56c2f 100755
 --- a/gr-qtgui/examples/pyqt_waterfall_c.py
 +++ b/gr-qtgui/examples/pyqt_waterfall_c.py
-@@ -29,7 +29,7 @@
+@@ -29,7 +29,7 @@ try:
      from PyQt4 import QtGui, QtCore
      import sip
  except ImportError:
@@ -545,3 +610,6 @@ Subject: [PATCH 1/3] gr-qtgui-qt5
      sys.exit(1)
  
  try:
+-- 
+2.11.0
+

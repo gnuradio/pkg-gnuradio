@@ -1,7 +1,17 @@
+From bdb73ad1a31fa6baefc00dde80516ed3a72038f7 Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 10 Feb 2018 20:54:07 -0500
+Subject: [PATCH 18/27] improve desktop search
+
 From: Petter Reinholdtsen <pere@hungry.com>
 Description: rewrite desktop file to ease discovery in menu and GNOME Software catalog
 Date: Sat, 19 Aug 2017 08:14:32 +0200
+---
+ grc/scripts/freedesktop/gnuradio-grc.desktop | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
+diff --git a/grc/scripts/freedesktop/gnuradio-grc.desktop b/grc/scripts/freedesktop/gnuradio-grc.desktop
+index 39beeca1b8..9b351eebb8 100644
 --- a/grc/scripts/freedesktop/gnuradio-grc.desktop
 +++ b/grc/scripts/freedesktop/gnuradio-grc.desktop
 @@ -1,9 +1,11 @@
@@ -18,3 +28,6 @@ Date: Sat, 19 Aug 2017 08:14:32 +0200
  Icon=gnuradio-grc
  StartupWMClass=gnuradio-companion
 +Comment=Software Defined Radio (SDR) GUI for programming the GNU Radio toolkit.
+-- 
+2.11.0
+

@@ -1,9 +1,19 @@
-Description: Handle building on Debian kFreeBSD nad Hurd architectures.
-Author: A. Maitland Bottoms <bottoms@debian.org>
+From 5438b15676a541d0b75383efe710c1b028536bc6 Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 10 Feb 2018 20:02:28 -0500
+Subject: [PATCH 04/27] bsd hurd no thread affinity
 
+Add Debian's kFreeBSD and Hurd to systems lacking
+Linux thread affinity API.
+---
+ gnuradio-runtime/lib/thread/thread.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gnuradio-runtime/lib/thread/thread.cc b/gnuradio-runtime/lib/thread/thread.cc
+index f2606c71ae..4db91d4dbe 100644
 --- a/gnuradio-runtime/lib/thread/thread.cc
 +++ b/gnuradio-runtime/lib/thread/thread.cc
-@@ -166,7 +166,7 @@
+@@ -166,7 +166,7 @@ namespace gr {
  
  
  #elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__) || \
@@ -12,3 +22,6 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
  
  namespace gr {
    namespace thread {
+-- 
+2.11.0
+

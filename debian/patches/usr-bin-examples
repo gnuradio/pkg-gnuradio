@@ -1,19 +1,24 @@
-Description: Place example executables in /usr/bin
-Author: A. Maitland Bottoms <bottoms@debian.org>
+From 6b972fdb695ce6f6de255424b197a59bdeb4ff8a Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 10 Feb 2018 19:33:23 -0500
+Subject: [PATCH 01/27] usr bin examples
 
---- a/gr-fcd/examples/c++/CMakeLists.txt
-+++ b/gr-fcd/examples/c++/CMakeLists.txt
-@@ -32,6 +32,6 @@
- 
- INSTALL(TARGETS
-     fcd_nfm_rx
--    DESTINATION ${GR_PKG_FCD_EXAMPLES_DIR}
-+    DESTINATION ${GR_RUNTIME_DIR}
-     COMPONENT "fcd_examples"
- )
+Might as well put example executables in the user's PATH.
+Not doing this leads to File System Standards violations.
+Of course, this means gnuradio examples need to be named
+uniquely, but it is more helpful for new users.
+---
+ gr-audio/examples/c++/CMakeLists.txt | 2 +-
+ gr-fcd/examples/c++/CMakeLists.txt   | 2 +-
+ gr-qtgui/examples/c++/CMakeLists.txt | 2 +-
+ gr-uhd/examples/c++/CMakeLists.txt   | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gr-audio/examples/c++/CMakeLists.txt b/gr-audio/examples/c++/CMakeLists.txt
+index 205bdeb287..83a6bbcf3b 100644
 --- a/gr-audio/examples/c++/CMakeLists.txt
 +++ b/gr-audio/examples/c++/CMakeLists.txt
-@@ -30,6 +30,6 @@
+@@ -30,6 +30,6 @@ target_link_libraries(dial_tone
  
  INSTALL(TARGETS
      dial_tone
@@ -21,19 +26,23 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
 +    DESTINATION ${GR_RUNTIME_DIR}
      COMPONENT "audio_examples"
  )
---- a/gr-uhd/examples/c++/CMakeLists.txt
-+++ b/gr-uhd/examples/c++/CMakeLists.txt
-@@ -39,6 +39,6 @@
+diff --git a/gr-fcd/examples/c++/CMakeLists.txt b/gr-fcd/examples/c++/CMakeLists.txt
+index 346e95db3f..edf97c21d1 100644
+--- a/gr-fcd/examples/c++/CMakeLists.txt
++++ b/gr-fcd/examples/c++/CMakeLists.txt
+@@ -32,6 +32,6 @@ target_link_libraries(fcd_nfm_rx
  
  INSTALL(TARGETS
-     tags_demo
--    DESTINATION ${GR_PKG_UHD_EXAMPLES_DIR}
+     fcd_nfm_rx
+-    DESTINATION ${GR_PKG_FCD_EXAMPLES_DIR}
 +    DESTINATION ${GR_RUNTIME_DIR}
-     COMPONENT "uhd_examples"
+     COMPONENT "fcd_examples"
  )
+diff --git a/gr-qtgui/examples/c++/CMakeLists.txt b/gr-qtgui/examples/c++/CMakeLists.txt
+index 239b5dbf42..49c41a0c64 100644
 --- a/gr-qtgui/examples/c++/CMakeLists.txt
 +++ b/gr-qtgui/examples/c++/CMakeLists.txt
-@@ -43,6 +43,6 @@
+@@ -43,6 +43,6 @@ target_link_libraries(display_qt ${QTGUI_LIBRARIES})
  
  INSTALL(TARGETS
    display_qt
@@ -41,3 +50,18 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
 +  DESTINATION ${GR_RUNTIME_DIR}
    COMPONENT "qtgui_examples"
  )
+diff --git a/gr-uhd/examples/c++/CMakeLists.txt b/gr-uhd/examples/c++/CMakeLists.txt
+index 655ef0c0a9..414dd74fe0 100644
+--- a/gr-uhd/examples/c++/CMakeLists.txt
++++ b/gr-uhd/examples/c++/CMakeLists.txt
+@@ -39,6 +39,6 @@ target_link_libraries(tags_demo gnuradio-uhd)
+ 
+ INSTALL(TARGETS
+     tags_demo
+-    DESTINATION ${GR_PKG_UHD_EXAMPLES_DIR}
++    DESTINATION ${GR_RUNTIME_DIR}
+     COMPONENT "uhd_examples"
+ )
+-- 
+2.11.0
+
