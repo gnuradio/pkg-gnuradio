@@ -1,7 +1,7 @@
-From 0cfb52b05cdc5d61c6834856400b94a287d54c31 Mon Sep 17 00:00:00 2001
+From b12439f3f600b9d0be03189e8a82310d9ceabdd6 Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
-Date: Sat, 25 Nov 2017 23:26:07 -0500
-Subject: [PATCH 23/27] gnuradio-runtime-ctrlport-qt5
+Date: Sun, 25 Feb 2018 13:27:38 -0500
+Subject: [PATCH 21/22] gnuradio runtime ctrlport qt5
 
 ---
  gnuradio-runtime/python/gnuradio/ctrlport/GrDataPlotter.py    | 4 ++--
@@ -10,7 +10,7 @@ Subject: [PATCH 23/27] gnuradio-runtime-ctrlport-qt5
  3 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/gnuradio-runtime/python/gnuradio/ctrlport/GrDataPlotter.py b/gnuradio-runtime/python/gnuradio/ctrlport/GrDataPlotter.py
-index c5bfd0a8cb..2bb074a940 100644
+index c5bfd0a8cb..6d78565b3b 100644
 --- a/gnuradio-runtime/python/gnuradio/ctrlport/GrDataPlotter.py
 +++ b/gnuradio-runtime/python/gnuradio/ctrlport/GrDataPlotter.py
 @@ -28,10 +28,10 @@ import sys, time, struct
@@ -22,7 +22,7 @@ index c5bfd0a8cb..2bb074a940 100644
      import sip
  except ImportError:
 -    print "Error: Program requires PyQt4 and gr-qtgui."
-+    print "Error: Program requires PyQt5 and gr-qtgui."
++    sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
      sys.exit(1)
  
  class GrDataPlotParent(gr.top_block, QtGui.QWidget):

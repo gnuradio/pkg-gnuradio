@@ -1,0 +1,77 @@
+From ab58fcfd12be3e60a9dfaac757a3b8c663c2fc4b Mon Sep 17 00:00:00 2001
+From: Sebastian Koslowski <koslowski@kit.edu>
+Date: Tue, 30 Aug 2016 09:49:58 +0200
+Subject: [PATCH 13/22] grc: replace templated xml files with search and
+ replace for qt4
+
+---
+ grc/blocks/CMakeLists.txt                       | 23 +++++++++++++++++++----
+ grc/blocks/{options.xml.cmakein => options.xml} |  2 +-
+ 2 files changed, 20 insertions(+), 5 deletions(-)
+ rename grc/blocks/{options.xml.cmakein => options.xml} (99%)
+
+diff --git a/grc/blocks/CMakeLists.txt b/grc/blocks/CMakeLists.txt
+index a2207fa928..bc3197de97 100644
+--- a/grc/blocks/CMakeLists.txt
++++ b/grc/blocks/CMakeLists.txt
+@@ -22,7 +22,18 @@ include(GrPython)
+ 
+ file(GLOB xml_files "*.xml")
+ 
+-configure_file(options.xml.cmakein "${CMAKE_CURRENT_BINARY_DIR}/options.xml" @ONLY)
++macro(REPLACE_IN_FILE _xml_block match replace)
++    set(xml_block_src "${CMAKE_CURRENT_SOURCE_DIR}/${_xml_block}")
++    set(xml_block     "${CMAKE_CURRENT_BINARY_DIR}/${_xml_block}")
++
++    list(REMOVE_ITEM xml_files "${xml_block_src}")
++    file(READ "${xml_block_src}" xml_block_src_text)
++    string(REPLACE "${match}" "${replace}"
++           xml_block_text "${xml_block_src_text}")
++    file(WRITE "${xml_block}" "${xml_block_text}")
++
++    list(APPEND generated_xml_files "${xml_block}")
++endmacro()
+ 
+ macro(GEN_BLOCK_XML _generator _xml_block)
+     set(generator ${CMAKE_CURRENT_SOURCE_DIR}/${_generator})
+@@ -32,14 +43,18 @@ macro(GEN_BLOCK_XML _generator _xml_block)
+         DEPENDS ${generator} OUTPUT ${xml_block}
+         COMMAND ${PYTHON_EXECUTABLE} ${generator} ${xml_block}
+     )
+-endmacro(GEN_BLOCK_XML)
++endmacro()
++
++GEN_BLOCK_XML(variable_struct.xml.py variable_struct.xml)
+ 
+-GEN_BLOCK_XML(variable_struct.xml.py    variable_struct.xml)
++if(DESIRED_QT_VERSION EQUAL 4)
++    REPLACE_IN_FILE(options.xml PyQt5 PyQt4)
++endif()
+ 
+ add_custom_target(grc_generated_xml ALL DEPENDS ${generated_xml_files})
+ 
+ install(
+-    FILES ${xml_files} "${CMAKE_CURRENT_BINARY_DIR}/options.xml" ${generated_xml_files}
++    FILES ${xml_files} ${generated_xml_files}
+     DESTINATION ${GRC_BLOCKS_DIR}
+     COMPONENT "grc"
+ )
+diff --git a/grc/blocks/options.xml.cmakein b/grc/blocks/options.xml
+similarity index 99%
+rename from grc/blocks/options.xml.cmakein
+rename to grc/blocks/options.xml
+index 95ca41e216..1ef1e9df5d 100644
+--- a/grc/blocks/options.xml.cmakein
++++ b/grc/blocks/options.xml
+@@ -16,7 +16,7 @@ from grc_gnuradio import wxgui as grc_wxgui
+ import wx
+ #end if
+ #if $generate_options() == 'qt_gui'
+-from PyQt@DESIRED_QT_VERSION@ import Qt
++from PyQt5 import Qt
+ import sys
+ #end if
+ #if not $generate_options().startswith('hb')
+-- 
+2.11.0
+

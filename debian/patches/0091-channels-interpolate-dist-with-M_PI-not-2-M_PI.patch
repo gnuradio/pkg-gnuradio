@@ -1,0 +1,30 @@
+From 7d19bf6e756e69dd9a84464ca2640ec45b036308 Mon Sep 17 00:00:00 2001
+From: jan-safar <jan.safar@gla-rrnav.org>
+Date: Fri, 9 Feb 2018 12:29:10 +0000
+Subject: [PATCH 91/93] channels: interpolate `dist` with `M_PI`, not `2*M_PI`
+
+The multiplication by 2 in the sinc() function argument appears to be a
+mistake. It, for example, results in signal paths with a delay of 0.5
+sample time being completely ignored.
+
+https://en.wikipedia.org/wiki/Sinc_function
+---
+ gr-channels/lib/selective_fading_model_impl.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gr-channels/lib/selective_fading_model_impl.cc b/gr-channels/lib/selective_fading_model_impl.cc
+index dfd7b74ca9..3594ec4aa0 100644
+--- a/gr-channels/lib/selective_fading_model_impl.cc
++++ b/gr-channels/lib/selective_fading_model_impl.cc
+@@ -95,7 +95,7 @@ namespace gr {
+                 gr_complex ff_H(d_faders[j]->next_sample());
+                 for(size_t k=0; k<d_taps.size(); k++){
+                     float dist = k-d_delays[j];
+-                    float interpmag = d_sintable.sinc(2*M_PI*dist);
++                    float interpmag = d_sintable.sinc(M_PI*dist);
+                     d_taps[k] += ff_H * interpmag * d_mags[j];
+                 }
+             }
+-- 
+2.11.0
+

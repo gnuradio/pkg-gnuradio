@@ -1,0 +1,113 @@
+From 6cd8e365b7e519f49c81cfeb7137200d7b5e8b2f Mon Sep 17 00:00:00 2001
+From: Paul Cercueil <paul.cercueil@analog.com>
+Date: Tue, 21 Jun 2016 19:27:19 +0200
+Subject: [PATCH 12/22] grc: Fix generation of Python code for Qt4 and Qt5
+
+Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
+---
+ CMakeLists.txt                                  |  2 +-
+ grc/blocks/CMakeLists.txt                       |  4 +++-
+ grc/blocks/{options.xml => options.xml.cmakein} |  2 +-
+ grc/core/generator/flow_graph.tmpl              | 13 ++++++++++++-
+ 4 files changed, 17 insertions(+), 4 deletions(-)
+ rename grc/blocks/{options.xml => options.xml.cmakein} (99%)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ae6c1e1d49..f79cc10635 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -470,7 +470,6 @@ list(APPEND GR_TEST_PYTHON_DIRS
+ add_subdirectory(docs)
+ add_subdirectory(gnuradio-runtime)
+ add_subdirectory(gr-blocks)
+-add_subdirectory(grc)
+ add_subdirectory(gr-fec)
+ add_subdirectory(gr-fft)
+ add_subdirectory(gr-filter)
+@@ -493,6 +492,7 @@ add_subdirectory(gr-fcd)
+ add_subdirectory(gr-wavelet)
+ add_subdirectory(gr-wxgui)
+ add_subdirectory(gr-zeromq)
++add_subdirectory(grc)
+ 
+ # Defining GR_CTRLPORT for gnuradio/config.h
+ if(ENABLE_GR_CTRLPORT)
+diff --git a/grc/blocks/CMakeLists.txt b/grc/blocks/CMakeLists.txt
+index 0c2a1f7901..a2207fa928 100644
+--- a/grc/blocks/CMakeLists.txt
++++ b/grc/blocks/CMakeLists.txt
+@@ -22,6 +22,8 @@ include(GrPython)
+ 
+ file(GLOB xml_files "*.xml")
+ 
++configure_file(options.xml.cmakein "${CMAKE_CURRENT_BINARY_DIR}/options.xml" @ONLY)
++
+ macro(GEN_BLOCK_XML _generator _xml_block)
+     set(generator ${CMAKE_CURRENT_SOURCE_DIR}/${_generator})
+     set(xml_block ${CMAKE_CURRENT_BINARY_DIR}/${_xml_block})
+@@ -37,7 +39,7 @@ GEN_BLOCK_XML(variable_struct.xml.py    variable_struct.xml)
+ add_custom_target(grc_generated_xml ALL DEPENDS ${generated_xml_files})
+ 
+ install(
+-    FILES ${xml_files} ${generated_xml_files}
++    FILES ${xml_files} "${CMAKE_CURRENT_BINARY_DIR}/options.xml" ${generated_xml_files}
+     DESTINATION ${GRC_BLOCKS_DIR}
+     COMPONENT "grc"
+ )
+diff --git a/grc/blocks/options.xml b/grc/blocks/options.xml.cmakein
+similarity index 99%
+rename from grc/blocks/options.xml
+rename to grc/blocks/options.xml.cmakein
+index 1ef1e9df5d..95ca41e216 100644
+--- a/grc/blocks/options.xml
++++ b/grc/blocks/options.xml.cmakein
+@@ -16,7 +16,7 @@ from grc_gnuradio import wxgui as grc_wxgui
+ import wx
+ #end if
+ #if $generate_options() == 'qt_gui'
+-from PyQt5 import Qt
++from PyQt@DESIRED_QT_VERSION@ import Qt
+ import sys
+ #end if
+ #if not $generate_options().startswith('hb')
+diff --git a/grc/core/generator/flow_graph.tmpl b/grc/core/generator/flow_graph.tmpl
+index 1d657701c1..80bf5cfbf7 100644
+--- a/grc/core/generator/flow_graph.tmpl
++++ b/grc/core/generator/flow_graph.tmpl
+@@ -36,6 +36,10 @@ $DIVIDER
+ import threading
+ #end if
+ 
++#if $generate_options == 'qt_gui'
++from distutils.version import StrictVersion
++#end if
++
+ ## Call XInitThreads as the _very_ first thing.
+ ## After some Qt import, it's too late
+ #if $generate_options in ('wx_gui', 'qt_gui')
+@@ -118,7 +122,11 @@ class $(class_name)(gr.top_block, Qt.QWidget):
+         self.top_layout.addLayout(self.top_grid_layout)
+ 
+         self.settings = Qt.QSettings("GNU Radio", "$class_name")
+-        self.restoreGeometry(self.settings.value("geometry"))
++
++        if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
++            self.restoreGeometry(self.settings.value("geometry").toByteArray())
++        else:
++            self.restoreGeometry(self.settings.value("geometry"))
+ #elif $generate_options == 'no_gui'
+ 
+ 
+@@ -379,6 +387,9 @@ def main(top_block_cls=$(class_name), options=None):
+     tb.Wait()
+         #end if
+     #elif $generate_options == 'qt_gui'
++    if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
++        style = gr.prefs().get_string('qtgui', 'style', 'raster')
++        Qt.QApplication.setGraphicsSystem(style)
+     qapp = Qt.QApplication(sys.argv)
+ 
+     tb = top_block_cls($(', '.join($params_eq_list)))
+-- 
+2.11.0
+

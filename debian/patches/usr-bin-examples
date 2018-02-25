@@ -14,11 +14,9 @@ uniquely, but it is more helpful for new users.
  gr-uhd/examples/c++/CMakeLists.txt   | 2 +-
  4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/gr-audio/examples/c++/CMakeLists.txt b/gr-audio/examples/c++/CMakeLists.txt
-index 205bdeb287..83a6bbcf3b 100644
 --- a/gr-audio/examples/c++/CMakeLists.txt
 +++ b/gr-audio/examples/c++/CMakeLists.txt
-@@ -30,6 +30,6 @@ target_link_libraries(dial_tone
+@@ -30,6 +30,6 @@
  
  INSTALL(TARGETS
      dial_tone
@@ -26,11 +24,9 @@ index 205bdeb287..83a6bbcf3b 100644
 +    DESTINATION ${GR_RUNTIME_DIR}
      COMPONENT "audio_examples"
  )
-diff --git a/gr-fcd/examples/c++/CMakeLists.txt b/gr-fcd/examples/c++/CMakeLists.txt
-index 346e95db3f..edf97c21d1 100644
 --- a/gr-fcd/examples/c++/CMakeLists.txt
 +++ b/gr-fcd/examples/c++/CMakeLists.txt
-@@ -32,6 +32,6 @@ target_link_libraries(fcd_nfm_rx
+@@ -32,6 +32,6 @@
  
  INSTALL(TARGETS
      fcd_nfm_rx
@@ -38,11 +34,9 @@ index 346e95db3f..edf97c21d1 100644
 +    DESTINATION ${GR_RUNTIME_DIR}
      COMPONENT "fcd_examples"
  )
-diff --git a/gr-qtgui/examples/c++/CMakeLists.txt b/gr-qtgui/examples/c++/CMakeLists.txt
-index 239b5dbf42..49c41a0c64 100644
 --- a/gr-qtgui/examples/c++/CMakeLists.txt
 +++ b/gr-qtgui/examples/c++/CMakeLists.txt
-@@ -43,6 +43,6 @@ target_link_libraries(display_qt ${QTGUI_LIBRARIES})
+@@ -50,6 +50,6 @@
  
  INSTALL(TARGETS
    display_qt
@@ -50,11 +44,9 @@ index 239b5dbf42..49c41a0c64 100644
 +  DESTINATION ${GR_RUNTIME_DIR}
    COMPONENT "qtgui_examples"
  )
-diff --git a/gr-uhd/examples/c++/CMakeLists.txt b/gr-uhd/examples/c++/CMakeLists.txt
-index 655ef0c0a9..414dd74fe0 100644
 --- a/gr-uhd/examples/c++/CMakeLists.txt
 +++ b/gr-uhd/examples/c++/CMakeLists.txt
-@@ -39,6 +39,6 @@ target_link_libraries(tags_demo gnuradio-uhd)
+@@ -39,6 +39,6 @@
  
  INSTALL(TARGETS
      tags_demo
@@ -62,6 +54,3 @@ index 655ef0c0a9..414dd74fe0 100644
 +    DESTINATION ${GR_RUNTIME_DIR}
      COMPONENT "uhd_examples"
  )
--- 
-2.11.0
-

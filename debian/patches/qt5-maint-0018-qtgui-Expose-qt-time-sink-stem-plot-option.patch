@@ -1,0 +1,48 @@
+From b261843acc2c9d2e849e4f3800f69efbfdcd115f Mon Sep 17 00:00:00 2001
+From: Derek Kozel <derek.kozel@gmail.com>
+Date: Sun, 12 Nov 2017 23:38:40 +0000
+Subject: [PATCH 18/22] qtgui: Expose qt time sink stem plot option
+
+---
+ gr-qtgui/grc/qtgui_time_sink_x.xml | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/gr-qtgui/grc/qtgui_time_sink_x.xml b/gr-qtgui/grc/qtgui_time_sink_x.xml
+index d4347950ea..7358c78856 100644
+--- a/gr-qtgui/grc/qtgui_time_sink_x.xml
++++ b/gr-qtgui/grc/qtgui_time_sink_x.xml
+@@ -29,6 +29,7 @@ self.$(id).enable_autoscale($autoscale)
+ self.$(id).enable_grid($grid)
+ self.$(id).enable_axis_labels($axislabels)
+ self.$(id).enable_control_panel($ctrlpanel)
++self.$(id).enable_stem_plot($stemplot)
+ 
+ if not $legend:
+   self.$(id).disable_legend()
+@@ -381,6 +382,23 @@ $(gui_hint()($win))</make>
+   </param>
+ 
+   <param>
++    <name>Stem Plot</name>
++    <key>stemplot</key>
++    <value>False</value>
++    <type>enum</type>
++    <hide>part</hide>
++    <option>
++      <name>Yes</name>
++      <key>True</key>
++    </option>
++    <option>
++      <name>No</name>
++      <key>False</key>
++    </option>
++    <tab>Config</tab>
++  </param>
++
++  <param>
+     <name>Line 1 Label</name>
+     <key>label1</key>
+     <type>string</type>
+-- 
+2.11.0
+

@@ -1,15 +1,15 @@
-From 8603d18a87c585530afc0b03529c0644290ae883 Mon Sep 17 00:00:00 2001
+From 18f5edf38cc6a24836f943d6976d913a4f35cab3 Mon Sep 17 00:00:00 2001
 From: "A. Maitland Bottoms" <bottoms@debian.org>
-Date: Sat, 25 Nov 2017 23:23:47 -0500
-Subject: [PATCH 25/27] gr-uhd-qt5
+Date: Sun, 25 Feb 2018 13:28:05 -0500
+Subject: [PATCH 22/22] gr uhd qt5
 
 ---
- gr-uhd/apps/uhd_fft        | 14 +++++++-------
- gr-uhd/apps/uhd_siggen_gui | 14 +++++++-------
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ gr-uhd/apps/uhd_fft        |  8 ++++----
+ gr-uhd/apps/uhd_siggen_gui | 10 +++++-----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
-index a04c310be3..44bd270b97 100755
+index a04c310be3..15b68b1699 100755
 --- a/gr-uhd/apps/uhd_fft
 +++ b/gr-uhd/apps/uhd_fft
 @@ -40,7 +40,7 @@ import sip
@@ -21,7 +21,7 @@ index a04c310be3..44bd270b97 100755
  from gnuradio import eng_notation
  from gnuradio import eng_arg
  from gnuradio import gr
-@@ -477,16 +477,16 @@ def main():
+@@ -477,8 +477,8 @@ def main():
      Go, go, go!
      """
      args = setup_argparser().parse_args()
@@ -32,20 +32,17 @@ index a04c310be3..44bd270b97 100755
      qapp = Qt.QApplication(sys.argv)
      tb = uhd_fft(args)
      tb.start()
-     tb.show()
--    def quitting():
--        tb.stop()
--        tb.wait()
+@@ -486,7 +486,7 @@ def main():
+     def quitting():
+         tb.stop()
+         tb.wait()
 -    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
-+    #def quitting():
-+    #    tb.stop()
-+    #    tb.wait()
-+    #qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
++    qapp.aboutToQuit.connect(quitting)
      qapp.exec_()
      tb = None #to clean up Qt widgets
  
 diff --git a/gr-uhd/apps/uhd_siggen_gui b/gr-uhd/apps/uhd_siggen_gui
-index 9a57aa65ae..52c0182c54 100755
+index 9a57aa65ae..571cff98a3 100755
 --- a/gr-uhd/apps/uhd_siggen_gui
 +++ b/gr-uhd/apps/uhd_siggen_gui
 @@ -38,8 +38,8 @@ import sys
@@ -70,12 +67,10 @@ index 9a57aa65ae..52c0182c54 100755
      qapp = Qt.QApplication(sys.argv)
      siggen_gui = uhd_siggen_gui(args)
      siggen_gui.show()
--    def quitting():
--        siggen_gui.stop()
+     def quitting():
+         siggen_gui.stop()
 -    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
-+    #def quitting():
-+    #    siggen_gui.stop()
-+    #qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
++    qapp.aboutToQuit.connect(quitting)
      qapp.exec_()
      siggen_gui = None #to clean up Qt widgets
  

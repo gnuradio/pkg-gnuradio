@@ -1,0 +1,550 @@
+From 69cdcdc9c9ade2a9f1731af700137e3603328381 Mon Sep 17 00:00:00 2001
+From: Spencer Ross <brashendeavours@gmail.com>
+Date: Sat, 19 Aug 2017 23:16:38 -0400
+Subject: [PATCH 93/93] moves gui_hint logic into parsing function, removes
+ GuiHint class from Param.py, cleans up gr-qtgui blocks <make> functions
+
+---
+ gr-qtgui/grc/qtgui_ber_sink_b.xml       |   2 +-
+ gr-qtgui/grc/qtgui_check_box.xml        |   3 +-
+ gr-qtgui/grc/qtgui_chooser.xml          |   3 +-
+ gr-qtgui/grc/qtgui_const_sink_x.xml     |   3 +-
+ gr-qtgui/grc/qtgui_edit_box_msg.xml     |   2 +-
+ gr-qtgui/grc/qtgui_entry.xml            |   5 +-
+ gr-qtgui/grc/qtgui_freq_sink_x.xml      |   3 +-
+ gr-qtgui/grc/qtgui_histogram_sink_x.xml |   4 +-
+ gr-qtgui/grc/qtgui_label.xml            |   3 +-
+ gr-qtgui/grc/qtgui_number_sink.xml      |   3 +-
+ gr-qtgui/grc/qtgui_push_button.xml      |   4 +-
+ gr-qtgui/grc/qtgui_range.xml            |   3 +-
+ gr-qtgui/grc/qtgui_sink_x.xml           |   2 +-
+ gr-qtgui/grc/qtgui_tab_widget.xml       |   3 +-
+ gr-qtgui/grc/qtgui_time_raster_x.xml    |   3 +-
+ gr-qtgui/grc/qtgui_time_sink_x.xml      |   3 +-
+ gr-qtgui/grc/qtgui_vector_sink_f.xml    |   3 +-
+ gr-qtgui/grc/qtgui_waterfall_sink_x.xml |   3 +-
+ grc/core/Param.py                       | 232 ++++++++++++++++----------------
+ grc/core/generator/Generator.py         |   2 +-
+ 20 files changed, 154 insertions(+), 135 deletions(-)
+
+diff --git a/gr-qtgui/grc/qtgui_ber_sink_b.xml b/gr-qtgui/grc/qtgui_ber_sink_b.xml
+index da3fc6ebf8..851502a774 100644
+--- a/gr-qtgui/grc/qtgui_ber_sink_b.xml
++++ b/gr-qtgui/grc/qtgui_ber_sink_b.xml
+@@ -47,7 +47,7 @@ for i in xrange($num_curves):
+     self.$(id).set_line_alpha(i, alphas[i])
+ 
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
+ 
+   <param>
+     <name>esno</name>
+diff --git a/gr-qtgui/grc/qtgui_check_box.xml b/gr-qtgui/grc/qtgui_check_box.xml
+index 67c8848a22..a02c83e3cf 100644
+--- a/gr-qtgui/grc/qtgui_check_box.xml
++++ b/gr-qtgui/grc/qtgui_check_box.xml
+@@ -20,7 +20,8 @@ self._$(id)_choices_inv = dict((v,k) for k,v in self._$(id)_choices.iteritems())
+ self._$(id)_callback = lambda i: Qt.QMetaObject.invokeMethod($(win), "setChecked", Qt.Q_ARG("bool", self._$(id)_choices_inv[i]))
+ self._$(id)_callback(self.$id)
+ $(win).stateChanged.connect(lambda i: self.set_$(id)(self._$(id)_choices[bool(i)]))
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+ 	<callback>self.set_$(id)($value)</callback>
+ 	<callback>self._$(id)_callback($id)</callback>
+ 	<param>
+diff --git a/gr-qtgui/grc/qtgui_chooser.xml b/gr-qtgui/grc/qtgui_chooser.xml
+index f018354dd4..b91566ae74 100644
+--- a/gr-qtgui/grc/qtgui_chooser.xml
++++ b/gr-qtgui/grc/qtgui_chooser.xml
+@@ -86,7 +86,8 @@ self._$(id)_callback(self.$id)
+ self._$(id)_button_group.buttonClicked[int].connect(
+ 	lambda i: self.set_$(id)(self._$(id)_options[i]))
+ #end if
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+ 	<callback>self.set_$(id)($value)</callback>
+ 	<callback>self._$(id)_callback($id)</callback>
+ 	<param>
+diff --git a/gr-qtgui/grc/qtgui_const_sink_x.xml b/gr-qtgui/grc/qtgui_const_sink_x.xml
+index 755f12f964..6bf31d5190 100644
+--- a/gr-qtgui/grc/qtgui_const_sink_x.xml
++++ b/gr-qtgui/grc/qtgui_const_sink_x.xml
+@@ -51,7 +51,8 @@ for i in xrange(#if $type.t == 'message' then 1 else $nconnections#):
+     self.$(id).set_line_alpha(i, alphas[i])
+ 
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+   <callback>set_resize($width, $height)</callback>
+   <callback>set_update_time($update_time)</callback>
+   <callback>set_title($which, $title)</callback>
+diff --git a/gr-qtgui/grc/qtgui_edit_box_msg.xml b/gr-qtgui/grc/qtgui_edit_box_msg.xml
+index c7c758a612..276cfe9801 100644
+--- a/gr-qtgui/grc/qtgui_edit_box_msg.xml
++++ b/gr-qtgui/grc/qtgui_edit_box_msg.xml
+@@ -13,7 +13,7 @@
+   <make>#set $win = 'self._%s_win'%$id
+ qtgui.edit_box_msg($(type.t), $value, $label, $is_pair, $is_static, $key)
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
+ 
+   <param>
+     <name>Type</name>
+diff --git a/gr-qtgui/grc/qtgui_entry.xml b/gr-qtgui/grc/qtgui_entry.xml
+index cce2edb4b2..ab35aec858 100644
+--- a/gr-qtgui/grc/qtgui_entry.xml
++++ b/gr-qtgui/grc/qtgui_entry.xml
+@@ -21,9 +21,12 @@ self._$(id)_line_edit = Qt.QLineEdit(str(self.$id))
+ self._$(id)_tool_bar.addWidget(self._$(id)_line_edit)
+ self._$(id)_line_edit.returnPressed.connect(
+ 	lambda: self.set_$(id)($(type.conv)(str(self._$(id)_line_edit.text().toAscii()))))
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+ 	<callback>self.set_$(id)($value)</callback>
++
+ 	<callback>Qt.QMetaObject.invokeMethod(self._$(id)_line_edit, "setText", Qt.Q_ARG("QString", $(type.str)($id)))</callback>
++
+ 	<param>
+ 		<name>Label</name>
+ 		<key>label</key>
+diff --git a/gr-qtgui/grc/qtgui_freq_sink_x.xml b/gr-qtgui/grc/qtgui_freq_sink_x.xml
+index 009a184327..5c6595cb33 100644
+--- a/gr-qtgui/grc/qtgui_freq_sink_x.xml
++++ b/gr-qtgui/grc/qtgui_freq_sink_x.xml
+@@ -54,7 +54,8 @@ for i in xrange(#if $type.t == 'message' then 1 else $nconnections#):
+     self.$(id).set_line_alpha(i, alphas[i])
+ 
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+   <callback>set_frequency_range($fc, $bw)</callback>
+   <callback>set_update_time($update_time)</callback>
+   <callback>set_title($which, $title)</callback>
+diff --git a/gr-qtgui/grc/qtgui_histogram_sink_x.xml b/gr-qtgui/grc/qtgui_histogram_sink_x.xml
+index a789d2e4fa..8bf9662b74 100644
+--- a/gr-qtgui/grc/qtgui_histogram_sink_x.xml
++++ b/gr-qtgui/grc/qtgui_histogram_sink_x.xml
+@@ -53,8 +53,8 @@ for i in xrange(#if $type.t == 'message' then 1 else $nconnections#):
+     self.$(id).set_line_alpha(i, alphas[i])
+ 
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))
+-  </make>
++$(gui_hint() % $win)</make>
++
+   <callback>set_update_time($update_time)</callback>
+   <callback>set_title($which, $title)</callback>
+   <callback>set_color($which, $color)</callback>
+diff --git a/gr-qtgui/grc/qtgui_label.xml b/gr-qtgui/grc/qtgui_label.xml
+index d67f3d7500..90b77fa968 100644
+--- a/gr-qtgui/grc/qtgui_label.xml
++++ b/gr-qtgui/grc/qtgui_label.xml
+@@ -26,8 +26,7 @@ else:
+ $(win).addWidget(Qt.QLabel($label+": "))
+ self._$(id)_label = Qt.QLabel(str(self._$(id)_formatter(self.$id)))
+ self._$(id)_tool_bar.addWidget(self._$(id)_label)
+-$(gui_hint()($win))
+-  </make>
++$(gui_hint() % $win)</make>
+ 
+   <callback>self.set_$(id)(self._$(id)_formatter($value))</callback>
+   <callback>Qt.QMetaObject.invokeMethod(self._$(id)_label, "setText", Qt.Q_ARG("QString", $id))</callback>
+diff --git a/gr-qtgui/grc/qtgui_number_sink.xml b/gr-qtgui/grc/qtgui_number_sink.xml
+index d10b7325c0..264baae667 100644
+--- a/gr-qtgui/grc/qtgui_number_sink.xml
++++ b/gr-qtgui/grc/qtgui_number_sink.xml
+@@ -41,7 +41,8 @@ for i in xrange($nconnections):
+ 
+ self.$(id).enable_autoscale($autoscale)
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+   <callback>set_update_time($update_time)</callback>
+ 
+   <param_tab_order>
+diff --git a/gr-qtgui/grc/qtgui_push_button.xml b/gr-qtgui/grc/qtgui_push_button.xml
+index a535bb6473..e4f598e725 100644
+--- a/gr-qtgui/grc/qtgui_push_button.xml
++++ b/gr-qtgui/grc/qtgui_push_button.xml
+@@ -18,8 +18,10 @@ $win = Qt.QPushButton($label)
+ self._$(id)_choices = {'Pressed': $pressed, 'Released': $released}
+ $(win).pressed.connect(lambda: self.set_$(id)(self._$(id)_choices['Pressed']))
+ $(win).released.connect(lambda: self.set_$(id)(self._$(id)_choices['Released']))
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+ 	<callback>self.set_$(id)($value)</callback>
++
+ 	<param>
+ 		<name>Label</name>
+ 		<key>label</key>
+diff --git a/gr-qtgui/grc/qtgui_range.xml b/gr-qtgui/grc/qtgui_range.xml
+index 71b614cc5e..0999311a0b 100644
+--- a/gr-qtgui/grc/qtgui_range.xml
++++ b/gr-qtgui/grc/qtgui_range.xml
+@@ -17,7 +17,8 @@
+ #end if
+ $(range) = Range($start, $stop, $step, $value, $min_len)
+ $(win) = RangeWidget($range, self.set_$(id), $label, "$widget", $rangeType)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+   <callback>self.set_$(id)($value)</callback>
+ 
+   <param>
+diff --git a/gr-qtgui/grc/qtgui_sink_x.xml b/gr-qtgui/grc/qtgui_sink_x.xml
+index 7488ea59d8..4dbf0e6375 100644
+--- a/gr-qtgui/grc/qtgui_sink_x.xml
++++ b/gr-qtgui/grc/qtgui_sink_x.xml
+@@ -25,7 +25,7 @@ qtgui.$(type.fcn)(
+ )
+ self.$(id).set_update_time(1.0/$rate)
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))
++$(gui_hint() % $win)
+ 
+ self.$(id).enable_rf_freq($showrf)
+ 
+diff --git a/gr-qtgui/grc/qtgui_tab_widget.xml b/gr-qtgui/grc/qtgui_tab_widget.xml
+index 1bbadc8e51..fc8ad0553a 100644
+--- a/gr-qtgui/grc/qtgui_tab_widget.xml
++++ b/gr-qtgui/grc/qtgui_tab_widget.xml
+@@ -21,7 +21,8 @@ self.$(id)_grid_layout_$(i) = Qt.QGridLayout()
+ self.$(id)_layout_$(i).addLayout(self.$(id)_grid_layout_$(i))
+ $(win).addTab(self.$(id)_widget_$(i), $label)
+ #end for
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+ 	<param>
+ 		<name>Num Tabs</name>
+ 		<key>num_tabs</key>
+diff --git a/gr-qtgui/grc/qtgui_time_raster_x.xml b/gr-qtgui/grc/qtgui_time_raster_x.xml
+index 0359dc3b71..2d2f3cbff4 100644
+--- a/gr-qtgui/grc/qtgui_time_raster_x.xml
++++ b/gr-qtgui/grc/qtgui_time_raster_x.xml
+@@ -41,7 +41,8 @@ for i in xrange(#if $type.t == 'message' then 1 else $nconnections#):
+     self.$(id).set_line_alpha(i, alphas[i])
+ 
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+   <callback>set_num_rows($nrows)</callback>
+   <callback>set_num_cols($ncols)</callback>
+   <callback>set_multiplier($mult)</callback>
+diff --git a/gr-qtgui/grc/qtgui_time_sink_x.xml b/gr-qtgui/grc/qtgui_time_sink_x.xml
+index 144cba60eb..2067841be8 100644
+--- a/gr-qtgui/grc/qtgui_time_sink_x.xml
++++ b/gr-qtgui/grc/qtgui_time_sink_x.xml
+@@ -74,7 +74,8 @@ for i in xrange(#if $type.t == 'message' then 1 else $nconnections#):
+ #end if
+ 
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+   <callback>set_time_domain_axis($min, $max)</callback>
+   <callback>set_update_time($update_time)</callback>
+   <callback>set_title($which, $title)</callback>
+diff --git a/gr-qtgui/grc/qtgui_vector_sink_f.xml b/gr-qtgui/grc/qtgui_vector_sink_f.xml
+index 9f40d57729..1c17b8256a 100644
+--- a/gr-qtgui/grc/qtgui_vector_sink_f.xml
++++ b/gr-qtgui/grc/qtgui_vector_sink_f.xml
+@@ -46,7 +46,8 @@ for i in xrange($nconnections):
+     self.$(id).set_line_alpha(i, alphas[i])
+ 
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+   <callback>set_update_time($update_time)</callback>
+   <callback>set_title($title)</callback>
+   <callback>set_color($which, $color)</callback>
+diff --git a/gr-qtgui/grc/qtgui_waterfall_sink_x.xml b/gr-qtgui/grc/qtgui_waterfall_sink_x.xml
+index cdecd5cce1..206318e30d 100644
+--- a/gr-qtgui/grc/qtgui_waterfall_sink_x.xml
++++ b/gr-qtgui/grc/qtgui_waterfall_sink_x.xml
+@@ -47,7 +47,8 @@ for i in xrange(#if $type.t == 'message' then 1 else $nconnections#):
+ self.$(id).set_intensity_range($int_min, $int_max)
+ 
+ self._$(id)_win = sip.wrapinstance(self.$(id).pyqwidget(), Qt.QWidget)
+-$(gui_hint()($win))</make>
++$(gui_hint() % $win)</make>
++
+   <callback>set_frequency_range($fc, $bw)</callback>
+   <callback>set_update_time($update_time)</callback>
+   <callback>set_title($which, $title)</callback>
+diff --git a/grc/core/Param.py b/grc/core/Param.py
+index 0a22069488..7307eabef1 100644
+--- a/grc/core/Param.py
++++ b/grc/core/Param.py
+@@ -526,122 +526,10 @@ class Param(Element):
+         # GUI Position/Hint
+         #########################
+         elif t == 'gui_hint':
+-        
+-            # FIXME: Move replace(...) into the make template of the qtgui blocks
+-            # Return a string here
+-            class GuiHint(object):
+-                def __init__(self, ws):
+-                    self._ws = ws
+- 
+-                def __call__(self, w):
+-                    return (self._ws.replace('addWidget', 'addLayout') if 'layout' in w else self._ws) % w
+- 
+-                def __str__(self):
+-                    return self._ws
+-                    
+             if (self.get_parent().get_state() == Constants.BLOCK_DISABLED):
+-                return GuiHint('')
+-                                    
+-            # Parsing
+-            if ':' in v:                
+-                tab, pos = v.split(':')
+-            elif '@' in v:              
+-                tab, pos = v, ''        
+-            else:
+-                tab, pos = '', v        
+- 
+-            if '@' in tab:
+-                tab, index = tab.split('@')
++                return ''
+             else:
+-                index = '0'
+-               
+-            position_set = bool(pos)
+-            tab_set = bool(tab)
+-            
+-            # Validation
+-            if position_set:
+-                e = self.get_parent().get_parent().evaluate(pos)
+-               
+-                if len(e) == 2:
+-                    e = e + (1,1)    
+-                row, col, row_span, col_span = e
+-               
+-                if not isinstance(e, (list, tuple)) or not (len(e) == 2 or len(e) == 4) or not all([isinstance(ei, int) for ei in e]):
+-                    raise Exception('Invalid GUI Hint entered: {e!s:s} (Must be a list of {{2,4}} non-negative integers).'.format(e=e))
+- 
+-                if (row < 0) or (col < 0):
+-                    raise Exception('Invalid GUI Hint entered: {e!s:s} (non-negative integers only).'.format(e=e))
+-                   
+-                if (row_span < 1) or (col_span < 1):
+-                    raise Exception('Invalid GUI Hint entered: {e!s:s} (positive row/column span required).'.format(e=e))
+-
+-            if tab_set:
+-                enabled_blocks = self.get_parent().get_parent().get_enabled_blocks()
+-                tab_list = filter(lambda block: str(block.get_key()) == 'qtgui_tab_widget', enabled_blocks)
+-                tab_match = filter(lambda t: t.get_id() == tab, tab_list) 
+-                if not tab_match:
+-                    raise Exception('Invalid tab name entered: {tab!s:s} (Tab name not found).'.format(tab=tab))
+-                
+-                tab_index_size = tab_match[0].get_param('num_tabs').get_value()
+-                if index >= tab_index_size:
+-                    raise Exception('Invalid tab index entered: {tab!s:s}@{index!s:s} (Index out of range).'.format(tab=tab,
+-                                                                                                                    index=index))   
+-                        
+-            # Code Generation        
+-            if position_set and tab_set:
+-                widget_str = 'self.{tab:s}_grid_layout_{index:s}.addWidget({widget:s}, {e!s:s})'
+-                widget_str += '\n[self.{tab:s}_grid_layout_{index:s}.setRowStretch(r,1) for r in range({fRow:d},{lRow:d})]'
+-                widget_str += '\n[self.{tab:s}_grid_layout_{index:s}.setColumnStretch(c,1) for c in range({fCol:d},{lCol:d})]'
+-                widget_str = widget_str.format(tab=tab,
+-                                               index=index,
+-                                               widget='%s',
+-                                               e=str(e)[1:-1],
+-                                               fRow=row,
+-                                               lRow=(row + row_span),
+-                                               fCol=col,
+-                                               lCol=(col + col_span))
+- 
+-            elif position_set and not tab_set:
+-                widget_str = 'self.top_grid_layout.addWidget({widget:s}, {e!s:s})'
+-                widget_str += '\n[self.top_grid_layout.setRowStretch(r,1) for r in range({fRow:d},{lRow:d})]'
+-                widget_str += '\n[self.top_grid_layout.setColumnStretch(c,1) for c in range({fCol:d},{lCol:d})]'
+-                widget_str = widget_str.format(widget='%s',
+-                                               e=str(e)[1:-1],
+-                                               fRow=row,
+-                                               lRow=(row + row_span),
+-                                               fCol=col,
+-                                               lCol=(col + col_span))
+-               
+-            elif not position_set and tab_set:
+-                widget_str = 'self.{tab:s}_layout_{index:s}.addWidget({widget:s})'
+-                widget_str = widget_str.format(tab=tab,
+-                                               index=index,
+-                                               widget='%s')
+-                 
+-            elif not position_set and not tab_set:
+-                widget_str = 'self.top_layout.addWidget({widget:s})'
+-                widget_str = widget_str.format(widget='%s')
+-
+-            # Collision Detection
+-            if position_set:
+-                if tab_set:
+-                    my_parent = '{tab:s}@{index:s}'.format(tab=tab,
+-                                                           index=index)
+-                else:
+-                    my_parent = 'main'                            
+-                # Calculate hostage cells
+-                for r in range(row, row + row_span):
+-                    for c in range(col, col + col_span):
+-                        self._hostage_cells.append((my_parent, (r, c)))
+-                # Avoid collisions
+-                params = filter(lambda p: p is not self, self.get_all_params('gui_hint'))
+-                for param in params:
+-                    for parent, cell in param._hostage_cells:
+-                        if (parent, cell) in self._hostage_cells:
+-                            raise Exception('Another graphical element is using parent "{parent!s:s}", cell "{cell!s:s}".'.format(parent=parent,
+-                                                                                                                                  cell=cell))
+- 
+-            return GuiHint(widget_str)
++                return self.parse_gui_hint(v)
+         #########################
+         # Grid Position Type
+         #########################
+@@ -828,3 +716,119 @@ class Param(Element):
+         n['key'] = self.get_key()
+         n['value'] = self.get_value()
+         return n
++
++    ##############################################
++    # GUI Hint
++    ##############################################
++    def parse_gui_hint(self, v):
++        """
++        Parse/validate gui hint value.
++
++        Args:
++            v: gui_hint string from a block's 'gui_hint' param
++
++        Returns:
++            string of python code for positioning GUI elements in pyQT
++        """
++
++        # Parsing
++        if ':' in v:
++            tab, pos = v.split(':')
++        elif ',' in v:
++            tab, pos = '', v
++        else:
++            tab, pos = v, ''
++
++        if '@' in tab:
++            tab, index = tab.split('@')
++        else:
++            index = '0'
++        index = int(index)
++
++        position_set = bool(pos)
++        tab_set = bool(tab)
++
++        # Validation
++        if position_set:
++            e = self.get_parent().get_parent().evaluate(pos)
++
++            if len(e) == 2:
++                e = e + (1,1)
++            row, col, row_span, col_span = e
++
++            if not isinstance(e, (list, tuple)) or not (len(e) == 2 or len(e) == 4) or not all([isinstance(ei, int) for ei in e]):
++                raise Exception('Invalid GUI Hint entered: {e!s:s} (Must be a list of {{2,4}} non-negative integers).'.format(e=e))
++
++            if (row < 0) or (col < 0):
++                raise Exception('Invalid GUI Hint entered: {e!s:s} (non-negative integers only).'.format(e=e))
++
++            if (row_span < 1) or (col_span < 1):
++                raise Exception('Invalid GUI Hint entered: {e!s:s} (positive row/column span required).'.format(e=e))
++
++        if tab_set:
++            enabled_blocks = self.get_parent().get_parent().get_enabled_blocks()
++            tab_list = filter(lambda block: str(block.get_key()) == 'qtgui_tab_widget', enabled_blocks)
++            tab_match = filter(lambda t: t.get_id() == tab, tab_list)
++            if not tab_match:
++                raise Exception('Invalid tab name entered: {tab!s:s} (Tab name not found).'.format(tab=tab))
++
++            tab_index_size = int(tab_match[0].get_param('num_tabs').get_value())
++            if index >= tab_index_size:
++                raise Exception('Invalid tab index entered: {tab!s:s}@{index!s:s} (Index out of range).'.format(tab=tab,
++                                                                                                                index=index))
++
++        # Code Generation
++        if position_set and tab_set:
++            widget_str = 'self.{tab:s}_grid_layout_{index!s:s}.addWidget({widget:s}, {e!s:s})'
++            widget_str += '\n[self.{tab:s}_grid_layout_{index!s:s}.setRowStretch(r,1) for r in range({fRow:d},{lRow:d})]'
++            widget_str += '\n[self.{tab:s}_grid_layout_{index!s:s}.setColumnStretch(c,1) for c in range({fCol:d},{lCol:d})]'
++            widget_str = widget_str.format(tab=tab,
++                                            index=index,
++                                            widget='%s',
++                                            e=str(e)[1:-1],
++                                            fRow=row,
++                                            lRow=(row + row_span),
++                                            fCol=col,
++                                            lCol=(col + col_span))
++
++        elif position_set and not tab_set:
++            widget_str = 'self.top_grid_layout.addWidget({widget:s}, {e!s:s})'
++            widget_str += '\n[self.top_grid_layout.setRowStretch(r,1) for r in range({fRow:d},{lRow:d})]'
++            widget_str += '\n[self.top_grid_layout.setColumnStretch(c,1) for c in range({fCol:d},{lCol:d})]'
++            widget_str = widget_str.format(widget='%s',
++                                            e=str(e)[1:-1],
++                                            fRow=row,
++                                            lRow=(row + row_span),
++                                            fCol=col,
++                                            lCol=(col + col_span))
++
++        elif not position_set and tab_set:
++            widget_str = 'self.{tab:s}_layout_{index!s:s}.addWidget({widget:s})'
++            widget_str = widget_str.format(tab=tab,
++                                            index=index,
++                                            widget='%s')
++
++        elif not position_set and not tab_set:
++            widget_str = 'self.top_layout.addWidget({widget:s})'
++            widget_str = widget_str.format(widget='%s')
++
++        # Collision Detection
++        if position_set:
++            if tab_set:
++                my_parent = '{tab:s}@{index!s:s}'.format(tab=tab,
++                                                        index=index)
++            else:
++                my_parent = 'main'
++            # Calculate hostage cells
++            for r in range(row, row + row_span):
++                for c in range(col, col + col_span):
++                    self._hostage_cells.append((my_parent, (r, c)))
++            # Avoid collisions
++            params = filter(lambda p: p is not self, self.get_all_params('gui_hint'))
++            for param in params:
++                for parent, cell in param._hostage_cells:
++                    if (parent, cell) in self._hostage_cells:
++                        raise Exception('Another graphical element is using parent "{parent!s:s}", cell "{cell!s:s}".'.format(parent=parent,
++                                                                                                                                cell=cell))
++
++        return widget_str
+\ No newline at end of file
+diff --git a/grc/core/generator/Generator.py b/grc/core/generator/Generator.py
+index 1ed7d2d89d..628ce11abd 100644
+--- a/grc/core/generator/Generator.py
++++ b/grc/core/generator/Generator.py
+@@ -397,6 +397,6 @@ class QtHierBlockGenerator(HierBlockGenerator):
+ 
+         block_n['make'] += (
+             "\n#set $win = 'self.%s' % $id"
+-            "\n${gui_hint()($win)}"
++            "\n${gui_hint() % $win}"
+         )
+         return n
+-- 
+2.11.0
+
