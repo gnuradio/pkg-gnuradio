@@ -112,6 +112,7 @@ qt5-maint-0019-qtgui-fixed-apps-for-Qt5-compatibility.patch
 qt5-maint-0020-qtgui-pc-add-qt-qwt-details.patch
 qt5-maint-0021-gnuradio-runtime-ctrlport-qt5.patch
 qt5-maint-0022-gr-uhd-qt5.patch
+qt5-maint-0023-gr-qtgui-util.patch
 usr-bin-examples
 direct-freedesktop-install
 bsd-shm

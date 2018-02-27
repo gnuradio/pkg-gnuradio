@@ -1,3 +1,9 @@
+gnuradio (3.7.11-10) unstable; urgency=medium
+
+  * import Qt5 QtWidgets in gr-qtgui util.py (Closes: #891495)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 26 Feb 2018 21:40:13 -0500
+
 gnuradio (3.7.11-9) unstable; urgency=medium
 
   * update to v3.7.11-137-g4579e7b647
