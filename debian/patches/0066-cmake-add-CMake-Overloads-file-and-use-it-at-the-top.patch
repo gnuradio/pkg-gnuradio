@@ -32,11 +32,9 @@ so we ignore it.
  2 files changed, 76 insertions(+)
  create mode 100644 cmake/Modules/CMakeOverloads.cmake
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 006463298b..30a3a03591 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -118,6 +118,12 @@ set(EXPORT_FILE ${CMAKE_BINARY_DIR}/ImportExecutables.cmake)
+@@ -122,6 +122,12 @@
  file(WRITE ${EXPORT_FILE}) #blank the file (subdirs will append)
  
  ########################################################################
@@ -49,9 +47,6 @@ index 006463298b..30a3a03591 100644
  # Compiler specific setup
  ########################################################################
  include(GrMiscUtils) #compiler flag check
-diff --git a/cmake/Modules/CMakeOverloads.cmake b/cmake/Modules/CMakeOverloads.cmake
-new file mode 100644
-index 0000000000..04fc777a9f
 --- /dev/null
 +++ b/cmake/Modules/CMakeOverloads.cmake
 @@ -0,0 +1,70 @@
@@ -125,6 +120,3 @@ index 0000000000..04fc777a9f
 +    endif()
 +  endforeach()
 +endmacro(INCLUDE_DIRECTORIES)
--- 
-2.11.0
-

@@ -1,0 +1,98 @@
+From 486cd827024c19a5d17adc710905974cf81f7948 Mon Sep 17 00:00:00 2001
+From: Andrej Rode <mail@andrejro.de>
+Date: Thu, 15 Mar 2018 02:18:24 +0100
+Subject: [PATCH 112/112] blocks: replace rand48 with xoroshiro closes #1671
+
+merges #1692.
+---
+ gr-blocks/lib/ConfigChecks.cmake                |  7 -------
+ gr-blocks/lib/test_tag_variable_rate_ff_impl.cc | 20 +++++---------------
+ gr-blocks/lib/test_tag_variable_rate_ff_impl.h  |  1 +
+ 3 files changed, 6 insertions(+), 22 deletions(-)
+
+diff --git a/gr-blocks/lib/ConfigChecks.cmake b/gr-blocks/lib/ConfigChecks.cmake
+index 222a221dc1..1effaa8360 100644
+--- a/gr-blocks/lib/ConfigChecks.cmake
++++ b/gr-blocks/lib/ConfigChecks.cmake
+@@ -89,10 +89,3 @@ CHECK_CXX_SOURCE_COMPILES("
+     " HAVE_COSF
+ )
+ GR_ADD_COND_DEF(HAVE_COSF)
+-
+-CHECK_CXX_SOURCE_COMPILES("
+-    #include <stdlib.h>
+-	int main(){srand48(0); drand48(); lrand48(); return 0;}
+-	" HAVE_RAND48
+-)
+-GR_ADD_COND_DEF(HAVE_RAND48)
+diff --git a/gr-blocks/lib/test_tag_variable_rate_ff_impl.cc b/gr-blocks/lib/test_tag_variable_rate_ff_impl.cc
+index ec239c9fa7..cca86ad832 100644
+--- a/gr-blocks/lib/test_tag_variable_rate_ff_impl.cc
++++ b/gr-blocks/lib/test_tag_variable_rate_ff_impl.cc
+@@ -26,10 +26,12 @@
+ 
+ #include "test_tag_variable_rate_ff_impl.h"
+ #include <gnuradio/io_signature.h>
++#include <gnuradio/xoroshiro128p.h>
+ #include <string.h>
+ #include <iostream>
+ #include <iomanip>
+ #include <stdexcept>
++#include <stdint.h>
+ 
+ using namespace pmt;
+ 
+@@ -57,11 +59,7 @@ namespace gr {
+       d_new_in = 0;
+       d_last_out = 0;
+ 
+-#ifdef HAVE_RAND48
+-      srand48(time(NULL));
+-#else
+-      srand(time(NULL));
+-#endif
++      xoroshiro128p_seed(d_rng_state, 4 /* chosen by fair dice roll */);
+     }
+ 
+     test_tag_variable_rate_ff_impl::~test_tag_variable_rate_ff_impl()
+@@ -82,11 +80,7 @@ namespace gr {
+       GR_LOG_DEBUG(d_logger, boost::format("noutput_items: %1%") % noutput_items);
+ 
+       if(d_update_once) {
+-#ifdef HAVE_RAND48
+-        if(drand48() > 0.5) {
+-#else
+-        if (rand() > RAND_MAX / 2) {
+-#endif
++        if (xoroshiro128p_next(d_rng_state) > (UINT64_MAX / 2)){
+           d_rrate += d_update_step;
+         }
+         else {
+@@ -103,11 +97,7 @@ namespace gr {
+       while(i < ninput_items[0]) {
+ 
+         if(!d_update_once) {
+-#ifdef HAVE_RAND48
+-          if(drand48() > 0.5) {
+-#else
+-          if (rand() > RAND_MAX / 2) {
+-#endif
++          if (xoroshiro128p_next(d_rng_state) > (UINT64_MAX / 2)){
+             d_rrate += d_update_step;
+           }
+           else {
+diff --git a/gr-blocks/lib/test_tag_variable_rate_ff_impl.h b/gr-blocks/lib/test_tag_variable_rate_ff_impl.h
+index 0335ab6e66..a02bce1ccf 100644
+--- a/gr-blocks/lib/test_tag_variable_rate_ff_impl.h
++++ b/gr-blocks/lib/test_tag_variable_rate_ff_impl.h
+@@ -36,6 +36,7 @@ namespace gr {
+       double d_accum;
+       double d_rrate;
+       uint64_t d_old_in, d_new_in, d_last_out;
++      uint64_t d_rng_state[2];
+ 
+     public:
+       test_tag_variable_rate_ff_impl(bool update_once=false,
+-- 
+2.11.0
+

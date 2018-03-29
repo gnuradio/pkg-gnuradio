@@ -1,0 +1,37 @@
+From 1d214041db71ae94fc6836404f07cd3fd8bd81e9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus@hostalia.de>
+Date: Sat, 24 Mar 2018 16:56:57 +0100
+Subject: [PATCH 110/112] fixup! analog: improve readability of laplacian
+ distribution
+
+---
+ gnuradio-runtime/lib/math/random.cc | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/gnuradio-runtime/lib/math/random.cc b/gnuradio-runtime/lib/math/random.cc
+index b27b912391..cedaf4b97f 100644
+--- a/gnuradio-runtime/lib/math/random.cc
++++ b/gnuradio-runtime/lib/math/random.cc
+@@ -141,14 +141,12 @@ namespace gr {
+   float
+   random::laplacian()
+   {
+-    float z = ran1();
+-    if (z > 0.5){
+-      return -logf(2*(1-z));
+-    }else{
+-      return logf(2*z);
+-    }
++          float z = ran1();
++          if (z > 0.5f){
++                  return -logf(2.0f * (1.0f - z) );
++          }
++          return logf(2 * z);
+   }
+-
+   /*
+    * Copied from The KC7WW / OH2BNS Channel Simulator
+    * FIXME Need to check how good this is at some point
+-- 
+2.11.0
+

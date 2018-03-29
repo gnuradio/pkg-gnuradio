@@ -1,0 +1,27 @@
+From 2560af61e2f7d4b0401e7ef44ded16633bca619d Mon Sep 17 00:00:00 2001
+From: Paul Wicks <pwicks86@gmail.com>
+Date: Fri, 27 Oct 2017 16:08:48 -0700
+Subject: [PATCH 095/112] grc: Escape xml chars in category names so that they
+ display correctly in tooltips in the BlockTreeWindow (#1499)
+
+---
+ grc/gui/BlockTreeWindow.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/grc/gui/BlockTreeWindow.py b/grc/gui/BlockTreeWindow.py
+index 900cbd3151..258b8b787f 100644
+--- a/grc/gui/BlockTreeWindow.py
++++ b/grc/gui/BlockTreeWindow.py
+@@ -58,7 +58,8 @@ undocumented#slurp
+ CAT_MARKUP_TMPL = """
+ #set $name = $cat[-1]
+ #if len($cat) > 1
+-Category: $cat[-1]
++#silent from xml.sax.saxutils import escape
++Category: #echo escape($cat[-1])
+ ##
+ #elif $name == 'Core'
+ Module: Core
+-- 
+2.11.0
+

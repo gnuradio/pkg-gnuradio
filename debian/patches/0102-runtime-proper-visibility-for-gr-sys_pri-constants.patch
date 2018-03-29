@@ -1,0 +1,43 @@
+From c3fd608ef9fced41b368bb917b6c5bf6302df4b6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marcus=20M=C3=BCller?= <marcus@hostalia.de>
+Date: Mon, 5 Mar 2018 14:32:36 +0100
+Subject: [PATCH 102/112] runtime: proper visibility for gr::sys_pri constants
+
+From the patches that Maitland Bottoms applies to the source tree to
+make the debian builds checkable with abi-compliance-checker:
+https://sources.debian.org/data/main/g/gnuradio/3.7.11-10/debian/patches/make-acc-happy
+---
+ gnuradio-runtime/include/gnuradio/sys_pri.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/gnuradio-runtime/include/gnuradio/sys_pri.h b/gnuradio-runtime/include/gnuradio/sys_pri.h
+index adceb91b9d..d251455a11 100644
+--- a/gnuradio-runtime/include/gnuradio/sys_pri.h
++++ b/gnuradio-runtime/include/gnuradio/sys_pri.h
+@@ -23,7 +23,7 @@
+ #define INCLUDED_GNURADIO_SYS_PRI_H
+ 
+ #include <gnuradio/api.h>
+-#include <realtime.h>
++#include <gnuradio/realtime.h>
+ 
+ /*
+  * A single place to define real-time priorities used by the system itself
+@@ -31,10 +31,10 @@
+ namespace gr {
+ 
+   struct GR_RUNTIME_API sys_pri {
+-    static rt_sched_param python();		  // python code
+-    static rt_sched_param normal();		  // normal blocks
+-    static rt_sched_param gcell_event_handler();
+-    static rt_sched_param usrp2_backend();	  // thread that services the ethernet
++    static struct GR_RUNTIME_API rt_sched_param python();		  // python code
++    static struct GR_RUNTIME_API rt_sched_param normal();		  // normal blocks
++    static struct GR_RUNTIME_API rt_sched_param gcell_event_handler();
++    static struct GR_RUNTIME_API rt_sched_param usrp2_backend();	  // thread that services the ethernet
+   };
+ 
+ } /* namespace gr */
+-- 
+2.11.0
+

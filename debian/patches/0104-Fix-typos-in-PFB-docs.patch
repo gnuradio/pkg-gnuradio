@@ -1,0 +1,205 @@
+From 933f0e5a4b7afc6aaa414a5ef57e1a80635db3bc Mon Sep 17 00:00:00 2001
+From: Clayton Smith <argilo@gmail.com>
+Date: Thu, 15 Mar 2018 21:38:03 -0400
+Subject: [PATCH 104/112] Fix typos in PFB docs.
+
+---
+ gr-filter/grc/filter_pfb_channelizer.xml               |  2 +-
+ gr-filter/include/gnuradio/filter/pfb_arb_resampler.h  |  4 ++--
+ .../include/gnuradio/filter/pfb_arb_resampler_fff.h    |  2 +-
+ .../include/gnuradio/filter/pfb_channelizer_ccf.h      | 18 +++++++++---------
+ gr-filter/include/gnuradio/filter/pfb_decimator_ccf.h  |  8 ++++----
+ .../include/gnuradio/filter/pfb_interpolator_ccf.h     |  6 +++---
+ .../include/gnuradio/filter/polyphase_filterbank.h     | 12 ++++++------
+ 7 files changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/gr-filter/grc/filter_pfb_channelizer.xml b/gr-filter/grc/filter_pfb_channelizer.xml
+index 446acf0591..9b119dcdc1 100644
+--- a/gr-filter/grc/filter_pfb_channelizer.xml
++++ b/gr-filter/grc/filter_pfb_channelizer.xml
+@@ -33,7 +33,7 @@ self.$(id).declare_sample_delay($samp_delay)
+ 		<type>real_vector</type>
+ 	</param>
+ 	<param>
+-		<name>Over Sample Ratio</name>
++		<name>Oversampling Ratio</name>
+ 		<key>osr</key>
+ 		<value>1.0</value>
+ 		<type>real</type>
+diff --git a/gr-filter/include/gnuradio/filter/pfb_arb_resampler.h b/gr-filter/include/gnuradio/filter/pfb_arb_resampler.h
+index 2af56e5f7f..cd4f940df5 100644
+--- a/gr-filter/include/gnuradio/filter/pfb_arb_resampler.h
++++ b/gr-filter/include/gnuradio/filter/pfb_arb_resampler.h
+@@ -86,7 +86,7 @@ namespace gr {
+        *      attenuation_dB=ATT, window=filter.firdes.WIN_BLACKMAN_hARRIS)</EM></B>
+        *
+        * The theory behind this block can be found in Chapter 7.5 of
+-       * the following book.
++       * the following book:
+        *
+        *   <B><EM>f. harris, "Multirate Signal Processing for Communication
+        *      Systems", Upper Saddle River, NJ: Prentice Hall, Inc. 2004.</EM></B>
+@@ -399,7 +399,7 @@ namespace gr {
+        *      attenuation_dB=ATT, window=filter.firdes.WIN_BLACKMAN_hARRIS)</EM></B>
+        *
+        * The theory behind this block can be found in Chapter 7.5 of
+-       * the following book.
++       * the following book:
+        *
+        *   <B><EM>f. harris, "Multirate Signal Processing for Communication
+        *      Systems", Upper Saddle River, NJ: Prentice Hall, Inc. 2004.</EM></B>
+diff --git a/gr-filter/include/gnuradio/filter/pfb_arb_resampler_fff.h b/gr-filter/include/gnuradio/filter/pfb_arb_resampler_fff.h
+index aadfb778dc..fa2f98cb19 100644
+--- a/gr-filter/include/gnuradio/filter/pfb_arb_resampler_fff.h
++++ b/gr-filter/include/gnuradio/filter/pfb_arb_resampler_fff.h
+@@ -86,7 +86,7 @@ namespace gr {
+      *      attenuation_dB=ATT, window=filter.firdes.WIN_BLACKMAN_hARRIS)</EM></B>
+      *
+      * The theory behind this block can be found in Chapter 7.5 of the
+-     * following book.
++     * following book:
+      *
+      *   <B><EM>f. harris, "Multirate Signal Processing for Communication
+      *      Systems", Upper Saddle River, NJ: Prentice Hall, Inc. 2004.</EM></B>
+diff --git a/gr-filter/include/gnuradio/filter/pfb_channelizer_ccf.h b/gr-filter/include/gnuradio/filter/pfb_channelizer_ccf.h
+index 91ef57e728..92e0097d16 100644
+--- a/gr-filter/include/gnuradio/filter/pfb_channelizer_ccf.h
++++ b/gr-filter/include/gnuradio/filter/pfb_channelizer_ccf.h
+@@ -42,8 +42,8 @@ namespace gr {
+      * <EM>fs</EM> divided by the number of channels, <EM>M</EM>.
+      *
+      * The PFB channelizer code takes the taps generated above and builds
+-     * a set of filters. The set contains <EM>M</EM> number of filters
+-     * and each filter contains ceil(taps.size()/decim) number of taps.
++     * a set of filters. The set contains <EM>M</EM>filters
++     * and each filter contains ceil(taps.size()/decim) taps.
+      * Each tap from the filter prototype is sequentially inserted into
+      * the next filter. When all of the input taps are used, the remaining
+      * filters in the filterbank are filled out with 0's to make sure each
+@@ -77,12 +77,12 @@ namespace gr {
+      * bandwidth of <EM>TB</EM>. We can also specify the out-of-band
+      * attenuation to use, <EM>ATT</EM>, and the filter window
+      * function (a Blackman-harris window in this case). The first input
+-     *  is the gain of the filter, which we specify here as unity.
++     * is the gain of the filter, which we specify here as unity.
+      *
+-     *      <B><EM>self._taps = filter.firdes.low_pass_2(1, fs, BW, TB,
+-     *           attenuation_dB=ATT, window=filter.firdes.WIN_BLACKMAN_hARRIS)</EM></B>
++     *    <B><EM>self._taps = filter.firdes.low_pass_2(1, fs, BW, TB,
++     *       attenuation_dB=ATT, window=filter.firdes.WIN_BLACKMAN_hARRIS)</EM></B>
+      *
+-     * The filter output can also be overs ampled. The over sampling rate
++     * The filter output can also be oversampled. The oversampling rate
+      * is the ratio of the the actual output sampling rate to the normal
+      * output sampling rate. It must be rationally related to the number
+      * of channels as N/i for i in [1,N], which gives an outputsample rate
+@@ -96,7 +96,7 @@ namespace gr {
+      * so the output rate would be 1200 Hz.
+      *
+      * The theory behind this block can be found in Chapter 6 of
+-     * the following book.
++     * the following book:
+      *
+      *    <B><EM>f. harris, "Multirate Signal Processing for Communication
+      *       Systems," Upper Saddle River, NJ: Prentice Hall, Inc. 2004.</EM></B>
+@@ -121,7 +121,7 @@ namespace gr {
+        *                 channels <EM>M</EM>
+        * \param taps (vector/list of floats) The prototype filter to
+        *             populate the filterbank.
+-       * \param oversample_rate (float) The over sampling rate is the
++       * \param oversample_rate (float) The oversampling rate is the
+        *                                ratio of the the actual output
+        *                                sampling rate to the normal
+        *                                output sampling rate.  It must
+@@ -135,7 +135,7 @@ namespace gr {
+        *
+        *				For example, for 6 channels
+        *				with fs = 6000 Hz, the normal
+-       *				rateis 6000/6 = 1000
++       *				rate is 6000/6 = 1000
+        *				Hz. Allowable oversampling
+        *				rates are 6/6, 6/5, 6/4, 6/3,
+        *				6/2, and 6/1 where the output
+diff --git a/gr-filter/include/gnuradio/filter/pfb_decimator_ccf.h b/gr-filter/include/gnuradio/filter/pfb_decimator_ccf.h
+index 5f0f2700b7..e0dd3125cd 100644
+--- a/gr-filter/include/gnuradio/filter/pfb_decimator_ccf.h
++++ b/gr-filter/include/gnuradio/filter/pfb_decimator_ccf.h
+@@ -73,16 +73,16 @@ namespace gr {
+      *      attenuation_dB=ATT, window=filter.firdes.WIN_BLACKMAN_hARRIS)</EM></B>
+      *
+      * The PFB decimator code takes the taps generated above and
+-     * builds a set of filters. The set contains <EM>decim</EM> number
+-     * of filters and each filter contains ceil(taps.size()/decim)
+-     * number of taps.  Each tap from the filter prototype is
++     * builds a set of filters. The set contains <EM>decim</EM>
++     * filters and each filter contains ceil(taps.size()/decim)
++     * taps.  Each tap from the filter prototype is
+      * sequentially inserted into the next filter. When all of the
+      * input taps are used, the remaining filters in the filterbank
+      * are filled out with 0's to make sure each filter has the same
+      * number of taps.
+      *
+      * The theory behind this block can be found in Chapter 6 of
+-     * the following book.
++     * the following book:
+      *
+      *   <B><EM>f. harris, "Multirate Signal Processing for Communication
+      *      Systems," Upper Saddle River, NJ: Prentice Hall, Inc. 2004.</EM></B>
+diff --git a/gr-filter/include/gnuradio/filter/pfb_interpolator_ccf.h b/gr-filter/include/gnuradio/filter/pfb_interpolator_ccf.h
+index 7624f9ef25..ea43d1354d 100644
+--- a/gr-filter/include/gnuradio/filter/pfb_interpolator_ccf.h
++++ b/gr-filter/include/gnuradio/filter/pfb_interpolator_ccf.h
+@@ -61,15 +61,15 @@ namespace gr {
+      *
+      * The PFB interpolator code takes the taps generated above and
+      * builds a set of filters. The set contains <EM>interp</EM>
+-     * number of filters and each filter contains
+-     * ceil(taps.size()/interp) number of taps. Each tap from the
++     * filters and each filter contains
++     * ceil(taps.size()/interp) taps. Each tap from the
+      * filter prototype is sequentially inserted into the next
+      * filter. When all of the input taps are used, the remaining
+      * filters in the filterbank are filled out with 0's to make sure
+      * each filter has the same number of taps.
+      *
+      * The theory behind this block can be found in Chapter 7.1 of the
+-     * following book.
++     * following book:
+      *
+      *    <B><EM>f. harris, "Multirate Signal Processing for Communication
+      *       Systems</EM>," Upper Saddle River, NJ: Prentice Hall,
+diff --git a/gr-filter/include/gnuradio/filter/polyphase_filterbank.h b/gr-filter/include/gnuradio/filter/polyphase_filterbank.h
+index f3bedd811b..715574e0c7 100644
+--- a/gr-filter/include/gnuradio/filter/polyphase_filterbank.h
++++ b/gr-filter/include/gnuradio/filter/polyphase_filterbank.h
+@@ -46,9 +46,9 @@ namespace gr {
+        * <EM>M</EM>.
+        *
+        * The PFB channelizer code takes the taps generated above and
+-       * builds a set of filters. The set contains <EM>M</EM> number
+-       * of filters and each filter contains ceil(taps.size()/decim)
+-       * number of taps.  Each tap from the filter prototype is
++       * builds a set of filters. The set contains <EM>M</EM>
++       * filters and each filter contains ceil(taps.size()/decim)
++       * taps.  Each tap from the filter prototype is
+        * sequentially inserted into the next filter. When all of the
+        * input taps are used, the remaining filters in the filterbank
+        * are filled out with 0's to make sure each filter has the same
+@@ -86,11 +86,11 @@ namespace gr {
+        * input is the gain of the filter, which we specify here as
+        * unity.
+        *
+-       *      <B><EM>self._taps = filter.firdes.low_pass_2(1, fs, BW, TB,
+-       *           attenuation_dB=ATT, window=filter.firdes.WIN_BLACKMAN_hARRIS)</EM></B>
++       *    <B><EM>self._taps = filter.firdes.low_pass_2(1, fs, BW, TB,
++       *       attenuation_dB=ATT, window=filter.firdes.WIN_BLACKMAN_hARRIS)</EM></B>
+        *
+        * More on the theory of polyphase filterbanks can be found in
+-       * the following book.
++       * the following book:
+        *
+        *    <B><EM>f. harris, "Multirate Signal Processing for
+        *       Communication Systems," Upper Saddle River, NJ:
+-- 
+2.11.0
+
