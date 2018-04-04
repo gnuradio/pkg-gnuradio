@@ -14,10 +14,10 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 59e3c886c4..ae6c1e1d49 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -25,7 +25,7 @@ endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+@@ -27,7 +27,7 @@
  ########################################################################
- # Project setup
- ########################################################################
+ # Make sure this version matches ${GR_CMAKE_MIN_VERSION} (a variable can't be
+ # used here).
 -cmake_minimum_required(VERSION 2.6)
 +cmake_minimum_required(VERSION 2.8.12)
  project(gnuradio CXX C)

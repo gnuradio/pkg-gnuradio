@@ -9,11 +9,9 @@ full path of referenced files.
  gr-vocoder/python/vocoder/CMakeLists.txt | 16 ++++++++--------
  1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/gr-vocoder/python/vocoder/CMakeLists.txt b/gr-vocoder/python/vocoder/CMakeLists.txt
-index 02a4320ec5..5411d919aa 100644
 --- a/gr-vocoder/python/vocoder/CMakeLists.txt
 +++ b/gr-vocoder/python/vocoder/CMakeLists.txt
-@@ -43,21 +43,21 @@ if(ENABLE_TESTING)
+@@ -48,21 +48,21 @@
  
    include(GrTest)
    list(APPEND py_qa_test_files
@@ -43,6 +41,3 @@ index 02a4320ec5..5411d919aa 100644
        )
    endif()
    foreach(py_qa_test_file ${py_qa_test_files})
--- 
-2.11.0
-

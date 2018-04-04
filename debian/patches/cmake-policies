@@ -10,13 +10,11 @@ without bumping cmake_minimum_required() for the project.
  CMakeLists.txt | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 59e3c886c4..f006c06bc3 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -26,6 +26,10 @@ endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
- # Project setup
- ########################################################################
+@@ -28,6 +28,10 @@
+ # Make sure this version matches ${GR_CMAKE_MIN_VERSION} (a variable can't be
+ # used here).
  cmake_minimum_required(VERSION 2.8.12)
 +# use cmake_policy to silence warnings without updating code
 +cmake_policy(SET CMP0026 OLD)
@@ -25,6 +23,3 @@ index 59e3c886c4..f006c06bc3 100644
  project(gnuradio CXX C)
  enable_testing()
  
--- 
-2.11.0
-

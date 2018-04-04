@@ -9,11 +9,9 @@ Subject: [PATCH 15/27] provide example grfreedv.grc flowgraph
  2 files changed, 617 insertions(+)
  create mode 100644 gr-vocoder/examples/grfreedv.grc
 
-diff --git a/gr-vocoder/examples/CMakeLists.txt b/gr-vocoder/examples/CMakeLists.txt
-index 0957d81eb6..54b3c7a448 100644
 --- a/gr-vocoder/examples/CMakeLists.txt
 +++ b/gr-vocoder/examples/CMakeLists.txt
-@@ -37,6 +37,7 @@ if(LIBCODEC2_FOUND)
+@@ -37,6 +37,7 @@
    GR_PYTHON_INSTALL(
      PROGRAMS
      codec2_audio_loopback.py
@@ -21,9 +19,6 @@ index 0957d81eb6..54b3c7a448 100644
      DESTINATION ${GR_PKG_VOCODER_EXAMPLES_DIR}
      COMPONENT "vocoder_examples"
      )
-diff --git a/gr-vocoder/examples/grfreedv.grc b/gr-vocoder/examples/grfreedv.grc
-new file mode 100644
-index 0000000000..9f6b95d5bd
 --- /dev/null
 +++ b/gr-vocoder/examples/grfreedv.grc
 @@ -0,0 +1,616 @@
@@ -643,6 +638,3 @@ index 0000000000..9f6b95d5bd
 +    <sink_key>0</sink_key>
 +  </connection>
 +</flow_graph>
--- 
-2.11.0
-

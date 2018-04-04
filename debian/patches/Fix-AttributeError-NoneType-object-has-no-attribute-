@@ -71,15 +71,15 @@ Debian Bug #886807
 +from PyQt5 import Qt, QtCore
  import sys
  #end if
- #if not $generate_options().startswith('hb')
+ #if $generate_options() == 'bokeh_gui'
 --- a/grc/core/generator/flow_graph.tmpl
 +++ b/grc/core/generator/flow_graph.tmpl
-@@ -126,7 +126,7 @@
-         if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
-             self.restoreGeometry(self.settings.value("geometry").toByteArray())
-         else:
--            self.restoreGeometry(self.settings.value("geometry"))
-+            self.restoreGeometry(self.settings.value("geometry", type=QtCore.QByteArray))
- #elif $generate_options == 'no_gui'
+@@ -122,7 +122,7 @@
+         self.top_layout.addLayout(self.top_grid_layout)
  
+         self.settings = Qt.QSettings("GNU Radio", "$class_name")
+-        self.restoreGeometry(self.settings.value("geometry"))
++        self.restoreGeometry(self.settings.value("geometry", type=QtCore.QByteArray))
+ 
+ #elif $generate_options == 'bokeh_gui'
  

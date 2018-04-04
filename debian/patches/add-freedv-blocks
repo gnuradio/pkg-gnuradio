@@ -33,11 +33,9 @@ Subject: [PATCH 14/27] add freedv blocks
  create mode 100644 gr-vocoder/lib/freedv_tx_ss_impl.cc
  create mode 100644 gr-vocoder/lib/freedv_tx_ss_impl.h
 
-diff --git a/gr-vocoder/CMakeLists.txt b/gr-vocoder/CMakeLists.txt
-index 56ba2a9639..6f73e574ee 100644
 --- a/gr-vocoder/CMakeLists.txt
 +++ b/gr-vocoder/CMakeLists.txt
-@@ -99,6 +99,7 @@ if(LIBCODEC2_FOUND)
+@@ -99,6 +99,7 @@
      #message(STATUS "libcodec2 has 700bps mode")
    endif()
    if (LIBCODEC2_HAS_FREEDV_API)
@@ -45,11 +43,9 @@ index 56ba2a9639..6f73e574ee 100644
      #message(STATUS "libcodec2 had FreeDV api modes: ${FREEDV_MODES}")
    endif()
  endif(LIBCODEC2_FOUND)
-diff --git a/gr-vocoder/grc/CMakeLists.txt b/gr-vocoder/grc/CMakeLists.txt
-index e6c8115dbe..7a756067d7 100644
 --- a/gr-vocoder/grc/CMakeLists.txt
 +++ b/gr-vocoder/grc/CMakeLists.txt
-@@ -46,6 +46,15 @@ if(LIBCODEC2_FOUND)
+@@ -46,6 +46,15 @@
      )
  endif(LIBCODEC2_FOUND)
  
@@ -65,8 +61,6 @@ index e6c8115dbe..7a756067d7 100644
  if(LIBGSM_FOUND)
    install(FILES
      vocoder_gsm_fr_decode_ps.xml
-diff --git a/gr-vocoder/grc/vocoder_block_tree.xml b/gr-vocoder/grc/vocoder_block_tree.xml
-index 07d8ba8fd1..e47af4cdd5 100644
 --- a/gr-vocoder/grc/vocoder_block_tree.xml
 +++ b/gr-vocoder/grc/vocoder_block_tree.xml
 @@ -38,6 +38,8 @@
@@ -78,9 +72,6 @@ index 07d8ba8fd1..e47af4cdd5 100644
  		<block>vocoder_g721_decode_bs</block>
  		<block>vocoder_g721_encode_sb</block>
  		<block>vocoder_g723_24_decode_bs</block>
-diff --git a/gr-vocoder/grc/vocoder_freedv_rx_ss.xml b/gr-vocoder/grc/vocoder_freedv_rx_ss.xml
-new file mode 100644
-index 0000000000..14e00a0979
 --- /dev/null
 +++ b/gr-vocoder/grc/vocoder_freedv_rx_ss.xml
 @@ -0,0 +1,58 @@
@@ -142,9 +133,6 @@ index 0000000000..14e00a0979
 +    <type>short</type>
 +  </source>
 +</block>
-diff --git a/gr-vocoder/grc/vocoder_freedv_tx_ss.xml b/gr-vocoder/grc/vocoder_freedv_tx_ss.xml
-new file mode 100644
-index 0000000000..54a49b730f
 --- /dev/null
 +++ b/gr-vocoder/grc/vocoder_freedv_tx_ss.xml
 @@ -0,0 +1,57 @@
@@ -205,11 +193,9 @@ index 0000000000..54a49b730f
 +    <type>short</type>
 +  </source>
 +</block>
-diff --git a/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt b/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
-index 13efea7add..2849c662ec 100644
 --- a/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
 +++ b/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
-@@ -46,6 +46,15 @@ install(FILES
+@@ -46,6 +46,15 @@
      COMPONENT "vocoder_devel"
  )
  endif(LIBCODEC2_FOUND)
@@ -225,9 +211,6 @@ index 13efea7add..2849c662ec 100644
  if(LIBGSM_FOUND)
  install(FILES
      gsm_fr_decode_ps.h
-diff --git a/gr-vocoder/include/gnuradio/vocoder/freedv_api.h b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
-new file mode 100644
-index 0000000000..52fbc63492
 --- /dev/null
 +++ b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
 @@ -0,0 +1,68 @@
@@ -299,9 +282,6 @@ index 0000000000..52fbc63492
 +} /* namespace gr */
 +
 +#endif /* _VOCODER_FREEDV_H_ */
-diff --git a/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h b/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
-new file mode 100644
-index 0000000000..a6568dee7d
 --- /dev/null
 +++ b/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
 @@ -0,0 +1,63 @@
@@ -368,9 +348,6 @@ index 0000000000..a6568dee7d
 +} /* namespace gr */
 +
 +#endif /* INCLUDED_VOCODER_FREEDV_RX_H */
-diff --git a/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h b/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
-new file mode 100644
-index 0000000000..0e80d78bfb
 --- /dev/null
 +++ b/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
 @@ -0,0 +1,59 @@
@@ -433,11 +410,9 @@ index 0000000000..0e80d78bfb
 +} /* namespace gr */
 +
 +#endif /* INCLUDED_VOCODER_FREEDV_TX_H */
-diff --git a/gr-vocoder/lib/CMakeLists.txt b/gr-vocoder/lib/CMakeLists.txt
-index a8fc874d31..560e876bc8 100644
 --- a/gr-vocoder/lib/CMakeLists.txt
 +++ b/gr-vocoder/lib/CMakeLists.txt
-@@ -61,6 +61,13 @@ if(LIBCODEC2_FOUND)
+@@ -56,6 +56,13 @@
      codec2_encode_sp_impl.cc
      )
  endif(LIBCODEC2_FOUND)
@@ -451,9 +426,6 @@ index a8fc874d31..560e876bc8 100644
  if(LIBGSM_FOUND)
    list(APPEND gr_vocoder_sources
      gsm_fr_decode_ps_impl.cc
-diff --git a/gr-vocoder/lib/freedv_api.cc b/gr-vocoder/lib/freedv_api.cc
-new file mode 100644
-index 0000000000..063a6bb9f0
 --- /dev/null
 +++ b/gr-vocoder/lib/freedv_api.cc
 @@ -0,0 +1,33 @@
@@ -490,9 +462,6 @@ index 0000000000..063a6bb9f0
 +
 +  } /* namespace vocoder */
 +} /* namespace gr */
-diff --git a/gr-vocoder/lib/freedv_rx_ss_impl.cc b/gr-vocoder/lib/freedv_rx_ss_impl.cc
-new file mode 100644
-index 0000000000..6cb52effa2
 --- /dev/null
 +++ b/gr-vocoder/lib/freedv_rx_ss_impl.cc
 @@ -0,0 +1,155 @@
@@ -651,9 +620,6 @@ index 0000000000..6cb52effa2
 +
 +  } /* namespace vocoder */
 +} /* namespace gr */
-diff --git a/gr-vocoder/lib/freedv_rx_ss_impl.h b/gr-vocoder/lib/freedv_rx_ss_impl.h
-new file mode 100644
-index 0000000000..911355b038
 --- /dev/null
 +++ b/gr-vocoder/lib/freedv_rx_ss_impl.h
 @@ -0,0 +1,81 @@
@@ -738,9 +704,6 @@ index 0000000000..911355b038
 +} /* namespace gr */
 +
 +#endif /* INCLUDED_VOCODER_FREEDV_RX_SS_IMPL_H */
-diff --git a/gr-vocoder/lib/freedv_tx_ss_impl.cc b/gr-vocoder/lib/freedv_tx_ss_impl.cc
-new file mode 100644
-index 0000000000..d8cf04df43
 --- /dev/null
 +++ b/gr-vocoder/lib/freedv_tx_ss_impl.cc
 @@ -0,0 +1,98 @@
@@ -842,9 +805,6 @@ index 0000000000..d8cf04df43
 +
 +  } /* namespace vocoder */
 +} /* namespace gr */
-diff --git a/gr-vocoder/lib/freedv_tx_ss_impl.h b/gr-vocoder/lib/freedv_tx_ss_impl.h
-new file mode 100644
-index 0000000000..4a24d3b281
 --- /dev/null
 +++ b/gr-vocoder/lib/freedv_tx_ss_impl.h
 @@ -0,0 +1,72 @@
@@ -920,11 +880,9 @@ index 0000000000..4a24d3b281
 +} /* namespace gr */
 +
 +#endif /* INCLUDED_VOCODER_FREEDV_TX_SS_IMPL_H */
-diff --git a/gr-vocoder/swig/CMakeLists.txt b/gr-vocoder/swig/CMakeLists.txt
-index 3eb7a83f31..f390875ddc 100644
 --- a/gr-vocoder/swig/CMakeLists.txt
 +++ b/gr-vocoder/swig/CMakeLists.txt
-@@ -37,6 +37,10 @@ if(LIBCODEC2_FOUND)
+@@ -37,6 +37,10 @@
    list(APPEND GR_SWIG_FLAGS "-DLIBCODEC2_FOUND")
  endif(LIBCODEC2_FOUND)
  
@@ -935,11 +893,9 @@ index 3eb7a83f31..f390875ddc 100644
  if(LIBGSM_FOUND)
    list(APPEND GR_SWIG_FLAGS "-DLIBGSM_FOUND")
  endif(LIBGSM_FOUND)
-diff --git a/gr-vocoder/swig/vocoder_swig.i b/gr-vocoder/swig/vocoder_swig.i
-index 43d0d1f79b..1bf451539d 100644
 --- a/gr-vocoder/swig/vocoder_swig.i
 +++ b/gr-vocoder/swig/vocoder_swig.i
-@@ -85,6 +85,25 @@ GR_SWIG_BLOCK_MAGIC2(vocoder, codec2_decode_ps);
+@@ -85,6 +85,25 @@
  GR_SWIG_BLOCK_MAGIC2(vocoder, codec2_encode_sp);
  #endif
  
@@ -965,6 +921,3 @@ index 43d0d1f79b..1bf451539d 100644
  #ifdef LIBGSM_FOUND
  %{
  #include "gnuradio/vocoder/gsm_fr_decode_ps.h"
--- 
-2.11.0
-

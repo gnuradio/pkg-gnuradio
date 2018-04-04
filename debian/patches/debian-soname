@@ -19,17 +19,12 @@ Author: A. Maitland Bottoms <bottoms@debian.org>
      if(LIBRARY_EXTRAS)
 --- a/cmake/Modules/GrVersion.cmake
 +++ b/cmake/Modules/GrVersion.cmake
-@@ -83,10 +83,12 @@
-     # VERSION: 3.3.1{.x}
-     # DOCVER:  3.3.1{.x}
+@@ -85,7 +85,7 @@
      # LIBVER:  3.3.1{.x}
-+    # Should rewrite this based upon abi-compliance-checker results
-     if("${MAINT_VERSION}" STREQUAL "0")
-         set(VERSION "${MAJOR_VERSION}.${API_COMPAT}.${MINOR_VERSION}")
-     else()
--        set(VERSION "${MAJOR_VERSION}.${API_COMPAT}.${MINOR_VERSION}.${MAINT_VERSION}")
-+        set(VERSION "${MAJOR_VERSION}.${API_COMPAT}.${MINOR_VERSION}")
-+        # set(VERSION "${MAJOR_VERSION}.${API_COMPAT}.${MINOR_VERSION}.${MAINT_VERSION}")
-     endif()
+     set(VERSION "${MAJOR_VERSION}.${API_COMPAT}.${MINOR_VERSION}.${MAINT_VERSION}")
      set(DOCVER "${VERSION}")
-     set(LIBVER "${VERSION}")
+-    set(LIBVER "${VERSION}")
++    set(LIBVER "${MAJOR_VERSION}.${API_COMPAT}.${MINOR_VERSION}")
+     set(RC_MINOR_VERSION ${MINOR_VERSION})
+     set(RC_MAINT_VERSION ${MAINT_VERSION})
+ endif()

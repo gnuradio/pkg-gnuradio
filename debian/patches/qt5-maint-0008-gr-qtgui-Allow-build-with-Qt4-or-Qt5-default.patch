@@ -11,8 +11,6 @@ Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
  gr-qtgui/lib/CMakeLists.txt                  | 14 ++++++++++----
  4 files changed, 42 insertions(+), 14 deletions(-)
 
-diff --git a/gr-qtgui/CMakeLists.txt b/gr-qtgui/CMakeLists.txt
-index e3dcf7b86b..c06e516917 100644
 --- a/gr-qtgui/CMakeLists.txt
 +++ b/gr-qtgui/CMakeLists.txt
 @@ -22,14 +22,27 @@
@@ -48,7 +46,7 @@ index e3dcf7b86b..c06e516917 100644
  
  ########################################################################
  # Register component
-@@ -37,13 +50,13 @@ GR_PYTHON_CHECK_MODULE("PyQt5" PyQt5 True PYQT5_FOUND)
+@@ -37,13 +50,13 @@
  include(GrComponent)
  if(NOT CMAKE_CROSSCOMPILING)
      set(qt_gui_python_deps
@@ -64,11 +62,9 @@ index e3dcf7b86b..c06e516917 100644
      QWT_FOUND
      ENABLE_VOLK
      ENABLE_GNURADIO_RUNTIME
-diff --git a/gr-qtgui/examples/c++/CMakeLists.txt b/gr-qtgui/examples/c++/CMakeLists.txt
-index 796c292b81..89b4baef71 100644
 --- a/gr-qtgui/examples/c++/CMakeLists.txt
 +++ b/gr-qtgui/examples/c++/CMakeLists.txt
-@@ -24,7 +24,7 @@ include_directories(
+@@ -24,7 +24,7 @@
  	${GR_BLOCKS_INCLUDE_DIRS}
  	${GR_FFT_INCLUDE_DIRS}
  	${GNURADIO_RUNTIME_INCLUDE_DIRS}
@@ -77,7 +73,7 @@ index 796c292b81..89b4baef71 100644
          ${Boost_INCLUDE_DIRS}
  )
  
-@@ -36,10 +36,15 @@ list(APPEND QTGUI_LIBRARIES
+@@ -36,10 +36,15 @@
    gnuradio-fft
    gnuradio-runtime
    ${QWT_LIBRARY_DIRS}
@@ -95,8 +91,6 @@ index 796c292b81..89b4baef71 100644
  add_executable(display_qt display_qt.cc ${qtgui_moc_sources})
  target_link_libraries(display_qt ${QTGUI_LIBRARIES})
  
-diff --git a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnuradio/qtgui/form_menus.h
-index ed27d747d9..26c63c2d75 100644
 --- a/gr-qtgui/include/gnuradio/qtgui/form_menus.h
 +++ b/gr-qtgui/include/gnuradio/qtgui/form_menus.h
 @@ -28,7 +28,11 @@
@@ -111,11 +105,9 @@ index ed27d747d9..26c63c2d75 100644
  #include <qwt_symbol.h>
  #include <gnuradio/filter/firdes.h>
  #include <gnuradio/qtgui/qtgui_types.h>
-diff --git a/gr-qtgui/lib/CMakeLists.txt b/gr-qtgui/lib/CMakeLists.txt
-index 4827ec4f3f..a5e63b232e 100644
 --- a/gr-qtgui/lib/CMakeLists.txt
 +++ b/gr-qtgui/lib/CMakeLists.txt
-@@ -45,8 +45,14 @@ set(qtgui_moc_hdrs
+@@ -45,8 +45,14 @@
      ${qtgui_mod_includedir}/VectorDisplayPlot.h
      edit_box_msg_impl.h
  )
@@ -132,24 +124,21 @@ index 4827ec4f3f..a5e63b232e 100644
  
  #FIXME the sources expect <foo>.ui.h, but the macros generate ui_foo.h
  #avoid changing the sources by generating the header with the include
-@@ -127,7 +133,7 @@ include_directories(
+@@ -127,7 +133,7 @@
      ${GNURADIO_RUNTIME_INCLUDE_DIRS}
      ${VOLK_INCLUDE_DIRS}
      ${QWT_INCLUDE_DIRS}
 -    ${Qt5Widgets_INCLUDE_DIRS}
 +    ${QT_INCLUDE_DIRS}
      ${FFTW3F_INCLUDE_DIRS}
-     ${LOG4CPP_INCLUDE_DIRS}
      ${Boost_INCLUDE_DIRS}
-@@ -156,7 +162,7 @@ list(APPEND qtgui_libs
+     ${PYTHON_INCLUDE_DIRS}
+@@ -154,7 +160,7 @@
      gnuradio-filter
      ${VOLK_LIBRARIES}
      ${QWT_LIBRARIES}
 -    ${Qt5Widgets_LIBRARIES}
 +    ${QT_LIBRARIES}
      ${FFTW3F_LIBRARIES}
-     ${LOG4CPP_LIBRARIES}
  )
--- 
-2.11.0
-
+ if (WIN32)

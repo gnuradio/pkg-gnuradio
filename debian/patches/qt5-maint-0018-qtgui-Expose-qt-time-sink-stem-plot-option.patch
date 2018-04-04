@@ -7,19 +7,9 @@ Subject: [PATCH 18/22] qtgui: Expose qt time sink stem plot option
  gr-qtgui/grc/qtgui_time_sink_x.xml | 18 ++++++++++++++++++
  1 file changed, 18 insertions(+)
 
-diff --git a/gr-qtgui/grc/qtgui_time_sink_x.xml b/gr-qtgui/grc/qtgui_time_sink_x.xml
-index d4347950ea..7358c78856 100644
 --- a/gr-qtgui/grc/qtgui_time_sink_x.xml
 +++ b/gr-qtgui/grc/qtgui_time_sink_x.xml
-@@ -29,6 +29,7 @@ self.$(id).enable_autoscale($autoscale)
- self.$(id).enable_grid($grid)
- self.$(id).enable_axis_labels($axislabels)
- self.$(id).enable_control_panel($ctrlpanel)
-+self.$(id).enable_stem_plot($stemplot)
- 
- if not $legend:
-   self.$(id).disable_legend()
-@@ -381,6 +382,23 @@ $(gui_hint()($win))</make>
+@@ -400,6 +400,23 @@
    </param>
  
    <param>
@@ -43,6 +33,3 @@ index d4347950ea..7358c78856 100644
      <name>Line 1 Label</name>
      <key>label1</key>
      <type>string</type>
--- 
-2.11.0
-

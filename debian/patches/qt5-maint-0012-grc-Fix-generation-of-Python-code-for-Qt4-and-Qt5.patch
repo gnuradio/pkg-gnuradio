@@ -12,11 +12,9 @@ Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
  4 files changed, 17 insertions(+), 4 deletions(-)
  rename grc/blocks/{options.xml => options.xml.cmakein} (99%)
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index ae6c1e1d49..f79cc10635 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -470,7 +470,6 @@ list(APPEND GR_TEST_PYTHON_DIRS
+@@ -528,7 +528,6 @@
  add_subdirectory(docs)
  add_subdirectory(gnuradio-runtime)
  add_subdirectory(gr-blocks)
@@ -24,7 +22,7 @@ index ae6c1e1d49..f79cc10635 100644
  add_subdirectory(gr-fec)
  add_subdirectory(gr-fft)
  add_subdirectory(gr-filter)
-@@ -493,6 +492,7 @@ add_subdirectory(gr-fcd)
+@@ -551,6 +550,7 @@
  add_subdirectory(gr-wavelet)
  add_subdirectory(gr-wxgui)
  add_subdirectory(gr-zeromq)
@@ -32,11 +30,9 @@ index ae6c1e1d49..f79cc10635 100644
  
  # Defining GR_CTRLPORT for gnuradio/config.h
  if(ENABLE_GR_CTRLPORT)
-diff --git a/grc/blocks/CMakeLists.txt b/grc/blocks/CMakeLists.txt
-index 0c2a1f7901..a2207fa928 100644
 --- a/grc/blocks/CMakeLists.txt
 +++ b/grc/blocks/CMakeLists.txt
-@@ -22,6 +22,8 @@ include(GrPython)
+@@ -22,6 +22,8 @@
  
  file(GLOB xml_files "*.xml")
  
@@ -45,7 +41,7 @@ index 0c2a1f7901..a2207fa928 100644
  macro(GEN_BLOCK_XML _generator _xml_block)
      set(generator ${CMAKE_CURRENT_SOURCE_DIR}/${_generator})
      set(xml_block ${CMAKE_CURRENT_BINARY_DIR}/${_xml_block})
-@@ -37,7 +39,7 @@ GEN_BLOCK_XML(variable_struct.xml.py    variable_struct.xml)
+@@ -37,7 +39,7 @@
  add_custom_target(grc_generated_xml ALL DEPENDS ${generated_xml_files})
  
  install(
@@ -54,27 +50,603 @@ index 0c2a1f7901..a2207fa928 100644
      DESTINATION ${GRC_BLOCKS_DIR}
      COMPONENT "grc"
  )
-diff --git a/grc/blocks/options.xml b/grc/blocks/options.xml.cmakein
-similarity index 99%
-rename from grc/blocks/options.xml
-rename to grc/blocks/options.xml.cmakein
-index 1ef1e9df5d..95ca41e216 100644
 --- a/grc/blocks/options.xml
-+++ b/grc/blocks/options.xml.cmakein
-@@ -16,7 +16,7 @@ from grc_gnuradio import wxgui as grc_wxgui
- import wx
- #end if
- #if $generate_options() == 'qt_gui'
++++ /dev/null
+@@ -1,294 +0,0 @@
+-<?xml version="1.0"?>
+-<!--
+-###################################################
+-##Options Block:
+-## options for window size,
+-## and flow graph building.
+-###################################################
+- -->
+-<block>
+-	<name>Options</name>
+-	<key>options</key>
+-	<import>from gnuradio import gr</import>
+-	<import>from gnuradio.filter import firdes</import>
+-	<import>#if $generate_options() == 'wx_gui'
+-from grc_gnuradio import wxgui as grc_wxgui
+-import wx
+-#end if
+-#if $generate_options() == 'qt_gui'
 -from PyQt5 import Qt
+-import sys
+-#end if
+-#if $generate_options() == 'bokeh_gui'
+-import time
+-import signal
+-import functools
+-from bokeh.client import push_session
+-from bokeh.plotting import curdoc
+-#end if
+-#if not $generate_options().startswith('hb')
+-from optparse import OptionParser
+-from gnuradio.eng_option import eng_option
+-from gnuradio import eng_notation
+-#end if</import>
+-	<make></make>
+-	<callback>if $run: self.start()
+-else: self.stop(); self.wait()</callback>
+-	<param>
+-		<name>Title</name>
+-		<key>title</key>
+-		<value></value>
+-		<type>string</type>
+-		<hide>#if $title() then 'none' else 'part'#</hide>
+-	</param>
+-	<param>
+-		<name>Author</name>
+-		<key>author</key>
+-		<value></value>
+-		<type>string</type>
+-		<hide>#if $author() then 'none' else 'part'#</hide>
+-	</param>
+-	<param>
+-		<name>Description</name>
+-		<key>description</key>
+-		<value></value>
+-		<type>string</type>
+-		<hide>#if $description() then 'none' else 'part'#</hide>
+-	</param>
+-	<param>
+-		<name>Canvas Size</name>
+-		<key>window_size</key>
+-		<value></value>
+-		<type>int_vector</type>
+-		<hide>part</hide>
+-	</param>
+-	<param>
+-		<name>Generate Options</name>
+-		<key>generate_options</key>
+-		<value>qt_gui</value>
+-		<type>enum</type>
+-		<option>
+-			<name>Bokeh GUI</name>
+-			<key>bokeh_gui</key>
+-		</option>
+-		<option>
+-			<name>QT GUI</name>
+-			<key>qt_gui</key>
+-		</option>
+-		<option>
+-			<name>WX GUI</name>
+-			<key>wx_gui</key>
+-		</option>
+-		<option>
+-			<name>No GUI</name>
+-			<key>no_gui</key>
+-		</option>
+-		<option>
+-			<name>Hier Block</name>
+-			<key>hb</key>
+-		</option>
+-		<option>
+-			<name>Hier Block (QT GUI)</name>
+-			<key>hb_qt_gui</key>
+-		</option>
+-	</param>
+-	<param>
+-		<name>Category</name>
+-		<key>category</key>
+-		<value>[GRC Hier Blocks]</value>
+-		<type>string</type>
+-		<hide>#if $generate_options().startswith('hb') then 'none' else 'all'#</hide>
+-	</param>
+-	<param>
+-		<name>Run Options</name>
+-		<key>run_options</key>
+-		<value>prompt</value>
+-		<type>enum</type>
+-		<hide>#if $generate_options() == 'no_gui' then 'none' else 'all'#</hide>
+-		<option>
+-			<name>Run to Completion</name>
+-			<key>run</key>
+-		</option>
+-		<option>
+-			<name>Prompt for Exit</name>
+-			<key>prompt</key>
+-		</option>
+-	</param>
+-	<param>
+-		<name>Widget Placement</name>
+-		<key>placement</key>
+-		<value>(0,0)</value>
+-		<type>int_vector</type>
+-		<hide>#if $generate_options() == 'bokeh_gui' then 'part' else 'all'#</hide>
+-	</param>
+-  <param>
+-    <name>Sizing Mode</name>
+-    <key>sizing_mode</key>
+-    <value>fixed</value>
+-    <type>enum</type>
+-		<hide>#if $generate_options() == 'bokeh_gui' then 'part' else 'all'#</hide>
+-    <option>
+-      <name>Fixed</name>
+-      <key>fixed</key>
+-    </option>
+-    <option>
+-      <name>Stretch Both</name>
+-      <key>stretch_both</key>
+-    </option>
+-    <option>
+-      <name>Scale Width</name>
+-      <key>scale_width</key>
+-    </option>
+-    <option>
+-      <name>Scale Height</name>
+-      <key>scale_height</key>
+-    </option>
+-    <option>
+-      <name>Scale Both</name>
+-      <key>scale_both</key>
+-    </option>
+-  </param>
+-  <param>
+-		<name>Run</name>
+-		<key>run</key>
+-		<value>True</value>
+-		<type>bool</type>
+-		<hide>
+-#if $generate_options() in ('qt_gui', 'wx_gui', 'bokeh_gui')
+-	#if $run()
+-		part
+-	#else
+-		none
+-	#end if
+-#else
+-	all
+-#end if
+-		</hide>
+-		<option>
+-			<name>Autostart</name>
+-			<key>True</key>
+-		</option>
+-		<option>
+-			<name>Off</name>
+-			<key>False</key>
+-		</option>
+-	</param>
+-	<param>
+-		<name>Max Number of Output</name>
+-		<key>max_nouts</key>
+-		<value>0</value>
+-		<type>int</type>
+-		<hide>#if $generate_options().startswith('hb')
+-all#slurp
+-#elif $max_nouts()
+-none#slurp
+-#else
+-part#slurp
+-#end if</hide>
+-	</param>
+-	<param>
+-		<name>Realtime Scheduling</name>
+-		<key>realtime_scheduling</key>
+-		<value></value>
+-		<type>enum</type>
+-		<hide>#if $generate_options().startswith('hb')
+-all#slurp
+-#elif $realtime_scheduling()
+-none#slurp
+-#else
+-part#slurp
+-#end if</hide>
+-		<option>
+-			<name>Off</name>
+-			<key></key>
+-		</option>
+-		<option>
+-			<name>On</name>
+-			<key>1</key>
+-		</option>
+-	</param>
+-	<param>
+-		<name>QSS Theme</name>
+-		<key>qt_qss_theme</key>
+-		<value></value>
+-		<type>file_open</type>
+-		<hide>
+-#if $generate_options() in ('qt_gui',)
+-	#if $qt_qss_theme()
+-		none
+-	#else
+-		part
+-	#end if
+-#else
+-	all
+-#end if
+-</hide>
+-	</param>
+-	<param>
+-		<name>Thread-safe setters</name>
+-		<key>thread_safe_setters</key>
+-		<value></value>
+-		<type>enum</type>
+-		<hide>part</hide>
+-		<option>
+-			<name>Off</name>
+-			<key></key>
+-		</option>
+-		<option>
+-			<name>On</name>
+-			<key>1</key>
+-		</option>
+-		<tab>Advanced</tab>
+-	</param>
+-	<param>
+-		<name>Run Command</name>
+-		<key>run_command</key>
+-		<value>{python} -u {filename}</value>
+-		<type>string</type>
+-		<hide>#if $generate_options().startswith('hb')
+-all#slurp
+-#else
+-part#slurp
+-#end if</hide>
+-		<tab>Advanced</tab>
+-	</param>
+-	<param>
+-		<name>Hier Block Source Path</name>
+-		<key>hier_block_src_path</key>
+-		<value>.:</value>
+-		<type>string</type>
+-		<hide>part</hide>
+-		<tab>Advanced</tab>
+-	</param>
+-	<check>not $window_size or len($window_size) == 2</check>
+-	<check>not $window_size or 300 &lt;= $(window_size)[0] &lt;= 4096</check>
+-	<check>not $window_size or 300 &lt;= $(window_size)[1] &lt;= 4096</check>
+-  <check>len($placement) == 4 or len($placement) == 2</check>
+-  <check>all(i &gt;= 0 for i in $(placement))</check>
+-  <doc>
+-The options block sets special parameters for the flow graph. \
+-Only one option block is allowed per flow graph.
+-
+-Title, author, and description parameters are for identification purposes.
+-
+-The window size controls the dimensions of the flow graph editor. \
+-The window size (width, height) must be between (300, 300) and (4096, 4096).
+-
+-The generate options controls the type of code generated. \
+-Non-graphical flow graphs should avoid using graphical sinks or graphical variable controls.
+-
+-In a graphical application, \
+-run can be controlled by a variable to start and stop the flowgraph at runtime.
+-
+-The id of this block determines the name of the generated file and the name of the class. \
+-For example, an id of my_block will generate the file my_block.py and class my_block(gr....
+-
+-The category parameter determines the placement of the block in the block selection window. \
+-The category only applies when creating hier blocks. \
+-To put hier blocks into the root category, enter / for the category.
+-
+-The Max Number of Output is the maximum number of output items allowed for any block \
+-in the flowgraph; to disable this set the max_nouts equal to 0.\
+-Use this to adjust the maximum latency a flowgraph can exhibit.
+-	</doc>
+-</block>
+--- /dev/null
++++ b/grc/blocks/options.xml.cmakein
+@@ -0,0 +1,294 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++##Options Block:
++## options for window size,
++## and flow graph building.
++###################################################
++ -->
++<block>
++	<name>Options</name>
++	<key>options</key>
++	<import>from gnuradio import gr</import>
++	<import>from gnuradio.filter import firdes</import>
++	<import>#if $generate_options() == 'wx_gui'
++from grc_gnuradio import wxgui as grc_wxgui
++import wx
++#end if
++#if $generate_options() == 'qt_gui'
 +from PyQt@DESIRED_QT_VERSION@ import Qt
- import sys
- #end if
- #if not $generate_options().startswith('hb')
-diff --git a/grc/core/generator/flow_graph.tmpl b/grc/core/generator/flow_graph.tmpl
-index 1d657701c1..80bf5cfbf7 100644
++import sys
++#end if
++#if $generate_options() == 'bokeh_gui'
++import time
++import signal
++import functools
++from bokeh.client import push_session
++from bokeh.plotting import curdoc
++#end if
++#if not $generate_options().startswith('hb')
++from optparse import OptionParser
++from gnuradio.eng_option import eng_option
++from gnuradio import eng_notation
++#end if</import>
++	<make></make>
++	<callback>if $run: self.start()
++else: self.stop(); self.wait()</callback>
++	<param>
++		<name>Title</name>
++		<key>title</key>
++		<value></value>
++		<type>string</type>
++		<hide>#if $title() then 'none' else 'part'#</hide>
++	</param>
++	<param>
++		<name>Author</name>
++		<key>author</key>
++		<value></value>
++		<type>string</type>
++		<hide>#if $author() then 'none' else 'part'#</hide>
++	</param>
++	<param>
++		<name>Description</name>
++		<key>description</key>
++		<value></value>
++		<type>string</type>
++		<hide>#if $description() then 'none' else 'part'#</hide>
++	</param>
++	<param>
++		<name>Canvas Size</name>
++		<key>window_size</key>
++		<value></value>
++		<type>int_vector</type>
++		<hide>part</hide>
++	</param>
++	<param>
++		<name>Generate Options</name>
++		<key>generate_options</key>
++		<value>qt_gui</value>
++		<type>enum</type>
++		<option>
++			<name>Bokeh GUI</name>
++			<key>bokeh_gui</key>
++		</option>
++		<option>
++			<name>QT GUI</name>
++			<key>qt_gui</key>
++		</option>
++		<option>
++			<name>WX GUI</name>
++			<key>wx_gui</key>
++		</option>
++		<option>
++			<name>No GUI</name>
++			<key>no_gui</key>
++		</option>
++		<option>
++			<name>Hier Block</name>
++			<key>hb</key>
++		</option>
++		<option>
++			<name>Hier Block (QT GUI)</name>
++			<key>hb_qt_gui</key>
++		</option>
++	</param>
++	<param>
++		<name>Category</name>
++		<key>category</key>
++		<value>[GRC Hier Blocks]</value>
++		<type>string</type>
++		<hide>#if $generate_options().startswith('hb') then 'none' else 'all'#</hide>
++	</param>
++	<param>
++		<name>Run Options</name>
++		<key>run_options</key>
++		<value>prompt</value>
++		<type>enum</type>
++		<hide>#if $generate_options() == 'no_gui' then 'none' else 'all'#</hide>
++		<option>
++			<name>Run to Completion</name>
++			<key>run</key>
++		</option>
++		<option>
++			<name>Prompt for Exit</name>
++			<key>prompt</key>
++		</option>
++	</param>
++	<param>
++		<name>Widget Placement</name>
++		<key>placement</key>
++		<value>(0,0)</value>
++		<type>int_vector</type>
++		<hide>#if $generate_options() == 'bokeh_gui' then 'part' else 'all'#</hide>
++	</param>
++  <param>
++    <name>Sizing Mode</name>
++    <key>sizing_mode</key>
++    <value>fixed</value>
++    <type>enum</type>
++		<hide>#if $generate_options() == 'bokeh_gui' then 'part' else 'all'#</hide>
++    <option>
++      <name>Fixed</name>
++      <key>fixed</key>
++    </option>
++    <option>
++      <name>Stretch Both</name>
++      <key>stretch_both</key>
++    </option>
++    <option>
++      <name>Scale Width</name>
++      <key>scale_width</key>
++    </option>
++    <option>
++      <name>Scale Height</name>
++      <key>scale_height</key>
++    </option>
++    <option>
++      <name>Scale Both</name>
++      <key>scale_both</key>
++    </option>
++  </param>
++  <param>
++		<name>Run</name>
++		<key>run</key>
++		<value>True</value>
++		<type>bool</type>
++		<hide>
++#if $generate_options() in ('qt_gui', 'wx_gui', 'bokeh_gui')
++	#if $run()
++		part
++	#else
++		none
++	#end if
++#else
++	all
++#end if
++		</hide>
++		<option>
++			<name>Autostart</name>
++			<key>True</key>
++		</option>
++		<option>
++			<name>Off</name>
++			<key>False</key>
++		</option>
++	</param>
++	<param>
++		<name>Max Number of Output</name>
++		<key>max_nouts</key>
++		<value>0</value>
++		<type>int</type>
++		<hide>#if $generate_options().startswith('hb')
++all#slurp
++#elif $max_nouts()
++none#slurp
++#else
++part#slurp
++#end if</hide>
++	</param>
++	<param>
++		<name>Realtime Scheduling</name>
++		<key>realtime_scheduling</key>
++		<value></value>
++		<type>enum</type>
++		<hide>#if $generate_options().startswith('hb')
++all#slurp
++#elif $realtime_scheduling()
++none#slurp
++#else
++part#slurp
++#end if</hide>
++		<option>
++			<name>Off</name>
++			<key></key>
++		</option>
++		<option>
++			<name>On</name>
++			<key>1</key>
++		</option>
++	</param>
++	<param>
++		<name>QSS Theme</name>
++		<key>qt_qss_theme</key>
++		<value></value>
++		<type>file_open</type>
++		<hide>
++#if $generate_options() in ('qt_gui',)
++	#if $qt_qss_theme()
++		none
++	#else
++		part
++	#end if
++#else
++	all
++#end if
++</hide>
++	</param>
++	<param>
++		<name>Thread-safe setters</name>
++		<key>thread_safe_setters</key>
++		<value></value>
++		<type>enum</type>
++		<hide>part</hide>
++		<option>
++			<name>Off</name>
++			<key></key>
++		</option>
++		<option>
++			<name>On</name>
++			<key>1</key>
++		</option>
++		<tab>Advanced</tab>
++	</param>
++	<param>
++		<name>Run Command</name>
++		<key>run_command</key>
++		<value>{python} -u {filename}</value>
++		<type>string</type>
++		<hide>#if $generate_options().startswith('hb')
++all#slurp
++#else
++part#slurp
++#end if</hide>
++		<tab>Advanced</tab>
++	</param>
++	<param>
++		<name>Hier Block Source Path</name>
++		<key>hier_block_src_path</key>
++		<value>.:</value>
++		<type>string</type>
++		<hide>part</hide>
++		<tab>Advanced</tab>
++	</param>
++	<check>not $window_size or len($window_size) == 2</check>
++	<check>not $window_size or 300 &lt;= $(window_size)[0] &lt;= 4096</check>
++	<check>not $window_size or 300 &lt;= $(window_size)[1] &lt;= 4096</check>
++  <check>len($placement) == 4 or len($placement) == 2</check>
++  <check>all(i &gt;= 0 for i in $(placement))</check>
++  <doc>
++The options block sets special parameters for the flow graph. \
++Only one option block is allowed per flow graph.
++
++Title, author, and description parameters are for identification purposes.
++
++The window size controls the dimensions of the flow graph editor. \
++The window size (width, height) must be between (300, 300) and (4096, 4096).
++
++The generate options controls the type of code generated. \
++Non-graphical flow graphs should avoid using graphical sinks or graphical variable controls.
++
++In a graphical application, \
++run can be controlled by a variable to start and stop the flowgraph at runtime.
++
++The id of this block determines the name of the generated file and the name of the class. \
++For example, an id of my_block will generate the file my_block.py and class my_block(gr....
++
++The category parameter determines the placement of the block in the block selection window. \
++The category only applies when creating hier blocks. \
++To put hier blocks into the root category, enter / for the category.
++
++The Max Number of Output is the maximum number of output items allowed for any block \
++in the flowgraph; to disable this set the max_nouts equal to 0.\
++Use this to adjust the maximum latency a flowgraph can exhibit.
++	</doc>
++</block>
 --- a/grc/core/generator/flow_graph.tmpl
 +++ b/grc/core/generator/flow_graph.tmpl
-@@ -36,6 +36,10 @@ $DIVIDER
+@@ -36,6 +36,10 @@
  import threading
  #end if
  
@@ -84,30 +656,4 @@ index 1d657701c1..80bf5cfbf7 100644
 +
  ## Call XInitThreads as the _very_ first thing.
  ## After some Qt import, it's too late
- #if $generate_options in ('wx_gui', 'qt_gui')
-@@ -118,7 +122,11 @@ class $(class_name)(gr.top_block, Qt.QWidget):
-         self.top_layout.addLayout(self.top_grid_layout)
- 
-         self.settings = Qt.QSettings("GNU Radio", "$class_name")
--        self.restoreGeometry(self.settings.value("geometry"))
-+
-+        if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
-+            self.restoreGeometry(self.settings.value("geometry").toByteArray())
-+        else:
-+            self.restoreGeometry(self.settings.value("geometry"))
- #elif $generate_options == 'no_gui'
- 
- 
-@@ -379,6 +387,9 @@ def main(top_block_cls=$(class_name), options=None):
-     tb.Wait()
-         #end if
-     #elif $generate_options == 'qt_gui'
-+    if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
-+        style = gr.prefs().get_string('qtgui', 'style', 'raster')
-+        Qt.QApplication.setGraphicsSystem(style)
-     qapp = Qt.QApplication(sys.argv)
- 
-     tb = top_block_cls($(', '.join($params_eq_list)))
--- 
-2.11.0
-
+ #if $generate_options in ('wx_gui', 'qt_gui', 'bokeh_gui')

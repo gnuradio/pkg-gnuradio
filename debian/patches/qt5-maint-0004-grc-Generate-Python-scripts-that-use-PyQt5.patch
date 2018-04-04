@@ -9,11 +9,9 @@ Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
  grc/core/generator/flow_graph.tmpl | 8 ++------
  2 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/grc/blocks/options.xml b/grc/blocks/options.xml
-index 1dee986c5c..1ef1e9df5d 100644
 --- a/grc/blocks/options.xml
 +++ b/grc/blocks/options.xml
-@@ -16,7 +16,7 @@ from grc_gnuradio import wxgui as grc_wxgui
+@@ -16,7 +16,7 @@
  import wx
  #end if
  #if $generate_options() == 'qt_gui'
@@ -21,23 +19,21 @@ index 1dee986c5c..1ef1e9df5d 100644
 +from PyQt5 import Qt
  import sys
  #end if
- #if not $generate_options().startswith('hb')
-diff --git a/grc/core/generator/flow_graph.tmpl b/grc/core/generator/flow_graph.tmpl
-index 1ef251c46b..1d657701c1 100644
+ #if $generate_options() == 'bokeh_gui'
 --- a/grc/core/generator/flow_graph.tmpl
 +++ b/grc/core/generator/flow_graph.tmpl
-@@ -118,7 +118,7 @@ class $(class_name)(gr.top_block, Qt.QWidget):
+@@ -118,7 +118,7 @@
          self.top_layout.addLayout(self.top_grid_layout)
  
          self.settings = Qt.QSettings("GNU Radio", "$class_name")
 -        self.restoreGeometry(self.settings.value("geometry").toByteArray())
 +        self.restoreGeometry(self.settings.value("geometry"))
- #elif $generate_options == 'no_gui'
  
+ #elif $generate_options == 'bokeh_gui'
  
-@@ -379,10 +379,6 @@ def main(top_block_cls=$(class_name), options=None):
-     tb.Wait()
-         #end if
+@@ -435,10 +435,6 @@
+         serverProc.terminate()
+         serverProc.kill()
      #elif $generate_options == 'qt_gui'
 -    from distutils.version import StrictVersion
 -    if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
@@ -46,7 +42,7 @@ index 1ef251c46b..1d657701c1 100644
      qapp = Qt.QApplication(sys.argv)
  
      tb = top_block_cls($(', '.join($params_eq_list)))
-@@ -401,7 +397,7 @@ def main(top_block_cls=$(class_name), options=None):
+@@ -457,7 +453,7 @@
      def quitting():
          tb.stop()
          tb.wait()
@@ -55,6 +51,3 @@ index 1ef251c46b..1d657701c1 100644
          #for $m in $monitors
      if $m.has_param('en'):
          if $m.get_param('en').get_value():
--- 
-2.11.0
-

@@ -17,3 +17,7 @@ override_dh_auto_test:
 override_dh_acc:
 	- dh_acc $@
 	- cat logs/gnuradio-dev/*/log.txt
+
+override_dh_installmime:
+	dh_installmime
+	rm -f debian/gnuradio/usr/share/mime/packages/gnuradio.xml

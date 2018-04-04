@@ -9,8 +9,6 @@ Subject: [PATCH 07/22] qtgui: Fixes for edit_box_msg to work with QT5.
  gr-qtgui/lib/edit_box_msg_impl.cc    |  4 ----
  3 files changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/gr-qtgui/examples/c++/CMakeLists.txt b/gr-qtgui/examples/c++/CMakeLists.txt
-index 239b5dbf42..796c292b81 100644
 --- a/gr-qtgui/examples/c++/CMakeLists.txt
 +++ b/gr-qtgui/examples/c++/CMakeLists.txt
 @@ -18,14 +18,14 @@
@@ -36,7 +34,7 @@ index 239b5dbf42..796c292b81 100644
  )
  
  list(APPEND QTGUI_LIBRARIES
-@@ -35,9 +35,11 @@ list(APPEND QTGUI_LIBRARIES
+@@ -35,9 +35,11 @@
    gnuradio-blocks
    gnuradio-fft
    gnuradio-runtime
@@ -49,8 +47,6 @@ index 239b5dbf42..796c292b81 100644
  add_executable(display_qt display_qt.cc ${qtgui_moc_sources})
  target_link_libraries(display_qt ${QTGUI_LIBRARIES})
  
-diff --git a/gr-qtgui/grc/qtgui_edit_box_msg.xml b/gr-qtgui/grc/qtgui_edit_box_msg.xml
-index c7c758a612..d77a4b3e1b 100644
 --- a/gr-qtgui/grc/qtgui_edit_box_msg.xml
 +++ b/gr-qtgui/grc/qtgui_edit_box_msg.xml
 @@ -7,7 +7,7 @@
@@ -62,11 +58,9 @@ index c7c758a612..d77a4b3e1b 100644
    <import>from gnuradio import qtgui</import>
    <import>import sip</import>
    <make>#set $win = 'self._%s_win'%$id
-diff --git a/gr-qtgui/lib/edit_box_msg_impl.cc b/gr-qtgui/lib/edit_box_msg_impl.cc
-index 084e2d4f34..0dee1fa18b 100644
 --- a/gr-qtgui/lib/edit_box_msg_impl.cc
 +++ b/gr-qtgui/lib/edit_box_msg_impl.cc
-@@ -65,10 +65,6 @@ namespace gr {
+@@ -66,10 +66,6 @@
  	d_qApplication = qApp;
        }
        else {
@@ -77,6 +71,3 @@ index 084e2d4f34..0dee1fa18b 100644
  	d_qApplication = new QApplication(d_argc, &d_argv);
        }
  
--- 
-2.11.0
-
