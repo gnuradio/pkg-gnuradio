@@ -7,11 +7,9 @@ Subject: [PATCH] direct freedesktop install
  grc/scripts/freedesktop/CMakeLists.txt | 23 +++++++++++++++++++++++
  1 file changed, 23 insertions(+)
 
-diff --git a/grc/scripts/freedesktop/CMakeLists.txt b/grc/scripts/freedesktop/CMakeLists.txt
-index 47e836f697..9f070c8e1c 100644
 --- a/grc/scripts/freedesktop/CMakeLists.txt
 +++ b/grc/scripts/freedesktop/CMakeLists.txt
-@@ -34,6 +34,29 @@ install(FILES
+@@ -34,6 +34,28 @@
      COMPONENT "grc"
  )
  
@@ -20,7 +18,6 @@ index 47e836f697..9f070c8e1c 100644
 +
 +# Install mime
 +install(FILES gnuradio-grc.xml DESTINATION share/mime/packages)
-+install(FILES gnuradio-grc.xml DESTINATION share/mime/application)
 +
 +# Install icons
 +install(FILES grc-icon-256.png DESTINATION share/icons/gnome/256x256/apps RENAME gnuradio-grc.png)
@@ -41,6 +38,3 @@ index 47e836f697..9f070c8e1c 100644
  find_program(HAVE_XDG_UTILS xdg-desktop-menu)
  
  if(UNIX AND HAVE_XDG_UTILS)
--- 
-2.11.0
-
