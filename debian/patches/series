@@ -1,3 +1,11 @@
+0001-grc-fix-grid_pos-eval.patch
+0002-grc-fix-param-tooltip-error-don-t-use-string-string.patch
+0003-Boost-1.67-compatibility.patch
+0004-cmake-use-MATCHES-for-Clang-not-STREQUAL.patch
+0005-added-GRC-fix-boost-1.67-compat-Clang-regex-to-chang.patch
+0006-grc-make-values-of-param-type-gui_hint-callable-agai.patch
+0007-Added-repeated-fixing-of-QT-GUI-hinting-to-Changelog.patch
+0008-move-declaration-to-case.patch
 qt5-maint-0001-CMake-Update-required-minimum-version-to-2.8.12.patch
 qt5-maint-0002-CMake-FindQwt-Find-the-Qt5-version-of-QWT-instead-of.patch
 qt5-maint-0003-gr-qtgui-update-for-Qt5.patch
@@ -36,3 +44,4 @@ Get-the-FreeDV-demodulator-working
 runtime-replace-std-auto_ptr-usage-with-std-unique_p
 Fix-AttributeError-NoneType-object-has-no-attribute-
 debian-soname
+use-recent-cmake-features

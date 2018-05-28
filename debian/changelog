@@ -1,3 +1,11 @@
+gnuradio (3.7.12.0-3) unstable; urgency=medium
+
+  * update to v3.7.12.0-8-g4c82185a26
+    Fixed GRC bug which broke WX and Qt (by altering the template code)
+  * rebuild with codec2 0.8
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 27 May 2018 10:01:19 -0400
+
 gnuradio (3.7.12.0-2) unstable; urgency=medium
 
   * improve direct-freedesktop-install to avoid piuparts trouble

@@ -1,0 +1,40 @@
+From 4c82185a26a8e5ce5babcd254ff608af743961ae Mon Sep 17 00:00:00 2001
+From: Douglas Weber <douglas.weber@student.kit.edu>
+Date: Wed, 16 May 2018 14:49:36 +0200
+Subject: [PATCH] move declaration to case
+
+---
+ gr-blocks/lib/float_to_complex_impl.cc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/gr-blocks/lib/float_to_complex_impl.cc b/gr-blocks/lib/float_to_complex_impl.cc
+index a2dd0d3bb8..d66d05a327 100644
+--- a/gr-blocks/lib/float_to_complex_impl.cc
++++ b/gr-blocks/lib/float_to_complex_impl.cc
+@@ -54,8 +54,7 @@ namespace gr {
+ 				gr_vector_const_void_star &input_items,
+ 				gr_vector_void_star &output_items)
+     {
+-      float        *r = (float *)input_items[0];
+-      float        *i = (float *)input_items[1];
++      float        *r = (float *) input_items[0];
+       gr_complex *out = (gr_complex *) output_items[0];
+ 
+       switch (input_items.size ()){
+@@ -65,10 +64,13 @@ namespace gr {
+ 	break;
+ 
+       case 2:
++      {
+ 	//for (size_t j = 0; j < noutput_items*d_vlen; j++)
+ 	//  out[j] = gr_complex (r[j], i[j]);
++        float *i = (float *) input_items[1];
+         volk_32f_x2_interleave_32fc(out, r, i, noutput_items*d_vlen);
+ 	break;
++      }
+ 
+       default:
+ 	assert (0);
+-- 
+2.11.0
+
