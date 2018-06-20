@@ -15,7 +15,6 @@ qt5-maint-0014-qtgui-replace-templated-xml-files-with-search-and-re.patch
 qt5-maint-0015-fixed-the-FindQwt-to-prefer-pkgconfig-for-qt5-qwt.patch
 qt5-maint-0016-Revert-fixed-the-FindQwt-to-prefer-pkgconfig-for-qt5.patch
 qt5-maint-0017-qtgui-fix-stylesheet-for-qt5.patch
-qt5-maint-0018-qtgui-Expose-qt-time-sink-stem-plot-option.patch
 qt5-maint-0019-qtgui-fixed-apps-for-Qt5-compatibility.patch
 qt5-maint-0021-gnuradio-runtime-ctrlport-qt5.patch
 qt5-maint-0022-gr-uhd-qt5.patch

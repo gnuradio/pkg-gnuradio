@@ -1,3 +1,15 @@
+gnuradio (3.7.13.3-1) unstable; urgency=medium
+
+  * New upstream release - For non-C++11 compilers,
+    the new cstdint include doesn't work out; conditionalized it.
+  * remove qt5-maint-0018-qtgui-Expose-qt-time-sink-stem-plot-option.patch
+    Fix missing QT Time Sink. (Closes: #898544)
+  * Use Doxygen jquery since 3.7.11-7, side nav bar back (Closes: #887509)
+  * depend upon python-gobject-2 for pygtk
+  * Use direct-freedesktop-install patch since 3.7.11-9 (Closes: #847087)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 18 Jun 2018 21:21:33 -0400
+
 gnuradio (3.7.13.2-2) unstable; urgency=medium
 
   * build with uhd 3.12.0.0
