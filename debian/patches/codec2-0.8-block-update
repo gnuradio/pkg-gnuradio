@@ -22,8 +22,6 @@ compile time.
  gr-vocoder/swig/vocoder_swig.i                     |  6 ++-
  13 files changed, 241 insertions(+), 32 deletions(-)
 
-diff --git a/gr-vocoder/examples/grfreedv.grc b/gr-vocoder/examples/grfreedv.grc
-index 9f6b95d5bd..24c43f3879 100644
 --- a/gr-vocoder/examples/grfreedv.grc
 +++ b/gr-vocoder/examples/grfreedv.grc
 @@ -1,12 +1,12 @@
@@ -154,8 +152,6 @@ index 9f6b95d5bd..24c43f3879 100644
    </block>
    <connection>
      <source_block_id>audio_source_0</source_block_id>
-diff --git a/gr-vocoder/grc/vocoder_codec2_decode_ps.xml b/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
-index 8448dc83df..2621f5638d 100644
 --- a/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
 +++ b/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
 @@ -47,11 +47,19 @@
@@ -179,8 +175,6 @@ index 8448dc83df..2621f5638d 100644
  	</sink>
  	<source>
  		<name>out</name>
-diff --git a/gr-vocoder/grc/vocoder_codec2_encode_sp.xml b/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
-index f11ad443c6..1d5754aaa6 100644
 --- a/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
 +++ b/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
 @@ -47,6 +47,14 @@
@@ -207,8 +201,6 @@ index f11ad443c6..1d5754aaa6 100644
  	</source>
  </block>
 -
-diff --git a/gr-vocoder/grc/vocoder_freedv_rx_ss.xml b/gr-vocoder/grc/vocoder_freedv_rx_ss.xml
-index 14e00a0979..01554a4711 100644
 --- a/gr-vocoder/grc/vocoder_freedv_rx_ss.xml
 +++ b/gr-vocoder/grc/vocoder_freedv_rx_ss.xml
 @@ -9,7 +9,8 @@
@@ -270,8 +262,6 @@ index 14e00a0979..01554a4711 100644
 +Squelch Threshold - cutoff level for receiver
 +  </doc>
  </block>
-diff --git a/gr-vocoder/grc/vocoder_freedv_tx_ss.xml b/gr-vocoder/grc/vocoder_freedv_tx_ss.xml
-index 54a49b730f..eb6151da03 100644
 --- a/gr-vocoder/grc/vocoder_freedv_tx_ss.xml
 +++ b/gr-vocoder/grc/vocoder_freedv_tx_ss.xml
 @@ -9,7 +9,9 @@
@@ -340,8 +330,6 @@ index 54a49b730f..eb6151da03 100644
 +Tx BPF: enable a bandpass filter
 +  </doc>
  </block>
-diff --git a/gr-vocoder/include/gnuradio/vocoder/freedv_api.h b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
-index 230da4e108..f5d72835a5 100644
 --- a/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
 +++ b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
 @@ -1,6 +1,6 @@
@@ -352,7 +340,7 @@ index 230da4e108..f5d72835a5 100644
   *
   * This file is part of GNU Radio
   *
-@@ -56,6 +56,15 @@ namespace gr {
+@@ -56,6 +56,15 @@
  #ifdef FREEDV_MODE_800XA
          MODE_800XA = FREEDV_MODE_800XA,
  #endif
@@ -368,8 +356,6 @@ index 230da4e108..f5d72835a5 100644
        };
  
      private:
-diff --git a/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h b/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
-index a6568dee7d..2a5f3b77a4 100644
 --- a/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
 +++ b/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
 @@ -1,6 +1,6 @@
@@ -380,7 +366,7 @@ index a6568dee7d..2a5f3b77a4 100644
   *
   * This file is part of GNU Radio
   *
-@@ -50,11 +50,13 @@ namespace gr {
+@@ -50,11 +50,13 @@
         *
         * \param mode Operating Mode designation
         * \param squelch_thresh FreeDV modem squelch threshold value
@@ -395,8 +381,6 @@ index a6568dee7d..2a5f3b77a4 100644
      };
  
    } /* namespace vocoder */
-diff --git a/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h b/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
-index 0e80d78bfb..20fd31f91c 100644
 --- a/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
 +++ b/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
 @@ -1,6 +1,6 @@
@@ -407,7 +391,7 @@ index 0e80d78bfb..20fd31f91c 100644
   *
   * This file is part of GNU Radio
   *
-@@ -49,8 +49,9 @@ namespace gr {
+@@ -49,8 +49,9 @@
         *
         * \param mode Operating Mode designation
         * \param msg_txt Low Rate message text (callsign, location)
@@ -418,8 +402,6 @@ index 0e80d78bfb..20fd31f91c 100644
      };
  
    } /* namespace vocoder */
-diff --git a/gr-vocoder/lib/freedv_rx_ss_impl.cc b/gr-vocoder/lib/freedv_rx_ss_impl.cc
-index 748a5c10aa..4af0410cfc 100644
 --- a/gr-vocoder/lib/freedv_rx_ss_impl.cc
 +++ b/gr-vocoder/lib/freedv_rx_ss_impl.cc
 @@ -1,6 +1,6 @@
@@ -430,7 +412,7 @@ index 748a5c10aa..4af0410cfc 100644
   *
   * This file is part of GNU Radio
   *
-@@ -47,20 +47,31 @@ namespace gr {
+@@ -47,20 +47,31 @@
    namespace vocoder {
  
      freedv_rx_ss::sptr
@@ -466,7 +448,7 @@ index 748a5c10aa..4af0410cfc 100644
        freedv_set_snr_squelch_thresh(d_freedv, d_squelch_thresh);
        freedv_set_squelch_en(d_freedv, 0);
        freedv_set_callback_txt(d_freedv, put_next_rx_char, NULL, (void *) &d_cb_state);
-@@ -138,6 +149,16 @@ namespace gr {
+@@ -138,6 +149,16 @@
        freedv_set_snr_squelch_thresh(d_freedv, d_squelch_thresh);
      }
  
@@ -483,8 +465,6 @@ index 748a5c10aa..4af0410cfc 100644
      float freedv_rx_ss_impl::squelch_thresh() {
        return(d_squelch_thresh);
      }
-diff --git a/gr-vocoder/lib/freedv_rx_ss_impl.h b/gr-vocoder/lib/freedv_rx_ss_impl.h
-index acc49d9d82..9da12e53ea 100644
 --- a/gr-vocoder/lib/freedv_rx_ss_impl.h
 +++ b/gr-vocoder/lib/freedv_rx_ss_impl.h
 @@ -1,6 +1,6 @@
@@ -495,7 +475,7 @@ index acc49d9d82..9da12e53ea 100644
   *
   * This file is part of GNU Radio
   *
-@@ -53,18 +53,24 @@ namespace gr {
+@@ -53,18 +53,24 @@
        int d_total_bit_errors;
        float d_snr_est;
        float d_squelch_thresh;
@@ -521,8 +501,6 @@ index acc49d9d82..9da12e53ea 100644
  
        // Where all the action really happens
        void forecast(int noutput_items, gr_vector_int &ninput_items_required);
-diff --git a/gr-vocoder/lib/freedv_tx_ss_impl.cc b/gr-vocoder/lib/freedv_tx_ss_impl.cc
-index a375510050..ab28183ed0 100644
 --- a/gr-vocoder/lib/freedv_tx_ss_impl.cc
 +++ b/gr-vocoder/lib/freedv_tx_ss_impl.cc
 @@ -1,6 +1,6 @@
@@ -533,7 +511,7 @@ index a375510050..ab28183ed0 100644
   *
   * This file is part of GNU Radio
   *
-@@ -54,20 +54,31 @@ namespace gr {
+@@ -54,20 +54,31 @@
    namespace vocoder {
  
      freedv_tx_ss::sptr
@@ -569,7 +547,7 @@ index a375510050..ab28183ed0 100644
        snprintf(d_cb_state.tx_str,79,"%s",d_msg_text.c_str());
        d_cb_state.ptx_str = d_cb_state.tx_str;
        freedv_set_callback_txt(d_freedv, NULL, get_next_tx_char, (void *) &d_cb_state);
-@@ -80,6 +91,38 @@ namespace gr {
+@@ -80,6 +91,38 @@
        freedv_close(d_freedv);
      }
  
@@ -608,8 +586,6 @@ index a375510050..ab28183ed0 100644
      int
      freedv_tx_ss_impl::work(int noutput_items,
                              gr_vector_const_void_star &input_items,
-diff --git a/gr-vocoder/lib/freedv_tx_ss_impl.h b/gr-vocoder/lib/freedv_tx_ss_impl.h
-index a023b67f5b..9304419034 100644
 --- a/gr-vocoder/lib/freedv_tx_ss_impl.h
 +++ b/gr-vocoder/lib/freedv_tx_ss_impl.h
 @@ -1,6 +1,6 @@
@@ -620,7 +596,7 @@ index a023b67f5b..9304419034 100644
   *
   * This file is part of GNU Radio
   *
-@@ -48,18 +48,29 @@ namespace gr {
+@@ -48,18 +48,29 @@
        struct freedv_tx_callback_state d_cb_state;
        struct freedv *d_freedv;
        int d_mode;
@@ -652,8 +628,6 @@ index a023b67f5b..9304419034 100644
        // Where all the action really happens
        int work(int noutput_items,
                 gr_vector_const_void_star &input_items,
-diff --git a/gr-vocoder/swig/vocoder_swig.i b/gr-vocoder/swig/vocoder_swig.i
-index 1bf451539d..bad26bfddb 100644
 --- a/gr-vocoder/swig/vocoder_swig.i
 +++ b/gr-vocoder/swig/vocoder_swig.i
 @@ -1,6 +1,6 @@
@@ -664,7 +638,7 @@ index 1bf451539d..bad26bfddb 100644
   *
   * This file is part of GNU Radio
   *
-@@ -93,8 +93,12 @@ GR_SWIG_BLOCK_MAGIC2(vocoder, codec2_encode_sp);
+@@ -93,8 +93,12 @@
  #include "gnuradio/vocoder/freedv_tx_ss.h"
  %}
  
@@ -677,6 +651,18 @@ index 1bf451539d..bad26bfddb 100644
  %include <codec2/freedv_api.h>
  %include "gnuradio/vocoder/freedv_api.h"
  %include "gnuradio/vocoder/freedv_rx_ss.h"
--- 
-2.11.0
-
+--- a/gr-vocoder/include/gnuradio/vocoder/codec2.h
++++ b/gr-vocoder/include/gnuradio/vocoder/codec2.h
+@@ -48,6 +48,12 @@
+ #ifdef CODEC2_MODE_700B
+ 	MODE_700B = CODEC2_MODE_700B,
+ #endif
++#ifdef CODEC2_MODE_700C
++	MODE_700C = CODEC2_MODE_700C,
++#endif
++#ifdef CODEC2_MODE_WB
++	MODE_WB = CODEC2_MODE_WB,
++#endif
+       };
+ 
+     private:

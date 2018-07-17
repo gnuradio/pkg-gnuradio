@@ -19,6 +19,7 @@ qt5-maint-0019-qtgui-fixed-apps-for-Qt5-compatibility.patch
 qt5-maint-0021-gnuradio-runtime-ctrlport-qt5.patch
 qt5-maint-0022-gr-uhd-qt5.patch
 qt5-maint-0023-gr-qtgui-util.patch
+qt5-maint-0024-gr-qtgui-restoreGeometry.patch
 usr-bin-examples
 direct-freedesktop-install
 fix-ctrlport-install
@@ -34,6 +35,5 @@ Convert-tabs-to-spaces
 Get-the-FreeDV-demodulator-working
 codec2-0.8-block-update
 runtime-replace-std-auto_ptr-usage-with-std-unique_p
-Fix-AttributeError-NoneType-object-has-no-attribute-
 debian-soname
 use-recent-cmake-features
