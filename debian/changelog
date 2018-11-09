@@ -1,3 +1,11 @@
+gnuradio (3.7.13.4-2) unstable; urgency=high
+
+  * update to v3.7.13.4-2-gbd159f5ce3
+  * gnuradio-companion and grcc still requires python-gtk2
+    (Closes: #902371, #910001)
+
+ -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 08 Nov 2018 17:22:38 -0500
+
 gnuradio (3.7.13.4-1) unstable; urgency=medium
 
   * New upstream release

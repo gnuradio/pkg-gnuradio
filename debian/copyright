@@ -24,7 +24,7 @@ License: GPL-3+
 
 Files: CMakeLists.txt README README.building-boost README.hacking
  cmake/* config.h.in docs/* dtools/* gnuradio-runtime/* gr-*/* grc/*
- RELEASE-NOTES.md
+ RELEASE-NOTES.md README.md CHANGELOG.md .clang-format
 Copyright: 2010-2016 Free Software Foundation, Inc.
 License: GPL-3+
 

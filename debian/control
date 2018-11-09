@@ -3,7 +3,7 @@ Section: comm
 Priority: optional
 Maintainer: A. Maitland Bottoms <bottoms@debian.org>
 Build-Depends: cmake,
-               debhelper (>= 10.0~),
+               debhelper (>= 11.0~),
                dh-python,
                doxygen,
                libasound2-dev,
@@ -65,6 +65,7 @@ Architecture: any
 Depends: libvolk1-bin,
          python-cheetah,
 	 python-gobject-2,
+	 python-gtk2,
          python-lxml,
 	 python-numpy,
          python-opengl,
