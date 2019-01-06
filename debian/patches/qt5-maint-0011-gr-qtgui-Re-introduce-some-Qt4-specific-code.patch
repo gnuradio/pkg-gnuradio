@@ -48,7 +48,7 @@ Signed-off-by: Paul Cercueil <paul.cercueil@analog.com>
  
 --- a/gr-qtgui/lib/freq_sink_f_impl.cc
 +++ b/gr-qtgui/lib/freq_sink_f_impl.cc
-@@ -154,6 +154,10 @@
+@@ -155,6 +155,10 @@
  	d_qApplication = qApp;
        }
        else {

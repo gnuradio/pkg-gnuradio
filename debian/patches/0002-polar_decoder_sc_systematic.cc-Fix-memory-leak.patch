@@ -1,7 +1,7 @@
 From bd159f5ce390f0047f429e3fa93d84e6a9981853 Mon Sep 17 00:00:00 2001
 From: Philip Balister <philip@balister.org>
 Date: Tue, 2 Oct 2018 11:41:04 -0400
-Subject: [PATCH 2/2] polar_decoder_sc_systematic.cc: Fix memory leak.
+Subject: [PATCH 2/5] polar_decoder_sc_systematic.cc: Fix memory leak.
 
  * Addresses Coverity 1375145, 1375144, and 1375140.
 

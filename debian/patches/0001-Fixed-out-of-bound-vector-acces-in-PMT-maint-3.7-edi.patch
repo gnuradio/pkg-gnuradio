@@ -1,7 +1,8 @@
 From 9b0ae9ba29eca7b1173c3db832f283d616894fb0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marcus=20M=C3=BCller?= <mueller@kit.edu>
 Date: Wed, 18 Jul 2018 18:02:45 +0200
-Subject: [PATCH] Fixed out-of-bound vector acces in PMT (maint-3.7 edition)
+Subject: [PATCH 1/5] Fixed out-of-bound vector acces in PMT (maint-3.7
+ edition)
 
 adresses cases where initialization of uvec happened with empty
 `std::vector`, as well as when getting the address of the first element

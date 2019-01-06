@@ -1,5 +1,8 @@
 0001-Fixed-out-of-bound-vector-acces-in-PMT-maint-3.7-edi.patch
 0002-polar_decoder_sc_systematic.cc-Fix-memory-leak.patch
+0003-modified-gen_uhd_usrp_blocks.py.patch
+0004-qtgui-Fix-compiler-warnings-Wreorder.patch
+0005-blocks-fix-the-udp_source_sink-test-flakiness.patch
 qt5-maint-0001-CMake-Update-required-minimum-version-to-2.8.12.patch
 qt5-maint-0002-CMake-FindQwt-Find-the-Qt5-version-of-QWT-instead-of.patch
 qt5-maint-0003-gr-qtgui-update-for-Qt5.patch

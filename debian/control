@@ -35,7 +35,7 @@ Build-Depends: cmake,
 	       libvolk1-dev (>=1.4),
                libxi-dev,
                libxrender-dev,
-               libzmq3-dev [!hurd-i386] | libzmq-dev [!hurd-i386],
+               libzmq3-dev | libzmq-dev,
                pkg-config (>=0.15.0),
                portaudio19-dev,
                python-cheetah,
@@ -49,7 +49,7 @@ Build-Depends: cmake,
                python-scipy,
                python-sphinx,
                python-wxgtk3.0,
-               python-zmq [!hurd-i386],
+               python-zmq,
 	       qt5-qmake,
 	       qtbase5-dev,
 	       qttools5-dev,
@@ -238,7 +238,7 @@ Description: gnuradio digital TV signal processing blocks
 
 Package: libgnuradio-fcd3.7.13
 Section: libs
-Architecture: kfreebsd-any linux-any
+Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Multi-Arch: same
@@ -323,7 +323,7 @@ Description: gnuradio pmt container library
 
 Package: libgnuradio-qtgui3.7.13
 Section: libs
-Architecture: kfreebsd-any linux-any
+Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Multi-Arch: same
@@ -418,7 +418,7 @@ Description: gnuradio wxgui functions
 
 Package: libgnuradio-zeromq3.7.13
 Section: libs
-Architecture: kfreebsd-any linux-any
+Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Multi-Arch: same
