@@ -1,3 +1,9 @@
+gnuradio (3.8.0.0~368-7~bionic) bionic; urgency=medium
+
+  * Bump to GNU Radio 3.8.0.0-git version
+
+ -- Andrej Rode (GNU Radio CI & Infrastructure) <arode@gnuradio.org>  Wed, 15 May 2019 10:42:12 -0700
+
 gnuradio (3.7.13.4-4) unstable; urgency=medium
 
   * more hurd-i386 build fixes. Thanks again, Samuel! (Closes: #918481)
@@ -579,16 +585,16 @@ gnuradio (3.7.1-1) unstable; urgency=low
   * New upstream release
   Important new features
   GRC Bus Ports (Nicholas McCarthy)
-  
-  Bus ports in the GNU Radio Companion (GRC) allow ganging block input 
-  or output ports into a single port for display and connections. This 
-  simplifies flowgraph entry when dealing with blocks that work with an 
+
+  Bus ports in the GNU Radio Companion (GRC) allow ganging block input
+  or output ports into a single port for display and connections. This
+  simplifies flowgraph entry when dealing with blocks that work with an
   arbitrary number of streams.
-  
+
   For further information, see:
-  
+
   http://gnuradio.org/redmine/projects/gnuradio/wiki/Busports
-  
+
   Minor features/updates (3.7.1):
   atsc: created atsc_rx.py and removed obsolete scripts (Andrew Davis)
   blocks: added interleaved_char_to_complex block (Tim O'Shea)
@@ -626,7 +632,7 @@ gnuradio (3.7.1-1) unstable; urgency=low
   runtime: allow setting thread affinity to all blocks under a hier_block2
    (Tom Rondeau)
   uhd: squashed per-channel stream support (Josh Blum)
-  
+
   Bug Fixes (3.7.1, 3.7.0.1):
   analog: agc3_cc: Fix uninitialized variable error. (Philip Balister)
   analog: agc3_cc: bug fix for input values of zero (Tim O'Shea)
@@ -689,7 +695,7 @@ gnuradio (3.7.1-1) unstable; urgency=low
   wxgui: Prevent crash displaying a tooltip before initialization
    (Miklos Maroti)
   * Handle lack of freedesktop icon directories better (Closes: #720389)
-  
+
  -- A. Maitland Bottoms <bottoms@debian.org>  Thu, 29 Aug 2013 23:25:22 -0400
 
 gnuradio (3.7.0-5) unstable; urgency=low
@@ -707,7 +713,7 @@ gnuradio (3.7.0-4) experimental; urgency=low
    - conflicts with Debian BSD kernel patches
   * Debian uses default library locations, so NO_DEFAULT_PATH isn't good.
   * version depends on libvolk (Closes: #705867, #718707)
-  
+
  -- A. Maitland Bottoms <bottoms@debian.org>  Sun, 11 Aug 2013 18:11:24 -0400
 
 gnuradio (3.7.0-3) experimental; urgency=low
@@ -729,7 +735,7 @@ gnuradio (3.7.0-1) experimental; urgency=low
   * New upstream release
   * In experimental until zeroc-ice 3.5 is available in unstable.
   * Code Structure Changes (Johnathan Corgan, Tom Rondeau)
-  
+
     The GNU Radio source code was restructured and flattened. All top-level
     components now use the same structure for consistency and ease of
     use. All blocks were moved out of gnuradio-core, which has been
@@ -753,13 +759,13 @@ gnuradio (3.7.0-1) experimental; urgency=low
 
     A Google doc showing the new component and Doxygen categories for all
     components is here: http://ow.ly/mDplO
-  
+
   * Important new features:
   * ControlPort (Tom Rondeau, Tim O’Shea)
-  
+
     ControlPort is a new interface for standardizing remote procedure
     calls in GNU Radio:
-  
+
       Remote control and visualization.
       Use of ControlPort to enable debugging without requiring extra debug
       streams.
@@ -767,37 +773,37 @@ gnuradio (3.7.0-1) experimental; urgency=low
       No additional CPU usage while no monitoring is occurring.
       Can connect multiple remotes to same GNU Radio application.
       Can also have single ControlPort app control multiple GR apps.
-  
+
     Each block creates interfaces to control data members, by defining
     ‘get’ and ‘set’ interface to query and update values of block
     variables. Preference files control the state of ControlPort in
     section [ControlPort] of gnuradio-runtime.conf.
-  
+
     ControlPort comes with a generic utility to allow you to see all
-    interfaces of a flowgraph: 
-  
+    interfaces of a flowgraph:
+
       gr-ctrlport-monitor <ip address> -p <port>
-  
+
     Within a flowgraph, one can also use ControlPort probes to pass
     vectors of data to a ControlPort client, including complex IQ
     data. One useful probe calculates the power spectral density of a
     block output for remote display.
-  
+
   See the ControlPort page in the GNU Radio manual for more information:
-  
+
   http://gnuradio.org/doc/doxygen/page_ctrlport.html
-  
+
   * Performance Measurement Tools
-  
+
     Performance Counters were first built into GNU Radio in 3.6.5, but could
     only be accessed locally. Now, all Performance Counters can be
     exported over ControlPort.
-  
+
     Performance Counters must be compiled into GNU Radio using
     -DENABLE_PERFORMANCE_COUNTERS=True. They can be toggled on/off at
     runtime using the [PerfCounters] section in gnuradio-runtime.conf. Use
     option ‘export’ to export Performance Counters over ControlPort.
-  
+
     We now include a new tool to visualize the Performance Counters over
     ControlPort. This is installed as gr-perf-monitorx and requires the
     Python modules Scipy, NetworkX, and Matplotlib. Nodes of the flowgraph
@@ -806,20 +812,20 @@ gnuradio (3.7.0-1) experimental; urgency=low
     thread time or monotonic (wall clock) time). The size and depth of the
     shade of red of the edges is proportional to how full the block’s
     output buffer is.
-  
+
   * QTGUI Enhancements (Tom Rondeau, Nick Foster, Ben Reynwar)
-  
+
     The QTGUI widgets defined in gr-qtgui have had a major overhaul in
     3.7. All plots are now split out into individual components,
     including:
-  
+
       Time plots (amplitude versus time)
       FFT plots (or PSD) (log magnitude versus frequency)
       Waterfall plots (or spectrograms) (time versus frequency with
       magnitude as the color intensity)
       Constellation plots (imaginary (quadrature) versus real (inphase))
       Time raster plots (time vs. time)
-  
+
     Each plot can accept multiple connections that will overlay the
     signals on them. Zooming and unzooming are the same using the left and
     right mouse buttons. The center mouse button will pull up a context
@@ -828,16 +834,16 @@ gnuradio (3.7.0-1) experimental; urgency=low
     transparency, etc. Significant work has gone into improving the
     performance, including the use of VOLK and more intelligent ways of
     handling the display to reduce the computational load.
-  
+
     QT defined QT Style Sheets (QSS) that allow us to specify looks, colors,
     and other properties of a display. Support for the use of QSS has been
     added to gr-qtgui to make establishing your preferences easier.
-  
+
     gr-qtgui/examples contains a number of examples showing how to use each
     type of plot and the QSS definition and interface.
 
   * Uninstalled imports (Ben Reynwar)
-  
+
     The GNU Radio source tree was updated to allow us to directly import
     all GNU Radio components in-tree before install but using the same
     syntax. This change greatly reduces problems and complexity of writing
@@ -846,7 +852,7 @@ gnuradio (3.7.0-1) experimental; urgency=low
     manual during make.
 
     * Updated gr_filter_design (Sreeraj Rajendran)
-  
+
     Overhauled the current gr_filter_design to add better visualization
     and interactive tools. Installed as part of the gr-filter component
     now, the gr_filter_design tool adds many new features for visualizing
@@ -857,38 +863,38 @@ gnuradio (3.7.0-1) experimental; urgency=low
     a callback function allows the designer to run in a separate thread
     and every time a new filter is designed, the callback function can be
     triggered to update a filter.
-  
+
     Examples of using the programmatic access to gr_filter_design can be
     found in gr-filter/examples/gr_filtdes_*.
 
   * Other New Components and Features
     New blocks added
-  
+
     gr::analog::fast_noise_source - pre-generates a table of random
     samples from the selected PDF and randomly samples from them. This has
     somewhat less entropy than the normal noise_source block but is
     significantly faster.
-  
+
     gr::analog::agc3_*: Performs an initial linear gain ramp to quickly
     converge on a signal during startup and then falls back to an
     iterative loop similar to agc2.
-  
+
     The agc, agc2, and agc3 blocks have been made to use a unified
     interface that now includes a default maximum gain value (set to 2^16
     so that it can scale up even the LSB of a USRP’s device).
-  
+
   * New gr-fec component
-  
+
     This new top-level component mainly functions as a placeholder for new
     FEC block implementations. Currently contains only a couple of
     purpose-built FEC blocks.
 
   * New gr-channels component (Tim O'Shea)
-  
+
     This new top-level component holds current and future channel model
     blocks. The standard AWGN channel_model has moved here. In addition,
     there are two new channel models:
-  
+
     fading_model - Uses configurable max Doppler shift, Rician power
     factor, and lists of the delays (in samples) and magnitudes of a power
     delay profile.
@@ -896,65 +902,65 @@ gnuradio (3.7.0-1) experimental; urgency=low
     selective_fading model - Basic fading model that can have a number
     of sinusoids, max Doppler shift, and Rician power factor defined for
     it.
-  
+
   * GnuradioConfig.cmake (Tom Rondeau, Tim O’Shea)
-  
+
     New GnuradioConfig.cmake and GnuradioConfigVersion.cmake cmake files are
     installed into the system under $prefix/lib/cmake/gnuradio. These
     files can be used by any other project to easily test if any GNU Radio
     components are installed and the minimum API-compatible version
     required.
-  
+
     Set GR_REQUIRED_MODULES to any of the top-level components in GNU Radio
     in all caps. Then use find_package(Gnuradio) to search for them. The
     second optional argument is the API compatible version is was built
     against. For example, to test if gnuradio-runtime, gnuradio-blocks,
     and gnuradio-filter are installed, we would use:
-  
+
     set(GR_REQUIRED_MODULES RUNTIME BLOCKS FILTER)
     find_package(Gnuradio 3.7.0)
 
   * Additional Fixes (Ben Reynwar, Tom Rondeau, Josh Blum, Nicholas Corgan)
-  
+
       Added symbol output stream from constellation_receiver so we can see
       the locked constellation as well as the output bits.
-  
+
       Introduced a new pfb_arb_resampler kernel class that can be used by
       other blocks. We have used this to significantly simplify the
       pfb_arb_resampler_ccf/fff blocks.
-  
+
       All PFB code has new QA and fixed a few minor bugs in the
       calculation of some of the filters.
-  
+
       Added more QAM support with Gray coding.
-  
+
       Reworked VOLK. All kernels are now in volk/kernels/volk, made all
       kernels consistent in use of num_points, and redid any kernels that
       used num_bytes.
-  
+
       Removed assumptions that were Linux-only to continue to support
       native MSVC builds.
-  
+
   * Obsoleted and/or removed functionality
-  
+
     The following items have been removed or redone:
-  
+
       gr-shd (removed)
       gruel (removed; all functionality now in gnuradio-runtime)
       gr-howto-write-a-block (functionality replaced by gr_modtool)
-  
+
     For more removed components, see: http://ow.ly/mDpey
 
   * Deprecated functionality
-  
+
     These are items that are currently part of GNU Radio, but are planned
     to be removed in the next API release (3.8).
-  
+
     gr-noaa  - will be reimplemented as a stand-alone, out-of-tree
                project and supported with PyBOMBS
     gr-pager - will be reimplemented as a stand-alone, out-of-tree
                project and supported with PyBOMBS
-  
+
  -- A. Maitland Bottoms <bottoms@debian.org.org>  Wed, 03 Jul 2013 17:00:23 -0400
 
 gnuradio (3.6.5.1-1) unstable; urgency=low
@@ -999,29 +1005,29 @@ gnuradio (3.7.0~rc0-1) experimental; urgency=low
   * New upstream release candidate
   * This is a snapshot of the repository master branch at tag v3.7.0rc0,
     and is intended for final testing by users.
-  
+
     As this is not a formal release, it is not accompanied by release
     notes. The full list of changes between the 3.6 and 3.7 APIs will be
     made available at the time of 3.7.0 release.
-  
+
    It does indicate, however, that the 3.7 API is now frozen and we will
    only be merging bug fixes into the source code until the final
-   release. 
-  
+   release.
+
  -- A. Maitland Bottoms <bottoms@debian.org>  Fri, 21 Jun 2013 09:51:22 -0400
 
 gnuradio (3.6.5-1) unstable; urgency=low
 
   * New upstream release
   * Important new features (3.6.5):
-  
+
   New OFDM PHY layer (Martin Braun, Ben Reynwar)
   This release includes new OFDM PHY layer blocks in gr-digital. These
   have been rewritten from scratch to allow more configurability and to use
   some of the newer GNU Radio features (stream tags, async messages). Some
   work remains to tie these into a full over-the-air transceiver, so further
   development will be happening in the GNU Radio 3.7.x release series.
-  
+
   * New runtime logging capability (Tom Rondeau)
   GNU Radio has a logging interface to enable various levels of logging
   information to be printed to the console or a file. The logger derives
@@ -1029,7 +1035,7 @@ gnuradio (3.6.5-1) unstable; urgency=low
   available in most Linux distributions. This is an optional dependency
   and GNU Radio will work without it. See:
   http://gnuradio.org/cgit/gnuradio.git/tree/docs/doxygen/other/logger.dox
-  
+
   * Minor features/changes (3.6.5):
   build: git now ignores the build/ directory (Ben Hilburn)
   build: create and install a config.h for external projects (Tom Rondeau)
@@ -1125,16 +1131,16 @@ gnuradio (3.6.4-1) unstable; urgency=low
   * fix debian/control format (Closes: #689357)
   * New upstream release
   http://gnuradio.org/redmine/projects/gnuradio/wiki/ChangeLogV3_6_4
-  
+
   Ability to set processor affinity for GNU Radio blocks
   http://www.trondeau.com/home/2013/2/7/block-core-affinity.html
-  
+
   Inclusion of gr_modtool by Martin Braun
   http://gnuradio.org/redmine/projects/gnuradio/wiki/OutOfTreeModules
-  
+
   Use of GNU Radio preferences in native C++ applications
   http://gnuradio.org/cgit/gnuradio.git/commit/?id=3643a858
-  
+
   Addition of GNU Radio block performance counters
   http://gnuradio.org/redmine/projects/gnuradio/wiki/PerformanceCounters
 
@@ -1194,7 +1200,7 @@ gnuradio (3.7git-1) experimental; urgency=low
     gr_psd_plot_[bcfis]
     gr_spectrogram_plot_[bcfis]
     gr_time_plot_[bcfis]
-  
+
  -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 04 Feb 2013 12:15:28 -0500
 
 gnuradio (3.6.3-1) experimental; urgency=low
@@ -1205,7 +1211,7 @@ gnuradio (3.6.3-1) experimental; urgency=low
   Fixed use of default noise seed in channel model (Alick Zhao)
   Fixed file_meta_source/sink incompatibilities with MSVC (Nicholas Corgan)
   Fixed some unused parameter warnings (Alexandru Csete)
- 
+
  -- A. Maitland Bottoms <bottoms@debian.org>  Mon, 28 Jan 2013 00:10:46 -0500
 
 gnuradio (3.6.3~rc0-1) experimental; urgency=low
@@ -1213,7 +1219,7 @@ gnuradio (3.6.3~rc0-1) experimental; urgency=low
   * New upstream release
   * Addition/upgrade of message passing infrastructure (Tim O'Shea, Tom
     Rondeau, Johnathan Corgan, Josh Blum)
-  
+
   This introduces the ability to add and connect formally defined
   asychronous message ports to signal processing blocks and
   hierarchical blocks. These message ports can be connected to pass
@@ -1221,40 +1227,40 @@ gnuradio (3.6.3~rc0-1) experimental; urgency=low
   blocks in a flowgraph. It is also possible to implement pure
   message passing blocks that have no requirement for streaming
   ports or work functions.
-  
+
   We've also introduced the concept of PDUs (Protocol Data Units) as
   a convention for passing data+metadata using the new messaging
   ports. A PDU is a PMT pair that combines a PMT dictionary of
   metadata keys/values along with a PMT blob to hold a vector of
   data in memory.
-  
+
   A few new general purpose blocks supporting these capabilties are
   in gnuradio-core:
-  
+
   gr_message_debug
   gr_message_strobe
   gr_tagged_stream_to_pdu
   gr_pdu_to_tagged_stream
-  
+
   Two new blocks for interfacing with networking stacks using the
   new PDU semantics:
-  
+
   gr_socket_pdu
   gr_tuntap_pdu
-  
+
   This new message passing capability and PDU convention is aimed at
   providing the infrastructure to better support software radio
   implementations using packet-oriented semantics, such as MAC-layer
   processing.
 
   * Addition of new Python-based signal processing blocks (Josh Blum)
-  
+
   This feature, originally introduced by Josh Blum as part of
   GrExtras, allows implementing signal processing blocks directly in
   Python, and has now become a standard feature of GNU Radio.
 
   * Addition of gr-analog top-level component (Tom Rondeau)
-  
+
   This implements the current gnuradio-core signal processing blocks
   used for analog signal processing into their own top-level
   component, gr-analog, and uses the new 3.7 API organization. The
@@ -1262,24 +1268,24 @@ gnuradio (3.6.3~rc0-1) experimental; urgency=low
   prior to 3.7 release.
 
   * Addition of gr-blocks top-level component (Johnathan Corgan)
-  
+
   This implements a large portion of the gnuradio-core non-signal
   processing blocks in the 3.7 API form. The original blocks in
   gnuradio-core will be removed on the 3.7 branch prior to 3.7
   release.
-  
+
   * Metadata file source and sink blocks (Tom Rondeau)
-  
+
   Two new blocks implement enhanced file source and sink blocks that
   incorporate metadata passed using the stream tags feature in GNU
   Radio. It is now possible to store things like frequency and
   sample rate into capture files, or whatever key/value pairs you
   tag onto data streams inside a flowgraph.
-  
+
   http://www.trondeau.com/home/2012/12/15/metadata-file-format.html
-  
+
   * GNU Radio buffer latency control (Tim O'Shea, Tom Rondeau)
-  
+
   For finer-grained control over latency inside a GNU Radio
   flowgraph, it is now possible to adjust, on a per-block basis, the
   maximum noutput_items that will be used to call a block work
@@ -1287,7 +1293,7 @@ gnuradio (3.6.3~rc0-1) experimental; urgency=low
   output buffer can grow to before a work function is called.
 
   * New GNU Radio Companion (GRC) capabilities
-  
+
   Added optional flag to pad source and sink (Josh Blum)
   Added wildcard type to pad source and sink (Josh Blum)
   Added ability to reload XML for block (Tim O'Shea)
@@ -1297,23 +1303,23 @@ gnuradio (3.6.3~rc0-1) experimental; urgency=low
   Added new grcc command line GRC-to-Python utility (Tom Rondeau)
 
   * New Documentation Updates (Tom Rondeau)
-  
+
   We are introducing documentation into the Doxygen manual
   describing features and capabilities of GNU Radio, above and
   beyond just documenting the API functions. Tom Rondeau has
   written about this here:
-  
+
   http://www.trondeau.com/home/2012/12/18/new-documentation-for-new-features.html
-  
+
   Some examples of commits where this has been done:
-  
+
   gnuradio.org/cgit/gnuradio.git/commit/?id=77ea309 (PMT type usage)
   gnuradio.org/cgit/gnuradio.git/commit/?id=a21c5f7 (Message passing interface)
   gnuradio.org/cgit/gnuradio.git/commit/?id=996e599 (Metatdata format)
   gnuradio.org/cgit/gnuradio.git/commit/?id=5fcb7eb (Max output buffer control)
 
   * Other new features:
-  
+
   Allow file source to open new files while running (Brett L. Trotter)
   Allow source blocks to return none/yield (Josh Blum)
   Improved capabilities of uhd_fft.grc example in gr-uhd (Ben Hilburn)
@@ -1327,7 +1333,7 @@ gnuradio (3.6.3~rc0-1) experimental; urgency=low
   Added unsigned long long int support to the PMT sugar functions (Tom Rondeau)
   Allow using pmt_init_Xvector methods in python (Tom Rondeau)
   Bug fixes:
-  
+
   * Numerous cmake related bug-fixes (Josh Blum, Johnathan Corgan, Tom Rondeau)
   Fixed parallel build failures in cmake (Tom Rondeau)
   Fixed segfaults due to old, no longer nedded SWIG workaround (Tom Rondeau)
@@ -1351,7 +1357,7 @@ gnuradio (3.6.3~rc0-1) experimental; urgency=low
         in ASM code in core (Tom Rondeau)
 
   * Contributors this release:
-  
+
   Alick Zhao <alick9188@gmail.com>
   Ben Hilburn <ben.hilburn@ettus.com>
   Ben Reynwar <ben@reynwar.net>
@@ -1365,16 +1371,16 @@ gnuradio (3.6.3~rc0-1) experimental; urgency=low
   Tim O'Shea <tim.oshea753@gmail.com>
   Tim Newman <tim.newman@gmail.com>
   Tom Rondeau <tom@trondeau.com>
-  
+
  -- A. Maitland Bottoms <bottoms@debian.org>  Wed, 26 Dec 2012 18:56:06 -0500
 
 gnuradio (3.6.2-1) experimental; urgency=low
 
   * New upstream release
   * Build system changes
-  
+
     Added support for setting SYSCONFDIR
-    
+
   * Top-level component changes
 
     A new top-level component, gr-filter, has been created. This component
@@ -1383,9 +1389,9 @@ gnuradio (3.6.2-1) experimental; urgency=low
     gnuradio-core are now deprecated; but will remain in gnuradio-core
     until the 3.7 release. Developers are encouraged to begin using the
     new blocks in preparation.
-    
+
   * New signal processing blocks
-  
+
     gr_and_const_bb: adds bb type to gr_and_const* block
     gr_annotator_raw: allows tagging stream with pmt key, value pair from
     outside GNU Radio
@@ -1394,18 +1400,18 @@ gnuradio (3.6.2-1) experimental; urgency=low
     gr_tag_debug: debug display of all tags going through block`
     digital_gfsk_demod, digital_gfsk_mod: Gaussian Frequency Shift Keying
     modulator and demodulator
-    
+
   * New feature additions
-  
+
     Support has now been added for ARM processors that do not implement
     NEON. gr-uhd has added rx tagging for changes in sample rate and
     center frequency.
     Added support for serializing pmt tuples
     Added BER/SNR simulation example
     Removed gruel dependency on inet.h
-    
+
   * Bug fixes
-  
+
     core: fix minor bug in gri_wavefile endian swapping
     core: only check for *.conf in preferences directory
     digital: fixed incorrect variable name in qam_demod XML
@@ -1422,9 +1428,9 @@ gnuradio (3.6.2-1) experimental; urgency=low
     volk: use loadu for unaligned volk_32f_x2_dot_prod_32f_u_sse*
     volk: fix for win64 MSVC not having MMX support
     volk: special werror unused cmd line arg for clang
-    
+
   * Contributors
-  
+
     Ben Reynwar
     Chí-Thanh Christopher Nguyễn
     Hendrik van Wyk
